@@ -1,0 +1,21 @@
+//
+//  MapViewViewController.h
+//  Hooli
+//
+//  Created by Er Li on 10/25/14.
+//  Copyright (c) 2014 ErLi. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (nonatomic, weak) IBOutlet UICollectionView* collectionView;
+
+@property (nonatomic, weak) IBOutlet UICollectionViewFlowLayout* layout;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+
+@property (nonatomic, strong) NSArray* collections;
+
+
+@end
