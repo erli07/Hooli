@@ -26,20 +26,26 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.title = @"My Items";
     self.view.tintColor = [HLTheme mainColor];
-
-    [self.collectionView configureView];
     [self.layout configureLayout] ;
+    [self.collectionView configureView];
     self.collectionView.delegate = self;
 
 
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+
+    [self.collectionView updateDataFromCloud];
+    
+}
+
 -(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"detailViewController"];
-   // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UIViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 @end

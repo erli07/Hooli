@@ -94,15 +94,21 @@
 + (NSArray *)categories
 {
     return @[
-             @{@"title": @"SHOP WOMEN'S",
-               @"value" : @[@"CLOTHING", @"SHOES", @"SANDALS", @"SNEAKERS AND ATHLETIC SHOES", @"SHIRTS AND TOPS"]
+             @{@"title": @"Home goods"
+            
                },
-             @{@"title": @"SHOP MEN'S",
-                 @"value" : @[@"CLOTHING", @"SHOES", @"SANDALS", @"SNEAKERS AND ATHLETIC SHOES", @"SHIRTS AND TOPS"]
+             @{@"title": @"Furniture"
+
                  },
-             @{@"title": @"SHOP KID'S",
-               @"value" : @[@"BOYS CLOTHING", @"GIRLS CLOTHING", @"BOYS SHOES", @"GIRLS SHOES"]
-               }
+             @{@"title": @"Fashion"
+
+               },
+             @{@"title": @"Baby & Kids"
+               
+               },
+             @{@"title": @"Books"
+               
+               },
              ];
 }
 

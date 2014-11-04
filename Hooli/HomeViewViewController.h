@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MainCollectionView.h"
+#import "MainCollectionViewFlowLayout.h"
+#import "ItemCell.h"
 @interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, weak) IBOutlet UICollectionView* collectionView;
+@property (nonatomic, weak) IBOutlet MainCollectionView * collectionView;
 
-@property (nonatomic, weak) IBOutlet UICollectionViewFlowLayout* layout;
+@property (nonatomic, weak) IBOutlet MainCollectionViewFlowLayout* layout;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
 @property (nonatomic, strong) NSArray* collections;

@@ -10,6 +10,7 @@
 #import "HLTheme.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "LoginViewController.h"
+#import "LocationManager.h"
 @interface AppDelegate ()
 
 @end
@@ -27,6 +28,7 @@
     [Parse setApplicationId:@"y2TZrSLwWAnuGkMxW8uie1rbFw4X5rHtE39WJrrU" clientKey:@"bn35QolQBYVdLiNRHGUfm79lBzA2MukoBnN1I16k"];
     [PFFacebookUtils initializeFacebook];
     
+    [[LocationManager sharedInstance]startLocationUpdate];
 //    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
 //        UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
 //        [HLTheme customizeTabBar:tabController.tabBar];

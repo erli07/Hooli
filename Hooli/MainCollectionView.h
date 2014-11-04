@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
 
-@interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource,MBProgressHUDDelegate>
 -(void)configureView;
+-(void)updateDataFromCloud;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-
+@property (nonatomic, strong) NSMutableArray *objectDataSource;
 @end

@@ -8,59 +8,51 @@
 
 #import "MapViewController.h"
 #import "MBProgressHUD.h"
+#import "LocationManager.h"
+
+#define circleDistance 1600
 @interface MapViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
 }
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic) CLLocationCoordinate2D userLocation;
 @property (nonatomic, assign) MKCoordinateRegion boundingRegion;
-@property (nonatomic, strong) NSArray *mapItemList;
 @end
 
 @implementation MapViewController
 
 
-@synthesize boundingRegion,mapView,mapItemList;
+@synthesize boundingRegion,mapView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mapView.delegate = self;
-  
-
+    [[LocationManager sharedInstance]startLocationUpdate];
+    self.userLocation = [[LocationManager sharedInstance]currentLocation];
+    [self updateMapView];
     // Do any additional setup after loading the view from its nib.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
-     [self.navigationController setNavigationBarHidden:YES];
-    
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    HUD.delegate = self;
-    [HUD show:YES];
-    self.view.alpha = 0.2;
-    [self startLocationUpdate];
-    [self UpdateMapView];
+     [self.navigationController setNavigationBarHidden:NO];
+//    
+//    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+//    [self.view addSubview:HUD];
+//    HUD.delegate = self;
+//    [HUD show:YES];
+//    self.view.alpha = 0.2;
+//    [self startLocationUpdate];
+//    [self updateMapView];
     
 }
 
--(void)startLocationUpdate{
+-(void)drawLocationCircle{
     
-    if (nil == self.locationManager)
-        self.locationManager = [[CLLocationManager alloc] init];
-    
-    self.locationManager.delegate = self;
-    
-    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]){
-        
-        [self.locationManager requestAlwaysAuthorization];
-        [self.locationManager requestWhenInUseAuthorization];
-    }
-    
-    //    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-    //    self.locationManager.distanceFilter = 500; // meters
-    
-    [self.locationManager startUpdatingLocation];
+    CLLocationDistance fenceDistance = circleDistance;
+    CLLocationCoordinate2D circleMiddlePoint = CLLocationCoordinate2DMake(self.userLocation.latitude, self.userLocation.longitude);
+    MKCircle *circle = [MKCircle circleWithCenterCoordinate:circleMiddlePoint radius:fenceDistance];
+    [self.mapView addOverlay: circle];
 }
 
 -(void)configureRegionAndMapItemList{
@@ -75,12 +67,13 @@
     MKMapItem *mapItem = [[MKMapItem alloc]initWithPlacemark:[[MKPlacemark alloc]initWithCoordinate:self.userLocation addressDictionary:nil]];
     mapItem.name = @"Test";
     
-    self.mapItemList = [[NSArray alloc]initWithObjects:mapItem, nil];
     self.boundingRegion = newRegion;
+    
+    [self drawLocationCircle];
     
 }
 
--(void)UpdateMapView{
+-(void)updateMapView{
     
     
     [self configureRegionAndMapItemList];
@@ -89,27 +82,12 @@
     
     
 }
-#pragma mark - CLLocationManagerDelegate methods
 
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    
-    CLLocation *newLocation = [locations lastObject];
-    
-    self.userLocation = newLocation.coordinate;
-    
-    [self UpdateMapView];
-    
-    [manager stopUpdatingLocation]; // we only want one update
-    
-    manager.delegate = nil;
-    [HUD hide:YES];
-    self.view.alpha = 1.0;
-    
-}
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    // report any errors returned back from Location Services
+    MKCircleView *circleView = [[MKCircleView alloc] initWithCircle:(MKCircle *)overlay] ;
+    circleView.fillColor = [[UIColor redColor] colorWithAlphaComponent:0.3];
+    return circleView;
 }
-
 @end

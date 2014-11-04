@@ -27,39 +27,32 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.refreshControl = [[UIRefreshControl alloc] init];
-  //  self.refreshControl.backgroundColor = [UIColor purpleColor];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [self.refreshControl addTarget:self
-                            action:@selector(reloadAllViews)
-                  forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
     
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"More"
+                                   initWithTitle:@"Filter"
                                    style:UIBarButtonItemStyleDone
                                    target:self
                                    action:@selector(showMoreItems)];
     self.navigationItem.rightBarButtonItem = moreButton;
 
-    
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    self.collectionView.backgroundColor = [HLTheme viewBackgroundColor];
-    
-    self.navigationItem.title = @"COLLECTIONS";
-    self.collectionView.scrollEnabled = YES;
-    
-    self.layout.sectionInset = UIEdgeInsetsMake(0,5,5,5);
-    self.layout.itemSize = CGSizeMake(151, 202);
-    self.layout.minimumInteritemSpacing = 3;
-    self.layout.minimumLineSpacing = 10;
-
-    // Do any additional setup after loading the view.
-    
-    self.collections = [DataSource collections];
-    
     self.view.tintColor = [HLTheme mainColor];
+    [self.layout configureLayout] ;
+    [self.collectionView configureView];
+    self.collectionView.delegate = self;
+    self.navigationItem.title = @"Discover";
+//    self.collectionView.scrollEnabled = YES;
+//    
+//    self.layout.sectionInset = UIEdgeInsetsMake(0,5,5,5);
+//    self.layout.itemSize = CGSizeMake(151, 202);
+//    self.layout.minimumInteritemSpacing = 3;
+//    self.layout.minimumLineSpacing = 10;
+//
+//    // Do any additional setup after loading the view.
+//    
+//    self.collections = [DataSource collections];
+//    
+//    self.view.tintColor = [HLTheme mainColor];
     
 
 }
@@ -90,11 +83,12 @@ static NSString * const reuseIdentifier = @"Cell";
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
     NSLog(@"touched cell %@ at indexPath %@", cell, indexPath);
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"detailViewController"];
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UIViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
-  // [self performSegueWithIdentifier:@"detail" sender:self];
+  //rs [self performSegueWithIdentifier:@"detail" sender:self];
 }
 
 

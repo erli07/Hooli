@@ -10,7 +10,7 @@
 #import "DataSource.h"
 #import "HLTheme.h"
 #import "AccountManager.h"
-@interface ItemDetailViewController ()
+@interface ItemDetailViewController ()<MFMailComposeViewControllerDelegate>
 @property (nonatomic, strong) NSArray *info;
 
 @end
@@ -99,5 +99,36 @@
 - (IBAction)addToCart:(id)sender {
     
     
+}
+- (IBAction)seeMapButtonClicked:(id)sender {
+    
+     [self performSegueWithIdentifier:@"map" sender:self];
+
+    
+}
+- (IBAction)askQuestion:(id)sender {
+    
+    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
+     mailVC.mailComposeDelegate = self;
+    [mailVC setSubject:@"My Subject"];
+    [mailVC setMessageBody:@"Hello there." isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
+    
+    if (mailVC)
+        
+        [self presentViewController:mailVC animated:YES completion:^{
+            
+        }];
+    
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error;
+{
+
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 @end

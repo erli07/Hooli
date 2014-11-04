@@ -20,4 +20,6 @@
 - (IBAction)likesButtonClicked:(id)sender;
 
 -(void)updateCellWithData:(NSDictionary*)data;
+
+-(void)updateCellWithRetrievedData:(NSDictionary *)data;
 @end

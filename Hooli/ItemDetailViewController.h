@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SMPageControl.h"
+#import <MessageUI/MessageUI.h>
 @interface ItemDetailViewController : UIViewController<UIScrollViewDelegate>
 @property (nonatomic, strong) NSString *itemID;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
@@ -17,6 +18,10 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *parentScrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIButton *askQuestionButton;
+- (IBAction)askQuestion:(id)sender;
 @property (weak, nonatomic) IBOutlet SMPageControl *pageControl;
 - (IBAction)addToCart:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *seeMapButton;
+- (IBAction)seeMapButtonClicked:(id)sender;
 @end

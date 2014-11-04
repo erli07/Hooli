@@ -10,10 +10,17 @@
 #import "ItemCell.h"
 #import "DataSource.h"
 #import "HLTheme.h"
+#import "OffersManager.h"
+#import <Parse/Parse.h>
+#import "HLConstant.h"
 static NSString * const reuseIdentifier = @"Cell";
 
-@implementation MainCollectionView
-@synthesize refreshControl;
+@implementation MainCollectionView{
+    
+    MBProgressHUD *HUD;
+}
+
+@synthesize refreshControl, objectDataSource;
 -(id)init{
     
     if(!self){
@@ -23,6 +30,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     return self;
 }
+
 
 -(void)configureView{
     
@@ -42,11 +50,56 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
+-(void)updateDataFromCloud{
+    
+    HUD = [[MBProgressHUD alloc] initWithView:self];
+    [self addSubview:HUD];
+    HUD.delegate = self;
+    [HUD show:YES];
+    
+    [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *images) {
+        
+        self.objectDataSource = [[NSMutableArray alloc]initWithArray:images];
+        
+        if(self.objectDataSource){
+            
+            [self reloadData];
+        }
+
+        [HUD hide:YES];
+
+    } failure:^(id error) {
+        
+        NSLog(@"Retrived Images Error %@",[error description] );
+        [HUD hide:YES];
+        
+    }];
+}
+
 -(void)reloadCollectionViews{
     
     if (self.refreshControl) {
+        
+        [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *images) {
+            
+            
+            self.objectDataSource = [[NSMutableArray alloc]initWithArray:images];
+            
+            if(self.objectDataSource){
                 
-        [self.refreshControl endRefreshing];
+                    [self reloadData];
+            }
+            
+            [self.refreshControl endRefreshing];
+            
+            
+        } failure:^(id error) {
+            
+            NSLog(@"Retrived Images Error %@",[error description] );
+            
+            [self.refreshControl endRefreshing];
+
+        }];
     }
 
 }
@@ -54,7 +107,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return [[DataSource collections] count];
+    return [self.objectDataSource count];
     
 }
 
@@ -62,9 +115,14 @@ static NSString * const reuseIdentifier = @"Cell";
     
     ItemCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    NSDictionary* data = [DataSource collections][indexPath.row];
+    OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
+
+    cell.productImageView.image = offer.image;
     
-    [cell updateCellWithData:data];
+   
+//    NSDictionary* data = [DataSource collections][indexPath.row];
+//    
+//    [cell updateCellWithData:data];
     
     return cell;
 }
