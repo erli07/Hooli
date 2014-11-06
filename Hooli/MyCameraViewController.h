@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyCameraViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
+@interface MyCameraViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate,UITextFieldDelegate,UITextViewDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *itemNameTextField;
 - (IBAction)showCameraView:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *showCameraButton;
 @property (weak, nonatomic) IBOutlet UITextView *itemDetailTextView;
 @property (weak, nonatomic) IBOutlet UITextField *priceInputBox;
 @property (weak, nonatomic) IBOutlet UIView *makeOfferView;
+@property (weak, nonatomic) IBOutlet UITextField *categoryTextView;
 
 @property (nonatomic, strong) UIImage *image1;
 @property (nonatomic, strong) UIImage *image2;

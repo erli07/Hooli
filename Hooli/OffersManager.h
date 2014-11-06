@@ -33,7 +33,9 @@ typedef void (^UploadFailureBlock) (id error);
 
 +(OffersManager *)sharedInstance;
 
-- (void)uploadImage:(UIImage *)image;
+- (void)uploadImages:(NSArray *)imageArray
+        withSuccess:(UploadSuccessBlock)success
+        withFailure:(UploadFailureBlock)failure;
 
 -(void)updaloadOfferToCloud:(OfferModel *)offer
                 withSuccess:(UploadSuccessBlock)uploadSuccess

@@ -13,4 +13,5 @@
 +(LocationManager *)sharedInstance;
 -(void)startLocationUpdate;
 -(void)stopLocationUpdate;
+-(NSString *)getApproximateDistance:(CLLocationCoordinate2D)offerLocation;
 @end

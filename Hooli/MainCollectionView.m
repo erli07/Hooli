@@ -13,6 +13,8 @@
 #import "OffersManager.h"
 #import <Parse/Parse.h>
 #import "HLConstant.h"
+#import "LocationManager.h"
+#import "ItemDetailViewController.h"
 static NSString * const reuseIdentifier = @"Cell";
 
 @implementation MainCollectionView{
@@ -48,6 +50,8 @@ static NSString * const reuseIdentifier = @"Cell";
                   forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.refreshControl];
     
+    self.scrollEnabled = YES;
+    self.alwaysBounceVertical = YES;
 }
 
 -(void)updateDataFromCloud{
@@ -57,9 +61,9 @@ static NSString * const reuseIdentifier = @"Cell";
     HUD.delegate = self;
     [HUD show:YES];
     
-    [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *images) {
+    [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
         
-        self.objectDataSource = [[NSMutableArray alloc]initWithArray:images];
+        self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
         
         if(self.objectDataSource){
             
@@ -80,10 +84,10 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (self.refreshControl) {
         
-        [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *images) {
+        [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
             
             
-            self.objectDataSource = [[NSMutableArray alloc]initWithArray:images];
+            self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
             
             if(self.objectDataSource){
                 
@@ -116,22 +120,10 @@ static NSString * const reuseIdentifier = @"Cell";
     ItemCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
-
-    cell.productImageView.image = offer.image;
     
-   
-//    NSDictionary* data = [DataSource collections][indexPath.row];
-//    
-//    [cell updateCellWithData:data];
+    [cell updateCellWithOfferModel:offer];
     
     return cell;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    
-    NSLog(@"touched cell %@ at indexPath %@", cell, indexPath);
-    
-}
 @end

@@ -8,9 +8,11 @@
 
 #import "ItemCell.h"
 #import "HLTheme.h"
+#import "LocationManager.h"
+#import "ItemDetailViewController.h"
 @implementation ItemCell
 
-@synthesize productImageView;
+@synthesize productImageView,distanceLabel,distanceBackground,offerId;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -27,7 +29,8 @@
 //    self.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:11.0f];
 //    self.timeLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     self.likesLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
-    
+    self.distanceBackground.layer.cornerRadius = self.distanceBackground.frame.size.height/2;
+    self.distanceBackground.layer.masksToBounds = YES;
     self.contentView.tintColor = [HLTheme mainColor];
     
 //    self.titleLabel.textColor = [UIColor blackColor];
@@ -47,6 +50,22 @@
     self.likesLabel.text = data[@"hearts"];
     
 }
+
+-(void)updateCellWithOfferModel:(OfferModel *)offerModel{
+    
+    self.productImageView.image = offerModel.image;
+    
+    self.distanceLabel.text =[[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
+    
+    self.offerId = offerModel.offerId;
+    
+    self.likesLabel.text = @"999";
+    
+    self.priceLabel.text = offerModel.offerPrice;
+    
+}
+
+
 
 - (IBAction)likesButtonClicked:(id)sender {
     

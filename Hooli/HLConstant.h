@@ -24,14 +24,9 @@ extern NSString *const kHLOfferModelKeyLikes;
 extern NSString *const kHLOfferModelKeyDescription;
 extern NSString *const kHLOfferModelKeyCategory;
 extern NSString *const kHLOfferModelKeyUser;
+extern NSString *const kHLOfferModelKeyOfferId;
+extern NSString *const kHLOfferModelKeyOfferName;
 
 
 extern NSString *const kHLCloudOfferClass;
-extern NSString *const kHLCloudImageKeyForOfferClass;
-extern NSString *const kHLCloudUserKeyForOfferClass;
-extern NSString *const kHLCloudDescriptionKeyForOfferClass;
-
-extern NSString *const kHLCloudPriceKeyForOfferClass;
-extern NSString *const kHLCloudCategoryKeyForOfferClass;
-extern NSString *const kHLCloudPriceKeyForOfferClass;
 @end

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0019C51A09E34B0086CD77 /* SelectCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0019C41A09E34B0086CD77 /* SelectCategoryTableViewController.m */; };
+		0E0019C81A09E5A00086CD77 /* HLSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0019C71A09E5A00086CD77 /* HLSettings.m */; };
 		0E17BED419FC8BAE0042C4DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BED319FC8BAE0042C4DD /* main.m */; };
 		0E17BED719FC8BAE0042C4DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BED619FC8BAE0042C4DD /* AppDelegate.m */; };
 		0E17BEDD19FC8BAE0042C4DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E17BEDB19FC8BAE0042C4DD /* Main.storyboard */; };
@@ -14,7 +16,6 @@
 		0E17BEE219FC8BAE0042C4DD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E17BEE019FC8BAE0042C4DD /* LaunchScreen.xib */; };
 		0E17BEEE19FC8BAE0042C4DD /* HooliTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BEED19FC8BAE0042C4DD /* HooliTests.m */; };
 		0E17BEFC19FC927A0042C4DD /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BEFB19FC927A0042C4DD /* ItemDetailViewController.m */; };
-		0E17BEFF19FC92FF0042C4DD /* ShoppingItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BEFE19FC92FF0042C4DD /* ShoppingItemCell.m */; };
 		0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BF0719FC94410042C4DD /* HLTheme.m */; };
 		0E17BF0A19FC94B70042C4DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E17BF0919FC94B70042C4DD /* UIKit.framework */; };
 		0E17BF0C19FC94BF0042C4DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E17BF0B19FC94BF0042C4DD /* Foundation.framework */; };
@@ -56,7 +57,6 @@
 		0E17BF9A19FE04800042C4DD /* tab3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E17BF8B19FE04800042C4DD /* tab3.png */; };
 		0E17BF9B19FE04800042C4DD /* tab4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E17BF8C19FE04800042C4DD /* tab4.png */; };
 		0E17BF9C19FE04800042C4DD /* tab5.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E17BF8D19FE04800042C4DD /* tab5.png */; };
-		0E2A124E1A047A870036F8EB /* HLSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A124D1A047A870036F8EB /* HLSettings.m */; };
 		0E2A12541A052AF90036F8EB /* OffersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A12531A052AF90036F8EB /* OffersManager.m */; };
 		0E2A12571A052B340036F8EB /* OfferModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A12561A052B340036F8EB /* OfferModel.m */; };
 		0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A125C1A05996D0036F8EB /* OfferCategory.m */; };
@@ -83,7 +83,6 @@
 		0ECAC39319FF5880002866DE /* MainCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAC39219FF5880002866DE /* MainCollectionView.m */; };
 		0ECAC39619FF59FA002866DE /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAC39519FF59FA002866DE /* SearchResultViewController.m */; };
 		0ECAC39C1A01B820002866DE /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC39B1A01B820002866DE /* Detail.storyboard */; };
-		0ECAC3A01A01C155002866DE /* MakingOfferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAC39F1A01C155002866DE /* MakingOfferViewController.m */; };
 		0ECAC3A21A01C227002866DE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ECAC3A11A01C227002866DE /* MessageUI.framework */; };
 		0ECAC3A91A01C51D002866DE /* SearchItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAC3A81A01C51D002866DE /* SearchItemViewController.m */; };
 		0ECAC3B31A01CA2F002866DE /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAC3B11A01CA2F002866DE /* CategoryCell.m */; };
@@ -104,6 +103,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E0019C31A09E34B0086CD77 /* SelectCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCategoryTableViewController.h; sourceTree = "<group>"; };
+		0E0019C41A09E34B0086CD77 /* SelectCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCategoryTableViewController.m; sourceTree = "<group>"; };
+		0E0019C61A09E5A00086CD77 /* HLSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSettings.h; sourceTree = "<group>"; };
+		0E0019C71A09E5A00086CD77 /* HLSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSettings.m; sourceTree = "<group>"; };
 		0E17BECE19FC8BAE0042C4DD /* Hooli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hooli.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E17BED219FC8BAE0042C4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E17BED319FC8BAE0042C4DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -117,8 +120,6 @@
 		0E17BEED19FC8BAE0042C4DD /* HooliTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HooliTests.m; sourceTree = "<group>"; };
 		0E17BEFA19FC927A0042C4DD /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
 		0E17BEFB19FC927A0042C4DD /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
-		0E17BEFD19FC92FF0042C4DD /* ShoppingItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingItemCell.h; sourceTree = "<group>"; };
-		0E17BEFE19FC92FF0042C4DD /* ShoppingItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingItemCell.m; sourceTree = "<group>"; };
 		0E17BF0619FC94410042C4DD /* HLTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLTheme.h; sourceTree = "<group>"; };
 		0E17BF0719FC94410042C4DD /* HLTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLTheme.m; sourceTree = "<group>"; };
 		0E17BF0919FC94B70042C4DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -169,8 +170,6 @@
 		0E17BF8B19FE04800042C4DD /* tab3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab3.png; sourceTree = "<group>"; };
 		0E17BF8C19FE04800042C4DD /* tab4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab4.png; sourceTree = "<group>"; };
 		0E17BF8D19FE04800042C4DD /* tab5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab5.png; sourceTree = "<group>"; };
-		0E2A124C1A047A870036F8EB /* HLSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSettings.h; sourceTree = "<group>"; };
-		0E2A124D1A047A870036F8EB /* HLSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSettings.m; sourceTree = "<group>"; };
 		0E2A12521A052AF90036F8EB /* OffersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersManager.h; sourceTree = "<group>"; };
 		0E2A12531A052AF90036F8EB /* OffersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersManager.m; sourceTree = "<group>"; };
 		0E2A12551A052B340036F8EB /* OfferModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferModel.h; sourceTree = "<group>"; };
@@ -209,8 +208,6 @@
 		0ECAC39419FF59FA002866DE /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		0ECAC39519FF59FA002866DE /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		0ECAC39B1A01B820002866DE /* Detail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
-		0ECAC39E1A01C155002866DE /* MakingOfferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MakingOfferViewController.h; sourceTree = "<group>"; };
-		0ECAC39F1A01C155002866DE /* MakingOfferViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MakingOfferViewController.m; sourceTree = "<group>"; };
 		0ECAC3A11A01C227002866DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0ECAC3A71A01C51D002866DE /* SearchItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchItemViewController.h; sourceTree = "<group>"; };
 		0ECAC3A81A01C51D002866DE /* SearchItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchItemViewController.m; sourceTree = "<group>"; };
@@ -260,6 +257,64 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E0019C91A0B36780086CD77 /* Offer */ = {
+			isa = PBXGroup;
+			children = (
+				0E2A12521A052AF90036F8EB /* OffersManager.h */,
+				0E2A12531A052AF90036F8EB /* OffersManager.m */,
+				0E2A12631A060A620036F8EB /* ImageManager.h */,
+				0E2A12641A060A620036F8EB /* ImageManager.m */,
+				0E2A12551A052B340036F8EB /* OfferModel.h */,
+				0E2A12561A052B340036F8EB /* OfferModel.m */,
+				0E2A125B1A05996D0036F8EB /* OfferCategory.h */,
+				0E2A125C1A05996D0036F8EB /* OfferCategory.m */,
+			);
+			name = Offer;
+			sourceTree = "<group>";
+		};
+		0E0019CA1A0B36820086CD77 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				0ECAC37619FF2BAC002866DE /* AccountManager.h */,
+				0ECAC37719FF2BAC002866DE /* AccountManager.m */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
+		0E0019CB1A0B36890086CD77 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				0ECAC36119FF22C6002866DE /* LocationManager.h */,
+				0ECAC36219FF22C6002866DE /* LocationManager.m */,
+			);
+			name = Location;
+			sourceTree = "<group>";
+		};
+		0E0019CC1A0B36920086CD77 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0E17BF0619FC94410042C4DD /* HLTheme.h */,
+				0E17BF0719FC94410042C4DD /* HLTheme.m */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		0E0019CD1A0B36B00086CD77 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				0E2A125E1A0599CD0036F8EB /* HLConstant.h */,
+				0E2A125F1A0599CD0036F8EB /* HLConstant.m */,
+				0E0019C61A09E5A00086CD77 /* HLSettings.h */,
+				0E0019C71A09E5A00086CD77 /* HLSettings.m */,
+				0E17BF2619FC99800042C4DD /* DataSource.h */,
+				0E17BF2719FC99800042C4DD /* DataSource.m */,
+				0ECAC36419FF2983002866DE /* SMPageControl */,
+				0E17BF5E19FDE9230042C4DD /* MBProgressHUD.h */,
+				0E17BF5F19FDE9230042C4DD /* MBProgressHUD.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		0E17BEC519FC8BAE0042C4DD = {
 			isa = PBXGroup;
 			children = (
@@ -299,7 +354,8 @@
 		0E17BED019FC8BAE0042C4DD /* Hooli */ = {
 			isa = PBXGroup;
 			children = (
-				0E17BF6119FDE92C0042C4DD /* Utilities */,
+				0E17BED519FC8BAE0042C4DD /* AppDelegate.h */,
+				0E17BED619FC8BAE0042C4DD /* AppDelegate.m */,
 				0E17BF4419FDCD840042C4DD /* Model */,
 				0E17BF4619FDCD960042C4DD /* Views */,
 				0E17BF4319FDCD6D0042C4DD /* Controller */,
@@ -355,28 +411,11 @@
 		0E17BF4419FDCD840042C4DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0E17BED519FC8BAE0042C4DD /* AppDelegate.h */,
-				0E17BED619FC8BAE0042C4DD /* AppDelegate.m */,
-				0E17BF0619FC94410042C4DD /* HLTheme.h */,
-				0E17BF0719FC94410042C4DD /* HLTheme.m */,
-				0E17BF2619FC99800042C4DD /* DataSource.h */,
-				0E17BF2719FC99800042C4DD /* DataSource.m */,
-				0ECAC36119FF22C6002866DE /* LocationManager.h */,
-				0ECAC36219FF22C6002866DE /* LocationManager.m */,
-				0ECAC37619FF2BAC002866DE /* AccountManager.h */,
-				0ECAC37719FF2BAC002866DE /* AccountManager.m */,
-				0E2A124C1A047A870036F8EB /* HLSettings.h */,
-				0E2A124D1A047A870036F8EB /* HLSettings.m */,
-				0E2A12521A052AF90036F8EB /* OffersManager.h */,
-				0E2A12531A052AF90036F8EB /* OffersManager.m */,
-				0E2A12631A060A620036F8EB /* ImageManager.h */,
-				0E2A12641A060A620036F8EB /* ImageManager.m */,
-				0E2A12551A052B340036F8EB /* OfferModel.h */,
-				0E2A12561A052B340036F8EB /* OfferModel.m */,
-				0E2A125B1A05996D0036F8EB /* OfferCategory.h */,
-				0E2A125C1A05996D0036F8EB /* OfferCategory.m */,
-				0E2A125E1A0599CD0036F8EB /* HLConstant.h */,
-				0E2A125F1A0599CD0036F8EB /* HLConstant.m */,
+				0E0019CC1A0B36920086CD77 /* UI */,
+				0E0019CB1A0B36890086CD77 /* Location */,
+				0E0019CA1A0B36820086CD77 /* Account */,
+				0E0019C91A0B36780086CD77 /* Offer */,
+				0E0019CD1A0B36B00086CD77 /* Utilities */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -423,8 +462,8 @@
 				0E17BF5019FDD1250042C4DD /* MyCameraViewController.m */,
 				0ECAC3B71A01D4AA002866DE /* CameraOverlayViewController.h */,
 				0ECAC3B81A01D4AA002866DE /* CameraOverlayViewController.m */,
-				0ECAC39E1A01C155002866DE /* MakingOfferViewController.h */,
-				0ECAC39F1A01C155002866DE /* MakingOfferViewController.m */,
+				0E0019C31A09E34B0086CD77 /* SelectCategoryTableViewController.h */,
+				0E0019C41A09E34B0086CD77 /* SelectCategoryTableViewController.m */,
 				0ECAC3B91A01D4AA002866DE /* CameraOverlayViewController.xib */,
 			);
 			name = Camera;
@@ -435,8 +474,6 @@
 			children = (
 				0E17BF3D19FCA7FF0042C4DD /* HomeViewViewController.h */,
 				0E17BF3E19FCA7FF0042C4DD /* HomeViewViewController.m */,
-				0E17BEFD19FC92FF0042C4DD /* ShoppingItemCell.h */,
-				0E17BEFE19FC92FF0042C4DD /* ShoppingItemCell.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -446,20 +483,8 @@
 			children = (
 				0E17BF4C19FDCF0C0042C4DD /* MyCartViewController.h */,
 				0E17BF4D19FDCF0C0042C4DD /* MyCartViewController.m */,
-				0ECAC39419FF59FA002866DE /* SearchResultViewController.h */,
-				0ECAC39519FF59FA002866DE /* SearchResultViewController.m */,
 			);
 			name = Cart;
-			sourceTree = "<group>";
-		};
-		0E17BF6119FDE92C0042C4DD /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				0ECAC36419FF2983002866DE /* SMPageControl */,
-				0E17BF5E19FDE9230042C4DD /* MBProgressHUD.h */,
-				0E17BF5F19FDE9230042C4DD /* MBProgressHUD.m */,
-			);
-			name = Utilities;
 			sourceTree = "<group>";
 		};
 		0E17BF6519FDFA850042C4DD /* Login */ = {
@@ -529,6 +554,8 @@
 			children = (
 				0ECAC3A71A01C51D002866DE /* SearchItemViewController.h */,
 				0ECAC3A81A01C51D002866DE /* SearchItemViewController.m */,
+				0ECAC39419FF59FA002866DE /* SearchResultViewController.h */,
+				0ECAC39519FF59FA002866DE /* SearchResultViewController.m */,
 				0ECAC3B01A01CA2F002866DE /* CategoryCell.h */,
 				0ECAC3B11A01CA2F002866DE /* CategoryCell.m */,
 				0ECAC3B21A01CA2F002866DE /* CategoryCell.xib */,
@@ -674,17 +701,16 @@
 				0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */,
 				0E17BF3F19FCA7FF0042C4DD /* HomeViewViewController.m in Sources */,
 				0E2A12651A060A620036F8EB /* ImageManager.m in Sources */,
-				0E17BEFF19FC92FF0042C4DD /* ShoppingItemCell.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
 				0E2A12571A052B340036F8EB /* OfferModel.m in Sources */,
 				0ECAC3B31A01CA2F002866DE /* CategoryCell.m in Sources */,
 				0E17BF5719FDD1B20042C4DD /* MapViewController.m in Sources */,
-				0E2A124E1A047A870036F8EB /* HLSettings.m in Sources */,
-				0ECAC3A01A01C155002866DE /* MakingOfferViewController.m in Sources */,
+				0E0019C81A09E5A00086CD77 /* HLSettings.m in Sources */,
 				0ECAC37819FF2BAC002866DE /* AccountManager.m in Sources */,
 				0ECAC36B19FF2983002866DE /* SMPageControl.m in Sources */,
 				0ECAC36319FF22C6002866DE /* LocationManager.m in Sources */,
 				0E2A12601A0599CD0036F8EB /* HLConstant.m in Sources */,
+				0E0019C51A09E34B0086CD77 /* SelectCategoryTableViewController.m in Sources */,
 				0ECAC39619FF59FA002866DE /* SearchResultViewController.m in Sources */,
 				0ECAC39019FF502B002866DE /* MainCollectionViewFlowLayout.m in Sources */,
 				0E17BED419FC8BAE0042C4DD /* main.m in Sources */,

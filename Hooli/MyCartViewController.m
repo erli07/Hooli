@@ -29,20 +29,23 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
-
+    [self.collectionView updateDataFromCloud];
 
 }
 
 -(void)viewWillAppear:(BOOL)animated{
 
-    [self.collectionView updateDataFromCloud];
     
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
+#pragma mark collectionview delegate
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UIViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+    vc.offerId = cell.offerId;
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
 

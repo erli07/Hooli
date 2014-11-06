@@ -57,7 +57,7 @@
 
 - (IBAction)cancelCameraView:(id)sender {
     
-    [[HLSettings sharedInstance]setPostItemStatus:HL_POST_ITEM];
+    [[HLSettings sharedInstance]setIsPostingOffer:YES];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.cancelCameraView" object:self];
 
@@ -65,7 +65,7 @@
 
 - (IBAction)postItem:(id)sender {
   
-    [[HLSettings sharedInstance]setPostItemStatus:HL_MAKE_OFFER];
+    [[HLSettings sharedInstance]setIsPostingOffer:NO];
     
 //    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] image:image1.image price:@"$100" category:@"Books" description:@"this is a cook book"];
 //    
@@ -101,58 +101,58 @@
     [HUD hide:YES];
 }
 
-- (void)uploadImage:(OfferModel *)offer
-{
-    
-    if(offer.image == nil){
-        
-        return;
-        
-    }
-    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
-    [offer.image drawInRect: CGRectMake(0, 0, 640, 640)];
-    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    NSData *imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
-    
-    NSLog(@"Image size %u kb", [imageData length]/1024);
-    PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:imageData];
-    
-    // Save PFFile
-    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            
-            // Create a PFObject around a PFFile and associate it with the current user
-            PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
-            [offerClass setObject:imageFile forKey:kHLCloudImageKeyForOfferClass];
-            offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-            
-            PFUser *user = [PFUser currentUser];
-            [offerClass setObject:user forKey:kHLCloudUserKeyForOfferClass];
-            [offerClass setObject:offer.offerDescription forKey:kHLCloudDescriptionKeyForOfferClass];
-            [offerClass setObject:offer.offerPrice forKey:kHLCloudPriceKeyForOfferClass];
-            [offerClass setObject:offer.offerCategory forKey:kHLCloudCategoryKeyForOfferClass];
-            
-            [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    // [self refresh:nil];
-                }
-                else{
-                    // Log details of the failure
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
-            }];
-        }
-        else{
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    } progressBlock:^(int percentDone) {
-        
-    }];
-}
-
+//- (void)uploadImage:(OfferModel *)offer
+//{
+//    
+//    if(offer.image == nil){
+//        
+//        return;
+//        
+//    }
+//    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
+//    [offer.image drawInRect: CGRectMake(0, 0, 640, 640)];
+//    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    
+//    NSData *imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
+//    
+//    NSLog(@"Image size %u kb", [imageData length]/1024);
+//    PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:imageData];
+//    
+//    // Save PFFile
+//    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (!error) {
+//            
+//            // Create a PFObject around a PFFile and associate it with the current user
+//            PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
+//            [offerClass setObject:imageFile forKey:kHLCloudImageKeyForOfferClass];
+//            offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+//            
+//            PFUser *user = [PFUser currentUser];
+//            [offerClass setObject:user forKey:kHLCloudUserKeyForOfferClass];
+//            [offerClass setObject:offer.offerDescription forKey:kHLCloudDescriptionKeyForOfferClass];
+//            [offerClass setObject:offer.offerPrice forKey:kHLCloudPriceKeyForOfferClass];
+//            [offerClass setObject:offer.offerCategory forKey:kHLCloudCategoryKeyForOfferClass];
+//            
+//            [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                if (!error) {
+//                    // [self refresh:nil];
+//                }
+//                else{
+//                    // Log details of the failure
+//                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+//                }
+//            }];
+//        }
+//        else{
+//            // Log details of the failure
+//            NSLog(@"Error: %@ %@", error, [error userInfo]);
+//        }
+//    } progressBlock:^(int percentDone) {
+//        
+//    }];
+//}
+//
 
 /*
 #pragma mark - Navigation

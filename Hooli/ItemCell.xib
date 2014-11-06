@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="151" height="151"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o2q-Kb-m4B">
-                        <rect key="frame" x="109" y="125" width="42" height="21"/>
+                        <rect key="frame" x="120" y="125" width="25" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -28,7 +28,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhV-C2-NlQ">
-                        <rect key="frame" x="87" y="126" width="20" height="20"/>
+                        <rect key="frame" x="100" y="126" width="20" height="20"/>
                         <state key="normal" image="pink-heart.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -36,16 +36,28 @@
                             <action selector="likesButtonClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="w7q-IQ-VUS"/>
                         </connections>
                     </button>
+                    <imageView userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R2A-1h-WvK">
+                        <rect key="frame" x="98" y="2" width="50" height="50"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRN-h2-yA7">
+                        <rect key="frame" x="102" y="17" width="44" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
+                <outlet property="distanceBackground" destination="R2A-1h-WvK" id="IUm-6C-CKT"/>
+                <outlet property="distanceLabel" destination="PRN-h2-yA7" id="Izm-yy-495"/>
                 <outlet property="likesButton" destination="NhV-C2-NlQ" id="3vW-G7-04V"/>
                 <outlet property="likesLabel" destination="o2q-Kb-m4B" id="Wbm-wK-BTB"/>
                 <outlet property="priceLabel" destination="9LM-KR-Lnz" id="qZL-4U-jmf"/>
                 <outlet property="productImageView" destination="8kW-kZ-ejL" id="qbl-n8-bTv"/>
             </connections>
-            <point key="canvasLocation" x="198.5" y="328"/>
+            <point key="canvasLocation" x="171.5" y="327.5"/>
         </collectionViewCell>
     </objects>
     <resources>

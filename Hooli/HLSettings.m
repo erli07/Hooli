@@ -2,28 +2,26 @@
 //  HLSettings.m
 //  Hooli
 //
-//  Created by Er Li on 10/31/14.
+//  Created by Er Li on 11/4/14.
 //  Copyright (c) 2014 ErLi. All rights reserved.
 //
 
 #import "HLSettings.h"
 
 @implementation HLSettings
-@synthesize postItemStatus = _postItemStatus;
-
+@synthesize category,isPostingOffer;
 +(HLSettings *)sharedInstance{
     
-    static HLSettings *sharedInstance = nil;
+    static HLSettings *_sharedInstance = nil;
     
-    if (!sharedInstance) {
-        sharedInstance = [[HLSettings alloc] init];
-    }
-    return sharedInstance;
+    static dispatch_once_t oncePredicate;
+    
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[HLSettings alloc] init];
+    });
+    return _sharedInstance;
+    
 }
 
 
--(HLPostItemStatus )getPostItemStatus{
-    
-    return _postItemStatus;
-}
 @end

@@ -15,6 +15,7 @@
 #import "HLConstant.h"
 #import "MBProgressHUD.h"
 #import "ImageManager.h"
+#import "LocationManager.h"
 #define CAMERA_TRANSFORM_X 1
 //#define CAMERA_TRANSFORM_Y 1.12412 // this was for iOS 3.x
 #define CAMERA_TRANSFORM_Y 1.24299 // this works for iOS 4.x
@@ -38,11 +39,12 @@
 @end
 
 @implementation MyCameraViewController
-@synthesize priceInputBox,itemDetailTextView,image1,image2,image3,image4;
+@synthesize priceInputBox,itemDetailTextView,itemNameTextField,image1,image2,image3,image4;
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
-    [[HLSettings sharedInstance]setPostItemStatus:HL_POST_ITEM];
+    [[HLSettings sharedInstance]setIsPostingOffer:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(takePhotoClicked)
@@ -56,6 +58,13 @@
                                                  name:@"Hooli.submitOfferToCloud" object:nil];
     [self configureUIElements];
     
+    self.priceInputBox.delegate = self;
+    
+    self.itemDetailTextView.delegate = self;
+    
+    self.itemNameTextField.delegate = self;
+    
+    self.categoryTextView.delegate = self;
     // Do any additional setup after loading the view.
 }
 
@@ -63,7 +72,15 @@
     
     photoCount = 0;
     
+    
+    
     [self updateCurrentView];
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [[HLSettings sharedInstance]setCategory:nil];
     
 }
 -(void)submitOfferToCloud{
@@ -71,22 +88,26 @@
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
     [HUD show:YES];
-  //  UIImage *image = [[ImageManager sharedInstance]loadImageWithName:@"image1"];
     
-    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] image:self.image1 price:self.priceInputBox.text category:@"books" description:self.itemDetailTextView.text];
+    NSArray *imagesArray = [NSArray arrayWithObjects:self.image1,self.image2,self.image3,self.image4, nil];
+    //  UIImage *image = [[ImageManager sharedInstance]loadImageWithName:@"image1"];
+    
+    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] image:self.image1  price:self.priceInputBox.text offerName:self.itemNameTextField.text category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation]];
+//
+//    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray price:self.priceInputBox.text offerName:self.itemNameTextField.text  category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation]];
     
     [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
         
         [HUD hide:YES];
         [self updateCurrentView];
-
-        UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
-                                                              message:@"You have successfully post your item!"
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles:nil];
-        [confirmAlert show];
         
+        
+            UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
+                                                                  message:@"You have successfully post your item!"
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+            [confirmAlert show];
         
         
     } withFailure:^(id error) {
@@ -100,7 +121,7 @@
 
 -(void)confirmOffer{
     
-    [[HLSettings sharedInstance]setPostItemStatus:HL_POST_ITEM];
+    [[HLSettings sharedInstance]setIsPostingOffer:YES];
     
     UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Are you sure?"
                                                           message:@"Do you confirm to make this offer?"
@@ -116,7 +137,7 @@
 
 -(void)updateCurrentView{
     
-    if([[HLSettings sharedInstance]getPostItemStatus] == HL_MAKE_OFFER){
+    if(![[HLSettings sharedInstance]isPostingOffer]){
         
         self.title = @"Make Offer";
         
@@ -136,12 +157,21 @@
                               action:@selector(confirmOffer)];
         self.navigationItem.rightBarButtonItem = self.confirmButton;
         
-        [self.priceInputBox becomeFirstResponder];
+        [self.itemNameTextField becomeFirstResponder];
         
+        if([[HLSettings sharedInstance]category]){
+            
+            self.categoryTextView.text = [[HLSettings sharedInstance]category][0];
+            
+        }
+        else{
+            
+            self.categoryTextView.text = @"";
+        }
         
     }
     
-    else if([[HLSettings sharedInstance]getPostItemStatus] == HL_POST_ITEM){
+    else{
         
         self.makeOfferView.hidden = YES;
         
@@ -154,6 +184,8 @@
         [self.priceInputBox resignFirstResponder];
         
         [self.itemDetailTextView resignFirstResponder];
+        
+        [self.itemNameTextField resignFirstResponder];
         
     }
     
@@ -327,9 +359,27 @@
         
         
         [self submitOfferToCloud];
-
+        
         
     }
 }
 
+#pragma mark textview delegate
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+    if (textField == self.priceInputBox) {
+        
+        self.priceInputBox.text = @"$";
+    }
+    else if (textField == self.categoryTextView){
+        
+        [self performSegueWithIdentifier:@"selectCategory" sender:self];
+    }
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    
+    self.itemDetailTextView.text = @"";
+}
 @end

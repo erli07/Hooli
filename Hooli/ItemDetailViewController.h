@@ -10,14 +10,17 @@
 #import "SMPageControl.h"
 #import <MessageUI/MessageUI.h>
 @interface ItemDetailViewController : UIViewController<UIScrollViewDelegate>
-@property (nonatomic, strong) NSString *itemID;
+@property (nonatomic, strong) NSString *offerId;
+@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
-@property (weak, nonatomic) IBOutlet UILabel *itemDescription;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *offerDescription;
 @property (weak, nonatomic) IBOutlet UIButton *addToCartButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *parentScrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *askQuestionButton;
 - (IBAction)askQuestion:(id)sender;
 @property (weak, nonatomic) IBOutlet SMPageControl *pageControl;

@@ -1,26 +1,24 @@
 //
-//  SearchItemViewController.m
+//  SelectCategoryTableViewController.m
 //  Hooli
 //
-//  Created by Er Li on 10/29/14.
+//  Created by Er Li on 11/4/14.
 //  Copyright (c) 2014 ErLi. All rights reserved.
 //
 
-#import "SearchItemViewController.h"
-#import "DataSource.h"
-#import "HLTheme.h"
+#import "SelectCategoryTableViewController.h"
 #import "OfferCategory.h"
-@interface SearchItemViewController ()
+#import "HLTheme.h"
+#import "HLSettings.h"
+@interface SelectCategoryTableViewController ()
 
 @end
 
-@implementation SearchItemViewController
-@synthesize searchBar;
+@implementation SelectCategoryTableViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Search";
-  //  self.navigationController.navigationBar.backgroundColor = [HLTheme mainColor];
-    self.categories = [OfferCategory allCategories];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -41,38 +39,27 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    
-    return [self.categories count];
+    // Return the number of rows in the section.
+    return [[OfferCategory allCategories]count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categoryCell" forIndexPath:indexPath];
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
-     cell.textLabel.text = [self.categories objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[OfferCategory allCategories]objectAtIndex:indexPath.row];
     return cell;
 }
 
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
-    //
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [self performSegueWithIdentifier:@"searchResult" sender:self];
+    NSArray *categoryArray = [NSArray arrayWithObjects:[[OfferCategory allCategories]objectAtIndex:indexPath.row], nil];
+    
+    [[HLSettings sharedInstance]setCategory:categoryArray];
     
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    
-    [self.searchBar resignFirstResponder];
-}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -57,6 +57,28 @@
     
 }
 
+-(NSString *)getApproximateDistance:(CLLocationCoordinate2D)offerLocation{
+    
+    CLLocation *locA = [[CLLocation alloc] initWithLatitude:self.currentLocation.latitude longitude:self.currentLocation.longitude];
+    
+    CLLocation *locB = [[CLLocation alloc] initWithLatitude:offerLocation.latitude longitude:offerLocation.longitude];
+    
+    CLLocationDistance distance = [locA distanceFromLocation:locB];
+    
+    if(distance > 50000)
+        return @"> 50 mi.";
+    else if(distance > 10000)
+        return @"< 50 mi.";
+    else if(distance > 5000)
+        return @"< 10 mi.";
+    else if(distance > 2000)
+        return @"< 5 mi.";
+    else if(distance > 1000)
+        return @"< 2 mi.";
+    else
+        return @"< 1 mi.";
+}
+
 #pragma mark - CLLocationManagerDelegate methods
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{

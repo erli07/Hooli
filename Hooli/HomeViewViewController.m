@@ -9,7 +9,6 @@
 #import "HomeViewViewController.h"
 #import "HLTheme.h"
 #import "DataSource.h"
-#import "ShoppingItemCell.h"
 #import "ItemDetailViewController.h"
 @interface HomeViewViewController (){
     
@@ -27,7 +26,6 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.collectionView addSubview:self.refreshControl];
     
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Filter"
@@ -41,54 +39,27 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView configureView];
     self.collectionView.delegate = self;
     self.navigationItem.title = @"Discover";
-//    self.collectionView.scrollEnabled = YES;
-//    
-//    self.layout.sectionInset = UIEdgeInsetsMake(0,5,5,5);
-//    self.layout.itemSize = CGSizeMake(151, 202);
-//    self.layout.minimumInteritemSpacing = 3;
-//    self.layout.minimumLineSpacing = 10;
-//
-//    // Do any additional setup after loading the view.
-//    
-//    self.collections = [DataSource collections];
-//    
-//    self.view.tintColor = [HLTheme mainColor];
-    
+    [self.collectionView updateDataFromCloud];
 
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self reloadInputViews];
+    
+    
 }
 
 
 #pragma mark collectionview delegate
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return [self.collections count];
-}
 
--(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    ShoppingItemCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    NSDictionary* data = self.collections[indexPath.row];
 
-    [cell updateCellWithData:data];
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    return cell;
-}
-
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    
-    NSLog(@"touched cell %@ at indexPath %@", cell, indexPath);
-    
+    ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UIViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+    vc.offerId = cell.offerId;
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
-  //rs [self performSegueWithIdentifier:@"detail" sender:self];
 }
 
 
@@ -109,25 +80,6 @@ static NSString * const reuseIdentifier = @"Cell";
 
     }
     
-}
-
-#pragma mark
-
--(void)reloadAllViews{
-    
-    
-    if (self.refreshControl) {
-        
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        [formatter setDateFormat:@"MMM d, h:mm a"];
-//        NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
-//        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-//                                                                    forKey:NSForegroundColorAttributeName];
-//        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
-//        self.refreshControl.attributedTitle = attributedTitle;
-        
-        [self.refreshControl endRefreshing];
-    }
 }
 
 @end

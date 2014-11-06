@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchItemViewController : UITableViewController
+@interface SearchItemViewController : UITableViewController<UISearchBarDelegate, UISearchDisplayDelegate>
 @property (nonatomic, strong) NSArray* categories;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end

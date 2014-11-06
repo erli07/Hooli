@@ -22,22 +22,34 @@
                                     <action selector="showCameraView:" destination="6le-6j-uIq" eventType="touchUpInside" id="7Vb-mD-sGQ"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" id="YHm-6g-ojT">
+                            <view contentMode="scaleToFill" id="J4k-RN-E2C">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="A few details about this Item" id="erd-E3-4RB">
-                                        <rect key="frame" x="40" y="153" width="240" height="128"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="A few details about this Item" id="zyN-lw-Uij">
+                                        <rect key="frame" x="40" y="212" width="240" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" minimumFontSize="17" id="glZ-lW-JAc">
-                                        <rect key="frame" x="46" y="90" width="209" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" minimumFontSize="17" id="si6-Rl-D1N">
+                                        <rect key="frame" x="40" y="118" width="240" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" minimumFontSize="17" id="tVV-yS-Ws1">
+                                        <rect key="frame" x="40" y="161" width="209" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" minimumFontSize="17" id="BlE-lV-SdU">
+                                        <rect key="frame" x="40" y="80" width="240" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -47,15 +59,18 @@
                     </view>
                     <navigationItem key="navigationItem" id="82J-zf-cPF"/>
                     <connections>
-                        <outlet property="itemDetailTextView" destination="erd-E3-4RB" id="wgo-5m-N6E"/>
-                        <outlet property="makeOfferView" destination="YHm-6g-ojT" id="xdD-BH-27V"/>
-                        <outlet property="priceInputBox" destination="glZ-lW-JAc" id="q9o-k8-fTL"/>
+                        <outlet property="categoryTextView" destination="si6-Rl-D1N" id="Ad8-1Z-ege"/>
+                        <outlet property="itemDetailTextView" destination="zyN-lw-Uij" id="2NC-KU-mxJ"/>
+                        <outlet property="itemNameTextField" destination="BlE-lV-SdU" id="rOQ-Wn-LIT"/>
+                        <outlet property="makeOfferView" destination="J4k-RN-E2C" id="GAW-L7-5XL"/>
+                        <outlet property="priceInputBox" destination="tVV-yS-Ws1" id="cjI-YC-LTM"/>
                         <outlet property="showCameraButton" destination="j0a-fO-5Tr" id="aAh-Ei-trD"/>
+                        <segue destination="jBv-9d-8iy" kind="push" identifier="selectCategory" id="VMa-Ye-aGk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HEk-DC-sON" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-76" y="-1324"/>
+            <point key="canvasLocation" x="182" y="-1327"/>
         </scene>
         <!--Search-->
         <scene sceneID="ehN-oH-HZg">
@@ -82,12 +97,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="Axc-Zb-Cmm">
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Hooli" showsCancelButton="YES" id="uuG-ch-Ivi">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
-                                <outlet property="delegate" destination="umZ-Uv-MsP" id="qdV-eU-dU7"/>
+                                <outlet property="delegate" destination="umZ-Uv-MsP" id="H9g-vb-Ge8"/>
                             </connections>
                         </searchBar>
                         <prototypes>
@@ -96,6 +111,9 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Auj-Jv-fjf" id="iIC-Jg-7EU">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="ABd-4u-2Nb" kind="push" identifier="searchResult" id="vXk-jl-TgC"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -105,6 +123,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="G3n-J4-72h"/>
                     <connections>
+                        <outlet property="searchBar" destination="uuG-ch-Ivi" id="gXF-SF-Mj2"/>
                         <outlet property="searchDisplayController" destination="1Kw-tV-IF9" id="bTM-S9-rTI"/>
                     </connections>
                 </tableViewController>
@@ -112,7 +131,6 @@
                 <searchDisplayController id="1Kw-tV-IF9">
                     <connections>
                         <outlet property="delegate" destination="umZ-Uv-MsP" id="vLH-Y7-o41"/>
-                        <outlet property="searchBar" destination="Axc-Zb-Cmm" id="DVa-jr-PWI"/>
                         <outlet property="searchContentsController" destination="umZ-Uv-MsP" id="unb-Bz-Ayi"/>
                         <outlet property="searchResultsDataSource" destination="umZ-Uv-MsP" id="DbR-T5-MiT"/>
                         <outlet property="searchResultsDelegate" destination="umZ-Uv-MsP" id="R6f-LS-0zB"/>
@@ -121,19 +139,78 @@
             </objects>
             <point key="canvasLocation" x="732" y="-1933"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="vKf-J6-bv2">
+        <!--Select Category Table View Controller-->
+        <scene sceneID="qjI-Du-RDA">
             <objects>
-                <viewController id="Qia-Jr-Axf" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="xtY-TU-3dK">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="jBv-9d-8iy" customClass="SelectCategoryTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oh5-A1-6mv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dyw-94-qkO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" id="5dM-SB-9dy">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5dM-SB-9dy" id="pP6-cm-8MF">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="jBv-9d-8iy" id="LZ0-MW-7be"/>
+                            <outlet property="delegate" destination="jBv-9d-8iy" id="919-kc-X6N"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="edE-LE-tRj"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6yQ-RP-yUS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="852" y="-1251"/>
+            <point key="canvasLocation" x="590" y="-1327"/>
+        </scene>
+        <!--Search Result View Controller-->
+        <scene sceneID="oRc-sD-zrb">
+            <objects>
+                <viewController id="ABd-4u-2Nb" customClass="SearchResultViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PYV-XU-Jyp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="r0I-MX-icy" customClass="MainCollectionView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZtA-wU-Eca" customClass="MainCollectionViewFlowLayout">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="pHA-Sx-hSc">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="ABd-4u-2Nb" id="UNh-7U-MeE"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uuR-WZ-Jpf"/>
+                    <connections>
+                        <outlet property="collectionView" destination="r0I-MX-icy" id="zAf-1K-PDa"/>
+                        <outlet property="layout" destination="ZtA-wU-Eca" id="RJ8-FJ-fLv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qj6-38-4Ff" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1273" y="-1963"/>
         </scene>
         <!--Search Result View Controller-->
         <scene sceneID="IkG-tB-mJv">
@@ -165,8 +242,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="8jT-tb-jtN"/>
                     <connections>
-                        <outlet property="collectionView" destination="H3E-67-LEl" id="omx-jh-Pmj"/>
-                        <outlet property="layout" destination="G9M-Dd-q4v" id="nRm-Mc-B0l"/>
+                        <outlet property="collectionView" destination="H3E-67-LEl" id="f0L-2G-YaY"/>
+                        <outlet property="layout" destination="G9M-Dd-q4v" id="DFw-Df-YoJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f3D-ga-6WJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

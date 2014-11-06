@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MainCollectionView.h"
 #import "MainCollectionViewFlowLayout.h"
-@interface SearchResultViewController : UIViewController
+@interface SearchResultViewController : UIViewController<UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet MainCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MainCollectionViewFlowLayout *layout;
 
