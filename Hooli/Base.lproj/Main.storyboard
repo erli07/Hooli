@@ -12,18 +12,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="j0a-fO-5Tr">
-                                <rect key="frame" x="77" y="427" width="167" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Post Item" backgroundImage="button.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="showCameraView:" destination="6le-6j-uIq" eventType="touchUpInside" id="7Vb-mD-sGQ"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" id="J4k-RN-E2C">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
+                                <rect key="frame" x="0.0" y="25" width="320" height="518"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="A few details about this Item" id="zyN-lw-Uij">
@@ -52,17 +42,46 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.72941176470000002" green="0.86274509799999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="CgR-WC-ga8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="520"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Ariel1.png" id="UEd-8E-pxg">
+                                        <rect key="frame" x="35" y="101" width="250" height="250"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Hooli!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vmi-lX-YGY">
+                                        <rect key="frame" x="69" y="359" width="193" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="20"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="j0a-fO-5Tr">
+                                        <rect key="frame" x="77" y="430" width="167" height="39"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Post Item" backgroundImage="button.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showCameraView:" destination="6le-6j-uIq" eventType="touchUpInside" id="7Vb-mD-sGQ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.72941176470000002" green="0.86274509799999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.72941176470588232" green="0.86274509803921573" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="82J-zf-cPF"/>
                     <connections>
                         <outlet property="categoryTextView" destination="si6-Rl-D1N" id="Ad8-1Z-ege"/>
                         <outlet property="itemDetailTextView" destination="zyN-lw-Uij" id="2NC-KU-mxJ"/>
                         <outlet property="itemNameTextField" destination="BlE-lV-SdU" id="rOQ-Wn-LIT"/>
-                        <outlet property="makeOfferView" destination="J4k-RN-E2C" id="GAW-L7-5XL"/>
+                        <outlet property="makeOfferView" destination="J4k-RN-E2C" id="LVK-iM-fdv"/>
+                        <outlet property="postItemView" destination="CgR-WC-ga8" id="9Lx-dy-Wwf"/>
                         <outlet property="priceInputBox" destination="tVV-yS-Ws1" id="cjI-YC-LTM"/>
                         <outlet property="showCameraButton" destination="j0a-fO-5Tr" id="aAh-Ei-trD"/>
                         <segue destination="jBv-9d-8iy" kind="push" identifier="selectCategory" id="VMa-Ye-aGk"/>
@@ -323,8 +342,8 @@
                                 <rect key="frame" x="0.0" y="107" width="320" height="431"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="TNh-qb-F8d" customClass="MainCollectionViewFlowLayout">
-                                    <size key="itemSize" width="151" height="202"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8h7-u5-Zl2" customClass="MainCollectionViewFlowLayout">
+                                    <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -334,7 +353,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="151" height="202"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -349,7 +368,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="saZ-Q2-T5Q" id="DAM-cX-PQY"/>
-                        <outlet property="layout" destination="TNh-qb-F8d" id="ZLO-Q1-28J"/>
+                        <outlet property="layout" destination="8h7-u5-Zl2" id="XCR-qS-g7b"/>
                         <outlet property="segmentControl" destination="pJk-RA-bXm" id="1x7-iE-Xa2"/>
                         <segue destination="tEq-4M-AHx" kind="push" identifier="showMore" id="xeX-SV-4Mz"/>
                     </connections>
@@ -525,6 +544,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Ariel1.png" width="500" height="500"/>
         <image name="button.png" width="145" height="42"/>
         <image name="tab1.png" width="30" height="30"/>
         <image name="tab2.png" width="30" height="30"/>

@@ -29,6 +29,8 @@
     [PFFacebookUtils initializeFacebook];
     
     [[LocationManager sharedInstance]startLocationUpdate];
+    
+    
 //    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
 //        UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
 //        [HLTheme customizeTabBar:tabController.tabBar];

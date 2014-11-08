@@ -10,11 +10,13 @@
 #import "HLConstant.h"
 #import "LocationManager.h"
 @implementation OffersManager
-@synthesize retrivedObjects,filterDictionary;
+@synthesize retrivedObjects = _retrivedObjects;
+@synthesize filterDictionary = _filterDictionary;
 @synthesize downloadSuccess = _dowloadSuccess;
 @synthesize downloadFailure = _downloadFailure;
 @synthesize uploadFailure = _uploadFailure;
 @synthesize uploadSuccess = _uploadSuccess;
+@synthesize pageCounter;
 
 +(OffersManager *)sharedInstance{
     
@@ -24,9 +26,24 @@
     
     dispatch_once(&oncePredicate, ^{
         _sharedInstance = [[OffersManager alloc] init];
+        
     });
     return _sharedInstance;
     
+}
+
+-(id)init{
+    
+    self = [super init];
+    
+    if(self){
+        
+        retrivedObjects = [[NSMutableArray alloc]init];
+        offersArray = [[NSMutableArray alloc]init];
+        
+    }
+    
+    return self;
 }
 
 - (void)uploadImages:(NSArray *)imageArray
@@ -37,7 +54,7 @@
     _uploadFailure = failure;
     
     for (UIImage *image in imageArray) {
-                
+        
         PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:UIImagePNGRepresentation(image)];
         
         // Save PFFile
@@ -100,6 +117,11 @@
     return imageData;
 }
 
+
+
+
+
+
 -(void)updaloadOfferToCloud:(OfferModel *)offer
                 withSuccess:(UploadSuccessBlock)success
                 withFailure:(UploadFailureBlock)failure{
@@ -108,30 +130,34 @@
     _uploadFailure = failure;
     
     
-    if(offer.image == nil){
+    if(offer.imageArray == nil){
         
         _uploadFailure(nil);
         
     }
-    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
-    [offer.image drawInRect: CGRectMake(0, 0, 640, 640)];
-    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     
-    NSData *imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
+    PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
+
     
-    NSLog(@"Image size %u kb", [imageData length]/1024);
-    PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:imageData];
+    for (int i = 0; i <[offer.imageArray count]; i++) {
+        
+        NSData *imageData = [self compressImage:[offer.imageArray objectAtIndex:i] WithCompression:0.05f];
+        PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
+        [offerClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
+
+    }
     
+    NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.01f];
+    PFFile *thumbNailFile = [PFFile fileWithName:@"thumbNail.jpg" data:thumbnailData];
+    [offerClass setObject:thumbNailFile forKey:kHLOfferModelKeyThumbNail];
+
     // Save PFFile
-    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            
+//    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (!error) {
+    
             // Create a PFObject around a PFFile and associate it with the current user
-            PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
-            [offerClass setObject:imageFile forKey:kHLOfferModelKeyImage];
+    
             offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-            
             PFUser *user = [PFUser currentUser];
             [offerClass setObject:user forKey:kHLOfferModelKeyUser];
             [offerClass setObject:offer.offerDescription forKey:kHLOfferModelKeyDescription];
@@ -159,19 +185,47 @@
                     NSLog(@"Error: %@ %@", error, [error userInfo]);
                 }
             }];
-        }
-        else{
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    } progressBlock:^(int percentDone) {
-        
-    }];
+//        }
+//        else{
+//            // Log details of the failure
+//            NSLog(@"Error: %@ %@", error, [error userInfo]);
+//        }
+//    } progressBlock:^(int percentDone) {
+//        
+//    }];
     
 }
 
+-(NSData *)compressImage:(UIImage *)image WithCompression: (CGFloat) compressionQuality{
+    
+    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
+    [image drawInRect: CGRectMake(0, 0, 640, 640)];
+    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *imageData = UIImageJPEGRepresentation(smallImage, compressionQuality);
+    
+    NSLog(@"Get Image Size %u", [imageData length]/1024);
+    
+    return imageData;
+
+}
+-(void)clearData{
+    
+    if(retrivedObjects){
+        
+        [retrivedObjects removeAllObjects];
+    }
+    
+    if(offersArray){
+        
+        [offersArray removeAllObjects];
+    }
+    
+    self.pageCounter = 0;
+}
 
 -(void)retrieveOffersWithSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure{
+    
     
     _dowloadSuccess = dowloadSuccess ;
     _downloadFailure = downloadFailure;
@@ -182,22 +236,28 @@
 
 -(void)retrieveOffersByFilter:(NSDictionary *)filterDictionary{
     
-    retrivedObjects = [[NSMutableArray alloc]init];
-    offersArray = [[NSMutableArray alloc]init];
     
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
     PFUser *user = [PFUser currentUser];
     
     [query whereKey:@"user" equalTo:user];
-    [query whereKey:kHLOfferModelKeyCategory equalTo:@"Home Goods"];
+    [query setLimit:kHLOffersNumberShowAtFirstTime];
+    [query setSkip:kHLOffersNumberShowAtFirstTime * self.pageCounter];
+    // [query whereKey:kHLOfferModelKeyCategory equalTo:@"Home Goods"];
     [query orderByAscending:@"createdAt"];
+    //  [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
             NSLog(@"Successfully retrieved %d photos.", objects.count);
             
-            retrivedObjects = [objects copy];
+            for (id object in objects) {
+                
+                [retrivedObjects addObject:object];
+                
+            }
+            // retrivedObjects = [objects copy];
             [self getAllOffersFromObjects:retrivedObjects];
             
         } else {
@@ -233,12 +293,14 @@
     location.latitude = 40.00;
     location.longitude = -70.00;
     // Iterate over all images and get the data from the PFFile
-    for (int i = 1; i < objects.count; i++) {
+    for (int i = kHLOffersNumberShowAtFirstTime * self.pageCounter; i < objects.count; i++) {
         
-        PFObject *eachObject = [objects objectAtIndex:objects.count - i];
+        PFObject *eachObject = [objects objectAtIndex:i];
         OfferModel *newOffer = [[OfferModel alloc]initOfferWithPFObject:eachObject];
         [offersArray addObject:newOffer];
     }
+    
+    self.pageCounter += 1;
     
     return offersArray;
     
@@ -270,4 +332,31 @@
     }
     
 }
+
+
+-(void)fetchOfferImagesWithOfferId:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure{
+    
+    _dowloadSuccess = dowloadSuccess ;
+    _downloadFailure = downloadFailure;
+    
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
+    [query whereKey:kHLOfferModelKeyOfferId equalTo:offerID];
+    [query orderByAscending:@"createdAt"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+        
+            _dowloadSuccess(objects);
+            
+        } else {
+            // Log details of the failure
+            _downloadFailure(error);
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+
+    }];
+
+}
+
 @end

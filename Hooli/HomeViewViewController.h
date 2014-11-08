@@ -10,7 +10,9 @@
 #import "MainCollectionView.h"
 #import "MainCollectionViewFlowLayout.h"
 #import "ItemCell.h"
-@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate>
+#import "MBProgressHUD.h"
+
+@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic, weak) IBOutlet MainCollectionView * collectionView;
 

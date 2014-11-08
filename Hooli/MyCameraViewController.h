@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *itemDetailTextView;
 @property (weak, nonatomic) IBOutlet UITextField *priceInputBox;
 @property (weak, nonatomic) IBOutlet UIView *makeOfferView;
+@property (weak, nonatomic) IBOutlet UIView *postItemView;
 @property (weak, nonatomic) IBOutlet UITextField *categoryTextView;
 
 @property (nonatomic, strong) UIImage *image1;

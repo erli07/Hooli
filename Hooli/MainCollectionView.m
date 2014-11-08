@@ -27,7 +27,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if(!self){
         self = [super init];
-
+ 
     }
     
     return self;
@@ -55,7 +55,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)updateDataFromCloud{
-    
+        
     HUD = [[MBProgressHUD alloc] initWithView:self];
     [self addSubview:HUD];
     HUD.delegate = self;
@@ -71,6 +71,7 @@ static NSString * const reuseIdentifier = @"Cell";
         }
 
         [HUD hide:YES];
+        
 
     } failure:^(id error) {
         
@@ -125,5 +126,16 @@ static NSString * const reuseIdentifier = @"Cell";
     
     return cell;
 }
+
+
+#pragma mark MBProgressHUDDelegate
+
+- (void)hudWasHidden:(MBProgressHUD *)hud{
+    
+    [HUD removeFromSuperview];
+    HUD = nil;
+
+}
+
 
 @end

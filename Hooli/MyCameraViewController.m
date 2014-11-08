@@ -39,7 +39,7 @@
 @end
 
 @implementation MyCameraViewController
-@synthesize priceInputBox,itemDetailTextView,itemNameTextField,image1,image2,image3,image4;
+@synthesize priceInputBox,itemDetailTextView,itemNameTextField,image1,image2,image3,image4,postItemView;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -90,38 +90,51 @@
     [HUD show:YES];
     
     NSArray *imagesArray = [NSArray arrayWithObjects:self.image1,self.image2,self.image3,self.image4, nil];
-    //  UIImage *image = [[ImageManager sharedInstance]loadImageWithName:@"image1"];
     
-    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] image:self.image1  price:self.priceInputBox.text offerName:self.itemNameTextField.text category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation]];
-//
-//    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray price:self.priceInputBox.text offerName:self.itemNameTextField.text  category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation]];
+    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:self.priceInputBox.text offerName:self.itemNameTextField.text category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation]];
     
-    [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
-        
-        [HUD hide:YES];
-        [self updateCurrentView];
-        
-        
+
+    
+ //   [[OffersManager sharedInstance]uploadUserPhotosToCloudWithImages:imagesArray withSuccess:^{
+
+        [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
+            
+            [HUD hide:YES];
+            [[HLSettings sharedInstance]setIsPostingOffer:YES];
+            [self updateCurrentView];
+            
+            //   [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadHomeData" object:self];
+            //  [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadMyCartData" object:self];
+            
+            
             UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
                                                                   message:@"You have successfully post your item!"
                                                                  delegate:nil
                                                         cancelButtonTitle:@"OK"
                                                         otherButtonTitles:nil];
             [confirmAlert show];
+            
+            
+        } withFailure:^(id error) {
+            
+            [HUD hide:YES];
+            
+        }];
         
-        
-    } withFailure:^(id error) {
-        
-        [HUD hide:YES];
-        
-    }];
+//    } withFailure:^(id error) {
+//        
+//        [HUD hide:YES];
+//
+//        
+//    }];
+    
+
     
     
 }
 
 -(void)confirmOffer{
     
-    [[HLSettings sharedInstance]setIsPostingOffer:YES];
     
     UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Are you sure?"
                                                           message:@"Do you confirm to make this offer?"
@@ -142,6 +155,7 @@
         self.title = @"Make Offer";
         
         self.makeOfferView.hidden = NO;
+        self.postItemView.hidden = YES;
         
         self.retakePhotosButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Retake"
@@ -174,6 +188,7 @@
     else{
         
         self.makeOfferView.hidden = YES;
+        self.postItemView.hidden = NO;
         
         self.navigationItem.leftBarButtonItem = nil;
         
@@ -229,8 +244,8 @@
     self.title = @"Post Item";
     
     
-    [self.showCameraButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
-    [self.showCameraButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateHighlighted];
+    [self.showCameraButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
+    [self.showCameraButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateHighlighted];
     [self.showCameraButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     //    self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake(60, 100, 200, 200)];
     //    self.takePhotosButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -313,7 +328,7 @@
     UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    self.imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
+    self.imageData = UIImageJPEGRepresentation(smallImage, 0.02f);
     
     //  [picker dismissViewControllerAnimated:YES completion:NULL];
     

@@ -12,7 +12,8 @@
 #import "DataSource.h"
 #import "HLTheme.h"
 #import "ItemDetailViewController.h"
-@interface MyCartViewController ()<UICollectionViewDelegate>
+#import "OffersManager.h"
+@interface MyCartViewController ()<UICollectionViewDelegate,UpdateCollectionViewDelegate>
 @property (nonatomic, strong) UISegmentedControl *typeSegmentedControl;
 @property (nonatomic, strong) UIViewController *currentViewController;
 @end
@@ -29,14 +30,33 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
+ //   [self.collectionView updateDataFromCloud];
+    [self registerNotifications];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+
+    [self updateCollectionViewData];
+    
+}
+
+#pragma register notification
+
+-(void)registerNotifications{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateCollectionViewData)
+                                                 name:@"Hooli.reloadMyCartData" object:nil];
+}
+
+-(void)updateCollectionViewData{
+    
+    [[OffersManager sharedInstance]clearData];
+    
     [self.collectionView updateDataFromCloud];
 
 }
 
--(void)viewWillAppear:(BOOL)animated{
-
-    
-}
 
 #pragma mark collectionview delegate
 
@@ -49,6 +69,17 @@ static NSString * const reuseIdentifier = @"Cell";
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
 
+}
+
+
+#pragma scrollview delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height )
+    {
+        [self.collectionView updateDataFromCloud];
+    }
 }
 
 @end

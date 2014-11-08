@@ -59,6 +59,8 @@ typedef enum {
                       location:(CLLocationCoordinate2D) offerLocation;
 
 -(id)initOfferWithPFObject:(PFObject *)object;
+-(id)initOfferDetailsWithPFObject:(PFObject *)object;
+
 
 
 @end

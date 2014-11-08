@@ -20,6 +20,8 @@
 
 + (UIColor*)mainColor{
     return [UIColor colorWithRed:0.99f green:0.36f blue:0.35f alpha:1.0f];
+    
+   // return [UIColor colorWithRed:(74.0/255.0) green:(165.0/255.0) blue:(254.0/255.0) alpha:1.0];
 }
 
 + (UIColor*)foregroundColor{
@@ -71,11 +73,11 @@
     [UINavigationBar appearance].titleTextAttributes = navbarAttributes;
     
     [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:1.0 green:91.0/255.0 blue:84.0/255.0 alpha:1.0]];
-    
+   // [[UITabBar appearance] setBarTintColor:[self mainColor]];
     UITabBar* tabBarAppearance = [UITabBar appearance];
-    [tabBarAppearance setSelectionIndicatorImage:[[UIImage imageNamed:@"tab_sel"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//    [tabBarAppearance setSelectionIndicatorImage:[[UIImage imageNamed:@"tab_sel"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     
-    
+    tabBarAppearance.tintColor = [self mainColor];
     NSMutableDictionary* segmentAttributes = [NSMutableDictionary dictionary];
     segmentAttributes[NSFontAttributeName] = [UIFont fontWithName:[self mainFont] size:12.0f];
     [[UISegmentedControl appearance] setTitleTextAttributes:segmentAttributes forState:UIControlStateNormal];

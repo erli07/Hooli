@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0E0019C51A09E34B0086CD77 /* SelectCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0019C41A09E34B0086CD77 /* SelectCategoryTableViewController.m */; };
 		0E0019C81A09E5A00086CD77 /* HLSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0019C71A09E5A00086CD77 /* HLSettings.m */; };
+		0E0019CF1A0B3DF30086CD77 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019CE1A0B3DF30086CD77 /* image.png */; };
+		0E0019D11A0B3F660086CD77 /* Ariel1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019D01A0B3F660086CD77 /* Ariel1.png */; };
+		0E0019D41A0C95B20086CD77 /* MyCartCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0019D31A0C95B20086CD77 /* MyCartCollectionView.m */; };
 		0E17BED419FC8BAE0042C4DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BED319FC8BAE0042C4DD /* main.m */; };
 		0E17BED719FC8BAE0042C4DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BED619FC8BAE0042C4DD /* AppDelegate.m */; };
 		0E17BEDD19FC8BAE0042C4DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E17BEDB19FC8BAE0042C4DD /* Main.storyboard */; };
@@ -107,6 +110,10 @@
 		0E0019C41A09E34B0086CD77 /* SelectCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCategoryTableViewController.m; sourceTree = "<group>"; };
 		0E0019C61A09E5A00086CD77 /* HLSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSettings.h; sourceTree = "<group>"; };
 		0E0019C71A09E5A00086CD77 /* HLSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSettings.m; sourceTree = "<group>"; };
+		0E0019CE1A0B3DF30086CD77 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		0E0019D01A0B3F660086CD77 /* Ariel1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ariel1.png; sourceTree = "<group>"; };
+		0E0019D21A0C95B20086CD77 /* MyCartCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCartCollectionView.h; sourceTree = "<group>"; };
+		0E0019D31A0C95B20086CD77 /* MyCartCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCartCollectionView.m; sourceTree = "<group>"; };
 		0E17BECE19FC8BAE0042C4DD /* Hooli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hooli.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E17BED219FC8BAE0042C4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E17BED319FC8BAE0042C4DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -430,6 +437,8 @@
 				0ECAC38F19FF502B002866DE /* MainCollectionViewFlowLayout.m */,
 				0ECAC39119FF5880002866DE /* MainCollectionView.h */,
 				0ECAC39219FF5880002866DE /* MainCollectionView.m */,
+				0E0019D21A0C95B20086CD77 /* MyCartCollectionView.h */,
+				0E0019D31A0C95B20086CD77 /* MyCartCollectionView.m */,
 				0ECAC38919FF4412002866DE /* ItemCell.h */,
 				0ECAC38A19FF4412002866DE /* ItemCell.m */,
 				0ECAC38B19FF4412002866DE /* ItemCell.xib */,
@@ -499,6 +508,8 @@
 		0E17BF7E19FE04800042C4DD /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0E0019D01A0B3F660086CD77 /* Ariel1.png */,
+				0E0019CE1A0B3DF30086CD77 /* image.png */,
 				0E2A12611A05A3DE0036F8EB /* shadow.png */,
 				0ECAC36C19FF2A65002866DE /* pageControl-dot-selected@2x.png */,
 				0ECAC36D19FF2A65002866DE /* pageControl-dot@2x.png */,
@@ -650,8 +661,10 @@
 				0ECAC35E19FF1BCC002866DE /* button.png in Resources */,
 				0E17BEDD19FC8BAE0042C4DD /* Main.storyboard in Resources */,
 				0ECAC35F19FF1BCC002866DE /* button-pressed@2x.png in Resources */,
+				0E0019D11A0B3F660086CD77 /* Ariel1.png in Resources */,
 				0ECAC36E19FF2A65002866DE /* pageControl-dot-selected@2x.png in Resources */,
 				0ECAC35D19FF1BCC002866DE /* button-pressed.png in Resources */,
+				0E0019CF1A0B3DF30086CD77 /* image.png in Resources */,
 				0ECAC37519FF2B78002866DE /* Details3.png in Resources */,
 				0E17BF9719FE04800042C4DD /* pink-heart@2x.png in Resources */,
 				0E17BF9519FE04800042C4DD /* pink-eye@2x.png in Resources */,
@@ -701,6 +714,7 @@
 				0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */,
 				0E17BF3F19FCA7FF0042C4DD /* HomeViewViewController.m in Sources */,
 				0E2A12651A060A620036F8EB /* ImageManager.m in Sources */,
+				0E0019D41A0C95B20086CD77 /* MyCartCollectionView.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
 				0E2A12571A052B340036F8EB /* OfferModel.m in Sources */,
 				0ECAC3B31A01CA2F002866DE /* CategoryCell.m in Sources */,

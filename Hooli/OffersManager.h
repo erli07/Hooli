@@ -30,12 +30,15 @@ typedef void (^UploadFailureBlock) (id error);
 @property (nonatomic, strong)  NSMutableArray *retrivedObjects;
 @property (nonatomic, strong)  NSDictionary *filterDictionary;
 @property (nonatomic, strong)  NSMutableArray *offersArray;
+@property (nonatomic, assign) NSInteger pageCounter;
 
 +(OffersManager *)sharedInstance;
 
+-(void)clearData;
+
 - (void)uploadImages:(NSArray *)imageArray
-        withSuccess:(UploadSuccessBlock)success
-        withFailure:(UploadFailureBlock)failure;
+         withSuccess:(UploadSuccessBlock)success
+         withFailure:(UploadFailureBlock)failure;
 
 -(void)updaloadOfferToCloud:(OfferModel *)offer
                 withSuccess:(UploadSuccessBlock)uploadSuccess
@@ -46,5 +49,7 @@ typedef void (^UploadFailureBlock) (id error);
 
 -(void)fetchOfferByID:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess
               failure:(DownloadFailureBlock)downloadFailure;
+
+
 
 @end

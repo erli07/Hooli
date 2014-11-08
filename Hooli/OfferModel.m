@@ -120,7 +120,7 @@
     location.latitude = 40.00;
     location.longitude = -70.00;
     
-    PFFile *theImage = [object objectForKey:kHLOfferModelKeyImage];
+    PFFile *theImage = [object objectForKey:kHLOfferModelKeyThumbNail];
     NSData *imageData = [theImage getData];
     UIImage *image = [UIImage imageWithData:imageData];
     NSString *price = [object objectForKey:kHLOfferModelKeyPrice];
@@ -131,6 +131,32 @@
     NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
     
     return  [self initOfferModelWithOfferId:offerId user:user image:image offerName:offerName price:price category:category description:description location:location];
+}
+
+-(id)initOfferDetailsWithPFObject:(PFObject *)object{
+    
+    CLLocationCoordinate2D location;
+    location.latitude = 40.00;
+    location.longitude = -70.00;
+    
+    NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:4];
+    
+    for (int i=0; i< 4; i++) {
+        
+        PFFile *theImage = [object objectForKey:[NSString stringWithFormat:@"imageFile%d",i]];
+        NSData *imageData = [theImage getData];
+        UIImage *image = [UIImage imageWithData:imageData];
+        [imageArray addObject:image];
+
+    }
+    NSString *price = [object objectForKey:kHLOfferModelKeyPrice];
+    NSString *category = [object objectForKey:kHLOfferModelKeyCategory];
+    PFUser *user = [object objectForKey:kHLOfferModelKeyUser];
+    NSString *description = [object objectForKey:kHLOfferModelKeyDescription];
+    NSString *offerId = [object objectId];
+    NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
+    
+    return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:location];
 }
 
 

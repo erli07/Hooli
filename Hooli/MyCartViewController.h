@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MainCollectionViewFlowLayout.h"
 #import "MainCollectionView.h"
-@interface MyCartViewController : UIViewController
+@interface MyCartViewController : UIViewController<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet MainCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MainCollectionViewFlowLayout *layout;
 

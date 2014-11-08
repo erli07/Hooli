@@ -10,7 +10,8 @@
 #import "HLTheme.h"
 #import "DataSource.h"
 #import "ItemDetailViewController.h"
-@interface HomeViewViewController (){
+#import "OffersManager.h"
+@interface HomeViewViewController ()<UpdateCollectionViewDelegate>{
     
 }
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -25,7 +26,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[OffersManager sharedInstance]setPageCounter:0];
     
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Filter"
@@ -39,12 +40,29 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView configureView];
     self.collectionView.delegate = self;
     self.navigationItem.title = @"Discover";
-    [self.collectionView updateDataFromCloud];
+    [self registerNotifications];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+
+    [self updateCollectionViewData];
 
 }
 
--(void)viewWillAppear:(BOOL)animated{
+#pragma register notification
+
+-(void)registerNotifications{
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateCollectionViewData)
+                                                 name:@"Hooli.reloadHomeData" object:nil];
+}
+
+-(void)updateCollectionViewData{
+    
+    [[OffersManager sharedInstance]clearData];
+    
+    [self.collectionView updateDataFromCloud];
     
 }
 
@@ -81,5 +99,16 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
 }
+
+#pragma scrollview delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height )
+    {
+        [self.collectionView updateDataFromCloud];
+    }
+}
+
 
 @end

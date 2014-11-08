@@ -17,8 +17,12 @@ extern NSString *const kHLOfferCategoryBooks;
 
 extern int const kHLOfferCellHeight;
 extern int const kHLOfferCellWidth;
+extern int const kHLOffersNumberShowAtFirstTime;
 
 extern NSString *const kHLOfferModelKeyImage;
+extern NSString *const kHLOfferModelKeyThumbNail;
+
+
 extern NSString *const kHLOfferModelKeyPrice;
 extern NSString *const kHLOfferModelKeyLikes;
 extern NSString *const kHLOfferModelKeyDescription;
@@ -27,6 +31,10 @@ extern NSString *const kHLOfferModelKeyUser;
 extern NSString *const kHLOfferModelKeyOfferId;
 extern NSString *const kHLOfferModelKeyOfferName;
 
+extern NSString *const kHLOfferPhotoKeyOfferID;
+extern NSString *const kHLOfferPhotKeyPhoto;
 
 extern NSString *const kHLCloudOfferClass;
+extern NSString *const kHLCloudOfferPhotoClass;
+
 @end

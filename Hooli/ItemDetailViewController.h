@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "SMPageControl.h"
 #import <MessageUI/MessageUI.h>
-@interface ItemDetailViewController : UIViewController<UIScrollViewDelegate>
+@protocol UpdateCollectionViewDelegate;
+
+
+@interface ItemDetailViewController : UIViewController<UIScrollViewDelegate,UIAlertViewDelegate>{
+    
+    __weak id <UpdateCollectionViewDelegate> updateCollectionViewDelegate;
+
+}
+@property (nonatomic, weak) id <UpdateCollectionViewDelegate> updateCollectionViewDelegate;
 @property (nonatomic, strong) NSString *offerId;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
@@ -27,4 +35,10 @@
 - (IBAction)addToCart:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *seeMapButton;
 - (IBAction)seeMapButtonClicked:(id)sender;
+@end
+
+@protocol  UpdateCollectionViewDelegate <NSObject>
+
+-(void)updateCollectionViewData;
+
 @end
