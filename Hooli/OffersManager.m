@@ -9,6 +9,7 @@
 #import "OffersManager.h"
 #import "HLConstant.h"
 #import "LocationManager.h"
+#import "HLSettings.h"
 @implementation OffersManager
 @synthesize retrivedObjects = _retrivedObjects;
 @synthesize filterDictionary = _filterDictionary;
@@ -164,6 +165,7 @@
             [offerClass setObject:offer.offerPrice forKey:kHLOfferModelKeyPrice];
             [offerClass setObject:offer.offerCategory forKey:kHLOfferModelKeyCategory];
             [offerClass setObject:offer.offerName forKey:kHLOfferModelKeyOfferName];
+            [offerClass setObject:offer.geoPoint forKey:kHLOfferModelKeyGeoPoint];
             
             [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
@@ -240,9 +242,32 @@
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
     PFUser *user = [PFUser currentUser];
     
-    [query whereKey:@"user" equalTo:user];
+    [query whereKey:kHLOfferModelKeyUser equalTo:user];
+        
+//    filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+//                       kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
+//                       kHLOfferCategoryHomeGoods,kHLFilterDictionarySearchKeyCategory,nil];
+    
+    if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyCategory]){
+        
+        
+        NSString *searchType = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyCategory];
+        [query whereKey:kHLOfferModelKeyCategory containsString:searchType];
+        
+    }
+    
+    else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyWords]){
+        
+        NSString *searchWords = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyWords];
+
+        [query whereKey:kHLOfferModelKeyOfferName containsString:searchWords];
+        
+      //  [query whereKey:kHLOfferModelKeyDescription containsString:searchWords];
+    }
+    
     [query setLimit:kHLOffersNumberShowAtFirstTime];
     [query setSkip:kHLOffersNumberShowAtFirstTime * self.pageCounter];
+    [query whereKey:kHLOfferModelKeyGeoPoint nearGeoPoint:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] withinMiles:[[HLSettings sharedInstance]preferredDistance]];
     // [query whereKey:kHLOfferModelKeyCategory equalTo:@"Home Goods"];
     [query orderByAscending:@"createdAt"];
     //  [query orderByDescending:@"createdAt"];
@@ -289,9 +314,6 @@
 
 -(NSArray *)parseFethcedObjects:(NSMutableArray *)objects{
     
-    CLLocationCoordinate2D location;
-    location.latitude = 40.00;
-    location.longitude = -70.00;
     // Iterate over all images and get the data from the PFFile
     for (int i = kHLOffersNumberShowAtFirstTime * self.pageCounter; i < objects.count; i++) {
         
@@ -359,4 +381,33 @@
 
 }
 
+-(void)fetchOffersByDistance:(double)distance withSuccess:(DownloadSuccessBlock)dowloadSuccess
+                     failure:(DownloadFailureBlock)downloadFailure{
+    
+    _dowloadSuccess = dowloadSuccess ;
+    _downloadFailure = downloadFailure;
+    
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
+    PFGeoPoint *geoPoint = [[PFGeoPoint alloc]init];
+    geoPoint.latitude = [[LocationManager sharedInstance]currentLocation].latitude;
+    geoPoint.longitude = [[LocationManager sharedInstance]currentLocation].longitude;
+    [query whereKey:kHLOfferModelKeyOfferId nearGeoPoint:geoPoint withinKilometers:distance];
+    [query orderByAscending:@"createdAt"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            _dowloadSuccess(objects);
+            
+        } else {
+            // Log details of the failure
+            _downloadFailure(error);
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+        
+    }];
+
+    
+}
 @end

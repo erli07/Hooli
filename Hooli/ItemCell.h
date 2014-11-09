@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *distanceBackground;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @property (nonatomic, strong) NSString *offerId;
+@property (weak, nonatomic) IBOutlet UIImageView *shadowView;
 
 - (IBAction)likesButtonClicked:(id)sender;
 

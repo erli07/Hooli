@@ -18,6 +18,7 @@
 @synthesize offerName = _offerName;
 @synthesize offerLikesNum = _offerLikesNum;
 @synthesize imageArray = _imageArray;
+@synthesize geoPoint = _geoPoint;
 
 -(id)initOfferModelWithUser:(PFObject *)user
                       image:(UIImage *)image
@@ -37,6 +38,9 @@
         _offerDescription = offerDescription;
         _offerPrice = offerPrice;
         _offerLocation = offerLocation;
+        _geoPoint = [[PFGeoPoint alloc]init];
+        _geoPoint.latitude = offerLocation.latitude;
+        _geoPoint.longitude = offerLocation.longitude;
     }
     return self;
     
@@ -61,6 +65,9 @@
         _offerDescription = offerDescription;
         _offerPrice = offerPrice;
         _offerLocation = offerLocation;
+        _geoPoint = [[PFGeoPoint alloc]init];
+        _geoPoint.latitude = offerLocation.latitude;
+        _geoPoint.longitude = offerLocation.longitude;
     }
     return self;
     
@@ -116,10 +123,6 @@
 
 -(id)initOfferWithPFObject:(PFObject *)object{
     
-    CLLocationCoordinate2D location;
-    location.latitude = 40.00;
-    location.longitude = -70.00;
-    
     PFFile *theImage = [object objectForKey:kHLOfferModelKeyThumbNail];
     NSData *imageData = [theImage getData];
     UIImage *image = [UIImage imageWithData:imageData];
@@ -129,25 +132,28 @@
     NSString *description = [object objectForKey:kHLOfferModelKeyDescription];
     NSString *offerId = [object objectId];
     NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
+    PFGeoPoint *geoPoint =  [object objectForKeyedSubscript:kHLOfferModelKeyGeoPoint];
+    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
     
     return  [self initOfferModelWithOfferId:offerId user:user image:image offerName:offerName price:price category:category description:description location:location];
 }
 
 -(id)initOfferDetailsWithPFObject:(PFObject *)object{
     
-    CLLocationCoordinate2D location;
-    location.latitude = 40.00;
-    location.longitude = -70.00;
-    
     NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:4];
     
     for (int i=0; i< 4; i++) {
         
         PFFile *theImage = [object objectForKey:[NSString stringWithFormat:@"imageFile%d",i]];
-        NSData *imageData = [theImage getData];
-        UIImage *image = [UIImage imageWithData:imageData];
-        [imageArray addObject:image];
-
+        
+        if(theImage){
+            
+            NSData *imageData = [theImage getData];
+            UIImage *image = [UIImage imageWithData:imageData];
+            [imageArray addObject:image];
+            
+        }
+        
     }
     NSString *price = [object objectForKey:kHLOfferModelKeyPrice];
     NSString *category = [object objectForKey:kHLOfferModelKeyCategory];
@@ -155,6 +161,8 @@
     NSString *description = [object objectForKey:kHLOfferModelKeyDescription];
     NSString *offerId = [object objectId];
     NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
+    PFGeoPoint *geoPoint =  [object objectForKeyedSubscript:kHLOfferModelKeyGeoPoint];
+    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
     
     return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:location];
 }

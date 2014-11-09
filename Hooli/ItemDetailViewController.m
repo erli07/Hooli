@@ -28,17 +28,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden = NO;
-    
-    self.title = @"Item Detail";
-    
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"Delete"
-                                       style:UIBarButtonItemStyleDone
-                                       target:self
-                                       action:@selector(deleteSelf)];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
-    
+
+    [self configureUIElements];
     
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
@@ -56,7 +47,6 @@
                                                   
                                                   self.offerObject = (PFObject *)downloadObject;
                                                   
-                                                  [self configureUIElements];
                                                   
                                                   [self updateOfferDetailInfo];
                                                   
@@ -92,6 +82,18 @@
     
     OfferModel *offerModel = [[OfferModel alloc]initOfferDetailsWithPFObject:self.offerObject];
     
+    if ([[[offerModel user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
+        
+        UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                           initWithTitle:@"Delete"
+                                           style:UIBarButtonItemStyleDone
+                                           target:self
+                                           action:@selector(deleteSelf)];
+        self.navigationItem.rightBarButtonItem = rightBarButton;
+        
+    }
+
+    
     self.itemNameLabel.text =  offerModel.offerName;
     
     NSString *distanceText = [[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
@@ -111,21 +113,24 @@
 
 -(void)configureUIElements{
     
+    self.navigationController.navigationBar.hidden = NO;
+    self.title = @"Item Detail";
     
     [self.parentScrollView setScrollEnabled:YES];
     [self.parentScrollView setContentSize:self.contentView.frame.size];
     
-    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
-    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateHighlighted];
-    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+//    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
+//    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateHighlighted];
+//    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
-    UIImage* buttonImage = [[UIImage imageNamed:@"button"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    UIImage* buttonPressedImage = [[UIImage imageNamed:@"button-pressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    
+    UIImage* buttonImage = [[UIImage imageNamed:@"button-pressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    UIImage* buttonPressedImage = [[UIImage imageNamed:@"button"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     [self.addToCartButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [self.addToCartButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
     self.addToCartButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
-    
+    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
+
     self.itemNameLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     self.offerDescription.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     self.locationLabel.font =[UIFont fontWithName:[HLTheme mainFont] size:15.0f];
@@ -215,16 +220,6 @@
 
 - (IBAction)addToCart:(id)sender {
     
-    
-}
-- (IBAction)seeMapButtonClicked:(id)sender {
-    
-    [self performSegueWithIdentifier:@"map" sender:self];
-    
-    
-}
-- (IBAction)askQuestion:(id)sender {
-    
     MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
     mailVC.mailComposeDelegate = self;
     [mailVC setSubject:@"My Subject"];
@@ -236,6 +231,16 @@
         [self presentViewController:mailVC animated:YES completion:^{
             
         }];
+
+}
+- (IBAction)seeMapButtonClicked:(id)sender {
+    
+    [self performSegueWithIdentifier:@"map" sender:self];
+    
+    
+}
+- (IBAction)askQuestion:(id)sender {
+    
     
 }
 

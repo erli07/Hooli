@@ -7,7 +7,7 @@
 //
 
 #import "MyProfileViewController.h"
-
+#import "HLTheme.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -23,27 +23,16 @@
     // Do any additional setup after loading the view.
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    
-    self.navigationController.navigationBarHidden = YES;
-}
-
 -(void)addUIElements{
     
-    
-    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(110, 100, 100, 100)];
+    self.navigationController.navigationBarHidden = NO;
+    self.title = @"Profile";
+    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(110, 80, 100, 100)];
     self.profilePictureView.layer.cornerRadius = self.profilePictureView.frame.size.height/2;
     self.profilePictureView.layer.masksToBounds = YES;
-    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 200, 200, 50)];
+    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 180, 200, 50)];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
-    self.logoutButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.logoutButton  addTarget:self
-                           action:@selector(logoutFB)
-                 forControlEvents:UIControlEventTouchUpInside];
-    [self.logoutButton  setTitle:@"Log out" forState:UIControlStateNormal];
-    self.logoutButton.frame = CGRectMake(110, 380, 100, 40);
-
-    [self.view addSubview:self.logoutButton];
+    [self.nameLabel setFont: [UIFont fontWithName:[HLTheme mainFont] size:17.0f]];
     [self.view addSubview:self.profilePictureView];
     [self.view addSubview:self.nameLabel];
     
@@ -58,7 +47,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
     UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     [self presentViewController:vc animated:YES completion:nil];
-   // [self.navigationController popToRootViewControllerAnimated:YES];
+    // [self.navigationController popToRootViewControllerAnimated:YES];
 }
 #pragma mark -
 #pragma mark Data
@@ -133,4 +122,87 @@
     }
 }
 
+#pragma mark tableview delegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if(indexPath.section == 2){
+        
+        UIAlertView *logoutAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        logoutAlert.delegate = self;
+        [logoutAlert show];
+        
+    }
+    
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
+    
+    if(indexPath.section == 0){
+        
+        cell.textLabel.text = @"Help Center";
+        
+    }
+    else if(indexPath.section == 1){
+        
+        if(indexPath.row == 0){
+            
+            cell.textLabel.text = @"My Profile";
+            
+        }
+        else{
+            
+            cell.textLabel.text = @"Settings";
+            
+        }
+    }
+    else{
+        
+        cell.textLabel.text = @"Log Out";
+        
+    }
+    
+    [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+    cell.textLabel.textColor = [HLTheme mainColor];
+    
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    if(section == 0)
+        return 1;
+    else if(section == 1)
+        return 2;
+    else
+        return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return  3;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    
+    [view setBackgroundColor:[UIColor clearColor]]; //your background color...
+    return view;
+}
+
+#pragma mark alert view delegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if(buttonIndex == 0){
+        
+    }
+    else{
+        
+        [self logoutFB];
+    }
+}
 @end

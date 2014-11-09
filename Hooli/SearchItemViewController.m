@@ -10,6 +10,8 @@
 #import "DataSource.h"
 #import "HLTheme.h"
 #import "OfferCategory.h"
+#import "OffersManager.h"
+#import "SearchResultViewController.h"
 @interface SearchItemViewController ()
 
 @end
@@ -60,10 +62,29 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *cellText = selectedCell.textLabel.text;
+    
+     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                        kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
+                        cellText,kHLFilterDictionarySearchKeyCategory,nil];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+    
+    [self performSegueWithIdentifier:@"searchResult" sender:self];
+
+
     //
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    
+    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      kHLFilterDictionarySearchKeyWords, kHLFilterDictionarySearchType,
+                                      searchBar.text,kHLFilterDictionarySearchKeyWords,nil];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+
     
     [self performSegueWithIdentifier:@"searchResult" sender:self];
     
@@ -72,6 +93,17 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     
     [self.searchBar resignFirstResponder];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{    
+    [self.searchBar setShowsCancelButton:YES animated:YES];
+}
+
+
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [self.searchBar setShowsCancelButton:NO animated:YES];
 }
 /*
 // Override to support conditional editing of the table view.

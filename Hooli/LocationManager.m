@@ -7,7 +7,7 @@
 //
 
 #import "LocationManager.h"
-
+#import <Parse/Parse.h>
 @interface LocationManager ()
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @end
@@ -77,6 +77,15 @@
         return @"< 2 mi.";
     else
         return @"< 1 mi.";
+}
+
+-(PFGeoPoint *)getCurrentLocationGeoPoint{
+    
+    PFGeoPoint *geoPoint = [[PFGeoPoint alloc]init];
+    geoPoint.latitude = self.currentLocation.latitude;
+    geoPoint.longitude = self.currentLocation.longitude;
+    
+    return geoPoint;
 }
 
 #pragma mark - CLLocationManagerDelegate methods

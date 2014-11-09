@@ -49,7 +49,8 @@ typedef void (^UploadFailureBlock) (id error);
 
 -(void)fetchOfferByID:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess
               failure:(DownloadFailureBlock)downloadFailure;
-
+-(void)fetchOffersByDistance:(double)distance withSuccess:(DownloadSuccessBlock)dowloadSuccess
+              failure:(DownloadFailureBlock)downloadFailure;
 
 
 @end

@@ -10,6 +10,7 @@
 #import "ItemDetailViewController.h"
 #import "ItemCell.h"
 #import "HLTheme.h"
+#import "OffersManager.h"
 @interface SearchResultViewController ()
 
 @end
@@ -24,13 +25,21 @@
     [self.collectionView configureView];
     self.collectionView.delegate = self;
     self.navigationItem.title = @"Result";
-    [self.collectionView updateDataFromCloud];
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [self updateCollectionViewData];
+    
+}
+
+-(void)updateCollectionViewData{
+    
+    [[OffersManager sharedInstance]clearData];
+    
+    [self.collectionView updateDataFromCloud];
+    
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

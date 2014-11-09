@@ -25,6 +25,6 @@
 
 +(NSArray *)allCategories{
     
-    return [[NSArray alloc]initWithObjects:kHLOfferCategoryHomeGoods,kHLOfferCategoryFurniture,kHLOfferCategoryBabyKids,kHLOfferCategoryBooks,nil];
+    return [[NSArray alloc]initWithObjects:kHLOfferCategoryHomeGoods,kHLOfferCategoryFurniture,kHLOfferCategoryBabyKids,kHLOfferCategoryBooks,kHLOfferCategoryClothes,kHLOfferCategoryCollectiblesArt,kHLOfferCategoryElectronics,kHLOfferCategorySportingGoods,kHLOfferCategoryOther,nil];
 }
 @end

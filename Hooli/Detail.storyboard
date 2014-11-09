@@ -33,7 +33,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="j97-W2-0Sx">
-                                        <rect key="frame" x="0.0" y="-1" width="320" height="570"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" id="sVS-4r-xKl">
@@ -55,7 +55,7 @@
                                                     <view contentMode="scaleToFill" id="LEs-X2-OTS" customClass="SMPageControl">
                                                         <rect key="frame" x="126" y="4" width="68" height="16"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -66,22 +66,10 @@
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="Frf-wQ-mUW">
-                                                <rect key="frame" x="0.0" y="458" width="320" height="1"/>
+                                                <rect key="frame" x="0.0" y="444" width="320" height="1"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WKH-hQ-Kzv">
-                                                <rect key="frame" x="45" y="468" width="231" height="38"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                <state key="normal" title="Make an offer" backgroundImage="button.png">
-                                                    <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="addToCart:" destination="77g-qC-D7O" eventType="touchUpInside" id="Zgi-cc-acf"/>
-                                                </connections>
-                                            </button>
                                             <view contentMode="scaleToFill" id="jxL-0f-mQV">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -120,14 +108,14 @@
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c0d-D6-kgT">
-                                                <rect key="frame" x="10" y="363" width="304" height="68"/>
+                                                <rect key="frame" x="20" y="363" width="280" height="49"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NfI-BV-9ER">
-                                                <rect key="frame" x="221" y="430" width="78" height="30"/>
+                                                <rect key="frame" x="234" y="415" width="78" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <state key="normal" title="See in Map">
@@ -137,26 +125,25 @@
                                                     <action selector="seeMapButtonClicked:" destination="77g-qC-D7O" eventType="touchUpInside" id="6dX-1c-X4s"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mBf-rB-wvt">
-                                                <rect key="frame" x="45" y="520" width="231" height="37"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                <state key="normal" title="Ask question" backgroundImage="button.png">
-                                                    <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="addToCart:" destination="77g-qC-D7O" eventType="touchUpInside" id="zmv-iC-uXm"/>
-                                                    <action selector="askQuestion:" destination="77g-qC-D7O" eventType="touchUpInside" id="ygl-dX-k0G"/>
-                                                </connections>
-                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mTc-zl-rGP">
-                                                <rect key="frame" x="10" y="434" width="183" height="21"/>
+                                                <rect key="frame" x="8" y="421" width="183" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WKH-hQ-Kzv">
+                                                <rect key="frame" x="50" y="453" width="231" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                <state key="normal" title="Make an offer" backgroundImage="button.png">
+                                                    <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addToCart:" destination="77g-qC-D7O" eventType="touchUpInside" id="Zgi-cc-acf"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -168,7 +155,6 @@
                     <navigationItem key="navigationItem" id="Ora-Cm-AdR"/>
                     <connections>
                         <outlet property="addToCartButton" destination="WKH-hQ-Kzv" id="gsa-sK-c4t"/>
-                        <outlet property="askQuestionButton" destination="mBf-rB-wvt" id="9bH-P6-re7"/>
                         <outlet property="categoryLabel" destination="yZu-fU-gVe" id="e96-tT-9Z4"/>
                         <outlet property="contentView" destination="7Lb-uX-yZt" id="7vp-lO-oBr"/>
                         <outlet property="itemNameLabel" destination="dAf-Fd-LF2" id="wD8-wu-6O5"/>

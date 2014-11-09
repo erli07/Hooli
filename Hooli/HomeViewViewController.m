@@ -11,6 +11,7 @@
 #import "DataSource.h"
 #import "ItemDetailViewController.h"
 #import "OffersManager.h"
+#import "HLSettings.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate>{
     
 }
@@ -27,6 +28,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[OffersManager sharedInstance]setPageCounter:0];
+    [[HLSettings sharedInstance]setPreferredDistance:25];
     
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Filter"
@@ -41,6 +43,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.collectionView.delegate = self;
     self.navigationItem.title = @"Discover";
     [self registerNotifications];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -59,6 +62,8 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)updateCollectionViewData{
+    
+    [[OffersManager sharedInstance]setFilterDictionary:nil];
     
     [[OffersManager sharedInstance]clearData];
     

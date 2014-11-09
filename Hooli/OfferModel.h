@@ -30,6 +30,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *offerCategory;
 @property (nonatomic) CLLocationCoordinate2D offerLocation;
 @property (nonatomic, strong) NSString *offerLikesNum;
+@property (nonatomic, strong) PFGeoPoint *geoPoint;
 
 
 

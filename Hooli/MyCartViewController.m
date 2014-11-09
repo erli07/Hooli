@@ -51,6 +51,8 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)updateCollectionViewData{
     
+    [[OffersManager sharedInstance]setFilterDictionary:nil];
+    
     [[OffersManager sharedInstance]clearData];
     
     [self.collectionView updateDataFromCloud];

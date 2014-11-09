@@ -12,6 +12,11 @@
 		0E0019CF1A0B3DF30086CD77 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019CE1A0B3DF30086CD77 /* image.png */; };
 		0E0019D11A0B3F660086CD77 /* Ariel1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019D01A0B3F660086CD77 /* Ariel1.png */; };
 		0E0019D41A0C95B20086CD77 /* MyCartCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0019D31A0C95B20086CD77 /* MyCartCollectionView.m */; };
+		0E0019D71A0E91CD0086CD77 /* OfferFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0019D61A0E91CD0086CD77 /* OfferFilterViewController.m */; };
+		0E0019DE1A0E948F0086CD77 /* sliderMaxTrack.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019D81A0E948F0086CD77 /* sliderMaxTrack.png */; };
+		0E0019DF1A0E948F0086CD77 /* sliderMaxTrack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019D91A0E948F0086CD77 /* sliderMaxTrack@2x.png */; };
+		0E0019E01A0E948F0086CD77 /* sliderMinTrack.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019DA1A0E948F0086CD77 /* sliderMinTrack.png */; };
+		0E0019E11A0E948F0086CD77 /* sliderMinTrack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0019DB1A0E948F0086CD77 /* sliderMinTrack@2x.png */; };
 		0E17BED419FC8BAE0042C4DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BED319FC8BAE0042C4DD /* main.m */; };
 		0E17BED719FC8BAE0042C4DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E17BED619FC8BAE0042C4DD /* AppDelegate.m */; };
 		0E17BEDD19FC8BAE0042C4DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E17BEDB19FC8BAE0042C4DD /* Main.storyboard */; };
@@ -114,6 +119,12 @@
 		0E0019D01A0B3F660086CD77 /* Ariel1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ariel1.png; sourceTree = "<group>"; };
 		0E0019D21A0C95B20086CD77 /* MyCartCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCartCollectionView.h; sourceTree = "<group>"; };
 		0E0019D31A0C95B20086CD77 /* MyCartCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCartCollectionView.m; sourceTree = "<group>"; };
+		0E0019D51A0E91CD0086CD77 /* OfferFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferFilterViewController.h; sourceTree = "<group>"; };
+		0E0019D61A0E91CD0086CD77 /* OfferFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferFilterViewController.m; sourceTree = "<group>"; };
+		0E0019D81A0E948F0086CD77 /* sliderMaxTrack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliderMaxTrack.png; sourceTree = "<group>"; };
+		0E0019D91A0E948F0086CD77 /* sliderMaxTrack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sliderMaxTrack@2x.png"; sourceTree = "<group>"; };
+		0E0019DA1A0E948F0086CD77 /* sliderMinTrack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliderMinTrack.png; sourceTree = "<group>"; };
+		0E0019DB1A0E948F0086CD77 /* sliderMinTrack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sliderMinTrack@2x.png"; sourceTree = "<group>"; };
 		0E17BECE19FC8BAE0042C4DD /* Hooli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hooli.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E17BED219FC8BAE0042C4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E17BED319FC8BAE0042C4DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -433,6 +444,8 @@
 				0E17BEDB19FC8BAE0042C4DD /* Main.storyboard */,
 				0ECAC3BC1A01FA6B002866DE /* HomeTabBarController.h */,
 				0ECAC3BD1A01FA6B002866DE /* HomeTabBarController.m */,
+				0E0019D51A0E91CD0086CD77 /* OfferFilterViewController.h */,
+				0E0019D61A0E91CD0086CD77 /* OfferFilterViewController.m */,
 				0ECAC38E19FF502B002866DE /* MainCollectionViewFlowLayout.h */,
 				0ECAC38F19FF502B002866DE /* MainCollectionViewFlowLayout.m */,
 				0ECAC39119FF5880002866DE /* MainCollectionView.h */,
@@ -511,6 +524,10 @@
 				0E0019D01A0B3F660086CD77 /* Ariel1.png */,
 				0E0019CE1A0B3DF30086CD77 /* image.png */,
 				0E2A12611A05A3DE0036F8EB /* shadow.png */,
+				0E0019D81A0E948F0086CD77 /* sliderMaxTrack.png */,
+				0E0019D91A0E948F0086CD77 /* sliderMaxTrack@2x.png */,
+				0E0019DA1A0E948F0086CD77 /* sliderMinTrack.png */,
+				0E0019DB1A0E948F0086CD77 /* sliderMinTrack@2x.png */,
 				0ECAC36C19FF2A65002866DE /* pageControl-dot-selected@2x.png */,
 				0ECAC36D19FF2A65002866DE /* pageControl-dot@2x.png */,
 				0ECAC35919FF1BCC002866DE /* button-pressed.png */,
@@ -665,14 +682,17 @@
 				0ECAC36E19FF2A65002866DE /* pageControl-dot-selected@2x.png in Resources */,
 				0ECAC35D19FF1BCC002866DE /* button-pressed.png in Resources */,
 				0E0019CF1A0B3DF30086CD77 /* image.png in Resources */,
+				0E0019DE1A0E948F0086CD77 /* sliderMaxTrack.png in Resources */,
 				0ECAC37519FF2B78002866DE /* Details3.png in Resources */,
 				0E17BF9719FE04800042C4DD /* pink-heart@2x.png in Resources */,
 				0E17BF9519FE04800042C4DD /* pink-eye@2x.png in Resources */,
+				0E0019E01A0E948F0086CD77 /* sliderMinTrack.png in Resources */,
 				0E17BF9419FE04800042C4DD /* pink-eye.png in Resources */,
 				0E17BF9A19FE04800042C4DD /* tab3.png in Resources */,
 				0ECAC3B41A01CA2F002866DE /* CategoryCell.xib in Resources */,
 				0ECAC37419FF2B78002866DE /* Details2.png in Resources */,
 				0E17BF8F19FE04800042C4DD /* collections2.png in Resources */,
+				0E0019E11A0E948F0086CD77 /* sliderMinTrack@2x.png in Resources */,
 				0E17BEE219FC8BAE0042C4DD /* LaunchScreen.xib in Resources */,
 				0E17BF9019FE04800042C4DD /* collections3.png in Resources */,
 				0E17BEDF19FC8BAE0042C4DD /* Images.xcassets in Resources */,
@@ -684,6 +704,7 @@
 				0ECAC36019FF1BCC002866DE /* button@2x.png in Resources */,
 				0E2A12621A05A3DE0036F8EB /* shadow.png in Resources */,
 				0ECAC39C1A01B820002866DE /* Detail.storyboard in Resources */,
+				0E0019DF1A0E948F0086CD77 /* sliderMaxTrack@2x.png in Resources */,
 				0E17BF9119FE04800042C4DD /* collections4.png in Resources */,
 				0E17BF9919FE04800042C4DD /* tab2.png in Resources */,
 				0E17BF9319FE04800042C4DD /* collections6.png in Resources */,
@@ -714,6 +735,7 @@
 				0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */,
 				0E17BF3F19FCA7FF0042C4DD /* HomeViewViewController.m in Sources */,
 				0E2A12651A060A620036F8EB /* ImageManager.m in Sources */,
+				0E0019D71A0E91CD0086CD77 /* OfferFilterViewController.m in Sources */,
 				0E0019D41A0C95B20086CD77 /* MyCartCollectionView.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
 				0E2A12571A052B340036F8EB /* OfferModel.m in Sources */,

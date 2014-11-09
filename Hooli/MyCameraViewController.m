@@ -243,40 +243,13 @@
     //
     self.title = @"Post Item";
     
-    
-    [self.showCameraButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
-    [self.showCameraButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateHighlighted];
-    [self.showCameraButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    //    self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake(60, 100, 200, 200)];
-    //    self.takePhotosButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    //    [self.takePhotosButton  addTarget:self
-    //                               action:@selector(takePhotoClicked)
-    //                     forControlEvents:UIControlEventTouchUpInside];
-    //    [self.takePhotosButton  setTitle:@"Take Photo" forState:UIControlStateNormal];
-    //    self.takePhotosButton.frame = CGRectMake(60, 420, 200, 40);
-    //
-    //    self.selectPhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    //    [self.selectPhotoButton  addTarget:self
-    //                                action:@selector(selectPhotoClicked)
-    //                      forControlEvents:UIControlEventTouchUpInside];
-    //    [self.selectPhotoButton  setTitle:@"Select Photo" forState:UIControlStateNormal];
-    //    self.selectPhotoButton.frame = CGRectMake(60, 420, 200, 40);
-    //
-    //    self.submitButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    //    [self.submitButton  addTarget:self
-    //                           action:@selector(uploadImage)
-    //                 forControlEvents:UIControlEventTouchUpInside];
-    //    [self.submitButton  setTitle:@"Submit" forState:UIControlStateNormal];
-    //    self.submitButton.frame = CGRectMake(60, 420, 200, 40);
-    //
-    //
-    //    [self.view addSubview:self.submitButton];
-    //    [self.view addSubview:self.imageView];
-    //    [self.view addSubview:self.takePhotosButton];
-    //    [self.view addSubview:self.selectPhotoButton];
-    //
-    //    [self.submitButton setHidden:YES];
-    
+    UIImage* buttonImage = [[UIImage imageNamed:@"button-pressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    UIImage* buttonPressedImage = [[UIImage imageNamed:@"button"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [self.showCameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [self.showCameraButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
+    self.showCameraButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
+    [self.showCameraButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.showCameraButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
 }
 

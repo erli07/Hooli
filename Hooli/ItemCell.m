@@ -39,6 +39,12 @@
     
     self.contentView.backgroundColor = [UIColor whiteColor];
     
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.shadowView.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor clearColor] CGColor], (id)[[UIColor blackColor] CGColor], nil];
+    [self.shadowView.layer insertSublayer:gradient atIndex:0];
+    
+    
 }
 
 -(void)updateCellWithData:(NSDictionary*)data{
