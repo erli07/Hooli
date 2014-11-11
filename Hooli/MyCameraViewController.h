@@ -18,8 +18,5 @@
 @property (weak, nonatomic) IBOutlet UIView *postItemView;
 @property (weak, nonatomic) IBOutlet UITextField *categoryTextView;
 
-@property (nonatomic, strong) UIImage *image1;
-@property (nonatomic, strong) UIImage *image2;
-@property (nonatomic, strong) UIImage *image3;
-@property (nonatomic, strong) UIImage *image4;
+
 @end

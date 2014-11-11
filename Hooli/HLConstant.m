@@ -45,6 +45,7 @@ NSString *const kHLOfferPhotKeyPhoto = @"photo";
 
 NSString *const kHLCloudOfferClass = @"Offer";
 NSString *const kHLCloudOfferPhotoClass = @"OfferPhoto";
+NSString *const kHLCloudUserClass = @"User";
 
 NSString *const kHLFilterDictionarySearchType = @"searchType";
 NSString *const kHLFilterDictionarySearchKeyCategory = @"searchByCategory";

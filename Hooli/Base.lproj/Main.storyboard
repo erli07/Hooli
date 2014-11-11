@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Nbw-vX-VSL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -16,10 +16,10 @@
                                 <rect key="frame" x="0.0" y="25" width="320" height="518"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="A few details about this Item" id="zyN-lw-Uij">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="A few details about this Item.." id="zyN-lw-Uij">
                                         <rect key="frame" x="40" y="212" width="240" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.72941176470000002" green="0.86274509799999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -48,10 +48,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="520"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Ariel1.png" id="UEd-8E-pxg">
-                                        <rect key="frame" x="35" y="101" width="250" height="250"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Hooli!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vmi-lX-YGY">
                                         <rect key="frame" x="69" y="359" width="193" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -63,12 +59,17 @@
                                         <rect key="frame" x="77" y="430" width="167" height="39"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Post Item" backgroundImage="button.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="showCameraView:" destination="6le-6j-uIq" eventType="touchUpInside" id="7Vb-mD-sGQ"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Ariel1.png" id="UEd-8E-pxg">
+                                        <rect key="frame" x="40" y="101" width="250" height="250"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.72941176470000002" green="0.86274509799999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -289,7 +290,7 @@
         <!--Home View View Controller-->
         <scene sceneID="1uX-Jx-ZqL">
             <objects>
-                <viewController storyboardIdentifier="HomeVc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="acJ-lg-N4Q" customClass="HomeViewViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="acJ-lg-N4Q" customClass="HomeViewViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BCa-32-WGR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -409,43 +410,25 @@
             <point key="canvasLocation" x="322.66666666666669" y="-170.40000000000001"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="2sU-QR-6GV">
+        <scene sceneID="YSQ-gA-iJF">
             <objects>
-                <navigationController navigationBarHidden="YES" id="Nbw-vX-VSL" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EIt-c2-dvm">
+                <navigationController storyboardIdentifier="HomeNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="AeA-Af-hPt" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Bb-oF-MDf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="hZP-0H-dfI" kind="relationship" relationship="rootViewController" id="6n8-6o-xtt"/>
+                        <segue destination="vfv-ba-WjX" kind="relationship" relationship="rootViewController" id="7px-Xb-09a"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ta3-LF-MG9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H6Z-s2-E4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2396" y="-1687"/>
+            <point key="canvasLocation" x="-1514" y="-1650"/>
         </scene>
-        <!--Login View Controller-->
-        <scene sceneID="EYb-4O-7gq">
-            <objects>
-                <viewController storyboardIdentifier="LoginViewController" id="hZP-0H-dfI" customClass="LoginViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9NZ-vf-CA0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="tsf-lt-IEH"/>
-                    <connections>
-                        <segue destination="vfv-ba-WjX" kind="modal" identifier="loginSuccess" animates="NO" id="p0E-57-5JF"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CMy-Vp-NIX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1606" y="-1715"/>
-        </scene>
-        <!--Home Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="L2H-L6-KQi">
             <objects>
-                <tabBarController storyboardIdentifier="HomeTabBar" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vfv-ba-WjX" customClass="HomeTabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomeTabBar" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vfv-ba-WjX" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Kpw-gB-c37"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="acH-Ol-HAz">
@@ -463,7 +446,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36M-LB-2zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1090" y="-1696"/>
+            <point key="canvasLocation" x="-1099" y="-1696"/>
         </scene>
         <!--Post Item-->
         <scene sceneID="RIY-6e-dOY">

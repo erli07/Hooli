@@ -41,10 +41,10 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
-    self.navigationItem.title = @"Discover";
     [self registerNotifications];
-    
+    self.navigationItem.title = @"Discover";
 }
+
 
 -(void)viewDidAppear:(BOOL)animated{
 

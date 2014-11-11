@@ -70,7 +70,6 @@
 		0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A125C1A05996D0036F8EB /* OfferCategory.m */; };
 		0E2A12601A0599CD0036F8EB /* HLConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A125F1A0599CD0036F8EB /* HLConstant.m */; };
 		0E2A12621A05A3DE0036F8EB /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E2A12611A05A3DE0036F8EB /* shadow.png */; };
-		0E2A12651A060A620036F8EB /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A12641A060A620036F8EB /* ImageManager.m */; };
 		0ECAC35D19FF1BCC002866DE /* button-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC35919FF1BCC002866DE /* button-pressed.png */; };
 		0ECAC35E19FF1BCC002866DE /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC35A19FF1BCC002866DE /* button.png */; };
 		0ECAC35F19FF1BCC002866DE /* button-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC35B19FF1BCC002866DE /* button-pressed@2x.png */; };
@@ -97,7 +96,13 @@
 		0ECAC3B41A01CA2F002866DE /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC3B21A01CA2F002866DE /* CategoryCell.xib */; };
 		0ECAC3BA1A01D4AA002866DE /* CameraOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAC3B81A01D4AA002866DE /* CameraOverlayViewController.m */; };
 		0ECAC3BB1A01D4AA002866DE /* CameraOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC3B91A01D4AA002866DE /* CameraOverlayViewController.xib */; };
-		0ECAC3BE1A01FA6B002866DE /* HomeTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAC3BD1A01FA6B002866DE /* HomeTabBarController.m */; };
+		0EE4997C1A0F4C500046B3C7 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4997B1A0F4C500046B3C7 /* ImageCache.m */; };
+		0EE499801A1010730046B3C7 /* facebooklogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE4997F1A1010730046B3C7 /* facebooklogo@2x.png */; };
+		0EE499821A1016690046B3C7 /* LoginWithFacebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE499811A1016690046B3C7 /* LoginWithFacebook.png */; };
+		0EE499851A1019A40046B3C7 /* ItemOwnerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE499841A1019A40046B3C7 /* ItemOwnerViewController.m */; };
+		0EE4998A1A101A7D0046B3C7 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EE499891A101A7D0046B3C7 /* Login.storyboard */; };
+		0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */; };
+		0EE499941A1029080046B3C7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE499931A1029080046B3C7 /* UserModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,8 +202,6 @@
 		0E2A125E1A0599CD0036F8EB /* HLConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLConstant.h; sourceTree = "<group>"; };
 		0E2A125F1A0599CD0036F8EB /* HLConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLConstant.m; sourceTree = "<group>"; };
 		0E2A12611A05A3DE0036F8EB /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shadow.png; path = ../shadow.png; sourceTree = "<group>"; };
-		0E2A12631A060A620036F8EB /* ImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManager.h; sourceTree = "<group>"; };
-		0E2A12641A060A620036F8EB /* ImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManager.m; sourceTree = "<group>"; };
 		0ECAC35919FF1BCC002866DE /* button-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-pressed.png"; sourceTree = "<group>"; };
 		0ECAC35A19FF1BCC002866DE /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		0ECAC35B19FF1BCC002866DE /* button-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-pressed@2x.png"; sourceTree = "<group>"; };
@@ -235,8 +238,17 @@
 		0ECAC3B71A01D4AA002866DE /* CameraOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraOverlayViewController.h; sourceTree = "<group>"; };
 		0ECAC3B81A01D4AA002866DE /* CameraOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraOverlayViewController.m; sourceTree = "<group>"; };
 		0ECAC3B91A01D4AA002866DE /* CameraOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayViewController.xib; sourceTree = "<group>"; };
-		0ECAC3BC1A01FA6B002866DE /* HomeTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTabBarController.h; sourceTree = "<group>"; };
-		0ECAC3BD1A01FA6B002866DE /* HomeTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTabBarController.m; sourceTree = "<group>"; };
+		0EE4997A1A0F4C500046B3C7 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
+		0EE4997B1A0F4C500046B3C7 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		0EE4997F1A1010730046B3C7 /* facebooklogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "facebooklogo@2x.png"; path = "../facebooklogo@2x.png"; sourceTree = "<group>"; };
+		0EE499811A1016690046B3C7 /* LoginWithFacebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginWithFacebook.png; sourceTree = "<group>"; };
+		0EE499831A1019A40046B3C7 /* ItemOwnerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemOwnerViewController.h; sourceTree = "<group>"; };
+		0EE499841A1019A40046B3C7 /* ItemOwnerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemOwnerViewController.m; sourceTree = "<group>"; };
+		0EE499891A101A7D0046B3C7 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		0EE4998B1A1024A50046B3C7 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
+		0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
+		0EE499921A1029080046B3C7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		0EE499931A1029080046B3C7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,12 +292,12 @@
 			children = (
 				0E2A12521A052AF90036F8EB /* OffersManager.h */,
 				0E2A12531A052AF90036F8EB /* OffersManager.m */,
-				0E2A12631A060A620036F8EB /* ImageManager.h */,
-				0E2A12641A060A620036F8EB /* ImageManager.m */,
 				0E2A12551A052B340036F8EB /* OfferModel.h */,
 				0E2A12561A052B340036F8EB /* OfferModel.m */,
 				0E2A125B1A05996D0036F8EB /* OfferCategory.h */,
 				0E2A125C1A05996D0036F8EB /* OfferCategory.m */,
+				0EE4997A1A0F4C500046B3C7 /* ImageCache.h */,
+				0EE4997B1A0F4C500046B3C7 /* ImageCache.m */,
 			);
 			name = Offer;
 			sourceTree = "<group>";
@@ -429,6 +441,7 @@
 		0E17BF4419FDCD840042C4DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0EE499911A10273F0046B3C7 /* User */,
 				0E0019CC1A0B36920086CD77 /* UI */,
 				0E0019CB1A0B36890086CD77 /* Location */,
 				0E0019CA1A0B36820086CD77 /* Account */,
@@ -442,8 +455,6 @@
 			isa = PBXGroup;
 			children = (
 				0E17BEDB19FC8BAE0042C4DD /* Main.storyboard */,
-				0ECAC3BC1A01FA6B002866DE /* HomeTabBarController.h */,
-				0ECAC3BD1A01FA6B002866DE /* HomeTabBarController.m */,
 				0E0019D51A0E91CD0086CD77 /* OfferFilterViewController.h */,
 				0E0019D61A0E91CD0086CD77 /* OfferFilterViewController.m */,
 				0ECAC38E19FF502B002866DE /* MainCollectionViewFlowLayout.h */,
@@ -473,6 +484,8 @@
 			children = (
 				0E17BF5219FDD1430042C4DD /* MyProfileViewController.h */,
 				0E17BF5319FDD1430042C4DD /* MyProfileViewController.m */,
+				0EE499831A1019A40046B3C7 /* ItemOwnerViewController.h */,
+				0EE499841A1019A40046B3C7 /* ItemOwnerViewController.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -514,6 +527,9 @@
 			children = (
 				0E17BF6219FDFA7F0042C4DD /* LoginViewController.h */,
 				0E17BF6319FDFA7F0042C4DD /* LoginViewController.m */,
+				0EE4998B1A1024A50046B3C7 /* EditProfileViewController.h */,
+				0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */,
+				0EE499891A101A7D0046B3C7 /* Login.storyboard */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -522,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				0E0019D01A0B3F660086CD77 /* Ariel1.png */,
+				0EE4997F1A1010730046B3C7 /* facebooklogo@2x.png */,
 				0E0019CE1A0B3DF30086CD77 /* image.png */,
 				0E2A12611A05A3DE0036F8EB /* shadow.png */,
 				0E0019D81A0E948F0086CD77 /* sliderMaxTrack.png */,
@@ -532,6 +549,7 @@
 				0ECAC36D19FF2A65002866DE /* pageControl-dot@2x.png */,
 				0ECAC35919FF1BCC002866DE /* button-pressed.png */,
 				0ECAC35A19FF1BCC002866DE /* button.png */,
+				0EE499811A1016690046B3C7 /* LoginWithFacebook.png */,
 				0ECAC35B19FF1BCC002866DE /* button-pressed@2x.png */,
 				0ECAC35C19FF1BCC002866DE /* button@2x.png */,
 				0E17BF7F19FE04800042C4DD /* collections1.png */,
@@ -589,6 +607,15 @@
 				0ECAC3B21A01CA2F002866DE /* CategoryCell.xib */,
 			);
 			name = Search;
+			sourceTree = "<group>";
+		};
+		0EE499911A10273F0046B3C7 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				0EE499921A1029080046B3C7 /* UserModel.h */,
+				0EE499931A1029080046B3C7 /* UserModel.m */,
+			);
+			name = User;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -673,6 +700,7 @@
 			files = (
 				0E17BF9619FE04800042C4DD /* pink-heart.png in Resources */,
 				0ECAC36F19FF2A65002866DE /* pageControl-dot@2x.png in Resources */,
+				0EE4998A1A101A7D0046B3C7 /* Login.storyboard in Resources */,
 				0ECAC38D19FF4412002866DE /* ItemCell.xib in Resources */,
 				0ECAC37319FF2B78002866DE /* Details1.png in Resources */,
 				0ECAC35E19FF1BCC002866DE /* button.png in Resources */,
@@ -685,6 +713,7 @@
 				0E0019DE1A0E948F0086CD77 /* sliderMaxTrack.png in Resources */,
 				0ECAC37519FF2B78002866DE /* Details3.png in Resources */,
 				0E17BF9719FE04800042C4DD /* pink-heart@2x.png in Resources */,
+				0EE499821A1016690046B3C7 /* LoginWithFacebook.png in Resources */,
 				0E17BF9519FE04800042C4DD /* pink-eye@2x.png in Resources */,
 				0E0019E01A0E948F0086CD77 /* sliderMinTrack.png in Resources */,
 				0E17BF9419FE04800042C4DD /* pink-eye.png in Resources */,
@@ -693,6 +722,7 @@
 				0ECAC37419FF2B78002866DE /* Details2.png in Resources */,
 				0E17BF8F19FE04800042C4DD /* collections2.png in Resources */,
 				0E0019E11A0E948F0086CD77 /* sliderMinTrack@2x.png in Resources */,
+				0EE499801A1010730046B3C7 /* facebooklogo@2x.png in Resources */,
 				0E17BEE219FC8BAE0042C4DD /* LaunchScreen.xib in Resources */,
 				0E17BF9019FE04800042C4DD /* collections3.png in Resources */,
 				0E17BEDF19FC8BAE0042C4DD /* Images.xcassets in Resources */,
@@ -729,12 +759,10 @@
 			files = (
 				0E17BED719FC8BAE0042C4DD /* AppDelegate.m in Sources */,
 				0E17BF2819FC99800042C4DD /* DataSource.m in Sources */,
-				0ECAC3BE1A01FA6B002866DE /* HomeTabBarController.m in Sources */,
 				0E17BF6419FDFA7F0042C4DD /* LoginViewController.m in Sources */,
 				0E17BF5119FDD1250042C4DD /* MyCameraViewController.m in Sources */,
 				0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */,
 				0E17BF3F19FCA7FF0042C4DD /* HomeViewViewController.m in Sources */,
-				0E2A12651A060A620036F8EB /* ImageManager.m in Sources */,
 				0E0019D71A0E91CD0086CD77 /* OfferFilterViewController.m in Sources */,
 				0E0019D41A0C95B20086CD77 /* MyCartCollectionView.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
@@ -743,7 +771,9 @@
 				0E17BF5719FDD1B20042C4DD /* MapViewController.m in Sources */,
 				0E0019C81A09E5A00086CD77 /* HLSettings.m in Sources */,
 				0ECAC37819FF2BAC002866DE /* AccountManager.m in Sources */,
+				0EE499851A1019A40046B3C7 /* ItemOwnerViewController.m in Sources */,
 				0ECAC36B19FF2983002866DE /* SMPageControl.m in Sources */,
+				0EE4997C1A0F4C500046B3C7 /* ImageCache.m in Sources */,
 				0ECAC36319FF22C6002866DE /* LocationManager.m in Sources */,
 				0E2A12601A0599CD0036F8EB /* HLConstant.m in Sources */,
 				0E0019C51A09E34B0086CD77 /* SelectCategoryTableViewController.m in Sources */,
@@ -751,6 +781,8 @@
 				0ECAC39019FF502B002866DE /* MainCollectionViewFlowLayout.m in Sources */,
 				0E17BED419FC8BAE0042C4DD /* main.m in Sources */,
 				0ECAC3A91A01C51D002866DE /* SearchItemViewController.m in Sources */,
+				0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */,
+				0EE499941A1029080046B3C7 /* UserModel.m in Sources */,
 				0E17BF4E19FDCF0C0042C4DD /* MyCartViewController.m in Sources */,
 				0E17BF5419FDD1430042C4DD /* MyProfileViewController.m in Sources */,
 				0E2A12541A052AF90036F8EB /* OffersManager.m in Sources */,

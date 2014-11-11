@@ -35,9 +35,9 @@
 		<string>armv7</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Ann</string>
+	<string></string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Xun</string>
+	<string></string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

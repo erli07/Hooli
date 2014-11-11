@@ -264,12 +264,11 @@
         
       //  [query whereKey:kHLOfferModelKeyDescription containsString:searchWords];
     }
-    
+    [query orderByAscending:@"createdAt"];
     [query setLimit:kHLOffersNumberShowAtFirstTime];
     [query setSkip:kHLOffersNumberShowAtFirstTime * self.pageCounter];
-    [query whereKey:kHLOfferModelKeyGeoPoint nearGeoPoint:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] withinMiles:[[HLSettings sharedInstance]preferredDistance]];
+//    [query whereKey:kHLOfferModelKeyGeoPoint nearGeoPoint:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] withinMiles:[[HLSettings sharedInstance]preferredDistance]];
     // [query whereKey:kHLOfferModelKeyCategory equalTo:@"Home Goods"];
-    [query orderByAscending:@"createdAt"];
     //  [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

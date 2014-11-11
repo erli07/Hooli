@@ -47,6 +47,7 @@ extern NSString *const kHLOfferPhotKeyPhoto;
 
 extern NSString *const kHLCloudOfferClass;
 extern NSString *const kHLCloudOfferPhotoClass;
+extern NSString *const kHLCloudUserClass;
 
 extern NSString *const kHLFilterDictionarySearchType;
 extern NSString *const kHLFilterDictionarySearchKeyCategory;

@@ -11,6 +11,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "LoginViewController.h"
 #import "LocationManager.h"
+#import "HomeViewViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -21,26 +22,36 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [HLTheme customizeTheme];
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main"
-//                                                         bundle: nil];
-//    UITabBarController *tabController = [storyboard instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-//    [HLTheme customizeTabBar:tabController.tabBar];
+
     [Parse setApplicationId:@"y2TZrSLwWAnuGkMxW8uie1rbFw4X5rHtE39WJrrU" clientKey:@"bn35QolQBYVdLiNRHGUfm79lBzA2MukoBnN1I16k"];
     [PFFacebookUtils initializeFacebook];
     
     [[LocationManager sharedInstance]startLocationUpdate];
     
     
-//    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-//        UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
-//        [HLTheme customizeTabBar:tabController.tabBar];
-//   }
+    
+    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+        
+        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
+        homeNav.navigationBar.hidden = YES;
+        self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        
+        self.window.rootViewController = homeNav;
+        [self.window makeKeyAndVisible];
+        
+    }
+    else{
+        
+        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        UINavigationController *loginNav = [loginSb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
+        
+        self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        
+        self.window.rootViewController = loginNav;
+        [self.window makeKeyAndVisible];
 
-//    UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
-//    [HLTheme customizeTabBar:tabController.tabBar];
-//    self.window.rootViewController = [[LoginViewController alloc]init];
-
-
+    }
     
     return YES;
 }

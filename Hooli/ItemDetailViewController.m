@@ -102,7 +102,16 @@
     self.offerDescription.text = offerModel.offerDescription;
     self.priceLabel.text = offerModel.offerPrice;
     
-    [[AccountManager sharedInstance]setUserProfilePicture:self.profilePicture];
+    [[AccountManager sharedInstance]loadAccountDataWithUserId:offerModel.user.objectId Success:^(id object) {
+        
+        self.profilePicture.image = (UIImage *)object;
+        
+    } Failure:^(id error) {
+        
+        NSLog(@"%@",error);
+        
+    }];
+    
     self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.height/2;
     self.profilePicture.layer.masksToBounds = YES;
     

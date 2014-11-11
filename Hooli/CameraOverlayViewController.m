@@ -13,7 +13,9 @@
 #import "OfferModel.h"
 #import "HLConstant.h"
 #import "ImageManager.h"
-@interface CameraOverlayViewController ()<MBProgressHUDDelegate>{
+#import "MyCameraViewController.h"
+#import "ImageCache.h"
+@interface CameraOverlayViewController ()<MBProgressHUDDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     
     MBProgressHUD *HUD;
 }
@@ -21,15 +23,58 @@
 @end
 
 @implementation CameraOverlayViewController
-@synthesize image1,image2,image3,image4;
+@synthesize image1,image2,image3,image4,photoCount;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (IBAction)selectPhotos:(id)sender {
+    
+    
+    
+
+            
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            [self presentViewController:picker animated:YES completion:NULL];
+            
+    
+
+
+  //  [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.selectPhoto" object:self];
+
+}
+
+#pragma mark - Image Picker Controller delegate methods
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
+    
+    self.photoCount ++;
+    
+    [self setImage:chosenImage withImageIndex:self.photoCount];
+
+    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:photoCount];
+    
+   [picker dismissViewControllerAnimated:YES completion:^{
+      
+   }];
+
 }
 
 
@@ -58,43 +103,35 @@
 - (IBAction)cancelCameraView:(id)sender {
     
     [[HLSettings sharedInstance]setIsPostingOffer:YES];
-
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.cancelCameraView" object:self];
-
+    
 }
 
 - (IBAction)postItem:(id)sender {
-  
-    [[HLSettings sharedInstance]setIsPostingOffer:NO];
     
-//    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] image:image1.image price:@"$100" category:@"Books" description:@"this is a cook book"];
-//    
-//    [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
-//        
-//        
-//    } withFailure:^(id error) {
-//        
-//        
-//    }];
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
-
-//    [[ImageManager sharedInstance]saveImage:image1.image WithName:@"image1"];
-//    [[ImageManager sharedInstance]saveImage:image2.image WithName:@"image2"];
-//    [[ImageManager sharedInstance]saveImage:image3.image WithName:@"image3"];
-//    [[ImageManager sharedInstance]saveImage:image4.image WithName:@"image4"];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.cancelCameraView" object:self];
-
- //   [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.submitOfferToCloud" object:self];
-
-
-//     [self uploadImage:image2];
-//     [self uploadImage:image3];
-//     [self uploadImage:image4];
-   // [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.postItem" object:self];
-
+    
+    if(self.image1.image == nil){
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"You need at least one photo to submit" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
+        
+    }
+    else{
+        
+        [[HLSettings sharedInstance]setIsPostingOffer:NO];
+        
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:HUD];
+        [HUD show:YES];
+        
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.cancelCameraView" object:self];
+        
+        
+    }
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -103,37 +140,37 @@
 
 //- (void)uploadImage:(OfferModel *)offer
 //{
-//    
+//
 //    if(offer.image == nil){
-//        
+//
 //        return;
-//        
+//
 //    }
 //    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
 //    [offer.image drawInRect: CGRectMake(0, 0, 640, 640)];
 //    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
 //    UIGraphicsEndImageContext();
-//    
+//
 //    NSData *imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
-//    
+//
 //    NSLog(@"Image size %u kb", [imageData length]/1024);
 //    PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:imageData];
-//    
+//
 //    // Save PFFile
 //    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 //        if (!error) {
-//            
+//
 //            // Create a PFObject around a PFFile and associate it with the current user
 //            PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
 //            [offerClass setObject:imageFile forKey:kHLCloudImageKeyForOfferClass];
 //            offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-//            
+//
 //            PFUser *user = [PFUser currentUser];
 //            [offerClass setObject:user forKey:kHLCloudUserKeyForOfferClass];
 //            [offerClass setObject:offer.offerDescription forKey:kHLCloudDescriptionKeyForOfferClass];
 //            [offerClass setObject:offer.offerPrice forKey:kHLCloudPriceKeyForOfferClass];
 //            [offerClass setObject:offer.offerCategory forKey:kHLCloudCategoryKeyForOfferClass];
-//            
+//
 //            [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 //                if (!error) {
 //                    // [self refresh:nil];
@@ -149,20 +186,20 @@
 //            NSLog(@"Error: %@ %@", error, [error userInfo]);
 //        }
 //    } progressBlock:^(int percentDone) {
-//        
+//
 //    }];
 //}
 //
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (IBAction)takePicture:(id)sender {
     

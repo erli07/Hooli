@@ -8,6 +8,7 @@
 
 #import "MyProfileViewController.h"
 #import "HLTheme.h"
+#import "AccountManager.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -19,7 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addUIElements];
-    [self loadData];
+    [self updateProfileData];
+    //    [self loadData];
     // Do any additional setup after loading the view.
 }
 
@@ -43,7 +45,7 @@
     [PFUser logOut];
     // Return to login view controller
     
-    NSString * storyboardName = @"Main";
+    NSString * storyboardName = @"Login";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
     UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     [self presentViewController:vc animated:YES completion:nil];
@@ -52,74 +54,24 @@
 #pragma mark -
 #pragma mark Data
 
-- (void)loadData {
-    // If the user is already logged in, display any previously cached values before we get the latest from Facebook.
-    if ([PFUser currentUser]) {
-        [self updateProfileData];
-    }
-    // Send request to Facebook
-    FBRequest *request = [FBRequest requestForMe];
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        // handle response
-        if (!error) {
-            // Parse the data received
-            NSDictionary *userData = (NSDictionary *)result;
-            
-            NSString *facebookID = userData[@"id"];
-            
-            
-            NSMutableDictionary *userProfile = [NSMutableDictionary dictionaryWithCapacity:7];
-            
-            if (facebookID) {
-                userProfile[@"facebookId"] = facebookID;
-            }
-            
-            NSString *name = userData[@"name"];
-            if (name) {
-                userProfile[@"name"] = name;
-            }
-            
-            userProfile[@"pictureURL"] = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID];
-            
-            [[PFUser currentUser] setObject:userProfile forKey:@"profile"];
-            [[PFUser currentUser] saveInBackground];
-            
-            [self updateProfileData];
-        } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
-                    isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
-            NSLog(@"The facebook session was invalidated");
-        } else {
-            NSLog(@"Some other error: %@", error);
-        }
-    }];
-}
-
 // Set received values if they are not nil and reload the table
 - (void)updateProfileData {
     
-    NSString *name = [PFUser currentUser][@"profile"][@"name"];
-    if (name) {
-        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", name];
-    }
+
+        [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
+            
+           
+            self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", [[AccountManager sharedInstance]getUserName]];
+            self.profilePictureView.image = (UIImage *)object;
+            
+            
+        } Failure:^(id error) {
+            
+            NSLog(@"%@",error);
+            
+        }];
     
-    NSString *userProfilePhotoURLString = [PFUser currentUser][@"profile"][@"pictureURL"];
-    // Download the user's facebook profile picture
-    if (userProfilePhotoURLString) {
-        NSURL *pictureURL = [NSURL URLWithString:userProfilePhotoURLString];
-        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:pictureURL];
-        
-        [NSURLConnection sendAsynchronousRequest:urlRequest
-                                           queue:[NSOperationQueue mainQueue]
-                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                   if (connectionError == nil && data != nil) {
-                                       
-                                       self.profilePictureView.image = [UIImage imageWithData:data];
-                                       
-                                   } else {
-                                       NSLog(@"Failed to load profile photo.");
-                                   }
-                               }];
-    }
+    
 }
 
 #pragma mark tableview delegate

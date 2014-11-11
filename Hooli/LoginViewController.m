@@ -8,8 +8,9 @@
 //
 
 #import "LoginViewController.h"
-
+#import "HomeViewViewController.h"
 #import "MBProgressHUD.h"
+#import "AccountManager.h"
 
 @interface LoginViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
@@ -27,8 +28,13 @@
     [self.loginButton  addTarget:self
                           action:@selector(loginFB)
                 forControlEvents:UIControlEventTouchUpInside];
-    [self.loginButton  setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
-    self.loginButton.frame = CGRectMake(60, 380, 200, 40);
+   // [self.loginButton  setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
+    self.loginButton.frame = CGRectMake(60, 380, 214, 41);
+//    self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height/2;
+    self.loginButton.center = CGPointMake(160, 420);
+    [self.loginButton setBackgroundImage:[UIImage imageNamed:@"LoginWithFacebook"] forState:UIControlStateNormal];
+    self.loginButton.layer.masksToBounds = YES;
+    self.navigationController.navigationBar.hidden = YES;
     [self.view addSubview:self.loginButton];
     // Do any additional setup after loading the view.
 }
@@ -38,11 +44,14 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-  [self performSegueWithIdentifier:@"loginSuccess" sender:self];    }
-    
+
+        [self loginSuccess];
+
+    }
 }
 
 - (void)loginFB {
+    
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me", @"user_location"];
     
@@ -77,10 +86,27 @@
             [alert show];
         } else {
             
-            [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+     //       [self dismissViewControllerAnimated:YES completion:^{
+                
+      //          [self loginSuccess];
+                
+                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                
+       //     }];
+            
         }
     }];
     
+}
+
+-(void)loginSuccess{
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    HomeViewViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"editProfile"];
+    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+
 }
 
 /*

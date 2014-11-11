@@ -10,6 +10,7 @@
                 <outlet property="image2" destination="atu-p2-Og5" id="pGB-1q-23A"/>
                 <outlet property="image3" destination="hVJ-6R-9xl" id="9su-yy-Bkk"/>
                 <outlet property="image4" destination="Aoy-lr-0Y2" id="DLl-2c-DZY"/>
+                <outlet property="selectPhoto" destination="q39-zZ-JbY" id="IW1-Kr-D5T"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -74,6 +75,16 @@
                             </state>
                             <connections>
                                 <action selector="takePicture:" destination="-1" eventType="touchUpInside" id="kiL-w9-MAo"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q39-zZ-JbY">
+                            <rect key="frame" x="116" y="192" width="88" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Select Photo">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="selectPhotos:" destination="-1" eventType="touchUpInside" id="otI-mO-3q7"/>
                             </connections>
                         </button>
                     </subviews>

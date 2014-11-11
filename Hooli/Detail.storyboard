@@ -167,11 +167,27 @@
                         <outlet property="scrollView" destination="DP2-OV-CUc" id="MU7-jX-LAF"/>
                         <outlet property="seeMapButton" destination="NfI-BV-9ER" id="pqP-Nk-2mf"/>
                         <segue destination="MVj-wp-YUW" kind="push" identifier="map" id="Fgg-sq-Tau"/>
+                        <segue destination="MuW-JN-yVu" kind="push" identifier="seeOwner" id="F9j-oF-gx1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5C-fh-byp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="625" y="48"/>
+        </scene>
+        <!--Item Owner View Controller-->
+        <scene sceneID="ge3-7e-aHD">
+            <objects>
+                <viewController id="MuW-JN-yVu" customClass="ItemOwnerViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="i15-cA-EyQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="QtT-6k-b2Z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nbZ-9B-2NH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="878" y="-581"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="BQI-Jr-y2g">

@@ -16,6 +16,7 @@
 #import "MBProgressHUD.h"
 #import "ImageManager.h"
 #import "LocationManager.h"
+#import "ImageCache.h"
 #define CAMERA_TRANSFORM_X 1
 //#define CAMERA_TRANSFORM_Y 1.12412 // this was for iOS 3.x
 #define CAMERA_TRANSFORM_Y 1.24299 // this works for iOS 4.x
@@ -39,7 +40,7 @@
 @end
 
 @implementation MyCameraViewController
-@synthesize priceInputBox,itemDetailTextView,itemNameTextField,image1,image2,image3,image4,postItemView;
+@synthesize priceInputBox,itemDetailTextView,itemNameTextField,postItemView;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -49,6 +50,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(takePhotoClicked)
                                                  name:@"Hooli.takephoto" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(selectPhotoFromAlbum)
+                                                 name:@"Hooli.selectPhoto" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(cancelCameraView)
                                                  name:@"Hooli.cancelCameraView" object:nil];
@@ -78,6 +82,11 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    
+    
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     
     [[HLSettings sharedInstance]setCategory:nil];
@@ -89,7 +98,7 @@
     [self.view addSubview:HUD];
     [HUD show:YES];
     
-    NSArray *imagesArray = [NSArray arrayWithObjects:self.image1,self.image2,self.image3,self.image4, nil];
+    NSArray *imagesArray = [[ImageCache sharedInstance]getimagesArray];
     
     OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:self.priceInputBox.text offerName:self.itemNameTextField.text category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation]];
     
@@ -135,6 +144,14 @@
 
 -(void)confirmOffer{
     
+    if([self.itemNameTextField.text isEqualToString: @""] || [self.itemDetailTextView.text isEqualToString:@"" ] || [self.priceInputBox.text isEqualToString:@""]){
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Offer information is missing" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
+    }
+    else{
+
     
     UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Are you sure?"
                                                           message:@"Do you confirm to make this offer?"
@@ -143,7 +160,7 @@
                                                 otherButtonTitles:@"Confirm" , nil];
     [confirmAlert show];
     
-    
+    }
     
 }
 
@@ -183,6 +200,12 @@
             self.categoryTextView.text = @"";
         }
         
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(dismissKeyboards)];
+        
+        [self.view addGestureRecognizer:tap];
+        
+        self.tabBarController.tabBar.hidden=YES;
     }
     
     else{
@@ -201,6 +224,8 @@
         [self.itemDetailTextView resignFirstResponder];
         
         [self.itemNameTextField resignFirstResponder];
+        
+        self.tabBarController.tabBar.hidden = NO;
         
     }
     
@@ -274,14 +299,18 @@
     
 }
 
-- (void)selectPhotoClicked {
+-(void)selectPhotoFromAlbum{
     
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
-    [self presentViewController:picker animated:YES completion:NULL];
+    if(photoCount < 4){
+        
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+
+    }
     
 }
 
@@ -294,7 +323,7 @@
     photoCount ++;
     
     [self.overlayVC setImage:chosenImage withImageIndex:photoCount];
-    [self setImage:chosenImage withImageIndex:photoCount];
+    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:photoCount];
     
     UIGraphicsBeginImageContext(CGSizeMake(640, 640));
     [chosenImage drawInRect: CGRectMake(0, 0, 640, 640)];
@@ -307,27 +336,6 @@
     
 }
 
--(void)setImage:(UIImage *)image withImageIndex:(int)imageIndex{
-    
-    switch (imageIndex) {
-        case 1:
-            self.image1 = image;
-            break;
-        case 2:
-            self.image2 = image;
-            break;
-        case 3:
-            self.image3 = image;
-            break;
-        case 4:
-            self.image4 = image;
-            break;
-            
-        default:
-            break;
-    }
-    
-}
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
@@ -345,9 +353,7 @@
     }
     else if(buttonIndex == 1){
         
-        
         [self submitOfferToCloud];
-        
         
     }
 }
@@ -369,5 +375,14 @@
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     
     self.itemDetailTextView.text = @"";
+}
+
+-(void)dismissKeyboards{
+    
+    [self.itemDetailTextView resignFirstResponder];
+    
+    [self.itemNameTextField resignFirstResponder];
+    
+    [self.priceInputBox resignFirstResponder];
 }
 @end
