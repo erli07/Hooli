@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SMPageControl.h"
 #import <MessageUI/MessageUI.h>
+#import "OfferModel.h"
 @protocol UpdateCollectionViewDelegate;
 
 
@@ -19,6 +20,9 @@
 }
 @property (nonatomic, weak) id <UpdateCollectionViewDelegate> updateCollectionViewDelegate;
 @property (nonatomic, strong) NSString *offerId;
+@property (weak, nonatomic) IBOutlet UIView *offerDetailView;
+@property (nonatomic, strong) OfferModel *offerObject;
+@property (weak, nonatomic) IBOutlet UIView *bottomButtonsView;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
@@ -29,9 +33,9 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *parentScrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet UIButton *askQuestionButton;
-- (IBAction)askQuestion:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet SMPageControl *pageControl;
+- (IBAction)likeButtonPressed:(id)sender;
 - (IBAction)addToCart:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *seeMapButton;
 - (IBAction)seeMapButtonClicked:(id)sender;

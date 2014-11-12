@@ -9,7 +9,7 @@
 #import "HLSettings.h"
 
 @implementation HLSettings
-@synthesize category,isPostingOffer,preferredDistance;
+@synthesize category,isPostingOffer,preferredDistance,isRefreshNeeded;
 +(HLSettings *)sharedInstance{
     
     static HLSettings *_sharedInstance = nil;

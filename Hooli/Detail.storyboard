@@ -28,8 +28,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Gob-r8-OIz">
+                            <view contentMode="scaleToFill" id="zsI-w5-9h6">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WKH-hQ-Kzv">
+                                        <rect key="frame" x="0.0" y="524" width="160" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <state key="normal" title="Like" backgroundImage="button.png">
+                                            <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="likeButtonPressed:" destination="77g-qC-D7O" eventType="touchUpInside" id="pvC-Sc-3hD"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="KCR-Rf-s8T">
+                                        <rect key="frame" x="160" y="524" width="160" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <state key="normal" title="Buy" backgroundImage="button.png">
+                                            <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addToCart:" destination="77g-qC-D7O" eventType="touchUpInside" id="4xX-mU-RL9"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Gob-r8-OIz">
+                                <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="j97-W2-0Sx">
@@ -49,11 +80,11 @@
                                                 <color key="backgroundColor" red="0.92623963649999996" green="0.92623963649999996" blue="0.92623963649999996" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="i0P-Jr-Ar4">
-                                                <rect key="frame" x="0.0" y="340" width="320" height="23"/>
+                                                <rect key="frame" x="0.0" y="340" width="320" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" id="LEs-X2-OTS" customClass="SMPageControl">
-                                                        <rect key="frame" x="126" y="4" width="68" height="16"/>
+                                                        <rect key="frame" x="126" y="4" width="68" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
@@ -61,12 +92,11 @@
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="Svi-8s-UvB">
-                                                <rect key="frame" x="0.0" y="363" width="320" height="1"/>
+                                                <rect key="frame" x="0.0" y="364" width="320" height="1"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="Frf-wQ-mUW">
-                                                <rect key="frame" x="0.0" y="444" width="320" height="1"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
@@ -107,15 +137,15 @@
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.89142219389999999" green="0.89142219389999999" blue="0.89142219389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c0d-D6-kgT">
-                                                <rect key="frame" x="20" y="363" width="280" height="49"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="40" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c0d-D6-kgT">
+                                                <rect key="frame" x="20" y="406" width="280" height="49"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NfI-BV-9ER">
-                                                <rect key="frame" x="234" y="415" width="78" height="30"/>
+                                                <rect key="frame" x="220" y="374" width="80" height="29"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <state key="normal" title="See in Map">
@@ -126,24 +156,12 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mTc-zl-rGP">
-                                                <rect key="frame" x="8" y="421" width="183" height="21"/>
+                                                <rect key="frame" x="20" y="378" width="183" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WKH-hQ-Kzv">
-                                                <rect key="frame" x="50" y="453" width="231" height="44"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                <state key="normal" title="Make an offer" backgroundImage="button.png">
-                                                    <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="addToCart:" destination="77g-qC-D7O" eventType="touchUpInside" id="Zgi-cc-acf"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -154,12 +172,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ora-Cm-AdR"/>
                     <connections>
-                        <outlet property="addToCartButton" destination="WKH-hQ-Kzv" id="gsa-sK-c4t"/>
+                        <outlet property="addToCartButton" destination="KCR-Rf-s8T" id="Ysh-ua-Tc5"/>
+                        <outlet property="bottomButtonsView" destination="zsI-w5-9h6" id="oFe-wq-tfj"/>
                         <outlet property="categoryLabel" destination="yZu-fU-gVe" id="e96-tT-9Z4"/>
                         <outlet property="contentView" destination="7Lb-uX-yZt" id="7vp-lO-oBr"/>
                         <outlet property="itemNameLabel" destination="dAf-Fd-LF2" id="wD8-wu-6O5"/>
+                        <outlet property="likeButton" destination="WKH-hQ-Kzv" id="jNE-98-hWM"/>
                         <outlet property="locationLabel" destination="mTc-zl-rGP" id="Oqz-hg-ClM"/>
                         <outlet property="offerDescription" destination="c0d-D6-kgT" id="Vdj-yB-dZz"/>
+                        <outlet property="offerDetailView" destination="j97-W2-0Sx" id="k5u-ze-eGd"/>
                         <outlet property="pageControl" destination="LEs-X2-OTS" id="j3A-to-0eq"/>
                         <outlet property="parentScrollView" destination="Gob-r8-OIz" id="0xt-1C-4wo"/>
                         <outlet property="priceLabel" destination="bli-RI-ENv" id="zN4-2y-XHJ"/>
@@ -172,7 +193,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5C-fh-byp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="625" y="48"/>
+            <point key="canvasLocation" x="625" y="47.999999999999993"/>
         </scene>
         <!--Item Owner View Controller-->
         <scene sceneID="ge3-7e-aHD">
@@ -187,19 +208,19 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nbZ-9B-2NH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="878" y="-581"/>
+            <point key="canvasLocation" x="878" y="-580.99999999999989"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="BQI-Jr-y2g">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="MVj-wp-YUW" customClass="MapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="STI-DR-xg7">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="5D3-Xa-Zxd">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" id="5D3-Xa-Zxd">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -211,7 +232,21 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IgQ-dc-ceI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1064" y="83"/>
+            <point key="canvasLocation" x="1064" y="82.999999999999986"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ZU7-Cy-gPM">
+            <objects>
+                <viewController id="QS4-EQ-20a" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oye-oS-sas">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NK4-Tg-z8I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="224" y="-627"/>
         </scene>
     </scenes>
     <resources>

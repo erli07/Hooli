@@ -9,6 +9,7 @@
 #import "MyProfileViewController.h"
 #import "HLTheme.h"
 #import "AccountManager.h"
+#import "LoginViewController.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -47,8 +48,9 @@
     
     NSString * storyboardName = @"Login";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-    UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    [self presentViewController:vc animated:YES completion:nil];
+    LoginViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    
+    [self.navigationController pushViewController:vc animated:YES];
     // [self.navigationController popToRootViewControllerAnimated:YES];
 }
 #pragma mark -

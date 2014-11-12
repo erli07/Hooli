@@ -15,56 +15,72 @@
 #import "LocationManager.h"
 #import "HLConstant.h"
 #import "MBProgressHUD.h"
+#import "HLSettings.h"
+#import "MapViewController.h"
+
+#define kScrollViewOffset 44
+#define kBottomButtonOffset 44
+
 @interface ItemDetailViewController ()<MFMailComposeViewControllerDelegate>
 {
     MBProgressHUD *HUD;
 }
-@property (nonatomic, strong) PFObject *offerObject;
+@property (nonatomic) CLLocationCoordinate2D offerLocation;
 
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,updateCollectionViewDelegate;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
+    
     [self configureUIElements];
     
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
-    
-    
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
+    if(!self.offerObject){
         
-        [[OffersManager sharedInstance]fetchOfferByID:self.offerId
-                                          withSuccess:^(id downloadObject) {
-                                              
-                                              // Dispatch to main thread to update the UI
-                                              dispatch_async(dispatch_get_main_queue(), ^{
+        self.bottomButtonsView.hidden = NO;
+        
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:HUD];
+        [HUD show:YES];
+
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            
+            [[OffersManager sharedInstance]fetchOfferByID:self.offerId
+                                              withSuccess:^(id downloadObject) {
                                                   
-                                                  self.offerObject = (PFObject *)downloadObject;
+                                                  // Dispatch to main thread to update the UI
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      
+                                                      OfferModel *offerModel = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
+                                                      
+                                                      [self updateOfferDetailInfo:offerModel];
+                                                      
+                                                      [HUD hide:YES];
+                                                      
+                                                  });
                                                   
+                                              } failure:^(id error) {
                                                   
-                                                  [self updateOfferDetailInfo];
+                                                  NSLog(@"%@",[error description]);
                                                   
                                                   [HUD hide:YES];
                                                   
-                                              });
-                                              
-                                          } failure:^(id error) {
-                                              
-                                              NSLog(@"%@",[error description]);
-                                              
-                                              [HUD hide:YES];
-                                              
-                                          }];
+                                              }];
+            
+        });
         
-    });
-    
-    
+    }else{
+        
+        self.bottomButtonsView.hidden = YES;
+
+        [self.parentScrollView setContentSize:self.contentView.frame.size];
+        
+        [self updateOfferDetailInfo:self.offerObject];
+        
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -78,9 +94,9 @@
     
 }
 
--(void)updateOfferDetailInfo{
+-(void)updateOfferDetailInfo:(OfferModel *)offerModel{
     
-    OfferModel *offerModel = [[OfferModel alloc]initOfferDetailsWithPFObject:self.offerObject];
+    self.tabBarController.tabBar.hidden=YES;
     
     if ([[[offerModel user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
         
@@ -92,7 +108,7 @@
         self.navigationItem.rightBarButtonItem = rightBarButton;
         
     }
-
+    
     
     self.itemNameLabel.text =  offerModel.offerName;
     
@@ -100,6 +116,7 @@
     self.locationLabel.text = [NSString stringWithFormat:@"Location: %@", distanceText];
     self.categoryLabel.text = [NSString stringWithFormat:@"In %@",offerModel.offerCategory];
     self.offerDescription.text = offerModel.offerDescription;
+    [self.offerDescription sizeToFit];
     self.priceLabel.text = offerModel.offerPrice;
     
     [[AccountManager sharedInstance]loadAccountDataWithUserId:offerModel.user.objectId Success:^(id object) {
@@ -112,10 +129,16 @@
         
     }];
     
+    CGRect newFrame = self.contentView.frame;
+    newFrame.size.height = self.offerDescription.frame.size.height + self.offerDescription.frame.origin.y + kScrollViewOffset;
+    self.contentView.frame = newFrame;
+    [self.parentScrollView setContentSize:newFrame.size];
+
     self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.height/2;
     self.profilePicture.layer.masksToBounds = YES;
     
     [self setOffersScrollViewWithImageArray:offerModel.imageArray];
+    self.offerLocation = offerModel.offerLocation;
     
 }
 
@@ -128,9 +151,9 @@
     [self.parentScrollView setScrollEnabled:YES];
     [self.parentScrollView setContentSize:self.contentView.frame.size];
     
-//    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
-//    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateHighlighted];
-//    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    //    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
+    //    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateHighlighted];
+    //    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
     UIImage* buttonImage = [[UIImage imageNamed:@"button-pressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     UIImage* buttonPressedImage = [[UIImage imageNamed:@"button"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
@@ -139,10 +162,16 @@
     self.addToCartButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
     [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
-
+    
+    [self.likeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [self.likeButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
+    self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
+    [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.likeButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
+    
     self.itemNameLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     self.offerDescription.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
-    self.locationLabel.font =[UIFont fontWithName:[HLTheme mainFont] size:15.0f];
+    self.locationLabel.font =[UIFont fontWithName:[HLTheme boldFont] size:15.0f];
     self.categoryLabel.font =[UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     
 }
@@ -175,7 +204,7 @@
         
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         preview.image = image;
-
+        
         scrollContentWidth += self.scrollView.bounds.size.width;
         
         [self.scrollView addSubview:preview];
@@ -200,9 +229,9 @@
             if(succeeded){
                 [HUD hide:YES];
                 
-              //    [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadHomeData" object:self];
-             //     [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadMyCartData" object:self];
-                
+                //    [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadHomeData" object:self];
+                //     [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadMyCartData" object:self];
+                [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
                 [self.navigationController popViewControllerAnimated:YES];
             }
             else{
@@ -227,25 +256,44 @@
  }
  */
 
+- (IBAction)likeButtonPressed:(id)sender {
+}
+
 - (IBAction)addToCart:(id)sender {
     
-    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
-    mailVC.mailComposeDelegate = self;
-    [mailVC setSubject:@"My Subject"];
-    [mailVC setMessageBody:@"Hello there." isHTML:NO];
-    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
-    
-    if (mailVC)
+    [self dismissViewControllerAnimated:YES completion:^{
         
-        [self presentViewController:mailVC animated:YES completion:^{
-            
-        }];
-
+    }];
+    
+//    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
+//    mailVC.mailComposeDelegate = self;
+//    [mailVC setSubject:@"My Subject"];
+//    [mailVC setMessageBody:@"Hello there." isHTML:NO];
+//    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
+//    
+//    if (mailVC)
+//        
+//        [self presentViewController:mailVC animated:YES completion:^{
+//            
+//        }];
+    
 }
 - (IBAction)seeMapButtonClicked:(id)sender {
     
+    
     [self performSegueWithIdentifier:@"map" sender:self];
     
+    
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    
+    if([segue.identifier isEqualToString:@"map"])
+    {
+        MapViewController *map = segue.destinationViewController;
+        map.offerLocation = self.offerLocation;
+    }
     
 }
 - (IBAction)askQuestion:(id)sender {

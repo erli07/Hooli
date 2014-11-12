@@ -17,6 +17,7 @@
 #import "ImageManager.h"
 #import "LocationManager.h"
 #import "ImageCache.h"
+#import "ItemDetailViewController.h"
 #define CAMERA_TRANSFORM_X 1
 //#define CAMERA_TRANSFORM_Y 1.12412 // this was for iOS 3.x
 #define CAMERA_TRANSFORM_Y 1.24299 // this works for iOS 4.x
@@ -76,9 +77,10 @@
     
     photoCount = 0;
     
-    
-    
+
     [self updateCurrentView];
+    
+    
     
 }
 
@@ -102,42 +104,46 @@
     
     OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:self.priceInputBox.text offerName:self.itemNameTextField.text category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation]];
     
-
     
- //   [[OffersManager sharedInstance]uploadUserPhotosToCloudWithImages:imagesArray withSuccess:^{
-
-        [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
-            
-            [HUD hide:YES];
-            [[HLSettings sharedInstance]setIsPostingOffer:YES];
-            [self updateCurrentView];
-            
-            //   [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadHomeData" object:self];
-            //  [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadMyCartData" object:self];
-            
-            
-            UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
-                                                                  message:@"You have successfully post your item!"
-                                                                 delegate:nil
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-            [confirmAlert show];
-            
-            
-        } withFailure:^(id error) {
-            
-            [HUD hide:YES];
-            
-        }];
+    
+    //   [[OffersManager sharedInstance]uploadUserPhotosToCloudWithImages:imagesArray withSuccess:^{
+    
+    [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
         
-//    } withFailure:^(id error) {
-//        
-//        [HUD hide:YES];
-//
-//        
-//    }];
+        [HUD hide:YES];
+        [[HLSettings sharedInstance]setIsPostingOffer:YES];
+        [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+        
+        //   [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadHomeData" object:self];
+        //  [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadMyCartData" object:self];
+        UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
+                                                              message:@"You have successfully post your item!"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+        [confirmAlert show];
+        
+        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+        ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+        vc.offerObject = offer;
+        vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self.navigationController pushViewController:vc animated:NO];
+        [self updateCurrentView];
+        
+    } withFailure:^(id error) {
+        
+        [HUD hide:YES];
+        
+    }];
     
-
+    //    } withFailure:^(id error) {
+    //
+    //        [HUD hide:YES];
+    //
+    //
+    //    }];
+    
+    
     
     
 }
@@ -151,15 +157,15 @@
         [alertView show];
     }
     else{
-
-    
-    UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Are you sure?"
-                                                          message:@"Do you confirm to make this offer?"
-                                                         delegate:self
-                                                cancelButtonTitle:@"Cancel"
-                                                otherButtonTitles:@"Confirm" , nil];
-    [confirmAlert show];
-    
+        
+        
+        UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Are you sure?"
+                                                              message:@"Do you confirm to make this offer?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                                    otherButtonTitles:@"Confirm" , nil];
+        [confirmAlert show];
+        
     }
     
 }
@@ -188,28 +194,31 @@
                               action:@selector(confirmOffer)];
         self.navigationItem.rightBarButtonItem = self.confirmButton;
         
-        [self.itemNameTextField becomeFirstResponder];
-        
         if([[HLSettings sharedInstance]category]){
             
             self.categoryTextView.text = [[HLSettings sharedInstance]category][0];
             
         }
-        else{
-            
-            self.categoryTextView.text = @"";
-        }
         
+        
+        [self.itemNameTextField becomeFirstResponder];
+        self.itemDetailTextView.text = @"Add detail here...";
+
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(dismissKeyboards)];
         
         [self.view addGestureRecognizer:tap];
         
+        UITapGestureRecognizer *tapCategory = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(selectCategory)];
+        
+        [self.categoryTextView addGestureRecognizer:tapCategory];
+        
         self.tabBarController.tabBar.hidden=YES;
     }
     
     else{
-        
+                
         self.makeOfferView.hidden = YES;
         self.postItemView.hidden = NO;
         
@@ -217,14 +226,14 @@
         
         self.navigationItem.rightBarButtonItem = nil;
         
-        self.title = @"Post Item";
+        self.title = @"Hooli";
+        self.priceInputBox.text = @"";
+        self.itemNameTextField.text = @"";
+        self.itemDetailTextView.text = @"Add detail here...";
+        self.categoryTextView.text = @"";
         
-        [self.priceInputBox resignFirstResponder];
-        
-        [self.itemDetailTextView resignFirstResponder];
-        
-        [self.itemNameTextField resignFirstResponder];
-        
+        [self dismissKeyboards];
+
         self.tabBarController.tabBar.hidden = NO;
         
     }
@@ -232,6 +241,11 @@
     
 }
 
+-(void)selectCategory{
+    
+    [self performSegueWithIdentifier:@"selectCategory" sender:self];
+    
+}
 
 - (IBAction)showCameraView:(id)sender {
     
@@ -266,8 +280,6 @@
     
     [self.navigationController setNavigationBarHidden:NO];
     //
-    self.title = @"Post Item";
-    
     UIImage* buttonImage = [[UIImage imageNamed:@"button-pressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     UIImage* buttonPressedImage = [[UIImage imageNamed:@"button"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     [self.showCameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -283,7 +295,6 @@
 -(void)cancelCameraView{
     
     [self.picker dismissViewControllerAnimated:YES completion:NULL];
-    
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -309,7 +320,7 @@
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         
         [self presentViewController:picker animated:YES completion:NULL];
-
+        
     }
     
 }
@@ -353,6 +364,7 @@
     }
     else if(buttonIndex == 1){
         
+        [self dismissKeyboards];
         [self submitOfferToCloud];
         
     }
@@ -366,15 +378,17 @@
         
         self.priceInputBox.text = @"$";
     }
-    else if (textField == self.categoryTextView){
-        
-        [self performSegueWithIdentifier:@"selectCategory" sender:self];
-    }
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     
-    self.itemDetailTextView.text = @"";
+    CGFloat fixedWidth = textView.frame.size.width;
+    CGSize newSize = [textView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+    CGRect newFrame = textView.frame;
+    newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
+    textView.frame = newFrame;
+    textView.scrollEnabled = NO;
+
 }
 
 -(void)dismissKeyboards{
@@ -384,5 +398,7 @@
     [self.itemNameTextField resignFirstResponder];
     
     [self.priceInputBox resignFirstResponder];
+    
+    [self.categoryTextView resignFirstResponder];
 }
 @end

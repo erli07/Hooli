@@ -13,4 +13,5 @@
 @property (nonatomic, strong) NSArray *category;
 @property (nonatomic, assign) BOOL isPostingOffer;
 @property (nonatomic, assign) float preferredDistance;
+@property (nonatomic, assign) BOOL isRefreshNeeded;
 @end

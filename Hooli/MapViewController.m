@@ -10,7 +10,7 @@
 #import "MBProgressHUD.h"
 #import "LocationManager.h"
 
-#define circleDistance 1600
+#define circleDistance 1000
 @interface MapViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
 }
@@ -22,13 +22,13 @@
 @implementation MapViewController
 
 
-@synthesize boundingRegion,mapView;
+@synthesize boundingRegion,mapView,offerLocation;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mapView.delegate = self;
-    [[LocationManager sharedInstance]startLocationUpdate];
-    self.userLocation = [[LocationManager sharedInstance]currentLocation];
+//    [[LocationManager sharedInstance]startLocationUpdate];
+  //  self.userLocation = [[LocationManager sharedInstance]currentLocation];
     [self updateMapView];
     // Do any additional setup after loading the view from its nib.
 }
@@ -50,7 +50,7 @@
 -(void)drawLocationCircle{
     
     CLLocationDistance fenceDistance = circleDistance;
-    CLLocationCoordinate2D circleMiddlePoint = CLLocationCoordinate2DMake(self.userLocation.latitude, self.userLocation.longitude);
+    CLLocationCoordinate2D circleMiddlePoint = CLLocationCoordinate2DMake(self.offerLocation.latitude, self.offerLocation.longitude);
     MKCircle *circle = [MKCircle circleWithCenterCoordinate:circleMiddlePoint radius:fenceDistance];
     [self.mapView addOverlay: circle];
 }
@@ -59,12 +59,12 @@
     
     
     MKCoordinateRegion newRegion;
-    newRegion.center.latitude = self.userLocation.latitude;
-    newRegion.center.longitude = self.userLocation.longitude;
+    newRegion.center.latitude = self.offerLocation.latitude;
+    newRegion.center.longitude = self.offerLocation.longitude;
     newRegion.span.latitudeDelta = 0.112872;
     newRegion.span.longitudeDelta = 0.109863;
     
-    MKMapItem *mapItem = [[MKMapItem alloc]initWithPlacemark:[[MKPlacemark alloc]initWithCoordinate:self.userLocation addressDictionary:nil]];
+    MKMapItem *mapItem = [[MKMapItem alloc]initWithPlacemark:[[MKPlacemark alloc]initWithCoordinate:self.offerLocation addressDictionary:nil]];
     mapItem.name = @"Test";
     
     self.boundingRegion = newRegion;

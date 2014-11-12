@@ -43,13 +43,20 @@ static NSString * const reuseIdentifier = @"Cell";
     self.collectionView.delegate = self;
     [self registerNotifications];
     self.navigationItem.title = @"Discover";
+    [self updateCollectionViewData];
+
 }
 
 
 -(void)viewDidAppear:(BOOL)animated{
 
-    [self updateCollectionViewData];
+    if([[HLSettings sharedInstance]isRefreshNeeded]){
+        
+        [self updateCollectionViewData];
+        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
 
+    }
+    
 }
 
 #pragma register notification

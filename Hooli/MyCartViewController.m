@@ -13,6 +13,7 @@
 #import "HLTheme.h"
 #import "ItemDetailViewController.h"
 #import "OffersManager.h"
+#import "HLSettings.h"
 @interface MyCartViewController ()<UICollectionViewDelegate,UpdateCollectionViewDelegate>
 @property (nonatomic, strong) UISegmentedControl *typeSegmentedControl;
 @property (nonatomic, strong) UIViewController *currentViewController;
@@ -30,14 +31,18 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
- //   [self.collectionView updateDataFromCloud];
     [self registerNotifications];
+    [self updateCollectionViewData];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
 
-    [self updateCollectionViewData];
-    
+    if([[HLSettings sharedInstance]isRefreshNeeded]){
+        
+        [self updateCollectionViewData];
+        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+    }
 }
 
 #pragma register notification

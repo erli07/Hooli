@@ -11,6 +11,7 @@
 #import "HomeViewViewController.h"
 #import "MBProgressHUD.h"
 #import "AccountManager.h"
+#import "EditProfileViewController.h"
 
 @interface LoginViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
@@ -34,6 +35,7 @@
     self.loginButton.center = CGPointMake(160, 420);
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"LoginWithFacebook"] forState:UIControlStateNormal];
     self.loginButton.layer.masksToBounds = YES;
+    self.tabBarController.tabBar.hidden=YES;
     self.navigationController.navigationBar.hidden = YES;
     [self.view addSubview:self.loginButton];
     // Do any additional setup after loading the view.
@@ -70,6 +72,7 @@
         [HUD hide:YES];
         
         if (!user) {
+            
             NSString *errorMessage = nil;
             if (!error) {
                 NSLog(@"Uh oh. The user cancelled the Facebook login.");
@@ -78,21 +81,20 @@
                 NSLog(@"Uh oh. An error occurred: %@", error);
                 errorMessage = [error localizedDescription];
             }
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
                                                             message:errorMessage
                                                            delegate:nil
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"Dismiss", nil];
             [alert show];
+            
         } else {
             
-     //       [self dismissViewControllerAnimated:YES completion:^{
-                
-      //          [self loginSuccess];
-                
-                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
-                
-       //     }];
+
+            [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+          
+            
             
         }
     }];
@@ -101,11 +103,12 @@
 
 -(void)loginSuccess{
     
-    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-    HomeViewViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"editProfile"];
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
+    [self presentViewController:vc animated:YES completion:^{
     
+    }];
 
 }
 

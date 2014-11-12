@@ -11,5 +11,5 @@
 #import <MapKit/MapKit.h>
 @interface MapViewController : UIViewController<CLLocationManagerDelegate,MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-
+@property (nonatomic) CLLocationCoordinate2D offerLocation;
 @end

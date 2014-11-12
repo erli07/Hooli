@@ -22,7 +22,7 @@ NSString *const kHLOfferCategorySportingGoods = @"Sporting Goods";
 
 int const kHLOfferCellHeight = 151.0;
 int const kHLOfferCellWidth = 151.0;
-int const kHLOffersNumberShowAtFirstTime = 6;
+int const kHLOffersNumberShowAtFirstTime = 20;
 int const kHLMaxSearchDistance = 50;
 int const kHLDefaultSearchDistance = 50;
 
