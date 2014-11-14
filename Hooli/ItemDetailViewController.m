@@ -17,13 +17,14 @@
 #import "MBProgressHUD.h"
 #import "HLSettings.h"
 #import "MapViewController.h"
-
+#import "ActivityManager.h"
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
 
 @interface ItemDetailViewController ()<MFMailComposeViewControllerDelegate>
 {
     MBProgressHUD *HUD;
+    BOOL toggleIsOn;
 }
 @property (nonatomic) CLLocationCoordinate2D offerLocation;
 
@@ -54,9 +55,9 @@
                                                   // Dispatch to main thread to update the UI
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       
-                                                      OfferModel *offerModel = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
-                                                      
-                                                      [self updateOfferDetailInfo:offerModel];
+                                                     self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
+                                                     
+                                                      [self updateOfferDetailInfo:self.offerObject];
                                                       
                                                       [HUD hide:YES];
                                                       
@@ -84,6 +85,11 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+ 
+}
+
 -(void)deleteSelf{
     
     
@@ -98,7 +104,7 @@
     
     self.tabBarController.tabBar.hidden=YES;
     
-    if ([[[offerModel user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
+    if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
         
         UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
                                            initWithTitle:@"Delete"
@@ -126,6 +132,23 @@
     } Failure:^(id error) {
         
         NSLog(@"%@",error);
+        
+    }];
+    
+    [[ActivityManager sharedInstance]isOfferLikedByCurrentUser:self.offerObject block:^(BOOL succeeded, NSError *error) {
+        
+        if(succeeded){
+            
+            toggleIsOn = NO;
+        }
+        else{
+            
+            toggleIsOn = YES;
+        }
+        
+        [self.likeButton setTitle:toggleIsOn ? @"Like" :@"Dislike" forState:UIControlStateNormal];
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:toggleIsOn ? @"button-pressed.png" :@"button.png"] forState:UIControlStateNormal];
+        [self.likeButton setTitleColor:toggleIsOn?[UIColor whiteColor]:[HLTheme mainColor] forState:UIControlStateNormal];
         
     }];
     
@@ -257,25 +280,59 @@
  */
 
 - (IBAction)likeButtonPressed:(id)sender {
+    
+    [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+    
+        if(toggleIsOn){
+            
+            [[ActivityManager sharedInstance]likeOfferInBackground:self.offerObject block:^(BOOL succeeded, NSError *error) {
+            
+                if(succeeded){
+                    NSLog(@"Like Success!");
+                    
+                }
+                else{
+                    
+                    NSLog(@"%@",[error description]);
+                }
+            }];
+        }
+        else {
+            
+            [[ActivityManager sharedInstance]dislikeOfferInBackground:self.offerObject block:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    NSLog(@"dislike Success!");
+
+                }
+                else{
+                    
+                    NSLog(@"%@",[error description]);
+                }
+            }];
+        }
+    
+        toggleIsOn = !toggleIsOn;
+    
+        [self.likeButton setTitle:toggleIsOn ? @"Like" :@"Dislike" forState:UIControlStateNormal];
+    [self.likeButton setBackgroundImage:[UIImage imageNamed:toggleIsOn ? @"button-pressed.png" :@"button.png"] forState:UIControlStateNormal];
+    [self.likeButton setTitleColor:toggleIsOn?[UIColor whiteColor]:[HLTheme mainColor] forState:UIControlStateNormal];
+    
 }
 
 - (IBAction)addToCart:(id)sender {
     
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
+    mailVC.mailComposeDelegate = self;
+    [mailVC setSubject:@"My Subject"];
+    [mailVC setMessageBody:@"Hello there." isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
     
-//    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
-//    mailVC.mailComposeDelegate = self;
-//    [mailVC setSubject:@"My Subject"];
-//    [mailVC setMessageBody:@"Hello there." isHTML:NO];
-//    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
-//    
-//    if (mailVC)
-//        
-//        [self presentViewController:mailVC animated:YES completion:^{
-//            
-//        }];
+    if (mailVC)
+        
+        [self presentViewController:mailVC animated:YES completion:^{
+            
+        }];
     
 }
 - (IBAction)seeMapButtonClicked:(id)sender {
@@ -288,7 +345,6 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    
     if([segue.identifier isEqualToString:@"map"])
     {
         MapViewController *map = segue.destinationViewController;
@@ -296,10 +352,7 @@
     }
     
 }
-- (IBAction)askQuestion:(id)sender {
-    
-    
-}
+
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller
           didFinishWithResult:(MFMailComposeResult)result

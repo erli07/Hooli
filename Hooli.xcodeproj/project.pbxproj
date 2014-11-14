@@ -103,6 +103,9 @@
 		0EE4998A1A101A7D0046B3C7 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EE499891A101A7D0046B3C7 /* Login.storyboard */; };
 		0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */; };
 		0EE499941A1029080046B3C7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE499931A1029080046B3C7 /* UserModel.m */; };
+		4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADE81A15577C00486C43 /* HLUtilities.m */; };
+		4510ADEC1A15C6CC00486C43 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADEB1A15C6CC00486C43 /* ActivityManager.m */; };
+		4530733F1A1550E30010B5A1 /* HLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4530733E1A1550E30010B5A1 /* HLCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -249,6 +252,12 @@
 		0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		0EE499921A1029080046B3C7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		0EE499931A1029080046B3C7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		4510ADE71A15577C00486C43 /* HLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLUtilities.h; sourceTree = "<group>"; };
+		4510ADE81A15577C00486C43 /* HLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLUtilities.m; sourceTree = "<group>"; };
+		4510ADEA1A15C6CC00486C43 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityManager.h; sourceTree = "<group>"; };
+		4510ADEB1A15C6CC00486C43 /* ActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityManager.m; sourceTree = "<group>"; };
+		4530733D1A1550E30010B5A1 /* HLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCache.h; sourceTree = "<group>"; };
+		4530733E1A1550E30010B5A1 /* HLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 1; path = HLCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -338,9 +347,10 @@
 				0E0019C71A09E5A00086CD77 /* HLSettings.m */,
 				0E17BF2619FC99800042C4DD /* DataSource.h */,
 				0E17BF2719FC99800042C4DD /* DataSource.m */,
-				0ECAC36419FF2983002866DE /* SMPageControl */,
-				0E17BF5E19FDE9230042C4DD /* MBProgressHUD.h */,
-				0E17BF5F19FDE9230042C4DD /* MBProgressHUD.m */,
+				4530733D1A1550E30010B5A1 /* HLCache.h */,
+				4530733E1A1550E30010B5A1 /* HLCache.m */,
+				4510ADE71A15577C00486C43 /* HLUtilities.h */,
+				4510ADE81A15577C00486C43 /* HLUtilities.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -441,8 +451,10 @@
 		0E17BF4419FDCD840042C4DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4530733C1A1550AE0010B5A1 /* Vendor */,
 				0EE499911A10273F0046B3C7 /* User */,
 				0E0019CC1A0B36920086CD77 /* UI */,
+				4510ADED1A15CE9200486C43 /* Activity */,
 				0E0019CB1A0B36890086CD77 /* Location */,
 				0E0019CA1A0B36820086CD77 /* Account */,
 				0E0019C91A0B36780086CD77 /* Offer */,
@@ -618,6 +630,25 @@
 			name = User;
 			sourceTree = "<group>";
 		};
+		4510ADED1A15CE9200486C43 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				4510ADEA1A15C6CC00486C43 /* ActivityManager.h */,
+				4510ADEB1A15C6CC00486C43 /* ActivityManager.m */,
+			);
+			name = Activity;
+			sourceTree = "<group>";
+		};
+		4530733C1A1550AE0010B5A1 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				0ECAC36419FF2983002866DE /* SMPageControl */,
+				0E17BF5E19FDE9230042C4DD /* MBProgressHUD.h */,
+				0E17BF5F19FDE9230042C4DD /* MBProgressHUD.m */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -765,6 +796,7 @@
 				0E17BF3F19FCA7FF0042C4DD /* HomeViewViewController.m in Sources */,
 				0E0019D71A0E91CD0086CD77 /* OfferFilterViewController.m in Sources */,
 				0E0019D41A0C95B20086CD77 /* MyCartCollectionView.m in Sources */,
+				4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
 				0E2A12571A052B340036F8EB /* OfferModel.m in Sources */,
 				0ECAC3B31A01CA2F002866DE /* CategoryCell.m in Sources */,
@@ -781,6 +813,7 @@
 				0ECAC39019FF502B002866DE /* MainCollectionViewFlowLayout.m in Sources */,
 				0E17BED419FC8BAE0042C4DD /* main.m in Sources */,
 				0ECAC3A91A01C51D002866DE /* SearchItemViewController.m in Sources */,
+				4530733F1A1550E30010B5A1 /* HLCache.m in Sources */,
 				0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */,
 				0EE499941A1029080046B3C7 /* UserModel.m in Sources */,
 				0E17BF4E19FDCF0C0042C4DD /* MyCartViewController.m in Sources */,
@@ -789,6 +822,7 @@
 				0ECAC39319FF5880002866DE /* MainCollectionView.m in Sources */,
 				0E17BEFC19FC927A0042C4DD /* ItemDetailViewController.m in Sources */,
 				0ECAC36A19FF2983002866DE /* readme.md in Sources */,
+				4510ADEC1A15C6CC00486C43 /* ActivityManager.m in Sources */,
 				0ECAC38C19FF4412002866DE /* ItemCell.m in Sources */,
 				0E17BF6019FDE9230042C4DD /* MBProgressHUD.m in Sources */,
 				0ECAC3BA1A01D4AA002866DE /* CameraOverlayViewController.m in Sources */,

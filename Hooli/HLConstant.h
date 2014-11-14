@@ -22,7 +22,6 @@ extern NSString *const kHLOfferCategorySportingGoods;
 extern NSString *const kHLOfferCategoryCollectiblesArt;
 extern NSString *const kHLOfferCategoryOther;
 
-
 extern int const kHLOfferCellHeight;
 extern int const kHLOfferCellWidth;
 extern int const kHLOffersNumberShowAtFirstTime;
@@ -46,12 +45,19 @@ extern NSString *const kHLOfferPhotoKeyOfferID;
 extern NSString *const kHLOfferPhotKeyPhoto;
 
 extern NSString *const kHLCloudOfferClass;
-extern NSString *const kHLCloudOfferPhotoClass;
+extern NSString *const kHLCloudActivityClass;
 extern NSString *const kHLCloudUserClass;
+
+extern NSString *const kHLActivityKeyOfferID;
+extern NSString *const kHLActivityKeyUserID;
+
 
 extern NSString *const kHLFilterDictionarySearchType;
 extern NSString *const kHLFilterDictionarySearchKeyCategory;
 extern NSString *const kHLFilterDictionarySearchKeyWords;
 
+extern NSString *const kHLOfferAttributesLikeCountKey;
+extern NSString *const kHLOfferAttributesLikersKey;
+extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
 
 @end
