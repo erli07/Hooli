@@ -72,7 +72,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" id="DP2-OV-CUc">
-                                                        <rect key="frame" x="30" y="13" width="260" height="260"/>
+                                                        <rect key="frame" x="30" y="10" width="260" height="260"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </scrollView>
@@ -188,27 +188,12 @@
                         <outlet property="scrollView" destination="DP2-OV-CUc" id="MU7-jX-LAF"/>
                         <outlet property="seeMapButton" destination="NfI-BV-9ER" id="pqP-Nk-2mf"/>
                         <segue destination="MVj-wp-YUW" kind="push" identifier="map" id="Fgg-sq-Tau"/>
-                        <segue destination="MuW-JN-yVu" kind="push" identifier="seeOwner" id="F9j-oF-gx1"/>
+                        <segue destination="qUg-nI-uEy" kind="push" id="Wzf-l3-52l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5C-fh-byp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="625" y="47.999999999999993"/>
-        </scene>
-        <!--Item Owner View Controller-->
-        <scene sceneID="ge3-7e-aHD">
-            <objects>
-                <viewController id="MuW-JN-yVu" customClass="ItemOwnerViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="i15-cA-EyQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="QtT-6k-b2Z"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nbZ-9B-2NH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="878" y="-580.99999999999989"/>
+            <point key="canvasLocation" x="907" y="216"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="BQI-Jr-y2g">
@@ -232,7 +217,63 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IgQ-dc-ceI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1064" y="82.999999999999986"/>
+            <point key="canvasLocation" x="1128" y="851"/>
+        </scene>
+        <!--User Cart View Controller-->
+        <scene sceneID="6wB-ld-kn4">
+            <objects>
+                <viewController storyboardIdentifier="userCart" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qUg-nI-uEy" customClass="UserCartViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nwC-Rh-iJM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="QN5-h8-KP1" customClass="MainCollectionView">
+                                <rect key="frame" x="0.0" y="184" width="320" height="384"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="SNZ-jD-Zbe" customClass="MainCollectionViewFlowLayout">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="n3c-5O-gEb" customClass="ItemCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Al1-6u-yxY">
+                                <rect key="frame" x="147" y="110" width="149" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="dHv-45-L3S">
+                                <rect key="frame" x="8" y="71" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4Fu-vF-FB3"/>
+                    <connections>
+                        <outlet property="collectionView" destination="QN5-h8-KP1" id="ULP-KO-37e"/>
+                        <outlet property="layout" destination="SNZ-jD-Zbe" id="eFr-eR-nlE"/>
+                        <outlet property="profileImageView" destination="dHv-45-L3S" id="wIH-ox-jU7"/>
+                        <outlet property="userNameLabel" destination="Al1-6u-yxY" id="6zQ-45-XJn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zae-cr-1Pz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="87"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ZU7-Cy-gPM">

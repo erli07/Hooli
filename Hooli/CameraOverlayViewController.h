@@ -14,7 +14,6 @@
 @property (nonatomic, strong)IBOutlet UIImageView *image2;
 @property (nonatomic, strong)IBOutlet UIImageView *image3;
 @property (nonatomic, strong)IBOutlet UIImageView *image4;
-@property (nonatomic, assign) NSInteger photoCount;
 - (IBAction)takePicture:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *selectPhoto;
 - (IBAction)selectPhotos:(id)sender;

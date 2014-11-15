@@ -191,7 +191,7 @@
         <!--Search Result View Controller-->
         <scene sceneID="oRc-sD-zrb">
             <objects>
-                <viewController id="ABd-4u-2Nb" customClass="SearchResultViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="searchResult" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ABd-4u-2Nb" customClass="SearchResultViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PYV-XU-Jyp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

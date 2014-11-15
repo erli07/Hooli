@@ -17,7 +17,7 @@
 #import "MBProgressHUD.h"
 #import "HLSettings.h"
 #import "MapViewController.h"
-
+#import "UserCartViewController.h"
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
 
@@ -30,7 +30,7 @@
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -118,16 +118,22 @@
     self.offerDescription.text = offerModel.offerDescription;
     [self.offerDescription sizeToFit];
     self.priceLabel.text = offerModel.offerPrice;
-    
+
     [[AccountManager sharedInstance]loadAccountDataWithUserId:offerModel.user.objectId Success:^(id object) {
         
-        self.profilePicture.image = (UIImage *)object;
+        
+        UserModel *userModel = (UserModel *)object;
+        
+        self.profilePicture.image = userModel.portraitImage;
+        
         
     } Failure:^(id error) {
         
         NSLog(@"%@",error);
         
     }];
+    
+    
     
     CGRect newFrame = self.contentView.frame;
     newFrame.size.height = self.offerDescription.frame.size.height + self.offerDescription.frame.origin.y + kScrollViewOffset;
@@ -140,6 +146,21 @@
     [self setOffersScrollViewWithImageArray:offerModel.imageArray];
     self.offerLocation = offerModel.offerLocation;
     
+    self.userID = offerModel.user.objectId;
+    
+    UITapGestureRecognizer *tapPortrait = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                  action:@selector(seeItemOwner)];
+    
+    [self.profilePicture addGestureRecognizer:tapPortrait];
+    tapPortrait.numberOfTapsRequired = 1;
+    self.profilePicture.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tapCategory = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                  action:@selector(seeCategory)];
+    
+    [self.categoryLabel addGestureRecognizer:tapCategory];
+    tapCategory.numberOfTapsRequired = 1;
+    self.categoryLabel.userInteractionEnabled = YES;
 }
 
 
@@ -150,10 +171,6 @@
     
     [self.parentScrollView setScrollEnabled:YES];
     [self.parentScrollView setContentSize:self.contentView.frame.size];
-    
-    //    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
-    //    [self.addToCartButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateHighlighted];
-    //    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
     UIImage* buttonImage = [[UIImage imageNamed:@"button-pressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     UIImage* buttonPressedImage = [[UIImage imageNamed:@"button"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
@@ -173,6 +190,32 @@
     self.offerDescription.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     self.locationLabel.font =[UIFont fontWithName:[HLTheme boldFont] size:15.0f];
     self.categoryLabel.font =[UIFont fontWithName:[HLTheme mainFont] size:15.0f];
+    
+    
+}
+
+-(void)seeItemOwner{
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    vc.userID = self.userID;
+    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
+-(void)seeCategory{
+    
+    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
+                                      self.offerObject.offerCategory,kHLFilterDictionarySearchKeyCategory,nil];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UserCartViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"searchResult"];
+    [self.navigationController pushViewController:vc animated:YES];
+    
     
 }
 
@@ -198,9 +241,8 @@
     CGFloat scrollContentWidth = 0;
     CGFloat scrollHeight = self.scrollView.bounds.size.height; // -20;
     CGFloat padding = (self.scrollView.bounds.size.width - scrollHeight) / 2;
-    
     for (UIImage *image in imagesArray) {
-        CGRect frame = CGRectMake(scrollContentWidth + padding + 30, (self.scrollView.bounds.size.height - scrollHeight)/2, 200, scrollHeight);
+        CGRect frame = CGRectMake(scrollContentWidth + padding , (self.scrollView.bounds.size.height - scrollHeight)/2, 260, 260);
         
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         preview.image = image;
@@ -228,9 +270,6 @@
         [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(succeeded){
                 [HUD hide:YES];
-                
-                //    [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadHomeData" object:self];
-                //     [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.reloadMyCartData" object:self];
                 [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
                 [self.navigationController popViewControllerAnimated:YES];
             }

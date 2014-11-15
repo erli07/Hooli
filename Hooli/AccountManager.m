@@ -7,6 +7,7 @@
 //
 
 #import "AccountManager.h"
+#import "OfferModel.h"
 #import "UserModel.h"
 @implementation AccountManager
 @synthesize uploadFailure = _uploadFailure;
@@ -121,12 +122,10 @@
             _downloadFailure(error);
         }
         else{
-            PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
-            NSData *imageData = [theImage getData];
-            UIImage *portraitImage = [UIImage imageWithData:imageData];
-            [PFUser currentUser][@"profile"][@"email"] = [object objectForKey:kHLUserModelKeyEmail];
-            [PFUser currentUser][@"profile"][@"name"] = [object objectForKey:kHLUserModelKeyUserName];
-            _dowloadSuccess(portraitImage);
+            
+            UserModel *userModel = [[UserModel alloc]initUserWithPFObject:object];
+    
+            _dowloadSuccess(userModel);
             
         }
     }];

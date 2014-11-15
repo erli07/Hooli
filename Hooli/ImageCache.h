@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UIImage *image2;
 @property (nonatomic, strong) UIImage *image3;
 @property (nonatomic, strong) UIImage *image4;
-
+@property (nonatomic) unsigned int photoCount;
 -(void)setImage:(UIImage *)image withImageIndex:(int)imageIndex;
 
 -(NSArray *)getimagesArray;

@@ -54,6 +54,25 @@ NSString *const kHLUserModelKeyUserId = @"UserId";
     
 }
 
+-(id)initUserWithPFObject:(PFObject *)object{
+    
+    
+    self = [super init];
+    if(self)
+    {
+        self.email = [object objectForKey:kHLUserModelKeyEmail];
+        self.username = [object objectForKey:kHLUserModelKeyUserName];
+        PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
+        NSData *imageData = [theImage getData];
+        UIImage *image = [UIImage imageWithData:imageData];
+        self.portraitImage = image;
+        self.userID = [object objectForKey:kHLUserModelKeyUserId];
+    }
+    return self;
+    
+    
+}
+
 
 
 @end

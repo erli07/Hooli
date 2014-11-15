@@ -25,7 +25,6 @@
 
 @interface MyCameraViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
-    unsigned int photoCount;
 }
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIButton *takePhotosButton;
@@ -75,12 +74,11 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    photoCount = 0;
-    
+    [[ImageCache sharedInstance]setPhotoCount:0];
 
     [self updateCurrentView];
     
-    
+    [self dismissKeyboards];
     
 }
 
@@ -264,7 +262,7 @@
     self.picker.delegate = self;
     self.picker.allowsEditing = YES;
     self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
+    self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
     // Insert the overlay:
     self.picker.cameraOverlayView = self.overlayVC.view;
     
@@ -302,7 +300,7 @@
 
 - (void)takePhotoClicked {
     
-    if(photoCount < 4){
+    if([[ImageCache sharedInstance]photoCount] < 4){
         
         [self.picker takePicture];
         
@@ -312,7 +310,7 @@
 
 -(void)selectPhotoFromAlbum{
     
-    if(photoCount < 4){
+    if([[ImageCache sharedInstance]photoCount] < 4){
         
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         picker.delegate = self;
@@ -331,10 +329,17 @@
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
     
-    photoCount ++;
+//    CGImageRef imageRef = CGImageCreateWithImageInRect([chosenImage CGImage], CGRectMake(0, 0, 640, 640));
+//    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
+//    CGImageRelease(imageRef);
+
+    int photoIndex = [[ImageCache sharedInstance]photoCount];
+    photoIndex = photoIndex + 1;
+    [[ImageCache sharedInstance]setPhotoCount:photoIndex ++];
     
-    [self.overlayVC setImage:chosenImage withImageIndex:photoCount];
-    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:photoCount];
+    
+    [self.overlayVC setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
+    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
     
     UIGraphicsBeginImageContext(CGSizeMake(640, 640));
     [chosenImage drawInRect: CGRectMake(0, 0, 640, 640)];

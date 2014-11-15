@@ -23,21 +23,17 @@
 @end
 
 @implementation CameraOverlayViewController
-@synthesize image1,image2,image3,image4,photoCount;
+@synthesize image1,image2,image3,image4;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self addGestureToImages];
     // Do any additional setup after loading the view from its nib.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 - (IBAction)selectPhotos:(id)sender {
     
@@ -64,12 +60,18 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
-    
-    self.photoCount ++;
-    
-    [self setImage:chosenImage withImageIndex:self.photoCount];
 
-    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:photoCount];
+//    CGImageRef imageRef = CGImageCreateWithImageInRect([chosenImage CGImage], CGRectMake(0, 0, 640, 640));
+//    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
+//    CGImageRelease(imageRef);
+    
+    int photoIndex = [[ImageCache sharedInstance]photoCount];
+    photoIndex = photoIndex + 1;
+    [[ImageCache sharedInstance]setPhotoCount:photoIndex ++];
+    
+    [self setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
+
+    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
     
    [picker dismissViewControllerAnimated:YES completion:^{
       
@@ -77,6 +79,24 @@
 
 }
 
+
+
+-(void)addGestureToImages{
+    
+    
+    UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                               action:@selector(addDismissGesture:)];
+    [self.image1 addGestureRecognizer:tapImage];
+    [self.image2 addGestureRecognizer:tapImage];
+    [self.image3 addGestureRecognizer:tapImage];
+    [self.image4 addGestureRecognizer:tapImage];
+
+}
+
+-(void)addDismissGesture:(id)sender{
+    
+    
+}
 
 -(void)setImage:(UIImage *)image withImageIndex:(int)imageIndex{
     
@@ -138,68 +158,7 @@
     [HUD hide:YES];
 }
 
-//- (void)uploadImage:(OfferModel *)offer
-//{
-//
-//    if(offer.image == nil){
-//
-//        return;
-//
-//    }
-//    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
-//    [offer.image drawInRect: CGRectMake(0, 0, 640, 640)];
-//    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//
-//    NSData *imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
-//
-//    NSLog(@"Image size %u kb", [imageData length]/1024);
-//    PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:imageData];
-//
-//    // Save PFFile
-//    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//        if (!error) {
-//
-//            // Create a PFObject around a PFFile and associate it with the current user
-//            PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
-//            [offerClass setObject:imageFile forKey:kHLCloudImageKeyForOfferClass];
-//            offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-//
-//            PFUser *user = [PFUser currentUser];
-//            [offerClass setObject:user forKey:kHLCloudUserKeyForOfferClass];
-//            [offerClass setObject:offer.offerDescription forKey:kHLCloudDescriptionKeyForOfferClass];
-//            [offerClass setObject:offer.offerPrice forKey:kHLCloudPriceKeyForOfferClass];
-//            [offerClass setObject:offer.offerCategory forKey:kHLCloudCategoryKeyForOfferClass];
-//
-//            [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                if (!error) {
-//                    // [self refresh:nil];
-//                }
-//                else{
-//                    // Log details of the failure
-//                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-//                }
-//            }];
-//        }
-//        else{
-//            // Log details of the failure
-//            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//        }
-//    } progressBlock:^(int percentDone) {
-//
-//    }];
-//}
-//
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 - (IBAction)takePicture:(id)sender {
     

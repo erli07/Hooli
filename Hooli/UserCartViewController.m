@@ -1,11 +1,12 @@
 //
-//  MyCartViewController.m
+//  UserCartViewController.m
 //  Hooli
 //
-//  Created by Er Li on 10/26/14.
+//  Created by Er Li on 11/12/14.
 //  Copyright (c) 2014 ErLi. All rights reserved.
 //
 
+#import "UserCartViewController.h"
 #import "MyCartViewController.h"
 #import "ItemCell.h"
 #import "MainCollectionViewFlowLayout.h"
@@ -14,29 +15,28 @@
 #import "ItemDetailViewController.h"
 #import "OffersManager.h"
 #import "HLSettings.h"
-@interface MyCartViewController ()<UICollectionViewDelegate,UpdateCollectionViewDelegate>
-@property (nonatomic, strong) UISegmentedControl *typeSegmentedControl;
-@property (nonatomic, strong) UIViewController *currentViewController;
+#import "AccountManager.h"
+@interface UserCartViewController ()
+
 @end
-static NSString * const reuseIdentifier = @"Cell";
 
-@implementation MyCartViewController
-
-
+@implementation UserCartViewController
+@synthesize userNameLabel,profileImageView,userID;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"My Items";
     self.view.tintColor = [HLTheme mainColor];
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
+    [self updateProfileData];
+    //[self registerNotifications];
     [self updateCollectionViewData];
-
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-
+    
     if([[HLSettings sharedInstance]isRefreshNeeded]){
         
         [self updateCollectionViewData];
@@ -60,9 +60,34 @@ static NSString * const reuseIdentifier = @"Cell";
     [[OffersManager sharedInstance]clearData];
     
     [self.collectionView updateDataFromCloud];
-
+    
 }
 
+- (void)updateProfileData {
+    
+    [[AccountManager sharedInstance]loadAccountDataWithUserId:self.userID Success:^(id object) {
+        
+        
+        UserModel *userModel = (UserModel *)object;
+        
+        self.userNameLabel.text = userModel.username;
+        
+        self.title = userModel.username;
+
+        self.profileImageView.image = userModel.portraitImage;
+        
+        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
+        self.profileImageView.layer.masksToBounds = YES;
+        
+        
+    } Failure:^(id error) {
+        
+        NSLog(@"%@",error);
+        
+    }];
+    
+
+}
 
 #pragma mark collectionview delegate
 
@@ -74,7 +99,7 @@ static NSString * const reuseIdentifier = @"Cell";
     vc.offerId = cell.offerId;
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
-
+    
 }
 
 
@@ -89,4 +114,3 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 @end
-

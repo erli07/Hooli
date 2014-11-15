@@ -32,4 +32,5 @@ extern NSString *const kHLUserModelKeyUserId;
               password:(NSString *)_password
          portraitImage:(UIImage *)_portraitImage
                 userID:(NSString *)_userID;
+-(id)initUserWithPFObject:(PFObject *)object;
 @end
