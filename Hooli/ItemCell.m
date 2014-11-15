@@ -10,6 +10,7 @@
 #import "HLTheme.h"
 #import "LocationManager.h"
 #import "ItemDetailViewController.h"
+#import "ActivityManager.h"
 @implementation ItemCell
 
 @synthesize productImageView,distanceLabel,distanceBackground,offerId;
@@ -47,15 +48,15 @@
     
 }
 
--(void)updateCellWithData:(NSDictionary*)data{
-    
-    self.productImageView.image = [UIImage imageNamed:data[@"image"]];
-    self.priceLabel.text = data[@"price"];
-    self.titleLabel.text = data[@"company"];
-    self.timeLabel.text = data[@"dates"];
-    self.likesLabel.text = data[@"hearts"];
-    
-}
+//-(void)updateCellWithData:(NSDictionary*)data{
+//    
+//    self.productImageView.image = [UIImage imageNamed:data[@"image"]];
+//    self.priceLabel.text = data[@"price"];
+//    self.titleLabel.text = data[@"company"];
+//    self.timeLabel.text = data[@"dates"];
+//    self.likesLabel.text = data[@"hearts"];
+//    
+//}
 
 -(void)updateCellWithOfferModel:(OfferModel *)offerModel{
     
@@ -65,7 +66,7 @@
     
     self.offerId = offerModel.offerId;
     
-    self.likesLabel.text = @"999";
+    [[ActivityManager sharedInstance]setOfferLikesCount:self.likesLabel withOffer:offerModel];
     
     self.priceLabel.text = offerModel.offerPrice;
     
