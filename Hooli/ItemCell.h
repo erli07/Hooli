@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "OfferModel.h"
 @interface ItemCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIImageView* soldImage;
 @property (nonatomic, weak) IBOutlet UIImageView* productImageView;
 @property (nonatomic, weak) IBOutlet UILabel* titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel* priceLabel;
@@ -24,6 +25,6 @@
 
 -(void)updateCellWithData:(NSDictionary*)data;
 -(void)updateCellWithOfferModel:(OfferModel *)offerModel;
-
+-(void)updateCellWithOfferSoldStatus:(OfferModel *)offerModel;
 -(void)updateCellWithRetrievedData:(NSDictionary *)data;
 @end

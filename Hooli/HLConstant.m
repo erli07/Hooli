@@ -38,6 +38,8 @@ NSString *const kHLOfferModelKeyCategory = @"category";
 NSString *const kHLOfferModelKeyUser = @"user";
 NSString *const kHLOfferModelKeyOfferName = @"offerName";
 NSString *const kHLOfferModelKeyGeoPoint = @"geoPoint";
+NSString *const kHLOfferModelKeyOfferStatus = @"offerStatus";
+
 
 NSString *const kHLOfferPhotoKeyOfferID = @"offerID";
 NSString *const kHLOfferPhotKeyPhoto = @"photo";

@@ -13,7 +13,7 @@
 #import "ActivityManager.h"
 @implementation ItemCell
 
-@synthesize productImageView,distanceLabel,distanceBackground,offerId;
+@synthesize productImageView,distanceLabel,distanceBackground,offerId,soldImage;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -26,16 +26,16 @@
 
 -(void)awakeFromNib{
     
-
-//    self.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:11.0f];
-//    self.timeLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+    
+    //    self.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:11.0f];
+    //    self.timeLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     self.likesLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     self.distanceBackground.layer.cornerRadius = self.distanceBackground.frame.size.height/2;
     self.distanceBackground.layer.masksToBounds = YES;
     self.contentView.tintColor = [HLTheme mainColor];
     
-//    self.titleLabel.textColor = [UIColor blackColor];
-//    self.timeLabel.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
+    //    self.titleLabel.textColor = [UIColor blackColor];
+    //    self.timeLabel.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
     self.likesLabel.textColor = [HLTheme mainColor];
     
     self.contentView.backgroundColor = [UIColor whiteColor];
@@ -44,19 +44,33 @@
     gradient.frame = self.shadowView.bounds;
     gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor clearColor] CGColor], (id)[[UIColor blackColor] CGColor], nil];
     [self.shadowView.layer insertSublayer:gradient atIndex:0];
-    
+    self.soldImage.image = nil;
     
 }
 
 //-(void)updateCellWithData:(NSDictionary*)data{
-//    
+//
 //    self.productImageView.image = [UIImage imageNamed:data[@"image"]];
 //    self.priceLabel.text = data[@"price"];
 //    self.titleLabel.text = data[@"company"];
 //    self.timeLabel.text = data[@"dates"];
 //    self.likesLabel.text = data[@"hearts"];
-//    
+//
 //}
+
+-(void)updateCellWithOfferSoldStatus:(OfferModel *)offerModel{
+    
+    if([offerModel.isOfferSold boolValue]){
+        
+        self.soldImage.image = [UIImage imageNamed:@"sold"];
+        
+    }
+    else{
+        
+        self.soldImage.image = nil;
+    }
+    
+}
 
 -(void)updateCellWithOfferModel:(OfferModel *)offerModel{
     
@@ -69,6 +83,8 @@
     [[ActivityManager sharedInstance]setOfferLikesCount:self.likesLabel withOffer:offerModel];
     
     self.priceLabel.text = offerModel.offerPrice;
+    
+    [self updateCellWithOfferSoldStatus:offerModel];
     
 }
 

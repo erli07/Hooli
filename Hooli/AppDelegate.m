@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "LocationManager.h"
 #import "HomeViewViewController.h"
+#import "HLSettings.h"
 @interface AppDelegate ()
 
 @end
@@ -28,9 +29,9 @@
     
     [[LocationManager sharedInstance]startLocationUpdate];
     
+   PFUser *currentUser = [[HLSettings sharedInstance]getCurrentUser];
     
-    
-    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+    if (([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) || currentUser) {
         
         UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];

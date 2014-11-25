@@ -10,6 +10,7 @@
 #import "HLTheme.h"
 #import "AccountManager.h"
 #import "LoginViewController.h"
+#import "EditProfileViewController.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -59,20 +60,12 @@
 // Set received values if they are not nil and reload the table
 - (void)updateProfileData {
     
-
-        [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
-            
-           
-            self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", [[AccountManager sharedInstance]getUserName]];
-            self.profilePictureView.image = (UIImage *)object;
-            
-            
-        } Failure:^(id error) {
-            
-            NSLog(@"%@",error);
-            
-        }];
     
+    PFUser *user = [PFUser currentUser];
+    PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+    NSData *imageData = [theImage getData];
+    self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+    self.profilePictureView.image = [UIImage imageWithData:imageData];
     
 }
 
@@ -80,7 +73,31 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if(indexPath.section == 2){
+    if(indexPath.section == 0){
+        
+        
+    }
+    else if(indexPath.section == 1){
+        
+        if(indexPath.row == 0){
+            
+            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+            EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"editProfile"];
+
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+        else{
+            
+            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"settings"];
+            
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+
+    }
+    else if(indexPath.section == 2){
         
         UIAlertView *logoutAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
         logoutAlert.delegate = self;

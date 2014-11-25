@@ -19,6 +19,7 @@
 @synthesize offerLikesNum = _offerLikesNum;
 @synthesize imageArray = _imageArray;
 @synthesize geoPoint = _geoPoint;
+@synthesize isOfferSold = _isOfferSold;
 
 -(id)initOfferModelWithUser:(PFObject *)user
                       image:(UIImage *)image
@@ -26,7 +27,8 @@
                   offerName:(NSString *)offerName
                    category:(NSString *)offerCategory
                 description:(NSString *)offerDescription
-                   location:(CLLocationCoordinate2D) offerLocation{
+                   location:(CLLocationCoordinate2D) offerLocation
+                isOfferSold:(NSNumber *)isOfferSold{
     
     self = [super init];
     if(self)
@@ -41,6 +43,7 @@
         _geoPoint = [[PFGeoPoint alloc]init];
         _geoPoint.latitude = offerLocation.latitude;
         _geoPoint.longitude = offerLocation.longitude;
+        _isOfferSold = isOfferSold;
     }
     return self;
     
@@ -53,7 +56,8 @@
                   offerName:(NSString *)offerName
                    category:(NSString *)offerCategory
                 description:(NSString *)offerDescription
-                   location:(CLLocationCoordinate2D) offerLocation{
+                   location:(CLLocationCoordinate2D) offerLocation
+                isOfferSold:(NSNumber *)isOfferSold{
     
     self = [super init];
     if(self)
@@ -68,11 +72,13 @@
         _geoPoint = [[PFGeoPoint alloc]init];
         _geoPoint.latitude = offerLocation.latitude;
         _geoPoint.longitude = offerLocation.longitude;
+        _isOfferSold = isOfferSold;
     }
     return self;
     
     
 }
+
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
                          image:(UIImage *)image
@@ -80,7 +86,8 @@
                          price:(NSString *)offerPrice
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
-                      location:(CLLocationCoordinate2D) offerLocation {
+                      location:(CLLocationCoordinate2D) offerLocation
+                   isOfferSold:(NSNumber *)isOfferSold {
     
     self = [super init];
     if(self)
@@ -93,6 +100,7 @@
         _offerDescription = offerDescription;
         _offerPrice = offerPrice;
         _offerLocation = offerLocation;
+        _isOfferSold = isOfferSold;
     }
     return self;
 }
@@ -104,7 +112,8 @@
                          price:(NSString *)offerPrice
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
-                      location:(CLLocationCoordinate2D) offerLocation {
+                      location:(CLLocationCoordinate2D) offerLocation
+                   isOfferSold:(NSNumber *)isOfferSold {
     
     self = [super init];
     if(self)
@@ -117,6 +126,7 @@
         _offerDescription = offerDescription;
         _offerPrice = offerPrice;
         _offerLocation = offerLocation;
+        _isOfferSold = isOfferSold;
     }
     return self;
 }
@@ -134,8 +144,9 @@
     NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
     PFGeoPoint *geoPoint =  [object objectForKeyedSubscript:kHLOfferModelKeyGeoPoint];
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
+    NSNumber *offerStatus = [object objectForKeyedSubscript:kHLOfferModelKeyOfferStatus];
     
-    return  [self initOfferModelWithOfferId:offerId user:user image:image offerName:offerName price:price category:category description:description location:location];
+    return  [self initOfferModelWithOfferId:offerId user:user image:image offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus];
 }
 
 -(id)initOfferDetailsWithPFObject:(PFObject *)object{
@@ -163,8 +174,9 @@
     NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
     PFGeoPoint *geoPoint =  [object objectForKeyedSubscript:kHLOfferModelKeyGeoPoint];
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
-    
-    return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:location];
+    NSNumber *offerStatus = [object objectForKeyedSubscript:kHLOfferModelKeyOfferStatus];
+
+    return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus];
 }
 
 

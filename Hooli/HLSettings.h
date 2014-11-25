@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <Parse/Parse.h>
 @interface HLSettings : NSObject
 +(HLSettings *)sharedInstance;
 @property (nonatomic, strong) NSArray *category;
 @property (nonatomic, assign) BOOL isPostingOffer;
 @property (nonatomic, assign) float preferredDistance;
 @property (nonatomic, assign) BOOL isRefreshNeeded;
+
+- (PFUser *)getCurrentUser ;
+- (void)saveCurrentUser:(PFUser *)currentUser;
 @end

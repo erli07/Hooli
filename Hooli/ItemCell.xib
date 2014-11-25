@@ -49,6 +49,9 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ca1-0G-18V">
+                        <rect key="frame" x="0.0" y="0.0" width="76" height="76"/>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -60,6 +63,7 @@
                 <outlet property="priceLabel" destination="9LM-KR-Lnz" id="qZL-4U-jmf"/>
                 <outlet property="productImageView" destination="8kW-kZ-ejL" id="qbl-n8-bTv"/>
                 <outlet property="shadowView" destination="Whc-ga-kdP" id="sj4-Oy-2cE"/>
+                <outlet property="soldImage" destination="Ca1-0G-18V" id="K6j-yY-ggw"/>
             </connections>
             <point key="canvasLocation" x="171.5" y="319.5"/>
         </collectionViewCell>

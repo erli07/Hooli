@@ -123,6 +123,7 @@ static NSString * const reuseIdentifier = @"Cell";
     OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
     
     [cell updateCellWithOfferModel:offer];
+
     
     return cell;
 }

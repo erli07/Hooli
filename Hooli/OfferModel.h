@@ -31,7 +31,7 @@ typedef enum {
 @property (nonatomic) CLLocationCoordinate2D offerLocation;
 @property (nonatomic, strong) NSString *offerLikesNum;
 @property (nonatomic, strong) PFGeoPoint *geoPoint;
-
+@property (nonatomic, assign) NSNumber *isOfferSold;
 
 
 -(id)initOfferModelWithUser:(PFObject *)user
@@ -40,7 +40,8 @@ typedef enum {
                   offerName:(NSString *)offerName
                    category:(NSString *)offerCategory
                 description:(NSString *)offerDescription
-                   location:(CLLocationCoordinate2D) offerLocation;
+                   location:(CLLocationCoordinate2D) offerLocation
+                isOfferSold:(NSNumber *)isOfferSold;
 
 -(id)initOfferModelWithUser:(PFObject *)user
                  imageArray:(NSArray *)imageArray
@@ -48,7 +49,9 @@ typedef enum {
                   offerName:(NSString *)offerName
                    category:(NSString *)offerCategory
                 description:(NSString *)offerDescription
-                   location:(CLLocationCoordinate2D) offerLocation;
+                   location:(CLLocationCoordinate2D) offerLocation
+                isOfferSold:(NSNumber *)isOfferSold;
+
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
@@ -57,7 +60,19 @@ typedef enum {
                          price:(NSString *)offerPrice
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
-                      location:(CLLocationCoordinate2D) offerLocation;
+                      location:(CLLocationCoordinate2D) offerLocation
+                   isOfferSold:(NSNumber *)isOfferSold;
+
+-(id)initOfferModelWithOfferId:(NSString*)offerId
+                          user:(PFObject *)user
+                    imageArray:(NSArray *)imageArray
+                     offerName:(NSString *)offerName
+                         price:(NSString *)offerPrice
+                      category:(NSString *)offerCategory
+                   description:(NSString *)offerDescription
+                      location:(CLLocationCoordinate2D) offerLocation
+                   isOfferSold:(NSNumber *)isOfferSold;
+
 
 -(id)initOfferWithPFObject:(PFObject *)object;
 -(id)initOfferDetailsWithPFObject:(PFObject *)object;

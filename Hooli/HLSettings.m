@@ -23,5 +23,19 @@
     
 }
 
+- (PFUser *)getCurrentUser {
+
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    return [ud objectForKey:@"CURRENT_USER"];
+}
+
+- (void)saveCurrentUser:(PFUser *)currentUser
+{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setObject:currentUser forKey:@"CURRENT_USER"];
+    [ud synchronize];
+
+}
 
 @end

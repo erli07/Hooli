@@ -28,26 +28,33 @@
     
     [super viewDidLoad];
     
+    self.userNameTextField.text = [[PFUser user]objectForKey:kHLUserModelKeyUserName];
     
-    [[AccountManager sharedInstance]loadFaceBookAccountDataWithSuccess:^(id object) {
-        
-        [[AccountManager sharedInstance]setUserFacebookProfilePicture:self.portraitImage];
-        
-        self.userNameTextField.text =[[AccountManager sharedInstance]getUserName];
-        
-        self.emailTextField.text = [[AccountManager sharedInstance]getEmail];
-        
-    } Failure:^(id error) {
-        
-        NSLog(@"%@",error);
+    self.emailTextField.text = [[PFUser user]objectForKey:kHLUserModelKeyEmail];
 
-    }];
+    self.portraitImage.image = [[PFUser user]objectForKey:kHLUserModelKeyPortraitImage];
+    
+//    [[AccountManager sharedInstance]loadFaceBookAccountDataWithSuccess:^(id object) {
+//        
+//        [[AccountManager sharedInstance]setUserFacebookProfilePicture:self.portraitImage];
+//        
+//        self.userNameTextField.text =[[AccountManager sharedInstance]getUserName];
+//        
+//        self.emailTextField.text = [[AccountManager sharedInstance]getEmail];
+//        
+//    } Failure:^(id error) {
+//        
+//        NSLog(@"%@",error);
+//
+//    }];
 
     self.username.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     self.email.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     self.portraitImage.layer.cornerRadius = self.portraitImage.frame.size.height/2;
     self.portraitImage.layer.masksToBounds = YES;
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBar.hidden = NO;
+
+//    self.tabBarController.tabBar.hidden = YES;
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboards)];

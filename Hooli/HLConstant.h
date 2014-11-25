@@ -40,6 +40,7 @@ extern NSString *const kHLOfferModelKeyUser;
 extern NSString *const kHLOfferModelKeyOfferId;
 extern NSString *const kHLOfferModelKeyOfferName;
 extern NSString *const kHLOfferModelKeyGeoPoint;
+extern NSString *const kHLOfferModelKeyOfferStatus;
 
 extern NSString *const kHLOfferPhotoKeyOfferID;
 extern NSString *const kHLOfferPhotKeyPhoto;

@@ -49,8 +49,14 @@ typedef void (^UploadFailureBlock) (id error);
 
 -(void)fetchOfferByID:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess
               failure:(DownloadFailureBlock)downloadFailure;
+
 -(void)fetchOffersByDistance:(double)distance withSuccess:(DownloadSuccessBlock)dowloadSuccess
               failure:(DownloadFailureBlock)downloadFailure;
 
+-(void)updateOfferSoldStatusWithOfferID:(NSString *)offerID  soldStatus:(BOOL)soldStatus
+                            block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
+-(void)deleteOfferModelWithOfferId:(NSString *)offerId
+                             block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
 @end

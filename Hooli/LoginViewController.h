@@ -12,5 +12,10 @@
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 @interface LoginViewController : UIViewController<FBLoginViewDelegate>
 @property (strong, nonatomic) FBProfilePictureView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UITextField *emailText;
+@property (weak, nonatomic) IBOutlet UITextField *passwordText;
+- (IBAction)signUp:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *login;
+- (IBAction)login:(id)sender;
 
 @end

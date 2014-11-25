@@ -138,63 +138,63 @@
     }
     
     PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
-
+    
     
     for (int i = 0; i <[offer.imageArray count]; i++) {
         
         NSData *imageData = [self compressImage:[offer.imageArray objectAtIndex:i] WithCompression:0.05f];
         PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
         [offerClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
-
+        
     }
     
     NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.01f];
     PFFile *thumbNailFile = [PFFile fileWithName:@"thumbNail.jpg" data:thumbnailData];
     [offerClass setObject:thumbNailFile forKey:kHLOfferModelKeyThumbNail];
-
+    
     // Save PFFile
-//    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//        if (!error) {
+    //    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    //        if (!error) {
     
-            // Create a PFObject around a PFFile and associate it with the current user
+    // Create a PFObject around a PFFile and associate it with the current user
     
-            offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-            PFUser *user = [PFUser currentUser];
-            [offerClass setObject:user forKey:kHLOfferModelKeyUser];
-            [offerClass setObject:offer.offerDescription forKey:kHLOfferModelKeyDescription];
-            [offerClass setObject:offer.offerPrice forKey:kHLOfferModelKeyPrice];
-            [offerClass setObject:offer.offerCategory forKey:kHLOfferModelKeyCategory];
-            [offerClass setObject:offer.offerName forKey:kHLOfferModelKeyOfferName];
-            [offerClass setObject:offer.geoPoint forKey:kHLOfferModelKeyGeoPoint];
+    offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+    PFUser *user = [PFUser currentUser];
+    [offerClass setObject:user forKey:kHLOfferModelKeyUser];
+    [offerClass setObject:offer.offerDescription forKey:kHLOfferModelKeyDescription];
+    [offerClass setObject:offer.offerPrice forKey:kHLOfferModelKeyPrice];
+    [offerClass setObject:offer.offerCategory forKey:kHLOfferModelKeyCategory];
+    [offerClass setObject:offer.offerName forKey:kHLOfferModelKeyOfferName];
+    [offerClass setObject:offer.geoPoint forKey:kHLOfferModelKeyGeoPoint];
+    
+    [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
             
-            [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        _uploadSuccess();
-                        
-                    });
-                    // [self refresh:nil];
-                }
-                else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        _uploadFailure(error);
-                        
-                    });
-                    // Log details of the failure
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
-            }];
-//        }
-//        else{
-//            // Log details of the failure
-//            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//        }
-//    } progressBlock:^(int percentDone) {
-//        
-//    }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                _uploadSuccess();
+                
+            });
+            // [self refresh:nil];
+        }
+        else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                _uploadFailure(error);
+                
+            });
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    //        }
+    //        else{
+    //            // Log details of the failure
+    //            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    //        }
+    //    } progressBlock:^(int percentDone) {
+    //
+    //    }];
     
 }
 
@@ -209,7 +209,7 @@
     NSLog(@"Get Image Size %u", [imageData length]/1024);
     
     return imageData;
-
+    
 }
 -(void)clearData{
     
@@ -243,10 +243,10 @@
     PFUser *user = [PFUser currentUser];
     
     [query whereKey:kHLOfferModelKeyUser equalTo:user];
-        
-//    filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-//                       kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
-//                       kHLOfferCategoryHomeGoods,kHLFilterDictionarySearchKeyCategory,nil];
+    
+    //    filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+    //                       kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
+    //                       kHLOfferCategoryHomeGoods,kHLFilterDictionarySearchKeyCategory,nil];
     
     if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyCategory]){
         
@@ -259,15 +259,15 @@
     else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyWords]){
         
         NSString *searchWords = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyWords];
-
+        
         [query whereKey:kHLOfferModelKeyOfferName containsString:searchWords];
         
-      //  [query whereKey:kHLOfferModelKeyDescription containsString:searchWords];
+        //  [query whereKey:kHLOfferModelKeyDescription containsString:searchWords];
     }
     [query orderByAscending:@"createdAt"];
     [query setLimit:kHLOffersNumberShowAtFirstTime];
     [query setSkip:kHLOffersNumberShowAtFirstTime * self.pageCounter];
-//    [query whereKey:kHLOfferModelKeyGeoPoint nearGeoPoint:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] withinMiles:[[HLSettings sharedInstance]preferredDistance]];
+    //    [query whereKey:kHLOfferModelKeyGeoPoint nearGeoPoint:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] withinMiles:[[HLSettings sharedInstance]preferredDistance]];
     // [query whereKey:kHLOfferModelKeyCategory equalTo:@"Home Goods"];
     //  [query orderByDescending:@"createdAt"];
     
@@ -367,7 +367,7 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-        
+            
             _dowloadSuccess(objects);
             
         } else {
@@ -375,9 +375,9 @@
             _downloadFailure(error);
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
-
+        
     }];
-
+    
 }
 
 -(void)fetchOffersByDistance:(double)distance withSuccess:(DownloadSuccessBlock)dowloadSuccess
@@ -406,7 +406,73 @@
         }
         
     }];
-
+    
     
 }
+
+-(void)updateOfferSoldStatusWithOfferID:(NSString *)offerID  soldStatus:(BOOL)soldStatus withSuccess:(DownloadSuccessBlock)dowloadSuccess
+                     failure:(DownloadFailureBlock)downloadFailure{
+    
+    _dowloadSuccess = dowloadSuccess ;
+    _downloadFailure = downloadFailure;
+    
+    PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
+    [offerClass setObject:[NSNumber numberWithBool:soldStatus] forKey:kHLOfferModelKeyOfferStatus];
+    [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            
+                _uploadSuccess();
+            
+        }
+        else{
+            
+            _uploadFailure(error);
+            
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+
+
+}
+
+-(void)updateOfferSoldStatusWithOfferID:(NSString *)offerID  soldStatus:(BOOL)soldStatus
+                                  block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFObject *point = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerID];
+    
+    // Set a new value on quantity
+    [point setObject:[NSNumber numberWithBool:soldStatus] forKey:kHLOfferModelKeyOfferStatus];
+    
+    // Save
+    [point saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if (completionBlock) {
+            completionBlock(succeeded,error);
+        }
+
+    }];
+}
+
+-(void)deleteOfferModelWithOfferId:(NSString *)offerId  block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass
+                                                       objectId:offerId];
+    
+    [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if(succeeded){
+            
+            if (completionBlock) {
+                completionBlock(succeeded,error);
+            }
+            
+        }
+        else{
+            
+            NSLog(@"Delete self error %@", [error description]);
+            
+        }
+    }];
+
+}
+
 @end

@@ -11,10 +11,12 @@
 @implementation UserModel
 @synthesize email,username,portraitImage,userID,password;
 
-NSString *const kHLUserModelKeyEmail = @"Email";
-NSString *const kHLUserModelKeyUserName = @"UserName";
+NSString *const kHLUserModelKeyEmail = @"email";
+NSString *const kHLUserModelKeyUserName = @"username";
 NSString *const kHLUserModelKeyPortraitImage = @"PortraitImage";
-NSString *const kHLUserModelKeyUserId = @"UserId";
+NSString *const kHLUserModelKeyUserId = @"objectId";
+NSString *const kHLUserModelKeyPassword = @"password";
+
 
 -(id)initUserWithEmail:(NSString *)_email
                 userName:(NSString *)_username

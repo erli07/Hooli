@@ -18,6 +18,7 @@
 #import "HLSettings.h"
 #import "MapViewController.h"
 #import "UserCartViewController.h"
+#import "ActivityManager.h"
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
 
@@ -31,7 +32,7 @@
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID,soldImageView;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -124,6 +125,19 @@
     self.offerDescription.text = offerModel.offerDescription;
     [self.offerDescription sizeToFit];
     self.priceLabel.text = offerModel.offerPrice;
+    
+    if([offerModel.isOfferSold boolValue]){
+        
+        self.soldImageView.image = [UIImage imageNamed:@"sold"];
+        self.bottomButtonsView.hidden = YES;
+        
+    }
+    else{
+        
+        self.bottomButtonsView.hidden = NO;
+        self.soldImageView.image = nil;
+    }
+
 
     [[AccountManager sharedInstance]loadAccountDataWithUserId:offerModel.user.objectId Success:^(id object) {
         
@@ -248,8 +262,9 @@
     CGFloat scrollHeight = self.scrollView.bounds.size.height; // -20;
     CGFloat padding = (self.scrollView.bounds.size.width - scrollHeight) / 2;
     for (UIImage *image in imagesArray) {
-        CGRect frame = CGRectMake(scrollContentWidth + padding , (self.scrollView.bounds.size.height - scrollHeight)/2, 260, 260);
         
+        CGRect frame = CGRectMake(scrollContentWidth + padding + 30 , (self.scrollView.bounds.size.height - scrollHeight)/2, 200, 260);
+
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         preview.image = image;
         
@@ -270,10 +285,8 @@
     if(buttonIndex== 1){
         
         [HUD show:YES];
-        
-        PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass
-                                                           objectId:self.offerId];
-        [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
+            
             if(succeeded){
                 [HUD hide:YES];
                 [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
@@ -284,8 +297,10 @@
                 NSLog(@"Delete self error %@", [error description]);
                 
             }
+
         }];
-    }
+        
+            }
     else{
         
     }

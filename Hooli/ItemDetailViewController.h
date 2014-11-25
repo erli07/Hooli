@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSString *offerId;
 @property (weak, nonatomic) IBOutlet UIView *offerDetailView;
 @property (nonatomic, strong) OfferModel *offerObject;
+@property (weak, nonatomic) IBOutlet UIImageView *soldImageView;
 @property (nonatomic, strong) NSString *userID;
 @property (weak, nonatomic) IBOutlet UIView *bottomButtonsView;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;

@@ -11,12 +11,14 @@
 #import "HomeViewViewController.h"
 #import "MBProgressHUD.h"
 #import "AccountManager.h"
+#import "HLSettings.h"
 #import "EditProfileViewController.h"
+#import <Parse/Parse.h>
 
 @interface LoginViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
 }
-@property (nonatomic,strong) UIButton *loginButton;
+@property (nonatomic,strong) IBOutlet UIButton *loginButton;
 @end
 
 @implementation LoginViewController
@@ -24,20 +26,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(dismissKeyboards)];
     
-    self.loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.loginButton  addTarget:self
-                          action:@selector(loginFB)
-                forControlEvents:UIControlEventTouchUpInside];
-   // [self.loginButton  setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
-    self.loginButton.frame = CGRectMake(60, 380, 214, 41);
-//    self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height/2;
-    self.loginButton.center = CGPointMake(160, 420);
-    [self.loginButton setBackgroundImage:[UIImage imageNamed:@"LoginWithFacebook"] forState:UIControlStateNormal];
-    self.loginButton.layer.masksToBounds = YES;
+    [self.view addGestureRecognizer:tap];
+    
     self.tabBarController.tabBar.hidden=YES;
-    self.navigationController.navigationBar.hidden = YES;
-    [self.view addSubview:self.loginButton];
+    //  self.navigationController.navigationBar.hidden = YES;
     // Do any additional setup after loading the view.
 }
 
@@ -46,16 +41,86 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-
-        [self loginSuccess];
-
+        
+        [self loginSuccessWithUser:[PFUser currentUser]];
+        
     }
+}
+
+
+-(void)dismissKeyboards{
+    
+    [self.emailText resignFirstResponder];
+    [self.passwordText resignFirstResponder];
+    
+    
+}
+- (IBAction)loginWithEmail:(id)sender {
+    
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    [HUD show:YES];
+    
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"email" equalTo:self.emailText.text];
+
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
+       
+        [HUD hide:YES];
+        [self.emailText resignFirstResponder];
+        [self.passwordText resignFirstResponder];
+        if(object){
+            NSString *username = [object objectForKey:@"username"];
+            [PFUser logInWithUsernameInBackground:username password:self.passwordText.text block:^(PFUser* user, NSError* error){
+                
+                if(user){
+                    
+                    [self loginSuccessWithUser:user];
+                    
+                }
+                else{
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
+                                                                    message:@"Login error"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:nil
+                                                          otherButtonTitles:@"OK", nil];
+                    [alert show];
+
+                    
+                }
+            }];
+        }
+        else{
+            
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:@"Email does not exist"
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            
+            
+        }
+        
+        
+    }];
+
+}
+
+
+- (IBAction)loginButton:(id)sender {
+    
+    
+    [self loginFB];
+    
 }
 
 - (void)loginFB {
     
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_location"];
+    NSArray *permissionsArray = @[ @"public_profile", @"email"];
     
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
@@ -91,9 +156,23 @@
             
         } else {
             
+            [[AccountManager sharedInstance]saveFacebookAccountDataWithPFUser:user WithSuccess:^{
+                
+                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                
 
-            [self performSegueWithIdentifier:@"loginSuccess" sender:self];
-          
+            } Failure:^(id error) {
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:@"Log In Error"
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"Dismiss", nil];
+                [alert show];
+        
+            }];
+            
+            
             
             
         }
@@ -101,25 +180,30 @@
     
 }
 
--(void)loginSuccess{
+-(void)loginSuccessWithUser:(PFUser *)currentUser{
     
+  //  [[HLSettings sharedInstance]saveCurrentUser:currentUser];
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:vc animated:YES completion:^{
-    
+        
     }];
-
+    
 }
 
 /*
-#pragma mark - Navigation
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)signUp:(id)sender {
+    
 }
-*/
 
 @end

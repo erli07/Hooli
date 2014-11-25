@@ -33,10 +33,17 @@ typedef void (^DownloadFailureBlock) (id error);
 -(NSString *)getEmail;
 -(NSString *)getGender;
 
+-(void)submitUserInfoFromSignup:(UserModel *)userModel block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
 - (void)setUserFacebookProfilePicture:(UIImageView *)profileImageView;
 - (void)setUserProfilePicture:(UIImageView *)profileImageView;
 - (void)loadFaceBookAccountDataWithSuccess:(DownloadSuccessBlock)success
-                           Failure:(DownloadFailureBlock)failure;
+                                   Failure:(DownloadFailureBlock)failure;
+
+-(void)saveFacebookAccountDataWithPFUser:(PFUser *)user
+                             WithSuccess:(UploadSuccessBlock)success
+                                 Failure:(UploadFailureBlock)failure;
+
 - (void)loadAccountDataWithSuccess:(DownloadSuccessBlock)success
                            Failure:(DownloadFailureBlock)failure;
 - (void)loadAccountDataWithUserId:(NSString *)userId
@@ -49,4 +56,7 @@ typedef void (^DownloadFailureBlock) (id error);
 -(void)updateUserProfileWithUser:(UserModel *)userModel
                          Success:(UploadSuccessBlock)success
                          Failure:(UploadFailureBlock)failure;
+
+-(void)checkIfUserExistedWithUser:(UserModel *)userModel
+                            block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 @end
