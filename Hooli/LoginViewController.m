@@ -57,6 +57,33 @@
 }
 - (IBAction)loginWithEmail:(id)sender {
     
+    if([self.emailText.text isEqualToString:@""]){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                        message:@"Email shall not be empty."
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        
+        return;
+    }
+    
+    if([self.passwordText.text isEqualToString:@""]){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                        message:@"Password shall not be empty."
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        
+        return;
+    }
+    
+    
+    
+    
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
     [HUD show:YES];
@@ -80,8 +107,8 @@
                 }
                 else{
                     
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-                                                                    message:@"Login error"
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                                    message:@"Password is not correct. Please try again."
                                                                    delegate:nil
                                                           cancelButtonTitle:nil
                                                           otherButtonTitles:@"OK", nil];
@@ -94,8 +121,8 @@
         else{
             
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-                                                            message:@"Email does not exist"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                            message:@"Email does not exist. Please sign up."
                                                            delegate:nil
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"OK", nil];
@@ -120,7 +147,7 @@
 - (void)loginFB {
     
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"public_profile", @"email"];
+    NSArray *permissionsArray = @[ @"user_about_me",@"email"];
     
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
@@ -137,6 +164,8 @@
         [HUD hide:YES];
         
         if (!user) {
+            
+            
             
             NSString *errorMessage = nil;
             if (!error) {
@@ -155,7 +184,7 @@
             [alert show];
             
         } else {
-            
+                        
             [[AccountManager sharedInstance]saveFacebookAccountDataWithPFUser:user WithSuccess:^{
                 
                 [self performSegueWithIdentifier:@"loginSuccess" sender:self];
@@ -179,6 +208,8 @@
     }];
     
 }
+
+
 
 -(void)loginSuccessWithUser:(PFUser *)currentUser{
     

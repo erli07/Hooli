@@ -125,7 +125,7 @@ const CGFloat duration = 0.3;
     
     if ([self.emailText.text isEqualToString: @""] || [self.nameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""]) {
         
-        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"User info is missing." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"User info is missing." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [pwNotMatchedAlert show];
         
@@ -135,7 +135,7 @@ const CGFloat duration = 0.3;
     
     if(![self NSStringIsValidEmail:self.emailText.text]){
         
-        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Email format not correct." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"Email format not correct." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [pwNotMatchedAlert show];
         
@@ -147,7 +147,7 @@ const CGFloat duration = 0.3;
     
     if(![self checkPassword]){
         
-        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Password not matched." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"Password not matched." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [pwNotMatchedAlert show];
         
@@ -195,7 +195,7 @@ const CGFloat duration = 0.3;
 
             NSString *alertMsg = [NSString stringWithFormat:@"User with email:%@ already registered", emailText.text];
             
-            UIAlertView *userExistsAlert = [[UIAlertView alloc]initWithTitle:@"" message:alertMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *userExistsAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:alertMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [userExistsAlert show];
             

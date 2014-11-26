@@ -24,7 +24,7 @@
     // Override point for customization after application launch.
     [HLTheme customizeTheme];
 
-    [Parse setApplicationId:@"G6UZ5r149kBE3fmraZIcU9oPh53BiSXKxgaLS1g0" clientKey:@"bdTfTtpJIu9EhHb6IHQTYkbnpdFJfcOKME8jYoMZ"];
+    [Parse setApplicationId:@"nLiRBbe4xwev8pUXbvD3x8Q2eQAuSg8NRQWsoo9y" clientKey:@"WIJGRQoKLR1ascXnVZMyrFGX8y9F0tfBRDJr0YdX"];
     [PFFacebookUtils initializeFacebook];
     
     [[LocationManager sharedInstance]startLocationUpdate];

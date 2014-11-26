@@ -76,6 +76,8 @@
 		0E50F12E1A1452670048FA27 /* UserCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E50F12D1A1452670048FA27 /* UserCartViewController.m */; };
 		0E50F1341A1476FB0048FA27 /* shot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E50F1301A1476FB0048FA27 /* shot@2x.png */; };
 		0E50F1361A1476FB0048FA27 /* shot_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E50F1321A1476FB0048FA27 /* shot_h@2x.png */; };
+		0E63A7BD1A2626DF0038B1AE /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E63A7BC1A2626DF0038B1AE /* Chat.storyboard */; };
+		0E63A7C01A2627390038B1AE /* ChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E63A7BF1A2627390038B1AE /* ChatListViewController.m */; };
 		0ECAC35D19FF1BCC002866DE /* button-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC35919FF1BCC002866DE /* button-pressed.png */; };
 		0ECAC35E19FF1BCC002866DE /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC35A19FF1BCC002866DE /* button.png */; };
 		0ECAC35F19FF1BCC002866DE /* button-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ECAC35B19FF1BCC002866DE /* button-pressed@2x.png */; };
@@ -109,6 +111,7 @@
 		0EDF40011A21B6380034C6F4 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EDF3FFF1A21B6380034C6F4 /* icon@2x.png */; };
 		0EDF40021A21B6380034C6F4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EDF40001A21B6380034C6F4 /* icon.png */; };
 		0EDF40051A21B8370034C6F4 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF40041A21B8370034C6F4 /* SignUpViewController.m */; };
+		0EDF40661A2468890034C6F4 /* imageedit_7_4972766291.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EDF40651A2468890034C6F4 /* imageedit_7_4972766291.png */; };
 		0EE4997C1A0F4C500046B3C7 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4997B1A0F4C500046B3C7 /* ImageCache.m */; };
 		0EE499801A1010730046B3C7 /* facebooklogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE4997F1A1010730046B3C7 /* facebooklogo@2x.png */; };
 		0EE499821A1016690046B3C7 /* LoginWithFacebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE499811A1016690046B3C7 /* LoginWithFacebook.png */; };
@@ -225,6 +228,9 @@
 		0E50F12D1A1452670048FA27 /* UserCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCartViewController.m; sourceTree = "<group>"; };
 		0E50F1301A1476FB0048FA27 /* shot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shot@2x.png"; sourceTree = "<group>"; };
 		0E50F1321A1476FB0048FA27 /* shot_h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shot_h@2x.png"; sourceTree = "<group>"; };
+		0E63A7BC1A2626DF0038B1AE /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		0E63A7BE1A2627390038B1AE /* ChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatListViewController.h; sourceTree = "<group>"; };
+		0E63A7BF1A2627390038B1AE /* ChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatListViewController.m; sourceTree = "<group>"; };
 		0ECAC35919FF1BCC002866DE /* button-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-pressed.png"; sourceTree = "<group>"; };
 		0ECAC35A19FF1BCC002866DE /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		0ECAC35B19FF1BCC002866DE /* button-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-pressed@2x.png"; sourceTree = "<group>"; };
@@ -269,6 +275,7 @@
 		0EDF40001A21B6380034C6F4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0EDF40031A21B8370034C6F4 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		0EDF40041A21B8370034C6F4 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		0EDF40651A2468890034C6F4 /* imageedit_7_4972766291.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imageedit_7_4972766291.png; path = Hooli/images/imageedit_7_4972766291.png; sourceTree = "<group>"; };
 		0EE4997A1A0F4C500046B3C7 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
 		0EE4997B1A0F4C500046B3C7 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
 		0EE4997F1A1010730046B3C7 /* facebooklogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "facebooklogo@2x.png"; path = "../facebooklogo@2x.png"; sourceTree = "<group>"; };
@@ -384,6 +391,7 @@
 		0E17BEC519FC8BAE0042C4DD = {
 			isa = PBXGroup;
 			children = (
+				0EDF40651A2468890034C6F4 /* imageedit_7_4972766291.png */,
 				0ECAC3A11A01C227002866DE /* MessageUI.framework */,
 				0E17BED019FC8BAE0042C4DD /* Hooli */,
 				0E17BEEA19FC8BAE0042C4DD /* HooliTests */,
@@ -470,6 +478,9 @@
 				0E17BF4919FDCDE50042C4DD /* Camera */,
 				0E17BF4819FDCDDB0042C4DD /* User */,
 				0E17BF6519FDFA850042C4DD /* Login */,
+				0E63A7BC1A2626DF0038B1AE /* Chat.storyboard */,
+				0E63A7BE1A2627390038B1AE /* ChatListViewController.h */,
+				0E63A7BF1A2627390038B1AE /* ChatListViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -780,12 +791,14 @@
 				0E50F1361A1476FB0048FA27 /* shot_h@2x.png in Resources */,
 				0ECAC35F19FF1BCC002866DE /* button-pressed@2x.png in Resources */,
 				0E0019D11A0B3F660086CD77 /* Ariel1.png in Resources */,
+				0EDF40661A2468890034C6F4 /* imageedit_7_4972766291.png in Resources */,
 				0ECAC36E19FF2A65002866DE /* pageControl-dot-selected@2x.png in Resources */,
 				0EDF3FFA1A21B02B0034C6F4 /* Line-Separator.png in Resources */,
 				0E03ACC21A1D94A100827B6C /* sold.png in Resources */,
 				0E50F1341A1476FB0048FA27 /* shot@2x.png in Resources */,
 				0EDF40011A21B6380034C6F4 /* icon@2x.png in Resources */,
 				0ECAC35D19FF1BCC002866DE /* button-pressed.png in Resources */,
+				0E63A7BD1A2626DF0038B1AE /* Chat.storyboard in Resources */,
 				0E0019CF1A0B3DF30086CD77 /* image.png in Resources */,
 				0E0019DE1A0E948F0086CD77 /* sliderMaxTrack.png in Resources */,
 				0ECAC37519FF2B78002866DE /* Details3.png in Resources */,
@@ -842,6 +855,7 @@
 				0E17BF2819FC99800042C4DD /* DataSource.m in Sources */,
 				0E17BF6419FDFA7F0042C4DD /* LoginViewController.m in Sources */,
 				0E17BF5119FDD1250042C4DD /* MyCameraViewController.m in Sources */,
+				0E63A7C01A2627390038B1AE /* ChatListViewController.m in Sources */,
 				0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */,
 				0E17BF3F19FCA7FF0042C4DD /* HomeViewViewController.m in Sources */,
 				0EDF40051A21B8370034C6F4 /* SignUpViewController.m in Sources */,

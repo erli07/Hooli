@@ -27,26 +27,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
-    self.userNameTextField.text = [[PFUser user]objectForKey:kHLUserModelKeyUserName];
-    
-    self.emailTextField.text = [[PFUser user]objectForKey:kHLUserModelKeyEmail];
 
-    self.portraitImage.image = [[PFUser user]objectForKey:kHLUserModelKeyPortraitImage];
-    
-//    [[AccountManager sharedInstance]loadFaceBookAccountDataWithSuccess:^(id object) {
-//        
-//        [[AccountManager sharedInstance]setUserFacebookProfilePicture:self.portraitImage];
-//        
-//        self.userNameTextField.text =[[AccountManager sharedInstance]getUserName];
-//        
-//        self.emailTextField.text = [[AccountManager sharedInstance]getEmail];
-//        
-//    } Failure:^(id error) {
-//        
-//        NSLog(@"%@",error);
-//
-//    }];
 
     self.username.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     self.email.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
@@ -61,6 +42,22 @@
     
     [self.view addGestureRecognizer:tap];
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    NSString *userName =[[PFUser currentUser]objectForKey:kHLUserModelKeyUserName];
+    NSString *emailAddress = [[PFUser currentUser]objectForKey:kHLUserModelKeyEmail];
+    PFFile *portraitFile = [[PFUser currentUser]objectForKey:kHLUserModelKeyPortraitImage];
+    NSData *imageData = [portraitFile getData];
+    UIImage *image = [UIImage imageWithData:imageData];
+    
+    self.userNameTextField.text = userName;
+    
+    self.emailTextField.text = emailAddress;
+    
+    self.portraitImage.image = image;
+    
 }
 
 - (void)didReceiveMemoryWarning {
