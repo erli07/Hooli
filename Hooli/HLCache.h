@@ -17,5 +17,6 @@
 - (void)incrementLikerCountForOffer:(OfferModel *)offerModel;
 - (void)decrementLikerCountForOffer:(OfferModel *)offerModel;
 - (void)setAttributesForOffer:(OfferModel *)offer likers:(NSArray *)likers likedByCurrentUser:(BOOL)likedByCurrentUser;
+-( void)setLikedOffersByUser:(PFUser *)user likedOffers:(NSArray *)likedOffers;
 
 @end

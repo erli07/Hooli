@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
     </dependencies>
     <scenes>
@@ -234,6 +235,39 @@
             </objects>
             <point key="canvasLocation" x="1274" y="-2061"/>
         </scene>
+        <!--Chat List View Controller-->
+        <scene sceneID="ng9-iv-nxa">
+            <objects>
+                <viewController id="94Z-MY-b3n" customClass="ChatListViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eFV-S4-Ucd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dCG-XM-0n3"/>
+                    <connections>
+                        <segue destination="zx4-Gs-KjE" kind="push" id="INc-Ik-0WM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pqa-2O-xDU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="645" y="-3106"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="xWE-Fb-QMI">
+            <objects>
+                <viewController id="zx4-Gs-KjE" customClass="ChatViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VrH-xx-lUW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="57X-0U-b1W"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cmA-sI-ixX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1181" y="-3173"/>
+        </scene>
         <!--My Cart View Controller-->
         <scene sceneID="HuB-Dz-i9h">
             <objects>
@@ -249,6 +283,9 @@
                                     <segment title="Giving"/>
                                     <segment title="Likes"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segmentControlChanged:" destination="YjB-oi-gJ1" eventType="valueChanged" id="AbV-JC-DDd"/>
+                                </connections>
                             </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="RYR-Vi-cj9" customClass="MainCollectionView">
                                 <rect key="frame" x="0.0" y="107" width="320" height="414"/>
@@ -279,11 +316,12 @@
                     <connections>
                         <outlet property="collectionView" destination="RYR-Vi-cj9" id="UGv-sl-K8h"/>
                         <outlet property="layout" destination="7l0-wT-T8E" id="6ZO-ei-fcb"/>
+                        <outlet property="segmentedControl" destination="6A9-oH-ewf" id="kW6-42-tzl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nzk-EA-ZcK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746" y="-3267"/>
+            <point key="canvasLocation" x="1413" y="-4428"/>
         </scene>
         <!--Home View View Controller-->
         <scene sceneID="1uX-Jx-ZqL">
@@ -374,6 +412,17 @@
                                 <rect key="frame" x="264" y="184" width="64" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="sAu-b2-W7R">
+                                <rect key="frame" x="136" y="298" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show sold items" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Akh-Ur-Krd">
+                                <rect key="frame" x="95" y="259" width="127" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -514,6 +563,7 @@
                     <connections>
                         <outlet property="settingTableView" destination="Pco-0W-OmQ" id="hdi-ao-b1R"/>
                         <segue destination="S6K-hW-maZ" kind="push" id="Plm-Dy-4QV"/>
+                        <segue destination="YjB-oi-gJ1" kind="push" identifier="myItems" id="kIG-7t-Ujj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wbG-Bk-UZ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -556,7 +606,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48x-Sg-pAZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1161" y="-3952"/>
+            <point key="canvasLocation" x="1440" y="-3800"/>
         </scene>
         <!--My Items-->
         <scene sceneID="sFr-b9-SWd">
@@ -568,12 +618,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="YjB-oi-gJ1" kind="relationship" relationship="rootViewController" id="L87-ZZ-IEL"/>
+                        <segue destination="94Z-MY-b3n" kind="relationship" relationship="rootViewController" id="kkA-aT-peS"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m2T-Sx-aFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="149" y="-3274"/>
+            <point key="canvasLocation" x="145" y="-3118"/>
         </scene>
     </scenes>
     <resources>

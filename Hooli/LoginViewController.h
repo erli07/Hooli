@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import "ChattingManager.h"
 @interface LoginViewController : UIViewController<FBLoginViewDelegate>
 @property (strong, nonatomic) FBProfilePictureView *profilePictureView;
 @property (weak, nonatomic) IBOutlet UITextField *emailText;

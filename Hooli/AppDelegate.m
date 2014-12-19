@@ -13,6 +13,8 @@
 #import "LocationManager.h"
 #import "HomeViewViewController.h"
 #import "HLSettings.h"
+#import "EaseMob.h"
+
 @interface AppDelegate ()
 
 @end
@@ -38,15 +40,25 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
     
-   PFUser *currentUser = [[HLSettings sharedInstance]getCurrentUser];
+    NSString *apnsCertName = @"Hooli";
+    [[EaseMob sharedInstance] registerSDKWithAppKey:@"catalina#hooli" apnsCertName:apnsCertName];
+    //    [[EaseMob sharedInstance] enableBackgroundReceiveMessage];
+    [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    [[EaseMob sharedInstance].chatManager removeDelegate:self];
+    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
     
-    if (([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) || currentUser) {
+  // PFUser *currentUser = [[HLSettings sharedInstance]getCurrentUser];
+    
+    if (([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) || [PFUser currentUser]) {
+        
+        [[ChattingManager sharedInstance]loginChattingSDK:[PFUser currentUser] block:^(BOOL succeeded, NSError *error) {
+            
+        }];
         
         UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
         homeNav.navigationBar.hidden = YES;
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-        
         self.window.rootViewController = homeNav;
         [self.window makeKeyAndVisible];
         
@@ -63,6 +75,7 @@
 
     }
     
+    
     return YES;
 }
 
@@ -73,28 +86,53 @@
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
+    
+    [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    [[EaseMob sharedInstance] application:application didReceiveRemoteNotification:userInfo];
+    
     [PFPush handlePush:userInfo];
+    
+}
+
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    
+    [[EaseMob sharedInstance] application:application didReceiveLocalNotification:notification];
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+    
+    [[EaseMob sharedInstance] applicationWillResignActive:application];
+
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"applicationDidEnterBackground" object:nil];
+
+    [[EaseMob sharedInstance] applicationDidEnterBackground:application];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+    
+    [[EaseMob sharedInstance] applicationWillEnterForeground:application];
+    
+
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
+    [[EaseMob sharedInstance] applicationDidBecomeActive:application];
+
     [FBAppEvents activateApp];
 
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
@@ -107,6 +145,9 @@
     
 }
 - (void)applicationWillTerminate:(UIApplication *)application {
+    
+    [[EaseMob sharedInstance] applicationWillTerminate:application];
+
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

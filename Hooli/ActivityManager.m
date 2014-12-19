@@ -36,26 +36,24 @@
     __block BOOL isLikedByCurrentUser = NO;
     
     PFQuery *queryLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
+    [queryLikes whereKey:kHLCloudOfferClass equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudUserClass objectId:offer.offerId]];
     [queryLikes whereKey:kHLActivityKeyOfferID equalTo:offer.offerId];
-    [queryLikes whereKey:kHLActivityKeyUserID equalTo:[[PFUser currentUser] objectId]];
+    [queryLikes whereKey:kHLCloudUserClass equalTo:[PFUser currentUser]];
     [queryLikes findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             
-            if([objects count] > 0){
+            for (PFObject *activity in objects) {
                 
-                isLikedByCurrentUser = YES;
-                
-                if (completionBlock) {
-                    completionBlock(isLikedByCurrentUser,nil);
+                if ([[activity objectForKey:kHLCloudUserClass]  isEqual:[PFUser currentUser]]) {
+                    isLikedByCurrentUser = YES;
                 }
             }
-            else{
-                
-                if (completionBlock) {
-                    completionBlock(isLikedByCurrentUser,nil);
-                }
-                
+            
+            if (completionBlock) {
+                completionBlock(isLikedByCurrentUser,nil);
             }
+            
+            
         }
         else{
             
@@ -73,16 +71,15 @@
     
     __block NSInteger offerLikesCount = 0;
     
-    NSLog(@"Offer ID %@",offer.offerId);
-    PFQuery *queryLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
-    [queryLikes whereKey:kHLActivityKeyOfferID equalTo:offer.offerId];
+      PFQuery *queryLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
+    [queryLikes whereKey:kHLCloudOfferClass equalTo:offer.offerId];
     [queryLikes findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             
             offerLikesCount = [objects count];
-            NSLog(@"insdie likes count %d",offerLikesCount);
+          //  NSLog(@"insdie likes count %d",offerLikesCount);
             
-            label.text = [NSString stringWithFormat:@"%d",offerLikesCount];
+            label.text = [NSString stringWithFormat:@"%ld",(long)offerLikesCount];
             
         }
     }];
@@ -93,35 +90,33 @@
     
     NSLog(@"Like offer ID %@",offer.offerId);
     PFQuery *queryExistingLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
-    [queryExistingLikes whereKey:kHLActivityKeyOfferID equalTo:offer.offerId];
-    [queryExistingLikes whereKey:kHLActivityKeyUserID equalTo:[[PFUser currentUser]objectId]];
+    [queryExistingLikes whereKey:kHLCloudOfferClass equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudUserClass objectId:offer.offerId]];
+    [queryExistingLikes whereKey:kHLCloudUserClass equalTo:[PFUser currentUser]];
     [queryExistingLikes setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryExistingLikes findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+        
         if (!error) {
             for (PFObject *activity in activities) {
                 [activity delete];
             }
         }
-        else{
-            if (completionBlock) {
-                completionBlock(NO,nil);
-            }
-        }
         
+        // proceed to creating new like
         PFObject *likeActivity = [PFObject objectWithClassName:kHLCloudActivityClass];
-        [likeActivity setObject:[offer offerId] forKey:kHLActivityKeyOfferID];
-        [likeActivity setObject:[[PFUser currentUser]objectId] forKey:kHLActivityKeyUserID];
-        
+        [likeActivity setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.offerId] forKey:kHLCloudOfferClass];
+        [likeActivity setObject:[PFUser currentUser] forKey:kHLCloudUserClass];
         
         PFACL *likeACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [likeACL setPublicReadAccess:YES];
-        //    [likeACL setWriteAccess:YES forUser:[offer.user objectForKey:kHLOfferModelKeyUser]];
+        [likeACL setWriteAccess:YES forUser:[offer.user objectForKey:kHLOfferModelKeyUser]];
         likeActivity.ACL = likeACL;
         
         [likeActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (completionBlock) {
                 completionBlock(succeeded,error);
             }
+            
+            
         }];
         
     }];
@@ -131,8 +126,8 @@
 - (void)dislikeOfferInBackground:(OfferModel *)offer block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     
     PFQuery *queryExistingLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
-    [queryExistingLikes whereKey:kHLActivityKeyOfferID equalTo:offer.offerId];
-    [queryExistingLikes whereKey:kHLActivityKeyUserID equalTo:[[PFUser currentUser]objectId]];
+    [queryExistingLikes whereKey:kHLCloudOfferClass equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudUserClass objectId:offer.offerId]];
+    [queryExistingLikes whereKey:kHLCloudUserClass equalTo:[PFUser currentUser]];
     [queryExistingLikes setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryExistingLikes findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
         if (!error) {
@@ -154,6 +149,41 @@
         
     }];
     
+}
+
+- (void)getLikedOffersByUser:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    NSMutableArray *likedOffers = [NSMutableArray array];
+    
+    PFQuery *queryLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
+    [queryLikes whereKey:kHLCloudUserClass equalTo:user];
+    [queryLikes findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            for (PFObject *activity in objects) {
+                
+                [likedOffers addObject:[activity objectForKey:kHLCloudOfferClass]];
+                
+            }
+            
+            [[HLCache sharedCache] setLikedOffersByUser:user likedOffers:likedOffers];
+            
+            if (completionBlock) {
+                completionBlock(YES,nil);
+            }
+            
+        }
+        else{
+            
+            if (completionBlock) {
+                completionBlock(NO,nil);
+            }
+            
+        }
+        
+      
+        
+    }];
 }
 
 @end

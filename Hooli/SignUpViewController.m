@@ -162,7 +162,8 @@ const CGFloat duration = 0.3;
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
     [HUD show:YES];
-
+    
+    
     [[AccountManager sharedInstance]checkIfUserExistedWithUser:userModel block:^(BOOL succeeded, NSError *error) {
         
         
@@ -171,7 +172,6 @@ const CGFloat duration = 0.3;
             [[AccountManager sharedInstance]submitUserProfileWithUser:userModel Success:^{
                 
                 [HUD hide:YES];
-                
                 
                 UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];

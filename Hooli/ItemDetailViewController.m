@@ -19,6 +19,10 @@
 #import "MapViewController.h"
 #import "UserCartViewController.h"
 #import "ActivityManager.h"
+#import "NSString+MD5.h"
+#import "ChatViewController.h"
+
+
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
 
@@ -88,7 +92,30 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
- 
+    [self setNavBarVisible:YES animated:NO];
+    
+}
+
+- (void)setNavBarVisible:(BOOL)visible animated:(BOOL)animated {
+    
+    // bail if the current state matches the desired state
+    if ([self navBarIsVisible] == visible) return;
+    
+    // get a frame calculation ready
+    CGRect frame = self.navigationController.navigationBar.frame;
+    CGFloat height = frame.size.height + 20;
+    CGFloat offsetY = (visible)? height : -height;
+    
+    self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
+        
+  
+}
+
+// know the current state
+- (BOOL)navBarIsVisible {
+    
+    return self.navigationController.navigationBar.frame.origin.y >= 0;
+    
 }
 
 -(void)deleteSelf{
@@ -102,9 +129,7 @@
 }
 
 -(void)updateOfferDetailInfo:(OfferModel *)offerModel{
-    
-    self.tabBarController.tabBar.hidden=YES;
-    
+        
     if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
         
         UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
@@ -354,6 +379,44 @@
         [self.likeButton setTitle:toggleIsOn ? @"Like" :@"Dislike" forState:UIControlStateNormal];
     [self.likeButton setBackgroundImage:[UIImage imageNamed:toggleIsOn ? @"button-pressed.png" :@"button.png"] forState:UIControlStateNormal];
     [self.likeButton setTitleColor:toggleIsOn?[UIColor whiteColor]:[HLTheme mainColor] forState:UIControlStateNormal];
+    
+}
+- (IBAction)contactSeller:(id)sender {
+    
+    __weak ItemDetailViewController *weakSelf = self;
+
+    EMConversation *conversation = [[EMConversation alloc]init];
+    conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:self.offerObject.user.objectId isGroup:NO];
+    
+    
+
+    
+    [[AccountManager sharedInstance]loadAccountDataWithUserId:conversation.chatter Success:^(id object) {
+    
+        UserModel *userModel = (UserModel *)object;
+        PFUser *user = [PFUser currentUser];
+        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+        NSData *imageData = [theImage getData];
+        UIImage *portraitImage = [UIImage imageWithData:imageData];
+        
+        ChatViewController *chatVC = [[ChatViewController alloc] initWithChatter:conversation.chatter isGroup:conversation.isGroup];
+        
+        chatVC.sender = [[ChatterObject alloc]initWithChatterID:userModel.userID username:userModel.username portrait: userModel.portraitImage isSender:YES];
+        
+        chatVC.receiver = [[ChatterObject alloc]initWithChatterID:user.objectId username:user.username portrait:portraitImage isSender:NO];
+        
+        chatVC.hidesBottomBarWhenPushed = YES;
+        [weakSelf.navigationController pushViewController:chatVC animated:YES];
+        
+        
+    } Failure:^(id error) {
+        
+        NSLog(@"%@",error);
+        
+    }];
+    
+
+    
     
 }
 

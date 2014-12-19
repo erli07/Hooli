@@ -14,6 +14,7 @@
 @property (nonatomic, assign) BOOL isPostingOffer;
 @property (nonatomic, assign) float preferredDistance;
 @property (nonatomic, assign) BOOL isRefreshNeeded;
+@property (nonatomic, assign) BOOL showSoldItems;
 
 - (PFUser *)getCurrentUser ;
 - (void)saveCurrentUser:(PFUser *)currentUser;

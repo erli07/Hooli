@@ -14,6 +14,8 @@
 #import "HLSettings.h"
 #import "EditProfileViewController.h"
 #import <Parse/Parse.h>
+#import "EaseMob.h"
+#import "ChatListViewController.h"
 
 @interface LoginViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
@@ -31,7 +33,6 @@
     
     [self.view addGestureRecognizer:tap];
     
-    self.tabBarController.tabBar.hidden=YES;
     //  self.navigationController.navigationBar.hidden = YES;
     // Do any additional setup after loading the view.
 }
@@ -40,7 +41,7 @@
     
     [self.navigationController setNavigationBarHidden:YES];
     
-    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+    if ([PFUser currentUser] || [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         
         [self loginSuccessWithUser:[PFUser currentUser]];
         
@@ -93,19 +94,45 @@
 
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
        
-        [HUD hide:YES];
         [self.emailText resignFirstResponder];
         [self.passwordText resignFirstResponder];
+        
         if(object){
             NSString *username = [object objectForKey:@"username"];
             [PFUser logInWithUsernameInBackground:username password:self.passwordText.text block:^(PFUser* user, NSError* error){
                 
                 if(user){
                     
-                    [self loginSuccessWithUser:user];
+                    [[ChattingManager sharedInstance]loginChattingSDK:user block:^(BOOL succeeded, NSError *error) {
+                                                
+                        if(succeeded){
+                            
+                            [HUD hide:YES];
+                            
+                            [self loginSuccessWithUser:user];
+                            
+                        }
+                        else{
+                            
+                            [HUD hide:YES];
+                            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                            message:@"Log In Error"
+                                                                           delegate:nil
+                                                                  cancelButtonTitle:nil
+                                                                  otherButtonTitles:@"Dismiss", nil];
+                            [alert show];
+                        }
+                        
+                        
+                    }];
+
                     
                 }
                 else{
+                    
+                    [HUD hide:YES];
+
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                                     message:@"Password is not correct. Please try again."
@@ -120,7 +147,8 @@
         }
         else{
             
-            
+            [HUD hide:YES];
+
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                             message:@"Email does not exist. Please sign up."
                                                            delegate:nil
@@ -146,6 +174,8 @@
 
 - (void)loginFB {
     
+
+    
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me",@"email"];
     
@@ -161,11 +191,11 @@
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         
-        [HUD hide:YES];
         
         if (!user) {
             
-            
+            [HUD hide:YES];
+
             
             NSString *errorMessage = nil;
             if (!error) {
@@ -187,10 +217,44 @@
                         
             [[AccountManager sharedInstance]saveFacebookAccountDataWithPFUser:user WithSuccess:^{
                 
-                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                [[ChattingManager sharedInstance]signUpChattingSDK:user block:^(BOOL succeeded, NSError *error) {
+                    
+                    
+                    if(succeeded){
+                        
+                        [[ChattingManager sharedInstance]loginChattingSDK:user block:^(BOOL succeeded, NSError *error) {
+                            
+                            
+                            
+                            if(succeeded){
+                                
+                                [HUD hide:YES];
+                                
+                                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                                
+                            }
+                            else{
+                                
+                                [HUD hide:YES];
+                                
+                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                message:@"Log In Error"
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:nil
+                                                                      otherButtonTitles:@"Dismiss", nil];
+                                [alert show];
+                            }
+                            
+                            
+                        }];
+                        
+                    }
+                    
+                }];
                 
-
             } Failure:^(id error) {
+                
+                [HUD hide:YES];
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                 message:@"Log In Error"
@@ -211,7 +275,9 @@
 
 
 
+
 -(void)loginSuccessWithUser:(PFUser *)currentUser{
+    
     
   //  [[HLSettings sharedInstance]saveCurrentUser:currentUser];
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

@@ -56,9 +56,12 @@ extern NSString *const kHLActivityKeyUserID;
 extern NSString *const kHLFilterDictionarySearchType;
 extern NSString *const kHLFilterDictionarySearchKeyCategory;
 extern NSString *const kHLFilterDictionarySearchKeyWords;
+extern NSString *const kHLFilterDictionarySearchKeyUser;
+extern NSString *const kHLFilterDictionarySearchKeyUserLikes;
 
 extern NSString *const kHLOfferAttributesLikeCountKey;
 extern NSString *const kHLOfferAttributesLikersKey;
 extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
+extern NSString *const kHLOfferAttributesLikerdOffersKey;
 
 @end

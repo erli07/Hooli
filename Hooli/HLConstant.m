@@ -46,7 +46,7 @@ NSString *const kHLOfferPhotKeyPhoto = @"photo";
 
 
 NSString *const kHLCloudOfferClass = @"Offer";
-NSString *const kHLCloudUserClass = @"User";
+NSString *const kHLCloudUserClass = @"_User";
 NSString *const kHLCloudActivityClass = @"Activity";
 
 NSString *const kHLActivityKeyOfferID = @"offerID";
@@ -56,9 +56,14 @@ NSString *const kHLActivityKeyUserID = @"userID";
 NSString *const kHLFilterDictionarySearchType = @"searchType";
 NSString *const kHLFilterDictionarySearchKeyCategory = @"searchByCategory";
 NSString *const kHLFilterDictionarySearchKeyWords = @"searchByWords";
+NSString *const kHLFilterDictionarySearchKeyUser = @"searchByUser";
+NSString *const kHLFilterDictionarySearchKeyUserLikes = @"searchByUserLikes";
+
 
 NSString *const kHLOfferAttributesLikeCountKey = @"likeCount";
 NSString *const kHLOfferAttributesLikersKey = @"likers";
+NSString *const kHLOfferAttributesLikerdOffersKey = @"likedOffers";
+
 NSString *const kHLOfferAttributesIsLikedByCurrentUserKey = @"islikedByCurrentUser";
 
 

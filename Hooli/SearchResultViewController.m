@@ -34,6 +34,12 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [[OffersManager sharedInstance]clearData];
+}
+
+
 -(void)updateCollectionViewData{
     
     [[OffersManager sharedInstance]clearData];

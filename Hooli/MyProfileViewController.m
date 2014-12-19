@@ -11,6 +11,7 @@
 #import "AccountManager.h"
 #import "LoginViewController.h"
 #import "EditProfileViewController.h"
+#import "MyCartViewController.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -50,7 +51,8 @@
     NSString * storyboardName = @"Login";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
     LoginViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:vc animated:YES];
     // [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -73,8 +75,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    
     if(indexPath.section == 0){
         
+        [self performSegueWithIdentifier:@"myItems" sender:self];
         
     }
     else if(indexPath.section == 1){
@@ -83,7 +89,7 @@
             
             UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
             EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"editProfile"];
-
+            vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
         }
@@ -91,7 +97,7 @@
             
             UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"settings"];
-            
+            vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
         }
@@ -107,13 +113,24 @@
     
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.identifier isEqualToString:@"myItems"])
+    {
+        MyCartViewController *cart = segue.destinationViewController;
+        
+        cart.hidesBottomBarWhenPushed = YES;
+
+    }
+    
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
     
     if(indexPath.section == 0){
         
-        cell.textLabel.text = @"Help Center";
+        cell.textLabel.text = @"My Items";
         
     }
     else if(indexPath.section == 1){

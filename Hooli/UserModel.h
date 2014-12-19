@@ -16,6 +16,7 @@ extern NSString *const kHLUserModelKeyUserName;
 extern NSString *const kHLUserModelKeyPortraitImage;
 extern NSString *const kHLUserModelKeyUserId;
 extern NSString *const kHLUserModelKeyPassword;
+extern NSString *const kHLUserModelKeyUserIdMD5;
 
 
 @property (nonatomic, strong) NSString *email;

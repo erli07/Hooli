@@ -8,6 +8,7 @@
 
 #import "MySettingsViewController.h"
 #import "HLTheme.h"
+#import "AboutViewController.h"
 @interface MySettingsViewController ()
 @property (nonatomic)  NSArray *sectionArray;
 
@@ -32,6 +33,9 @@
 #pragma mark tableview delegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     
      if(indexPath.section == 0){
          
@@ -75,6 +79,12 @@
         else if(indexPath.row == 1){
             
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms://itunes.apple.com/app/id378458261"]];
+        }
+        else if(indexPath.row == 2){
+            
+            AboutViewController *about = [[AboutViewController alloc]init];
+            [self.navigationController pushViewController:about animated:YES];
+            
         }
         
     }

@@ -159,6 +159,9 @@
     // Create a PFObject around a PFFile and associate it with the current user
     
     offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+    [offerClass.ACL setPublicReadAccess:YES];
+    [offerClass.ACL setPublicWriteAccess:NO];
+    
     PFUser *user = [PFUser currentUser];
     [offerClass setObject:user forKey:kHLOfferModelKeyUser];
     [offerClass setObject:offer.offerDescription forKey:kHLOfferModelKeyDescription];
@@ -223,6 +226,8 @@
         [offersArray removeAllObjects];
     }
     
+    self.filterDictionary = nil;
+    
     self.pageCounter = 0;
 }
 
@@ -232,38 +237,59 @@
     _dowloadSuccess = dowloadSuccess ;
     _downloadFailure = downloadFailure;
     
+    
     [self retrieveOffersByFilter:self.filterDictionary];
+
     
 }
+
+
 
 -(void)retrieveOffersByFilter:(NSDictionary *)filterDictionary{
     
     
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
-    PFUser *user = [PFUser currentUser];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     
-    [query whereKey:kHLOfferModelKeyUser equalTo:user];
-    
-    //    filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-    //                       kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
-    //                       kHLOfferCategoryHomeGoods,kHLFilterDictionarySearchKeyCategory,nil];
-    
-    if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyCategory]){
+//    if(![[HLSettings sharedInstance]showSoldItems]){
+//        
+//        [query whereKey:kHLOfferModelKeyOfferStatus notEqualTo:[NSNumber numberWithBool:YES]];
+//        
+//    }
+
+    if(filterDictionary){
         
+        if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyCategory]){
+            
+            NSString *searchType = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyCategory];
+            [query whereKey:kHLOfferModelKeyCategory containsString:searchType];
+            
+        }
         
-        NSString *searchType = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyCategory];
-        [query whereKey:kHLOfferModelKeyCategory containsString:searchType];
+        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyWords]){
+            
+            NSString *searchWords = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyWords];
+            
+            [query whereKey:kHLOfferModelKeyOfferName containsString:searchWords];
+            
+        }
         
+        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyUser]){
+            
+            id user = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyUser];
+            
+            [query whereKey:kHLOfferModelKeyUser equalTo:user];
+            
+        }
+        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyUserLikes]){
+            
+            id user = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyUser];
+            
+            [query whereKey:kHLOfferModelKeyUser equalTo:user];
+
+        }
     }
     
-    else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyWords]){
-        
-        NSString *searchWords = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyWords];
-        
-        [query whereKey:kHLOfferModelKeyOfferName containsString:searchWords];
-        
-        //  [query whereKey:kHLOfferModelKeyDescription containsString:searchWords];
-    }
     [query orderByAscending:@"createdAt"];
     [query setLimit:kHLOffersNumberShowAtFirstTime];
     [query setSkip:kHLOffersNumberShowAtFirstTime * self.pageCounter];
@@ -276,6 +302,8 @@
             // The find succeeded.
             NSLog(@"Successfully retrieved %d photos.", objects.count);
             
+            [PFQuery clearAllCachedResults];
+
             for (id object in objects) {
                 
                 [retrivedObjects addObject:object];
@@ -304,6 +332,8 @@
         // Dispatch to main thread to update the UI
         dispatch_async(dispatch_get_main_queue(), ^{
             
+  //          [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+
             _dowloadSuccess(offersArray);
             
         });
@@ -411,7 +441,7 @@
 }
 
 -(void)updateOfferSoldStatusWithOfferID:(NSString *)offerID  soldStatus:(BOOL)soldStatus withSuccess:(DownloadSuccessBlock)dowloadSuccess
-                     failure:(DownloadFailureBlock)downloadFailure{
+                                failure:(DownloadFailureBlock)downloadFailure{
     
     _dowloadSuccess = dowloadSuccess ;
     _downloadFailure = downloadFailure;
@@ -421,7 +451,7 @@
     [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             
-                _uploadSuccess();
+            _uploadSuccess();
             
         }
         else{
@@ -431,25 +461,24 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-
-
+    
+    
 }
 
 -(void)updateOfferSoldStatusWithOfferID:(NSString *)offerID  soldStatus:(BOOL)soldStatus
                                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     
-    PFObject *point = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerID];
+    PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerID];
     
-    // Set a new value on quantity
-    [point setObject:[NSNumber numberWithBool:soldStatus] forKey:kHLOfferModelKeyOfferStatus];
+    [object setObject:[NSNumber numberWithBool:soldStatus] forKey:kHLOfferModelKeyOfferStatus];
     
     // Save
-    [point saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (completionBlock) {
             completionBlock(succeeded,error);
         }
-
+        
     }];
 }
 
@@ -472,7 +501,7 @@
             
         }
     }];
-
+    
 }
 
 @end

@@ -55,7 +55,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)updateDataFromCloud{
-        
+    
     HUD = [[MBProgressHUD alloc] initWithView:self];
     [self addSubview:HUD];
     HUD.delegate = self;
@@ -85,8 +85,10 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (self.refreshControl) {
         
+        [HUD hide:YES];
+
+        
         [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
-            
             
             self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
             

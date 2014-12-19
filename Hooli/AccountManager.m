@@ -9,6 +9,8 @@
 #import "AccountManager.h"
 #import "OfferModel.h"
 #import "UserModel.h"
+#import "ChatListCell.h"
+#import "NSString+MD5.h"
 @implementation AccountManager
 @synthesize uploadFailure = _uploadFailure;
 @synthesize uploadSuccess = _uploadSuccess;
@@ -29,7 +31,7 @@
 
 
 - (void)loadFaceBookAccountDataWithSuccess:(DownloadSuccessBlock)success
-                           Failure:(DownloadFailureBlock)failure{
+                                   Failure:(DownloadFailureBlock)failure{
     
     _dowloadSuccess = success ;
     _downloadFailure = failure;
@@ -47,7 +49,7 @@
             NSString *name = userData[@"name"];
             
             NSString *email = userData[@"email"];
-
+            
             __block UIImage  *portraitImage = nil;
             
             NSString *userProfilePhotoURLString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID];
@@ -62,7 +64,7 @@
                                            if (connectionError == nil && data != nil) {
                                                
                                                portraitImage = [UIImage imageWithData:data];
-                                            
+                                               
                                                
                                            } else {
                                                
@@ -72,8 +74,9 @@
                                            [[PFUser currentUser] setObject:portraitImage forKey:kHLUserModelKeyPortraitImage];
                                            [[PFUser currentUser] setObject:email forKey:kHLUserModelKeyEmail];
                                            [[PFUser currentUser] setObject:name forKey:kHLUserModelKeyUserName];
+                                           [[PFUser currentUser] setObject:[[[PFUser currentUser]objectId]MD5] forKey:kHLUserModelKeyUserIdMD5];
                                            [[PFUser currentUser] saveInBackground];
-                                            _dowloadSuccess(nil);
+                                           _dowloadSuccess(nil);
                                            
                                        }];
             }
@@ -105,7 +108,7 @@
         
         NSString *email = userData[@"email"];
         
-      //  __block UIImage  *portraitImage = nil;
+        //  __block UIImage  *portraitImage = nil;
         
         NSString *userProfilePhotoURLString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID];
         // Download the user's facebook profile picture
@@ -122,6 +125,7 @@
                                            [[PFUser currentUser]setObject:image forKey:kHLUserModelKeyPortraitImage];
                                            [[PFUser currentUser] setObject:email forKey:kHLUserModelKeyEmail];
                                            [[PFUser currentUser] setObject:name forKey:kHLUserModelKeyUserName];
+                                           [[PFUser currentUser] setObject:[[[PFUser currentUser]objectId]MD5] forKey:kHLUserModelKeyUserIdMD5];
                                            [[PFUser currentUser] saveInBackground];
                                            
                                            _uploadSuccess();
@@ -130,9 +134,9 @@
                                            
                                            NSLog(@"Failed to load profile photo.");
                                            _uploadFailure(nil);
-
+                                           
                                        }
-                           
+                                       
                                        
                                    }];
         }
@@ -150,7 +154,7 @@
 
 
 - (void)loadAccountDataWithSuccess:(DownloadSuccessBlock)success
-                                Failure:(DownloadFailureBlock)failure{
+                           Failure:(DownloadFailureBlock)failure{
     
     _dowloadSuccess = success ;
     _downloadFailure = failure;
@@ -169,7 +173,7 @@
             [PFUser currentUser][@"profile"][@"email"] = [object objectForKey:kHLUserModelKeyEmail];
             [PFUser currentUser][@"profile"][@"name"] = [object objectForKey:kHLUserModelKeyUserName];
             _dowloadSuccess(portraitImage);
-
+            
         }
     }];
     
@@ -192,7 +196,7 @@
         else{
             
             UserModel *userModel = [[UserModel alloc]initUserWithPFObject:object];
-    
+            
             _dowloadSuccess(userModel);
             
         }
@@ -202,7 +206,7 @@
 
 - (NSString *)getUserName{
     
-   //[self loadAccountData];
+    //[self loadAccountData];
     
     return [PFUser currentUser][@"profile"][@"name"];
     
@@ -211,15 +215,15 @@
 
 -(NSString *)getEmail{
     
-  // [self loadAccountData];
+    // [self loadAccountData];
     
     return [PFUser currentUser][@"profile"][@"email"];
-
+    
 }
 
 -(NSString *)getGender{
     
-  //  [self loadAccountData];
+    //  [self loadAccountData];
     
     return [PFUser currentUser][@"profile"][@"gender"];
     
@@ -238,7 +242,7 @@
 
 -(UIImage *)getFBPortraitImage{
     
-   __block UIImage  *portraitImage = nil;
+    __block UIImage  *portraitImage = nil;
     
     NSString *userProfilePhotoURLString = [PFUser currentUser][@"profile"][@"pictureURL"];
     // Download the user's facebook profile picture
@@ -265,7 +269,7 @@
 
 - (void)setUserFacebookProfilePicture:(UIImageView *)profileImageView{
     
-  //  [self loadAccountData];
+    //  [self loadAccountData];
     
     NSString *userProfilePhotoURLString = [PFUser currentUser][@"profile"][@"pictureURL"];
     // Download the user's facebook profile picture
@@ -290,28 +294,28 @@
 
 
 - (void)setUserProfilePicture:(UIImageView *)profileImageView{
-
+    
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudUserClass];
     [query whereKey:kHLUserModelKeyUserId equalTo:[[PFUser currentUser]objectId]];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
             
             NSLog(@"Error: %@ %@", error, [error userInfo]);
-
+            
         }
         else{
             PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
             NSData *imageData = [theImage getData];
             profileImageView.image = [UIImage imageWithData:imageData];
-
+            
             
         }
     }];
     
 }
 -(void)submitUserProfileWithUser:(UserModel *)userModel
-                        Success:(UploadSuccessBlock)success
-                        Failure:(UploadFailureBlock)failure{
+                         Success:(UploadSuccessBlock)success
+                         Failure:(UploadFailureBlock)failure{
     
     _uploadSuccess = success ;
     _uploadFailure = failure;
@@ -327,10 +331,37 @@
     [newUser setObject:image forKey:kHLUserModelKeyPortraitImage];
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
         if(!error){
             
-
-            _uploadSuccess(nil);
+            
+            [[ChattingManager sharedInstance]signUpChattingSDK:newUser block:^(BOOL succeeded, NSError *error) {
+                if(succeeded){
+                    
+                    [[ChattingManager sharedInstance]loginChattingSDK:newUser block:^(BOOL succeeded, NSError *error) {
+                        
+                        if(succeeded){
+                            
+                            _uploadSuccess(nil);
+                            
+                        }
+                        else{
+                            
+                            _uploadFailure(error);
+                            
+                        }
+                        
+                    }];
+                    
+                }
+                else{
+                    
+                    _uploadFailure(error);
+                    
+                }
+            }];
+            
+            
         }
         else{
             
@@ -339,17 +370,19 @@
             UIAlertView *userExistsAlert = [[UIAlertView alloc]initWithTitle:@"" message:alertMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [userExistsAlert show];
+            
             _uploadFailure(error);
         }
+        
     }];
     
-   
+    
     
 }
 
 -(void)checkIfUserExistedWithUser:(UserModel *)userModel
-                          block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
-
+                            block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
     
     PFQuery *query = [PFUser query];
     [query whereKey:kHLUserModelKeyEmail equalTo:userModel.email];
@@ -359,7 +392,7 @@
             if (completionBlock) {
                 completionBlock(NO,error);
             }
-
+            
         }
         else{
             
@@ -375,30 +408,94 @@
                          Success:(UploadSuccessBlock)success
                          Failure:(UploadFailureBlock)failure{
     
-            _uploadSuccess = success ;
-            _uploadFailure = failure;
-
-            NSData *imageData = UIImagePNGRepresentation(userModel.portraitImage);
-            PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:imageData];
+    _uploadSuccess = success ;
+    _uploadFailure = failure;
+    
+    NSData *imageData = UIImagePNGRepresentation(userModel.portraitImage);
+    PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:imageData];
+    
+    [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
+    [[PFUser currentUser] setObject:userModel.email forKey:kHLUserModelKeyEmail];
+    [[PFUser currentUser] setObject:userModel.username forKey:kHLUserModelKeyUserName];
+    [[PFUser currentUser] setObject:[userModel.userID MD5] forKey:kHLUserModelKeyUserIdMD5];
+    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if(succeeded){
             
-            [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
-            [[PFUser currentUser] setObject:userModel.email forKey:kHLUserModelKeyEmail];
-            [[PFUser currentUser] setObject:userModel.username forKey:kHLUserModelKeyUserName];
-            [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                
-                if(succeeded){
-                    
-                    _uploadSuccess();
-
-                }
-                else{
-                    
-                    _uploadFailure(error);
-
-                }
-                
-            }];
+            _uploadSuccess();
+            
+        }
+        else{
+            
+            _uploadFailure(error);
+            
+        }
+        
+    }];
     
     
 }
+-(void)getUserPortraitImageWithUserID:(NSString *)userID withCell:(ChatListCell *)cell block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFQuery * query = [PFUser query];
+    [query whereKey:@"objectId" equalTo:@"0soFWxXf8K"];
+    NSArray * results = [query findObjects];
+
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+           cell.imageView.image = [UIImage imageNamed:@"chat_default_portrait@2x.png"];
+            cell.name = @"Unknown user";
+
+        
+        
+        }
+        else{
+            
+                        PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
+                       // NSData *imageData = [theImage getData];
+            [theImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                if (!error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+
+                    cell.placeholderImage = [UIImage imageWithData:data];
+                        
+                      //  [cell reloadInputViews];
+                        
+                        
+                    });
+                    // image can now be set on a UIImageView
+                }
+            }];
+
+                        cell.name = [object objectForKey:kHLUserModelKeyUserName];
+            
+        }
+    }];
+
+    
+//    PFQuery *query = [PFQuery queryWithClassName:kHLCloudUserClass];
+//    [query whereKey:kHLUserModelKeyUserId equalTo:[[PFUser currentUser]objectId]];
+//    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//        if (!object) {
+//            
+//            NSLog(@"Error: %@ %@", error, [error userInfo]);
+//            cell.imageView.image = [UIImage imageNamed:@"chat_default_portrait@2x.png"];
+//            
+//        }
+//        else{
+//            
+//            PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
+//            NSData *imageData = [theImage getData];
+//            cell.imageView.image = [UIImage imageWithData:imageData];
+//            cell.name = [object objectForKey:kHLUserModelKeyUserName];
+//            
+//        }
+//    }];
+    
+
+}
+
+
 @end

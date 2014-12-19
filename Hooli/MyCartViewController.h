@@ -12,5 +12,7 @@
 @interface MyCartViewController : UIViewController<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet MainCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MainCollectionViewFlowLayout *layout;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+- (IBAction)segmentControlChanged:(id)sender;
 
 @end

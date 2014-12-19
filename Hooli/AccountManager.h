@@ -11,7 +11,8 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "HLConstant.h"
-
+#import "ChattingManager.h"
+#import "ChatListCell.h"
 typedef void (^UploadSuccessBlock) ();
 typedef void (^UploadFailureBlock) (id error);
 
@@ -59,4 +60,8 @@ typedef void (^DownloadFailureBlock) (id error);
 
 -(void)checkIfUserExistedWithUser:(UserModel *)userModel
                             block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
+-(void)getUserPortraitImageWithUserID:(NSString *)userID withCell:(ChatListCell *)cell
+                                block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
 @end

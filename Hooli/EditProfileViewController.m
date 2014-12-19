@@ -35,7 +35,7 @@
     self.portraitImage.layer.masksToBounds = YES;
     self.navigationController.navigationBar.hidden = NO;
 
-//    self.tabBarController.tabBar.hidden = YES;
+    [self getUserInfo];
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboards)];
@@ -44,7 +44,7 @@
     // Do any additional setup after loading the view.
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)getUserInfo{
     
     NSString *userName =[[PFUser currentUser]objectForKey:kHLUserModelKeyUserName];
     NSString *emailAddress = [[PFUser currentUser]objectForKey:kHLUserModelKeyEmail];
@@ -60,7 +60,14 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+
+    
+}
+
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

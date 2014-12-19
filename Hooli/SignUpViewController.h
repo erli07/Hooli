@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "UserModel.h"
+#import "ChattingManager.h"
+
 @interface SignUpViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *nameText;
@@ -20,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 - (IBAction)submit:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
+
 
 @end

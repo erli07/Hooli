@@ -16,6 +16,8 @@ NSString *const kHLUserModelKeyUserName = @"username";
 NSString *const kHLUserModelKeyPortraitImage = @"PortraitImage";
 NSString *const kHLUserModelKeyUserId = @"objectId";
 NSString *const kHLUserModelKeyPassword = @"password";
+NSString *const kHLUserModelKeyUserIdMD5 = @"objectId_MD5";
+
 
 
 -(id)initUserWithEmail:(NSString *)_email

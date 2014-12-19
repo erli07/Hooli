@@ -48,8 +48,14 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self resetNavBar];
+
+}
 
 -(void)viewDidAppear:(BOOL)animated{
+    
     
     if([[HLSettings sharedInstance]isRefreshNeeded]){
         
@@ -59,6 +65,12 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [[OffersManager sharedInstance]clearData];
+}
+
 #pragma register notification
 
 
@@ -94,8 +106,6 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)updateCollectionViewData{
-    
-    [[OffersManager sharedInstance]setFilterDictionary:nil];
     
     [[OffersManager sharedInstance]clearData];
     
@@ -211,10 +221,26 @@ static NSString * const reuseIdentifier = @"Cell";
         CGRect collectionView = self.collectionView.frame;
         
         collectionView.origin.y = (visible)? 107 : 55;
+        collectionView.size.height = (visible)? 431 : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
         self.collectionView.frame = collectionView;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         
     }];
+}
+
+-(void)resetNavBar{
+    
+    CGRect frame = self.navigationController.navigationBar.frame;
+    
+    CGRect segmentControlFrame = self.segmentControl.frame;
+    segmentControlFrame.origin.y = 71;
+    self.segmentControl.frame = segmentControlFrame;
+    CGRect collectionView = self.collectionView.frame;
+    
+    collectionView.origin.y = 107;
+    self.collectionView.frame = collectionView;
+    self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, 0);
+
 }
 
 // know the current state

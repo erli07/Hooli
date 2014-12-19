@@ -35,6 +35,12 @@
     
 }
 
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [[OffersManager sharedInstance]clearData];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     
     if([[HLSettings sharedInstance]isRefreshNeeded]){
@@ -55,11 +61,30 @@
 
 -(void)updateCollectionViewData{
     
-    [[OffersManager sharedInstance]setFilterDictionary:nil];
     
-    [[OffersManager sharedInstance]clearData];
+    PFQuery *query = [PFUser query];
     
-    [self.collectionView updateDataFromCloud];
+    [query whereKey:@"objectId" equalTo:self.userID];
+    
+    
+      [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+          
+          if(object){
+              
+              NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                kHLFilterDictionarySearchKeyUser, kHLFilterDictionarySearchType, object, kHLFilterDictionarySearchKeyUser,nil];
+              
+              [[OffersManager sharedInstance]clearData];
+              
+              [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+              
+              [self.collectionView updateDataFromCloud];
+              
+          }
+          
+      }];
+
+    
     
 }
 
