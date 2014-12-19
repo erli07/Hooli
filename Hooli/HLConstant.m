@@ -7,6 +7,7 @@
 //
 
 #import "HLConstant.h"
+#import <Parse/Parse.h>
 
 @implementation HLConstant
 
@@ -49,8 +50,8 @@ NSString *const kHLCloudOfferClass = @"Offer";
 NSString *const kHLCloudUserClass = @"_User";
 NSString *const kHLCloudActivityClass = @"Activity";
 
-NSString *const kHLActivityKeyOfferID = @"offerID";
-NSString *const kHLActivityKeyUserID = @"userID";
+NSString *const kHLActivityKeyOffer = @"offer";
+NSString *const kHLActivityKeyUser = @"user";
 
 
 NSString *const kHLFilterDictionarySearchType = @"searchType";

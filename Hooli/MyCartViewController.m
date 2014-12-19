@@ -7,31 +7,212 @@
 //
 
 #import "MyCartViewController.h"
-
-@interface ViewController ()
+#import "ItemCell.h"
+#import "MainCollectionViewFlowLayout.h"
+#import "DataSource.h"
+#import "HLTheme.h"
+#import "ItemDetailViewController.h"
+#import "OffersManager.h"
+#import "HLSettings.h"
+#import "HLConstant.h"
+#import "ActivityManager.h"
+@interface MyCartViewController ()<UICollectionViewDelegate,UpdateCollectionViewDelegate,UIActionSheetDelegate>
+@property (nonatomic, strong) UISegmentedControl *typeSegmentedControl;
+@property (nonatomic, strong) UIViewController *currentViewController;
+@property (nonatomic, strong) NSString *currentOfferId;
+@property (nonatomic, assign) BOOL currentOfferSoldStatus;
 
 @end
+static NSString * const reuseIdentifier = @"Cell";
 
-@implementation ViewController
+@implementation MyCartViewController
+@synthesize  currentOfferId = _currentOfferId;
+@synthesize segmentedControl = _segmentedControl;
+@synthesize currentOfferSoldStatus = _currentOfferSoldStatus;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.title = @"My Items";
+    self.view.tintColor = [HLTheme mainColor];
+    [self.layout configureLayout] ;
+    [self.collectionView configureView];
+    self.collectionView.delegate = self;
+    [self registerNotifications];
+    _segmentedControl.selectedSegmentIndex = 0;
+    [self getGivingItems];
+    
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewWillAppear:(BOOL)animated{
+    
+    if([[HLSettings sharedInstance]isRefreshNeeded]){
+        
+        if(self.segmentedControl.selectedSegmentIndex == 0){
+            
+            [self getGivingItems];
+            
+        }
+        else if(self.segmentedControl.selectedSegmentIndex == 1){
+            
+            [self getLikedItems];
+        }
+        
+        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+
+    }
+    
 }
 
-/*
-#pragma mark - Navigation
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    [[OffersManager sharedInstance]clearData];
+    
 }
-*/
+
+#pragma register notification
+
+-(void)registerNotifications{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateCollectionViewData)
+                                                 name:@"Hooli.reloadMyCartData" object:nil];
+}
+
+-(void)getGivingItems{
+    
+    [[OffersManager sharedInstance]clearData];
+    
+    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      kHLFilterDictionarySearchKeyUser, kHLFilterDictionarySearchType,
+                                      [PFUser currentUser],kHLFilterDictionarySearchKeyUser,nil];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+    
+    [self.collectionView updateDataFromCloud];
+    
+}
+
+-(void)getLikedItems{
+    
+    [[ActivityManager sharedInstance]getLikedOffersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+        
+        [self.collectionView reloadDataByOffersArray:downloadObjects];
+        
+    } Failure:^(id error) {
+        
+        
+    }];
+    
+    
+}
+
+
+#pragma mark collectionview delegate
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if(self.segmentedControl.selectedSegmentIndex == 0){
+        
+        ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        
+        _currentOfferId = cell.offerId;
+        
+        _currentOfferSoldStatus = cell.isOfferSold;
+        
+        NSString *other1;
+        
+        if (cell.isOfferSold) {
+            
+            other1  = @"Mark as unsold";
+            
+        }
+        else{
+            
+            other1 = @"Mark as sold";
+            
+        }
+        
+        NSString *other2 = @"Delete";
+        NSString *cancelTitle = @"Cancel";
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:nil
+                                      delegate:self
+                                      cancelButtonTitle:cancelTitle
+                                      destructiveButtonTitle:nil
+                                      otherButtonTitles:other1, other2, nil];
+        [actionSheet showInView:self.view];
+        
+    }
+    else if(self.segmentedControl.selectedSegmentIndex == 1){
+        
+        ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+        ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+        vc.offerId = cell.offerId;
+        // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+}
+
+#pragma acrionsheet delegate
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if(buttonIndex == 0){
+        
+        [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
+            
+            [self getGivingItems];
+            
+            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+            
+        }];
+        
+        
+        
+    }
+    else if(buttonIndex == 1){
+        
+        [[OffersManager sharedInstance]deleteOfferModelWithOfferId:_currentOfferId block:^(BOOL succeeded, NSError *error) {
+            
+            [self getGivingItems];
+            
+            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+            
+        }];
+        
+    }
+    
+}
+
+#pragma scrollview delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height )
+    {
+        [self.collectionView updateDataFromCloud];
+    }
+    
+}
+
+
+- (IBAction)segmentControlChanged:(id)sender{
+    
+    if(self.segmentedControl.selectedSegmentIndex == 0){
+        
+        [self getGivingItems];
+        
+    }
+    else if(self.segmentedControl.selectedSegmentIndex == 1){
+        
+        [self getLikedItems];
+    }
+    
+}
 
 @end

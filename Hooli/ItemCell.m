@@ -13,7 +13,7 @@
 #import "ActivityManager.h"
 @implementation ItemCell
 
-@synthesize productImageView,distanceLabel,distanceBackground,offerId,soldImage;
+@synthesize productImageView,distanceLabel,distanceBackground,offerId,soldImage,isOfferSold;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -69,6 +69,8 @@
         
         self.soldImage.image = nil;
     }
+    
+    self.isOfferSold = [offerModel.isOfferSold boolValue];
     
 }
 

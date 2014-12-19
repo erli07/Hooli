@@ -178,7 +178,7 @@
                 _uploadSuccess();
                 
             });
-            // [self refresh:nil];
+
         }
         else{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -281,13 +281,13 @@
             [query whereKey:kHLOfferModelKeyUser equalTo:user];
             
         }
-        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyUserLikes]){
-            
-            id user = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyUser];
-            
-            [query whereKey:kHLOfferModelKeyUser equalTo:user];
-
-        }
+//        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyUserLikes]){
+//            
+//            id user = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyUserLikes];
+//            
+//            [query whereKey:kHLOfferModelKeyUser equalTo:user];
+//
+//        }
     }
     
     [query orderByAscending:@"createdAt"];
@@ -321,6 +321,13 @@
     
 }
 
+
+-(void)updateTableByOffersArray:(NSArray *)offers{
+    
+
+    
+    
+}
 
 -(void)getAllOffersFromObjects:(NSMutableArray *)objects{
     

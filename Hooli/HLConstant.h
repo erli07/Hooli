@@ -49,8 +49,8 @@ extern NSString *const kHLCloudOfferClass;
 extern NSString *const kHLCloudActivityClass;
 extern NSString *const kHLCloudUserClass;
 
-extern NSString *const kHLActivityKeyOfferID;
-extern NSString *const kHLActivityKeyUserID;
+extern NSString *const kHLActivityKeyOffer;
+extern NSString *const kHLActivityKeyUser;
 
 
 extern NSString *const kHLFilterDictionarySearchType;

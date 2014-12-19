@@ -119,7 +119,7 @@
     
     PFQuery *queryLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
     [queryLikes whereKey:kHLCloudOfferClass equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudUserClass objectId:offer.offerId]];
-    [queryLikes whereKey:kHLActivityKeyOfferID equalTo:offer.offerId];
+    [queryLikes whereKey:kHLActivityKeyOffer equalTo:offer.offerId];
     [queryLikes whereKey:kHLCloudUserClass equalTo:[PFUser currentUser]];
     [queryLikes findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {

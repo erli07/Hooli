@@ -110,6 +110,19 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 
 }
+
+-(void)reloadDataByOffersArray:(NSArray *)offers{
+    
+    self.objectDataSource = [[NSMutableArray alloc]initWithArray:offers];
+    
+    if(self.objectDataSource){
+        
+        [self reloadData];
+    }
+
+
+}
+
 #pragma mark collectionview delegate
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

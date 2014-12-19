@@ -124,6 +124,7 @@
         UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
         ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
         vc.offerObject = offer;
+        vc.hidesBottomBarWhenPushed = YES;
         vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self.navigationController pushViewController:vc animated:NO];
         [self updateCurrentView];

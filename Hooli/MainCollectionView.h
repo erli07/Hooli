@@ -12,6 +12,9 @@
 @interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource,MBProgressHUDDelegate>
 -(void)configureView;
 -(void)updateDataFromCloud;
+-(void)reloadDataByOffersArray:(NSArray *)offers;
+
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *objectDataSource;
+
 @end

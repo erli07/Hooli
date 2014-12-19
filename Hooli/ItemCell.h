@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @property (nonatomic, strong) NSString *offerId;
 @property (weak, nonatomic) IBOutlet UIImageView *shadowView;
+@property (nonatomic, assign) BOOL isOfferSold;
 
 - (IBAction)likesButtonClicked:(id)sender;
 

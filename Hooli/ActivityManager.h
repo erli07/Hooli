@@ -27,5 +27,6 @@ typedef void (^UploadFailureBlock) (id error);
 - (void)dislikeOfferInBackground:(OfferModel *)offer block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 - (void)setOfferLikesCount:(UILabel *)label withOffer:(OfferModel *)offer;
 - (void)isOfferLikedByCurrentUser:(OfferModel *)offer block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
-
+- (void)getLikedOffersByUser:(PFUser *)user WithSuccess:(DownloadSuccessBlock)success
+                                                Failure:(DownloadFailureBlock)failure;
 @end

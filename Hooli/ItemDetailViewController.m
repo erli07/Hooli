@@ -32,7 +32,7 @@
     BOOL toggleIsOn;
 }
 @property (nonatomic) CLLocationCoordinate2D offerLocation;
-
+@property (nonatomic) BOOL toggleIsOn;
 @end
 
 @implementation ItemDetailViewController
@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+        
     [self configureUIElements];
     
     if(!self.offerObject){
@@ -50,7 +50,7 @@
         HUD = [[MBProgressHUD alloc] initWithView:self.view];
         [self.view addSubview:HUD];
         [HUD show:YES];
-
+        
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
             
@@ -60,8 +60,8 @@
                                                   // Dispatch to main thread to update the UI
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       
-                                                     self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
-                                                     
+                                                      self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
+                                                      
                                                       [self updateOfferDetailInfo:self.offerObject];
                                                       
                                                       [HUD hide:YES];
@@ -81,7 +81,7 @@
     }else{
         
         self.bottomButtonsView.hidden = YES;
-
+        
         [self.parentScrollView setContentSize:self.contentView.frame.size];
         
         [self updateOfferDetailInfo:self.offerObject];
@@ -107,8 +107,8 @@
     CGFloat offsetY = (visible)? height : -height;
     
     self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
-        
-  
+    
+    
 }
 
 // know the current state
@@ -129,7 +129,7 @@
 }
 
 -(void)updateOfferDetailInfo:(OfferModel *)offerModel{
-        
+    
     if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
         
         UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
@@ -162,8 +162,8 @@
         self.bottomButtonsView.hidden = NO;
         self.soldImageView.image = nil;
     }
-
-
+    
+    
     [[AccountManager sharedInstance]loadAccountDataWithUserId:offerModel.user.objectId Success:^(id object) {
         
         
@@ -184,7 +184,7 @@
     newFrame.size.height = self.offerDescription.frame.size.height + self.offerDescription.frame.origin.y + kScrollViewOffset;
     self.contentView.frame = newFrame;
     [self.parentScrollView setContentSize:newFrame.size];
-
+    
     self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.height/2;
     self.profilePicture.layer.masksToBounds = YES;
     
@@ -206,11 +206,24 @@
     [self.categoryLabel addGestureRecognizer:tapCategory];
     tapCategory.numberOfTapsRequired = 1;
     self.categoryLabel.userInteractionEnabled = YES;
+    
+    if(offerModel.offerId){
+        
+        [[ActivityManager sharedInstance]isOfferLikedByCurrentUser:offerModel block:^(BOOL succeeded, NSError *error) {
+            
+            toggleIsOn = succeeded;
+            [self updateLikeButtonImage:!succeeded];
+            
+        }];
+        
+    }
+
 }
 
 
 -(void)configureUIElements{
     
+    self.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBar.hidden = NO;
     self.title = @"Item Detail";
     
@@ -237,6 +250,7 @@
     self.categoryLabel.font =[UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     
     
+    
 }
 
 -(void)seeItemOwner{
@@ -246,7 +260,7 @@
     vc.userID = self.userID;
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
-
+    
 }
 
 -(void)seeCategory{
@@ -289,7 +303,7 @@
     for (UIImage *image in imagesArray) {
         
         CGRect frame = CGRectMake(scrollContentWidth + padding + 30 , (self.scrollView.bounds.size.height - scrollHeight)/2, 200, 260);
-
+        
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         preview.image = image;
         
@@ -322,10 +336,10 @@
                 NSLog(@"Delete self error %@", [error description]);
                 
             }
-
+            
         }];
         
-            }
+    }
     else{
         
     }
@@ -345,54 +359,65 @@
     
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
     
-        if(toggleIsOn){
+    if(!toggleIsOn){
+        
+        [[ActivityManager sharedInstance]likeOfferInBackground:self.offerObject block:^(BOOL succeeded, NSError *error) {
             
-            [[ActivityManager sharedInstance]likeOfferInBackground:self.offerObject block:^(BOOL succeeded, NSError *error) {
-            
-                if(succeeded){
-                    NSLog(@"Like Success!");
-                    
-                }
-                else{
-                    
-                    NSLog(@"%@",[error description]);
-                }
-            }];
-        }
-        else {
-            
-            [[ActivityManager sharedInstance]dislikeOfferInBackground:self.offerObject block:^(BOOL succeeded, NSError *error) {
+            if(succeeded){
+                NSLog(@"Like Success!");
                 
-                if(succeeded){
-                    NSLog(@"dislike Success!");
-
-                }
-                else{
-                    
-                    NSLog(@"%@",[error description]);
-                }
-            }];
-        }
+            }
+            else{
+                
+                NSLog(@"%@",[error description]);
+            }
+        }];
+    }
+    else {
+        
+        [[ActivityManager sharedInstance]dislikeOfferInBackground:self.offerObject block:^(BOOL succeeded, NSError *error) {
+            
+            if(succeeded){
+                NSLog(@"dislike Success!");
+                
+            }
+            else{
+                
+                NSLog(@"%@",[error description]);
+            }
+        }];
+    }
     
-        toggleIsOn = !toggleIsOn;
+    toggleIsOn = !toggleIsOn;
     
-        [self.likeButton setTitle:toggleIsOn ? @"Like" :@"Dislike" forState:UIControlStateNormal];
-    [self.likeButton setBackgroundImage:[UIImage imageNamed:toggleIsOn ? @"button-pressed.png" :@"button.png"] forState:UIControlStateNormal];
-    [self.likeButton setTitleColor:toggleIsOn?[UIColor whiteColor]:[HLTheme mainColor] forState:UIControlStateNormal];
+    [self updateLikeButtonImage:!toggleIsOn];
+    
+    [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+    
     
 }
+
+-(void)updateLikeButtonImage:(BOOL)flag{
+    
+    [self.likeButton setTitle:flag ? @"Like" :@"Dislike" forState:UIControlStateNormal];
+    [self.likeButton setBackgroundImage:[UIImage imageNamed:flag ? @"button-pressed.png" :@"button.png"] forState:UIControlStateNormal];
+    [self.likeButton setTitleColor:flag?[UIColor whiteColor]:[HLTheme mainColor] forState:UIControlStateNormal];
+    
+    
+}
+
 - (IBAction)contactSeller:(id)sender {
     
     __weak ItemDetailViewController *weakSelf = self;
-
+    
     EMConversation *conversation = [[EMConversation alloc]init];
     conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:self.offerObject.user.objectId isGroup:NO];
     
     
-
+    
     
     [[AccountManager sharedInstance]loadAccountDataWithUserId:conversation.chatter Success:^(id object) {
-    
+        
         UserModel *userModel = (UserModel *)object;
         PFUser *user = [PFUser currentUser];
         PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
@@ -415,7 +440,7 @@
         
     }];
     
-
+    
     
     
 }

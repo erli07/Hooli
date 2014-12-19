@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
 }
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated{
     
     [self updateCollectionViewData];
     
@@ -41,9 +41,7 @@
 
 
 -(void)updateCollectionViewData{
-    
-    [[OffersManager sharedInstance]clearData];
-    
+        
     [self.collectionView updateDataFromCloud];
     
 }

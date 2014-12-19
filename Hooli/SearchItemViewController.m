@@ -65,7 +65,9 @@
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *cellText = selectedCell.textLabel.text;
     
-     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+    [[OffersManager sharedInstance]clearData];
+    
+    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                         kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
                         cellText,kHLFilterDictionarySearchKeyCategory,nil];
     
@@ -78,6 +80,8 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    
+    
     
     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                       kHLFilterDictionarySearchKeyWords, kHLFilterDictionarySearchType,
