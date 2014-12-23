@@ -28,6 +28,12 @@ extern int const kHLOffersNumberShowAtFirstTime;
 extern int const kHLMaxSearchDistance;
 extern int const kHLDefaultSearchDistance;
 
+extern NSString *const kHLUserModelKeyEmail;
+extern NSString *const kHLUserModelKeyUserName;
+extern NSString *const kHLUserModelKeyPortraitImage;
+extern NSString *const kHLUserModelKeyUserId;
+extern NSString *const kHLUserModelKeyPassword;
+extern NSString *const kHLUserModelKeyUserIdMD5;
 extern NSString *const kHLOfferModelKeyImage;
 extern NSString *const kHLOfferModelKeyThumbNail;
 

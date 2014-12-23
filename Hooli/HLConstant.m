@@ -27,10 +27,17 @@ int const kHLOffersNumberShowAtFirstTime = 20;
 int const kHLMaxSearchDistance = 50;
 int const kHLDefaultSearchDistance = 50;
 
+NSString *const kHLUserModelKeyEmail = @"email";
+NSString *const kHLUserModelKeyUserName = @"username";
+NSString *const kHLUserModelKeyPortraitImage = @"PortraitImage";
+NSString *const kHLUserModelKeyUserId = @"objectId";
+NSString *const kHLUserModelKeyPassword = @"password";
+NSString *const kHLUserModelKeyUserIdMD5 = @"objectId_MD5";
+
+
+
 NSString *const kHLOfferModelKeyImage = @"imageFile";
 NSString *const kHLOfferModelKeyThumbNail = @"thumbNail";
-
-
 NSString *const kHLOfferModelKeyPrice = @"price";
 NSString *const kHLOfferModelKeyLikes = @"offerLikes";
 NSString *const kHLOfferModelKeyOfferId = @"objectId";

@@ -435,67 +435,67 @@
     
     
 }
--(void)getUserPortraitImageWithUserID:(NSString *)userID withCell:(ChatListCell *)cell block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
-    
-    PFQuery * query = [PFUser query];
-    [query whereKey:@"objectId" equalTo:@"0soFWxXf8K"];
-    NSArray * results = [query findObjects];
-
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
-            
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-           cell.imageView.image = [UIImage imageNamed:@"chat_default_portrait@2x.png"];
-            cell.name = @"Unknown user";
-
-        
-        
-        }
-        else{
-            
-                        PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
-                       // NSData *imageData = [theImage getData];
-            [theImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                if (!error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-
-                    cell.placeholderImage = [UIImage imageWithData:data];
-                        
-                      //  [cell reloadInputViews];
-                        
-                        
-                    });
-                    // image can now be set on a UIImageView
-                }
-            }];
-
-                        cell.name = [object objectForKey:kHLUserModelKeyUserName];
-            
-        }
-    }];
-
-    
-//    PFQuery *query = [PFQuery queryWithClassName:kHLCloudUserClass];
-//    [query whereKey:kHLUserModelKeyUserId equalTo:[[PFUser currentUser]objectId]];
+//-(void)getUserPortraitImageWithUserID:(NSString *)userID withCell:(ChatListCell *)cell block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+//    
+//    PFQuery * query = [PFUser query];
+//    [query whereKey:@"objectId" equalTo:@"0soFWxXf8K"];
+//    NSArray * results = [query findObjects];
+//
 //    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
 //        if (!object) {
 //            
 //            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//            cell.imageView.image = [UIImage imageNamed:@"chat_default_portrait@2x.png"];
-//            
+//           cell.imageView.image = [UIImage imageNamed:@"chat_default_portrait@2x.png"];
+//            cell.name = @"Unknown user";
+//
+//        
+//        
 //        }
 //        else{
 //            
-//            PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
-//            NSData *imageData = [theImage getData];
-//            cell.imageView.image = [UIImage imageWithData:imageData];
-//            cell.name = [object objectForKey:kHLUserModelKeyUserName];
+//                        PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
+//                       // NSData *imageData = [theImage getData];
+//            [theImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+//                if (!error) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//
+//                    cell.placeholderImage = [UIImage imageWithData:data];
+//                        
+//                      //  [cell reloadInputViews];
+//                        
+//                        
+//                    });
+//                    // image can now be set on a UIImageView
+//                }
+//            }];
+//
+//                        cell.name = [object objectForKey:kHLUserModelKeyUserName];
 //            
 //        }
 //    }];
-    
-
-}
-
+//
+//    
+////    PFQuery *query = [PFQuery queryWithClassName:kHLCloudUserClass];
+////    [query whereKey:kHLUserModelKeyUserId equalTo:[[PFUser currentUser]objectId]];
+////    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+////        if (!object) {
+////            
+////            NSLog(@"Error: %@ %@", error, [error userInfo]);
+////            cell.imageView.image = [UIImage imageNamed:@"chat_default_portrait@2x.png"];
+////            
+////        }
+////        else{
+////            
+////            PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
+////            NSData *imageData = [theImage getData];
+////            cell.imageView.image = [UIImage imageWithData:imageData];
+////            cell.name = [object objectForKey:kHLUserModelKeyUserName];
+////            
+////        }
+////    }];
+//    
+//
+//}
+//
 
 @end

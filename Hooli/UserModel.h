@@ -9,15 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "HLConstant.h"
+
 @interface UserModel : NSObject
-
-extern NSString *const kHLUserModelKeyEmail;
-extern NSString *const kHLUserModelKeyUserName;
-extern NSString *const kHLUserModelKeyPortraitImage;
-extern NSString *const kHLUserModelKeyUserId;
-extern NSString *const kHLUserModelKeyPassword;
-extern NSString *const kHLUserModelKeyUserIdMD5;
-
 
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *username;

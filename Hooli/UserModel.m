@@ -8,15 +8,11 @@
 
 #import "UserModel.h"
 
+
 @implementation UserModel
 @synthesize email,username,portraitImage,userID,password;
 
-NSString *const kHLUserModelKeyEmail = @"email";
-NSString *const kHLUserModelKeyUserName = @"username";
-NSString *const kHLUserModelKeyPortraitImage = @"PortraitImage";
-NSString *const kHLUserModelKeyUserId = @"objectId";
-NSString *const kHLUserModelKeyPassword = @"password";
-NSString *const kHLUserModelKeyUserIdMD5 = @"objectId_MD5";
+
 
 
 

@@ -411,12 +411,11 @@
     __weak ItemDetailViewController *weakSelf = self;
     
     EMConversation *conversation = [[EMConversation alloc]init];
-    conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:self.offerObject.user.objectId isGroup:NO];
+    conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:[self.offerObject.user.objectId MD5] isGroup:NO];
     
-    
-    
-    
-    [[AccountManager sharedInstance]loadAccountDataWithUserId:conversation.chatter Success:^(id object) {
+    [[AccountManager sharedInstance]loadAccountDataWithUserId:self.offerObject.user.objectId Success:^(id object) {
+        
+        
         
         UserModel *userModel = (UserModel *)object;
         PFUser *user = [PFUser currentUser];
@@ -426,10 +425,11 @@
         
         ChatViewController *chatVC = [[ChatViewController alloc] initWithChatter:conversation.chatter isGroup:conversation.isGroup];
         
-        chatVC.sender = [[ChatterObject alloc]initWithChatterID:userModel.userID username:userModel.username portrait: userModel.portraitImage isSender:YES];
+        chatVC.receiver = [[ChatterObject alloc]initWithChatterID:conversation.chatter username:userModel.username portrait: userModel.portraitImage isSender:YES];
         
-        chatVC.receiver = [[ChatterObject alloc]initWithChatterID:user.objectId username:user.username portrait:portraitImage isSender:NO];
+        chatVC.sender = [[ChatterObject alloc]initWithChatterID:[user.objectId MD5] username:user.username portrait:portraitImage isSender:NO];
         
+        chatVC.title = userModel.username;
         chatVC.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:chatVC animated:YES];
         
