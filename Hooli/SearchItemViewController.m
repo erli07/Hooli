@@ -109,6 +109,17 @@
 {
     [self.searchBar setShowsCancelButton:NO animated:YES];
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    
+    if([segue.identifier isEqualToString:@"searchResult"])
+    {
+        SearchResultViewController *resultVC = segue.destinationViewController;
+        resultVC.hidesBottomBarWhenPushed = YES;
+    }
+    
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

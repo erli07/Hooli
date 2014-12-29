@@ -12,6 +12,7 @@
 #import "ItemDetailViewController.h"
 #import "OffersManager.h"
 #import "HLSettings.h"
+#import "SearchItemViewController.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate>{
     
 }
@@ -30,12 +31,17 @@ static NSString * const reuseIdentifier = @"Cell";
     [[OffersManager sharedInstance]setPageCounter:0];
     [[HLSettings sharedInstance]setPreferredDistance:25];
     
-    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Filter"
-                                   style:UIBarButtonItemStyleDone
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                   target:self
+                                   action:@selector(showSearchVC)];
+    self.navigationItem.rightBarButtonItem = searchButton;
+    
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                    target:self
                                    action:@selector(showMoreItems)];
-    self.navigationItem.rightBarButtonItem = moreButton;
+    self.navigationItem.leftBarButtonItem = settingsButton;
     
     self.view.tintColor = [HLTheme mainColor];
     [self.layout configureLayout] ;
@@ -136,15 +142,26 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
+-(void)showSearchVC{
+    
+    [self performSegueWithIdentifier:@"Search" sender:self];
+
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
     
     if([segue.identifier isEqualToString:@"detail"])
     {
         ItemDetailViewController *detailVC = segue.destinationViewController;
-        
+        detailVC.hidesBottomBarWhenPushed = YES;
     }
-    
+    else if([segue.identifier isEqualToString:@"Search"])
+    {
+        SearchItemViewController *searchVC = segue.destinationViewController;
+        searchVC.hidesBottomBarWhenPushed = YES;
+    }
+
 }
 
 #pragma scrollview delegate

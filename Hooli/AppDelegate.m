@@ -32,15 +32,22 @@
     [[LocationManager sharedInstance]startLocationUpdate];
     
     // Register for Push Notitications
-    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                    UIUserNotificationTypeBadge |
-                                                    UIUserNotificationTypeSound);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                             categories:nil];
-    [application registerUserNotificationSettings:settings];
-    [application registerForRemoteNotifications];
+    application.applicationIconBadgeNumber = 0;
     
-    NSString *apnsCertName = @"Hooli";
+    //iOS8 注册APNS
+    if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
+        [application registerForRemoteNotifications];
+        UIUserNotificationType notificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+        [application registerUserNotificationSettings:settings];
+    }else{
+        UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeBadge |
+        UIRemoteNotificationTypeSound |
+        UIRemoteNotificationTypeAlert;
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:notificationTypes];
+    }
+    
+    NSString *apnsCertName = @"PushTest";
     [[EaseMob sharedInstance] registerSDKWithAppKey:@"catalina#hooli" apnsCertName:apnsCertName];
     //    [[EaseMob sharedInstance] enableBackgroundReceiveMessage];
     [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];

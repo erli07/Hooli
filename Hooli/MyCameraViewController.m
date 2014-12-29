@@ -18,8 +18,10 @@
 #import "LocationManager.h"
 #import "ImageCache.h"
 #import "ItemDetailViewController.h"
+#import "NeedsManager.h"
+
+
 #define CAMERA_TRANSFORM_X 1
-//#define CAMERA_TRANSFORM_Y 1.12412 // this was for iOS 3.x
 #define CAMERA_TRANSFORM_Y 1.24299 // this works for iOS 4.x
 
 
@@ -248,29 +250,31 @@
 
 - (IBAction)showCameraView:(id)sender {
     
-    self.overlayVC = [[CameraOverlayViewController alloc]initWithNibName:@"CameraOverlayViewController" bundle:nil];
+    [[NeedsManager sharedInstance]uploadDemoNeedModel];
     
-    // Create a new image picker instance:
-    self.picker = [[UIImagePickerController alloc] init];
-    
-    // Set the image picker source:
-    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    // Hide the controls:
-    self.picker.showsCameraControls = NO;
-    self.picker.navigationBarHidden = YES;
-    
-    self.picker.delegate = self;
-    self.picker.allowsEditing = YES;
-    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-    // Insert the overlay:
-    self.picker.cameraOverlayView = self.overlayVC.view;
-    
-    // Show the picker:
-    
-    
-    [self presentViewController:self.picker animated:YES completion:NULL];
+//    self.overlayVC = [[CameraOverlayViewController alloc]initWithNibName:@"CameraOverlayViewController" bundle:nil];
+//    
+//    // Create a new image picker instance:
+//    self.picker = [[UIImagePickerController alloc] init];
+//    
+//    // Set the image picker source:
+//    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+//    
+//    // Hide the controls:
+//    self.picker.showsCameraControls = NO;
+//    self.picker.navigationBarHidden = YES;
+//    
+//    self.picker.delegate = self;
+//    self.picker.allowsEditing = YES;
+//    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+//    self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+//    // Insert the overlay:
+//    self.picker.cameraOverlayView = self.overlayVC.view;
+//    
+//    // Show the picker:
+//    
+//    
+//    [self presentViewController:self.picker animated:YES completion:NULL];
 }
 
 -(void)configureUIElements{

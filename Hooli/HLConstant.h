@@ -25,6 +25,7 @@ extern NSString *const kHLOfferCategoryOther;
 extern int const kHLOfferCellHeight;
 extern int const kHLOfferCellWidth;
 extern int const kHLOffersNumberShowAtFirstTime;
+extern int const kHLNeedsNumberShowAtFirstTime;
 extern int const kHLMaxSearchDistance;
 extern int const kHLDefaultSearchDistance;
 
@@ -48,11 +49,22 @@ extern NSString *const kHLOfferModelKeyOfferName;
 extern NSString *const kHLOfferModelKeyGeoPoint;
 extern NSString *const kHLOfferModelKeyOfferStatus;
 
+extern NSString *const kHLNeedsModelKeyPrice;
+extern NSString *const kHLNeedsModelKeyLikes;
+extern NSString *const kHLNeedsModelKeyDescription;
+extern NSString *const kHLNeedsModelKeyCategory;
+extern NSString *const kHLNeedsModelKeyUser;
+extern NSString *const kHLNeedsModelKeyId;
+extern NSString *const kHLNeedsModelKeyName;
+extern NSString *const kHLNeedsModelKeyGeoPoint;
+extern NSString *const kHLNeedsModelKeyStatus;
+
 extern NSString *const kHLOfferPhotoKeyOfferID;
 extern NSString *const kHLOfferPhotKeyPhoto;
 
 extern NSString *const kHLCloudOfferClass;
 extern NSString *const kHLCloudActivityClass;
+extern NSString *const kHLCloudNeedClass;
 extern NSString *const kHLCloudUserClass;
 
 extern NSString *const kHLActivityKeyOffer;

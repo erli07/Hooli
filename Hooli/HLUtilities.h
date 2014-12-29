@@ -10,7 +10,7 @@
 #import "OfferModel.h"
 @interface HLUtilities : NSObject
 
-+ (void)likeOfferInBackground:(OfferModel *)offer block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
-+ (void)unlikeOfferInBackground:(OfferModel *)offer block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
++ (NSData *)compressImage:(UIImage *)image WithCompression: (CGFloat) compressionQuality;
 
 @end
