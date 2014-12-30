@@ -8,7 +8,9 @@
 
 #import "NeedTableViewController.h"
 #import "HLConstant.h"
-
+#import "NeedTableViewCell.h"
+#import "NeedDetailViewController.h"
+#import "HLTheme.h"
 @interface NeedTableViewController ()
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
 
@@ -19,7 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.tintColor = [HLTheme mainColor];
+
     [self loadObjects];
 
     // Do any additional setup after loading the view.
@@ -80,6 +83,33 @@
         self.tableView.scrollEnabled = YES;
     }
 }
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    
+        static NSString *CellIdentifier = @"NeedCell";
+    
+        NeedTableViewCell *cell = (NeedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[NeedTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+    
+        return cell;
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    NeedDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"NeedDetail"];
+    vc.hidesBottomBarWhenPushed = YES;
+  //  vc.needId = cell.needId;
+    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     

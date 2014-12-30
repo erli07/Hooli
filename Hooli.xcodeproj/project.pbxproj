@@ -89,8 +89,6 @@
 		0EB5E7411A4E5035009A1186 /* NeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5E7401A4E5035009A1186 /* NeedTableViewController.m */; };
 		0EB5E7471A50B897009A1186 /* HomeTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5E7461A50B897009A1186 /* HomeTabBarController.m */; };
 		0EB5E74A1A50FCCF009A1186 /* NeedNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5E7491A50FCCF009A1186 /* NeedNavController.m */; };
-		0EB5E74F1A511F30009A1186 /* NeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5E74D1A511F30009A1186 /* NeedTableViewCell.m */; };
-		0EB5E7501A511F30009A1186 /* NeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB5E74E1A511F30009A1186 /* NeedTableViewCell.xib */; };
 		0EB8881D1A3809660054F982 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB8881C1A3809660054F982 /* libxml2.dylib */; };
 		0EB8881F1A38096E0054F982 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB8881E1A38096E0054F982 /* libiconv.dylib */; };
 		0EB888211A3818870054F982 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB888201A3818870054F982 /* AddressBook.framework */; };
@@ -422,6 +420,9 @@
 		453E51B31A487BC600801F64 /* NSRelationshipDescription+MagicalDataImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 453E50911A487BC600801F64 /* NSRelationshipDescription+MagicalDataImport.m */; };
 		453E51B41A487BC600801F64 /* NSString+MagicalDataImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 453E50931A487BC600801F64 /* NSString+MagicalDataImport.m */; };
 		453E51B61A487BC600801F64 /* UIDemo.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 453E50951A487BC600801F64 /* UIDemo.xcdatamodel */; };
+		455ECE5A1A51FF0C00A15BEB /* PostNeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 455ECE591A51FF0C00A15BEB /* PostNeedViewController.m */; };
+		45F2C0701A51DA3E0004D476 /* NeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F2C06E1A51DA3E0004D476 /* NeedTableViewCell.m */; };
+		45F2C0711A51DA3E0004D476 /* NeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45F2C06F1A51DA3E0004D476 /* NeedTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -553,9 +554,6 @@
 		0EB5E7461A50B897009A1186 /* HomeTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTabBarController.m; sourceTree = "<group>"; };
 		0EB5E7481A50FCCF009A1186 /* NeedNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedNavController.h; sourceTree = "<group>"; };
 		0EB5E7491A50FCCF009A1186 /* NeedNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedNavController.m; sourceTree = "<group>"; };
-		0EB5E74C1A511F30009A1186 /* NeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedTableViewCell.h; sourceTree = "<group>"; };
-		0EB5E74D1A511F30009A1186 /* NeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedTableViewCell.m; sourceTree = "<group>"; };
-		0EB5E74E1A511F30009A1186 /* NeedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NeedTableViewCell.xib; sourceTree = "<group>"; };
 		0EB8881C1A3809660054F982 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0EB8881E1A38096E0054F982 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		0EB888201A3818870054F982 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -1112,6 +1110,11 @@
 		453E50921A487BC600801F64 /* NSString+MagicalDataImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MagicalDataImport.h"; sourceTree = "<group>"; };
 		453E50931A487BC600801F64 /* NSString+MagicalDataImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MagicalDataImport.m"; sourceTree = "<group>"; };
 		453E50951A487BC600801F64 /* UIDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UIDemo.xcdatamodel; sourceTree = "<group>"; };
+		455ECE581A51FF0C00A15BEB /* PostNeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostNeedViewController.h; sourceTree = "<group>"; };
+		455ECE591A51FF0C00A15BEB /* PostNeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostNeedViewController.m; sourceTree = "<group>"; };
+		45F2C06D1A51DA3E0004D476 /* NeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedTableViewCell.h; sourceTree = "<group>"; };
+		45F2C06E1A51DA3E0004D476 /* NeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedTableViewCell.m; sourceTree = "<group>"; };
+		45F2C06F1A51DA3E0004D476 /* NeedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NeedTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1699,6 +1702,8 @@
 		0EB5E74B1A5106F5009A1186 /* Need */ = {
 			isa = PBXGroup;
 			children = (
+				455ECE581A51FF0C00A15BEB /* PostNeedViewController.h */,
+				455ECE591A51FF0C00A15BEB /* PostNeedViewController.m */,
 				0E86AA7A1A4D2D81000C71E8 /* NeedDetailViewController.h */,
 				0E86AA7B1A4D2D81000C71E8 /* NeedDetailViewController.m */,
 				0EB5E7481A50FCCF009A1186 /* NeedNavController.h */,
@@ -1707,9 +1712,9 @@
 				0E86AA5E1A4B38FD000C71E8 /* NeedsViewController.m */,
 				0EB5E73F1A4E5035009A1186 /* NeedTableViewController.h */,
 				0EB5E7401A4E5035009A1186 /* NeedTableViewController.m */,
-				0EB5E74C1A511F30009A1186 /* NeedTableViewCell.h */,
-				0EB5E74D1A511F30009A1186 /* NeedTableViewCell.m */,
-				0EB5E74E1A511F30009A1186 /* NeedTableViewCell.xib */,
+				45F2C06D1A51DA3E0004D476 /* NeedTableViewCell.h */,
+				45F2C06E1A51DA3E0004D476 /* NeedTableViewCell.m */,
+				45F2C06F1A51DA3E0004D476 /* NeedTableViewCell.xib */,
 			);
 			name = Need;
 			sourceTree = "<group>";
@@ -2437,7 +2442,7 @@
 				0EE499821A1016690046B3C7 /* LoginWithFacebook.png in Resources */,
 				453E50F01A487BC600801F64 /* chatBar_recordSelected.png in Resources */,
 				453E50CD1A487BC600801F64 /* chatBar_face@2x.png in Resources */,
-				0EB5E7501A511F30009A1186 /* NeedTableViewCell.xib in Resources */,
+				45F2C0711A51DA3E0004D476 /* NeedTableViewCell.xib in Resources */,
 				453E50F91A487BC600801F64 /* chatFire_audioPlaying1@2x.png in Resources */,
 				453E50A61A487BC600801F64 /* chat_location_detail_disclosure.png in Resources */,
 				0E17BF9519FE04800042C4DD /* pink-eye@2x.png in Resources */,
@@ -2609,7 +2614,7 @@
 				0E0019D71A0E91CD0086CD77 /* OfferFilterViewController.m in Sources */,
 				0E86AA5F1A4B38FD000C71E8 /* NeedsViewController.m in Sources */,
 				453E51131A487BC600801F64 /* EMChatTimeCell.m in Sources */,
-				0EB5E74F1A511F30009A1186 /* NeedTableViewCell.m in Sources */,
+				45F2C0701A51DA3E0004D476 /* NeedTableViewCell.m in Sources */,
 				4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */,
 				453E51511A487BC600801F64 /* SDWebImageDownloaderOperation.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
@@ -2707,6 +2712,7 @@
 				453E514A1A487BC600801F64 /* RealtimeSearchUtil.m in Sources */,
 				0ECAC3A91A01C51D002866DE /* SearchItemViewController.m in Sources */,
 				4530733F1A1550E30010B5A1 /* HLCache.m in Sources */,
+				455ECE5A1A51FF0C00A15BEB /* PostNeedViewController.m in Sources */,
 				453E519D1A487BC600801F64 /* MagicalRecord+iCloud.m in Sources */,
 				0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */,
 				453E511D1A487BC600801F64 /* FacialView.m in Sources */,
@@ -2871,7 +2877,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iOS Development: Er Li (X6D2589A5Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Er Li (X6D2589A5Q)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2887,7 +2893,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9e2abc69-8aee-4b20-8926-d2907559a1c5";
+				PROVISIONING_PROFILE = "4ece0b20-55c6-41a2-9752-bc48ad8ee058";
 			};
 			name = Debug;
 		};
@@ -2895,7 +2901,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iOS Development: Er Li (X6D2589A5Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Er Li (X6D2589A5Q)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2911,7 +2917,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9e2abc69-8aee-4b20-8926-d2907559a1c5";
+				PROVISIONING_PROFILE = "4ece0b20-55c6-41a2-9752-bc48ad8ee058";
 			};
 			name = Release;
 		};

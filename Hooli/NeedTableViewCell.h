@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface NeedTableViewCell : UITableViewCell
+#import <Parse/Parse.h>
+@interface NeedTableViewCell :PFTableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *budgetLabel;
+@property (weak, nonatomic) IBOutlet UILabel *GroupSizeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *interestedImageView;
+@property (weak, nonatomic) IBOutlet UILabel *interestedNumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 
 @end

@@ -9,8 +9,9 @@
 #import "NeedTableViewCell.h"
 
 @implementation NeedTableViewCell
-
+@synthesize portraitImage;
 - (void)awakeFromNib {
+    [self.portraitImage setImage:[UIImage imageNamed:@"chat_default_portrait"]];
     // Initialization code
 }
 
