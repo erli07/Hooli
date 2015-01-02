@@ -250,31 +250,31 @@
 
 - (IBAction)showCameraView:(id)sender {
     
-    [[NeedsManager sharedInstance]uploadDemoNeedModel];
+   // [[NeedsManager sharedInstance]uploadDemoNeedModel];
     
-//    self.overlayVC = [[CameraOverlayViewController alloc]initWithNibName:@"CameraOverlayViewController" bundle:nil];
-//    
-//    // Create a new image picker instance:
-//    self.picker = [[UIImagePickerController alloc] init];
-//    
-//    // Set the image picker source:
-//    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-//    
-//    // Hide the controls:
-//    self.picker.showsCameraControls = NO;
-//    self.picker.navigationBarHidden = YES;
-//    
-//    self.picker.delegate = self;
-//    self.picker.allowsEditing = YES;
-//    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-//    self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-//    // Insert the overlay:
-//    self.picker.cameraOverlayView = self.overlayVC.view;
-//    
-//    // Show the picker:
-//    
-//    
-//    [self presentViewController:self.picker animated:YES completion:NULL];
+    self.overlayVC = [[CameraOverlayViewController alloc]initWithNibName:@"CameraOverlayViewController" bundle:nil];
+    
+    // Create a new image picker instance:
+    self.picker = [[UIImagePickerController alloc] init];
+    
+    // Set the image picker source:
+    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+    // Hide the controls:
+    self.picker.showsCameraControls = NO;
+    self.picker.navigationBarHidden = YES;
+    
+    self.picker.delegate = self;
+    self.picker.allowsEditing = YES;
+    self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+    // Insert the overlay:
+    self.picker.cameraOverlayView = self.overlayVC.view;
+    
+    // Show the picker:
+    
+    
+    [self presentViewController:self.picker animated:YES completion:NULL];
 }
 
 -(void)configureUIElements{

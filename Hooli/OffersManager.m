@@ -372,7 +372,9 @@
     if(offerID!=nil){
         
         PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
-        [query whereKey:@"objectId" equalTo:offerID];
+        [query whereKey:kHLOfferModelKeyOfferId equalTo:offerID];
+
+
         // [query orderByAscending:@"createdAt"];
         [query getObjectInBackgroundWithId:offerID block:^(PFObject *object, NSError *error) {
             if (!error) {
@@ -391,6 +393,40 @@
     
 }
 
+-(void)fetchChattingIdByOfferId:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure{
+    
+    _dowloadSuccess = dowloadSuccess ;
+    _downloadFailure = downloadFailure;
+    
+    if(offerID!=nil){
+        
+        PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
+        [query includeKey:kHLCloudUserClass];
+        //[query whereKey:kHLOfferModelKeyOfferId equalTo:offerID];
+        
+        // [query orderByAscending:@"createdAt"];
+        [query getObjectInBackgroundWithId:offerID block:^(PFObject *object, NSError *error) {
+            if (object) {
+                
+         
+                    // This does not require a network access.
+                    PFObject *band = [object objectForKey:kHLCloudUserClass];
+                
+                id objects = [band objectForKey:kHLUserModelKeyEmail];
+                
+                _dowloadSuccess(object);
+                
+            } else {
+                // Log details of the failure
+                _downloadFailure(error);
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+            
+        }];
+        
+    }
+    
+}
 
 -(void)fetchOfferImagesWithOfferId:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure{
     

@@ -33,14 +33,15 @@
 }
 @property (nonatomic) CLLocationCoordinate2D offerLocation;
 @property (nonatomic) BOOL toggleIsOn;
+@property (nonatomic) NSString *chattingId;
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID,soldImageView;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID,soldImageView,chattingId;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-        
+    
     [self configureUIElements];
     
     if(!self.offerObject){
@@ -53,6 +54,7 @@
         
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
+            
             
             [[OffersManager sharedInstance]fetchOfferByID:self.offerId
                                               withSuccess:^(id downloadObject) {
@@ -217,7 +219,7 @@
         }];
         
     }
-
+    
 }
 
 
@@ -410,38 +412,38 @@
     
     __weak ItemDetailViewController *weakSelf = self;
     
-    EMConversation *conversation = [[EMConversation alloc]init];
-    conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:[self.offerObject.user.objectId MD5] isGroup:NO];
-    
     [[AccountManager sharedInstance]loadAccountDataWithUserId:self.offerObject.user.objectId Success:^(id object) {
         
-        
-        
+        PFUser *currentUser = [PFUser currentUser];
         UserModel *userModel = (UserModel *)object;
-        PFUser *user = [PFUser currentUser];
-        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
-        NSData *imageData = [theImage getData];
-        UIImage *portraitImage = [UIImage imageWithData:imageData];
         
+        
+        EMConversation *conversation = [[EMConversation alloc]init];
+        conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userModel.chattingId isGroup:NO];
         ChatViewController *chatVC = [[ChatViewController alloc] initWithChatter:conversation.chatter isGroup:conversation.isGroup];
+        chatVC.receiver = [[ChatterObject alloc]initWithChatterID:conversation.chatter username:userModel.username portrait: userModel.portraitImage isSender:NO];
         
-        chatVC.receiver = [[ChatterObject alloc]initWithChatterID:conversation.chatter username:userModel.username portrait: userModel.portraitImage isSender:YES];
+        PFFile *profileImage = [currentUser objectForKey:kHLUserModelKeyPortraitImage];
         
-        chatVC.sender = [[ChatterObject alloc]initWithChatterID:[user.objectId MD5] username:user.username portrait:portraitImage isSender:NO];
-        
-        chatVC.title = userModel.username;
-        chatVC.hidesBottomBarWhenPushed = YES;
-        [weakSelf.navigationController pushViewController:chatVC animated:YES];
-        
+        [profileImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            if (!error) {
+                
+                UIImage *image = [UIImage imageWithData:data];
+                
+                chatVC.sender = [[ChatterObject alloc]initWithChatterID:[currentUser objectForKey:kHLUserModelKeyUserIdMD5] username:[currentUser objectForKey:kHLUserModelKeyUserName] portrait:image isSender:YES];
+                
+                chatVC.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:chatVC animated:YES];
+                
+                // image can now be set on a UIImageView
+            }
+        }];
         
     } Failure:^(id error) {
         
         NSLog(@"%@",error);
-        
+
     }];
-    
-    
-    
     
 }
 

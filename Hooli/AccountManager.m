@@ -16,6 +16,7 @@
 @synthesize uploadSuccess = _uploadSuccess;
 @synthesize downloadSuccess = _dowloadSuccess;
 @synthesize downloadFailure = _downloadFailure;
+@synthesize profileImage,userName,email,chattingId;
 +(AccountManager *)sharedInstance{
     
     static AccountManager *_sharedInstance = nil;
@@ -122,7 +123,7 @@
                                        if (connectionError == nil && data != nil) {
                                            
                                            PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:data];
-                                           [[PFUser currentUser]setObject:image forKey:kHLUserModelKeyPortraitImage];
+                                           [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
                                            [[PFUser currentUser] setObject:email forKey:kHLUserModelKeyEmail];
                                            [[PFUser currentUser] setObject:name forKey:kHLUserModelKeyUserName];
                                            [[PFUser currentUser] setObject:[[[PFUser currentUser]objectId]MD5] forKey:kHLUserModelKeyUserIdMD5];
@@ -162,17 +163,27 @@
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudUserClass];
     [query whereKey:kHLUserModelKeyUserId equalTo:[[PFUser currentUser]objectId]];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
         if (!object) {
             
             _downloadFailure(error);
         }
         else{
+            
             PFFile *theImage = [object objectForKey:kHLUserModelKeyPortraitImage];
             NSData *imageData = [theImage getData];
-            UIImage *portraitImage = [UIImage imageWithData:imageData];
-            [PFUser currentUser][@"profile"][@"email"] = [object objectForKey:kHLUserModelKeyEmail];
-            [PFUser currentUser][@"profile"][@"name"] = [object objectForKey:kHLUserModelKeyUserName];
-            _dowloadSuccess(portraitImage);
+            NSString *_email = [object objectForKey:kHLUserModelKeyEmail];
+            NSString *_name = [object objectForKey:kHLUserModelKeyUserName];
+            NSString *_chattingId = [object objectForKey:kHLUserModelKeyUserIdMD5];
+
+            PFFile *_portraitImage = [PFFile fileWithName:@"portrait.jpg" data:imageData];
+            [[PFUser currentUser] setObject:_portraitImage forKey:kHLUserModelKeyPortraitImage];
+            [[PFUser currentUser] setObject:_email forKey:kHLUserModelKeyEmail];
+            [[PFUser currentUser] setObject:_name forKey:kHLUserModelKeyUserName];
+            [[PFUser currentUser] setObject:_chattingId forKey:kHLUserModelKeyUserIdMD5];
+
+         
+            _dowloadSuccess(_portraitImage);
             
         }
     }];
@@ -329,6 +340,7 @@
     NSData *imageData = UIImagePNGRepresentation(userModel.portraitImage);
     PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:imageData];
     [newUser setObject:image forKey:kHLUserModelKeyPortraitImage];
+    [newUser setObject:[newUser.email MD5] forKey:kHLUserModelKeyUserIdMD5];
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
@@ -417,12 +429,26 @@
     [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
     [[PFUser currentUser] setObject:userModel.email forKey:kHLUserModelKeyEmail];
     [[PFUser currentUser] setObject:userModel.username forKey:kHLUserModelKeyUserName];
-    [[PFUser currentUser] setObject:[userModel.userID MD5] forKey:kHLUserModelKeyUserIdMD5];
+    [[PFUser currentUser] setObject:userModel.chattingId forKey:kHLUserModelKeyUserIdMD5];
     [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
         
         if(succeeded){
             
-            _uploadSuccess();
+            [[ChattingManager sharedInstance]signUpChattingSDK:[PFUser currentUser] block:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    
+                    _uploadSuccess();
+                }
+                
+                else{
+                    
+                    _uploadSuccess(error);
+                }
+                
+            }];
+            
             
         }
         else{
@@ -433,6 +459,32 @@
         
     }];
     
+    
+}
+
+-(void)fetchChattingIdWithPFUser:(PFUser *)user
+                         success:(DownloadSuccessBlock)success
+                         failure:(DownloadFailureBlock)failure{
+    
+    _dowloadSuccess = success;
+    _downloadFailure = failure;
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudUserClass];
+    [query whereKey:kHLUserModelKeyUserId equalTo:user.objectId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
+        if (!object) {
+            
+            _downloadFailure(error);
+            
+        }
+        else{
+            
+            NSString *chattingID = [object objectForKey:kHLUserModelKeyUserIdMD5];
+            _dowloadSuccess(chattingID);
+            
+        }
+    }];
     
 }
 //-(void)getUserPortraitImageWithUserID:(NSString *)userID withCell:(ChatListCell *)cell block:(void (^)(BOOL succeeded, NSError *error))completionBlock{

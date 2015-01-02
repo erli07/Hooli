@@ -109,7 +109,14 @@
                             
                             [HUD hide:YES];
                             
-                            [self loginSuccessWithUser:user];
+                            [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
+                                
+                                [self loginSuccessWithUser:user];
+                                
+                            } Failure:^(id error) {
+                                
+                            }];
+                            
                             
                         }
                         else{

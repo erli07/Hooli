@@ -23,9 +23,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addUIElements];
-    [self updateProfileData];
     //    [self loadData];
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self updateProfileData];
+
 }
 
 -(void)addUIElements{

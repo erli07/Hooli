@@ -33,8 +33,8 @@
         completionBlock(YES,nil);
     }
     
-    [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[currentUser.objectId MD5]
-                                                        password:[currentUser.objectId MD5]
+    [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[currentUser.email MD5]
+                                                        password:[currentUser.email MD5]
                                                       completion:
      ^(NSDictionary *loginInfo, EMError *error) {
          if (loginInfo && !error) {
@@ -75,8 +75,8 @@
         completionBlock(YES,nil);
     }
     
-    [[EaseMob sharedInstance].chatManager asyncRegisterNewAccount:[currentUser.objectId MD5]
-                                                         password:[currentUser.objectId MD5]
+    [[EaseMob sharedInstance].chatManager asyncRegisterNewAccount:[currentUser.email MD5]
+                                                         password:[currentUser.email MD5]
                                                    withCompletion:
      ^(NSString *username, NSString *password, EMError *error) {
          

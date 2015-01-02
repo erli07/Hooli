@@ -7,10 +7,10 @@
 //
 
 #import "UserModel.h"
-
+#import "NSString+MD5.h"
 
 @implementation UserModel
-@synthesize email,username,portraitImage,userID,password;
+@synthesize email,username,portraitImage,userID,password,chattingId;
 
 
 
@@ -29,6 +29,8 @@
         self.username = _username;
         self.password = _password;
         self.portraitImage = _portraitImage;
+        self.chattingId = [_email MD5];
+
     }
     return self;
 
@@ -49,6 +51,7 @@
         self.password = _password;
         self.portraitImage = _portraitImage;
         self.userID = _userID;
+        self.chattingId = [_email MD5];
     }
     return self;
     
@@ -67,6 +70,8 @@
         UIImage *image = [UIImage imageWithData:imageData];
         self.portraitImage = image;
         self.userID = [object objectForKey:kHLUserModelKeyUserId];
+        self.chattingId = [object objectForKey:kHLUserModelKeyUserIdMD5];
+        
     }
     return self;
     

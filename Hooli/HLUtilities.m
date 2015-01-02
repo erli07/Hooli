@@ -10,6 +10,8 @@
 #import <Parse/Parse.h>
 #import "HLConstant.h"
 #import "HLCache.h"
+
+#define systemSoundID    1104
 @implementation HLUtilities
 
 
@@ -20,11 +22,24 @@
     UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     NSData *imageData = UIImageJPEGRepresentation(smallImage, compressionQuality);
-    
-    NSLog(@"Get Image Size %lu", [imageData length]/1024);
-    
+        
     return imageData;
     
 }
-
++ (void)playSound{
+    
+    AudioServicesPlaySystemSound(1003);
+    
+}
++ (void)playViberation{
+    
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+}
++ (void)playSoundPlusViberation{
+    
+    AudioServicesPlaySystemSound(1012);
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+}
 @end

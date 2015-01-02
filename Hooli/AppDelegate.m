@@ -14,6 +14,7 @@
 #import "HomeViewViewController.h"
 #import "HLSettings.h"
 #import "EaseMob.h"
+#import "AccountManager.h"
 
 @interface AppDelegate ()
 
@@ -62,12 +63,15 @@
             
         }];
         
+        
         UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
         homeNav.navigationBar.hidden = YES;
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         self.window.rootViewController = homeNav;
         [self.window makeKeyAndVisible];
+        
+
         
     }
     else{

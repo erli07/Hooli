@@ -1122,6 +1122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E17BF6719FDFB5F0042C4DD /* AudioToolbox.framework in Frameworks */,
 				453E4E841A4878AF00801F64 /* libresolv.dylib in Frameworks */,
 				0E17BF6F19FDFB820042C4DD /* MobileCoreServices.framework in Frameworks */,
 				0EB8882F1A3822810054F982 /* libstdc++.dylib in Frameworks */,
@@ -1141,7 +1142,6 @@
 				0E17BF7119FDFB8A0042C4DD /* QuartzCore.framework in Frameworks */,
 				0E17BF7D19FDFFEF0042C4DD /* ParseFacebookUtils.framework in Frameworks */,
 				0E17BF7C19FDFFEF0042C4DD /* Parse.framework in Frameworks */,
-				0E17BF6719FDFB5F0042C4DD /* AudioToolbox.framework in Frameworks */,
 				0E17BF5D19FDE73A0042C4DD /* CoreLocation.framework in Frameworks */,
 				0E17BF5B19FDE7350042C4DD /* MapKit.framework in Frameworks */,
 				0E17BF7919FDFEE30042C4DD /* FacebookSDK.framework in Frameworks */,

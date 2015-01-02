@@ -175,9 +175,13 @@ const CGFloat duration = 0.3;
                 
                 UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-                [self.navigationController pushViewController:vc animated:YES];
+                [self presentViewController:vc animated:YES completion:^{
+                    
+                    NSLog(@"Submit success");
+
+                }];
+              //  [self.navigationController pushViewController:vc animated:YES];
                 
-                NSLog(@"Submit success");
                 
             } Failure:^(id error) {
                 

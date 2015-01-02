@@ -28,6 +28,8 @@ typedef void (^DownloadFailureBlock) (id error);
 @property (nonatomic, strong) DownloadFailureBlock downloadFailure;
 @property (nonatomic, strong) UIImage *profileImage;
 @property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *chattingId;
 @property (nonatomic, assign) BOOL *flag;
 
 -(NSString *)getUserName;
@@ -63,5 +65,10 @@ typedef void (^DownloadFailureBlock) (id error);
 
 -(void)getUserPortraitImageWithUserID:(NSString *)userID withCell:(ChatListCell *)cell
                                 block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
+-(void)fetchChattingIdWithPFUser:(PFUser *)user
+                         success:(DownloadSuccessBlock)success
+                         failure:(DownloadFailureBlock)failure;
+
 
 @end

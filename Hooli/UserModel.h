@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) UIImage *portraitImage;
 @property (nonatomic, strong) NSString *userID;
+@property (nonatomic, strong) NSString *chattingId;
 
 -(id)initUserWithEmail:(NSString *)_email
               userName:(NSString *)_username

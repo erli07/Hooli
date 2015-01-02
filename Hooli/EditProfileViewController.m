@@ -107,11 +107,7 @@
             
             [HUD hide:YES];
 
-            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-            // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-            [self.navigationController pushViewController:vc animated:YES];
-            
+            [self.navigationController popToRootViewControllerAnimated:YES];
             
         } Failure:^(id error) {
             
