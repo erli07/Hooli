@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "EditProfileViewController.h"
 #import "MyCartViewController.h"
+#import "HomeViewViewController.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -21,16 +22,26 @@
 @implementation MyProfileViewController
 
 - (void)viewDidLoad {
+    
+    
+    if([self checkIfUserLogin]){
+        
+        [self addUIElements];
+    
+    }
     [super viewDidLoad];
-    [self addUIElements];
+
     //    [self loadData];
     // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [self updateProfileData];
-
+    if([self checkIfUserLogin]){
+        
+        [self updateProfileData];
+        
+    }
 }
 
 -(void)addUIElements{
@@ -53,12 +64,18 @@
     [PFUser logOut];
     // Return to login view controller
     
-    NSString * storyboardName = @"Login";
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-    LoginViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    vc.hidesBottomBarWhenPushed = YES;
-    vc.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:vc animated:YES completion:^{
+        
+    }];
+//    NSString * storyboardName = @"Login";
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+//    LoginViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+//    vc.hidesBottomBarWhenPushed = YES;
+//    vc.navigationController.navigationBarHidden = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
     // [self.navigationController popToRootViewControllerAnimated:YES];
 }
 #pragma mark -
@@ -81,7 +98,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     
     if(indexPath.section == 0){
         
@@ -106,7 +123,7 @@
             [self.navigationController pushViewController:vc animated:YES];
             
         }
-
+        
     }
     else if(indexPath.section == 2){
         
@@ -125,7 +142,7 @@
         MyCartViewController *cart = segue.destinationViewController;
         
         cart.hidesBottomBarWhenPushed = YES;
-
+        
     }
     
 }
@@ -197,5 +214,22 @@
         
         [self logoutFB];
     }
+}
+
+- (BOOL)checkIfUserLogin{
+    
+    
+    if(![PFUser currentUser]){
+        
+        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        loginVC.navigationController.navigationBarHidden = NO;
+        loginVC.navigationItem.hidesBackButton = YES;
+        [self.navigationController pushViewController:loginVC animated:NO];
+        return NO;
+        
+    }
+    
+    return YES;
 }
 @end

@@ -13,6 +13,7 @@
 #import "OffersManager.h"
 #import "HLSettings.h"
 #import "SearchItemViewController.h"
+#import "LoginViewController.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate>{
     
 }
@@ -28,36 +29,20 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[OffersManager sharedInstance]setPageCounter:0];
-    [[HLSettings sharedInstance]setPreferredDistance:25];
-    
-    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
-                                   initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                   target:self
-                                   action:@selector(showSearchVC)];
-    self.navigationItem.rightBarButtonItem = searchButton;
-    
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
-                                   initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                   target:self
-                                   action:@selector(showMoreItems)];
-    self.navigationItem.leftBarButtonItem = settingsButton;
-    
-    self.view.tintColor = [HLTheme mainColor];
-    [self.layout configureLayout] ;
-    [self.collectionView configureView];
-    self.collectionView.delegate = self;
-    [self registerNotifications];
-    self.navigationItem.title = @"Discover";
-    [self updateCollectionViewData];
-    [self addSwipeGesture];
-    
+
+    [self initViewELements];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [self resetNavBar];
-
+    
+//    if(![PFUser currentUser]){
+//        
+//        [self initViewELements];
+//        
+//    }
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -75,6 +60,34 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)viewWillDisappear:(BOOL)animated{
     
     [[OffersManager sharedInstance]clearData];
+}
+
+
+-(void)initViewELements{
+    
+    [[OffersManager sharedInstance]setPageCounter:0];
+    [[HLSettings sharedInstance]setPreferredDistance:25];
+    
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                     target:self
+                                     action:@selector(showSearchVC)];
+    self.navigationItem.rightBarButtonItem = searchButton;
+    
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                       target:self
+                                       action:@selector(showMoreItems)];
+    self.navigationItem.leftBarButtonItem = settingsButton;
+    
+    self.view.tintColor = [HLTheme mainColor];
+    [self.layout configureLayout] ;
+    [self.collectionView configureView];
+    self.collectionView.delegate = self;
+    [self registerNotifications];
+    self.navigationItem.title = @"Discover";
+    [self updateCollectionViewData];
+    [self addSwipeGesture];
 }
 
 #pragma register notification
@@ -125,12 +138,15 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
-    vc.offerId = cell.offerId;
-    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
+    if([self checkIfUserLogin]){
+        
+        ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+        ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+        vc.offerId = cell.offerId;
+        // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 
@@ -145,7 +161,7 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)showSearchVC{
     
     [self performSegueWithIdentifier:@"Search" sender:self];
-
+    
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -161,7 +177,7 @@ static NSString * const reuseIdentifier = @"Cell";
         SearchItemViewController *searchVC = segue.destinationViewController;
         searchVC.hidesBottomBarWhenPushed = YES;
     }
-
+    
 }
 
 #pragma scrollview delegate
@@ -257,7 +273,7 @@ static NSString * const reuseIdentifier = @"Cell";
     collectionView.origin.y = 107;
     self.collectionView.frame = collectionView;
     self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, 0);
-
+    
 }
 
 // know the current state
@@ -267,6 +283,20 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
-
+- (BOOL)checkIfUserLogin{
+    
+    
+    if(![PFUser currentUser]){
+        
+        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        self.navigationController.navigationBarHidden = NO;
+        [self.navigationController pushViewController:loginVC animated:YES];
+        return NO;
+        
+    }
+    
+    return YES;
+}
 
 @end

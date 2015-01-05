@@ -37,11 +37,12 @@
     
     NSLog(@"selected %d",tabBarController.selectedIndex);
     
-//    if(tabBarController.selectedIndex == 1){
-//        
-//        [self.needNavigationController pushViewController:self.needViewController animated:YES];
-//        
-//    }
+    if(tabBarController.selectedIndex == 3){
+        
+        
+     //   [self.needNavigationController pushViewController:self.needViewController animated:YES];
+        
+    }
     
 }
 

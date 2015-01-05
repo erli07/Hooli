@@ -12,6 +12,7 @@
 #import "HLSettings.h"
 #import "NeedsCell.h"
 #import "HLTheme.h"
+#import "LoginViewController.h"
 #import "NeedDetailViewController.h"
 @interface NeedsViewController ()
 
@@ -23,10 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     [[NeedsManager sharedInstance]setPageCounter:0];
     [[HLSettings sharedInstance]setPreferredDistance:25];
-    
-
     
     self.view.tintColor = [HLTheme mainColor];
     [self.layout configureLayout] ;
@@ -34,6 +34,7 @@
     self.collectionView.delegate = self;
     self.navigationItem.title = @"Needs";
     [self updateCollectionViewData];
+    
 
     // Do any additional setup after loading the view.
 }
@@ -48,6 +49,8 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    if([self checkIfUserLogin]){
+
     NeedsCell *cell = (NeedsCell *)[collectionView cellForItemAtIndexPath:indexPath];
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
     NeedDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"NeedDetail"];
@@ -55,6 +58,25 @@
     vc.needId = cell.needId;
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
+        
+    }
 }
+
+- (BOOL)checkIfUserLogin{
+    
+    
+    if(![PFUser currentUser]){
+        
+        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        self.navigationController.navigationBarHidden = NO;
+        [self.navigationController pushViewController:loginVC animated:YES];
+        return NO;
+        
+    }
+    
+    return YES;
+}
+
 
 @end

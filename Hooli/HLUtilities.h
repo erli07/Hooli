@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "OfferModel.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import <Parse/Parse.h>
 @interface HLUtilities : NSObject
 
 
@@ -17,4 +18,5 @@
 + (void)playSound;
 + (void)playViberation;
 + (void)playSoundPlusViberation;
+
 @end

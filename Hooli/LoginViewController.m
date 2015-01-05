@@ -39,7 +39,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [self.navigationController setNavigationBarHidden:YES];
+    self.title = @"Login";
     
     if ([PFUser currentUser] || [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         
@@ -244,12 +244,12 @@
                                 
                                 [HUD hide:YES];
                                 
-                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                                message:@"Log In Error"
-                                                                               delegate:nil
-                                                                      cancelButtonTitle:nil
-                                                                      otherButtonTitles:@"Dismiss", nil];
-                                [alert show];
+//                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                                                message:@"Log In Error"
+//                                                                               delegate:nil
+//                                                                      cancelButtonTitle:nil
+//                                                                      otherButtonTitles:@"Dismiss", nil];
+//                                [alert show];
                             }
                             
                             
@@ -263,13 +263,13 @@
                 
                 [HUD hide:YES];
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:@"Log In Error"
-                                                               delegate:nil
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:@"Dismiss", nil];
-                [alert show];
-        
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                                message:@"Log In Error"
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:nil
+//                                                      otherButtonTitles:@"Dismiss", nil];
+//                [alert show];
+//        
             }];
             
             
