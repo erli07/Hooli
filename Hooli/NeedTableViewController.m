@@ -12,6 +12,7 @@
 #import "NeedDetailViewController.h"
 #import "HLTheme.h"
 #import "LoginViewController.h"
+#import "ActivityDetailViewController.h"
 @interface NeedTableViewController ()
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
 
@@ -114,12 +115,15 @@
     
     if([self checkIfUserLogin]){
         
-        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-        NeedDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"NeedDetail"];
-        vc.hidesBottomBarWhenPushed = YES;
+        
+        ActivityDetailViewController *adVC = [[ActivityDetailViewController alloc]initWithNibName:@"ActivityDetailViewController" bundle:nil];
+
+//        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+//        NeedDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"NeedDetail"];
+        adVC.hidesBottomBarWhenPushed = YES;
         //  vc.needId = cell.needId;
         // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:adVC animated:YES];
         
     }
 }

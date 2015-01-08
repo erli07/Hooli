@@ -39,39 +39,39 @@
                                         <rect key="frame" x="40" y="101" width="250" height="250"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
+                                    <view contentMode="scaleToFill" id="J4k-RN-E2C">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="A few details about this Item.." id="zyN-lw-Uij">
+                                                <rect key="frame" x="40" y="255" width="240" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" minimumFontSize="17" id="si6-Rl-D1N">
+                                                <rect key="frame" x="40" y="143" width="240" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" minimumFontSize="17" id="tVV-yS-Ws1">
+                                                <rect key="frame" x="40" y="186" width="209" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" minimumFontSize="17" id="BlE-lV-SdU">
+                                                <rect key="frame" x="40" y="105" width="240" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.72941176470000002" green="0.86274509799999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="J4k-RN-E2C">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="A few details about this Item.." id="zyN-lw-Uij">
-                                        <rect key="frame" x="40" y="255" width="240" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" minimumFontSize="17" id="si6-Rl-D1N">
-                                        <rect key="frame" x="40" y="143" width="240" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" minimumFontSize="17" id="tVV-yS-Ws1">
-                                        <rect key="frame" x="40" y="186" width="209" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" minimumFontSize="17" id="BlE-lV-SdU">
-                                        <rect key="frame" x="40" y="105" width="240" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.72941176470588232" green="0.86274509803921573" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -93,11 +93,11 @@
             </objects>
             <point key="canvasLocation" x="182" y="-1327"/>
         </scene>
-        <!--Search-->
+        <!--Need Nav Controller-->
         <scene sceneID="ehN-oH-HZg">
             <objects>
                 <navigationController id="NaV-6u-kYj" customClass="NeedNavController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" image="tab2.png" id="yHW-9b-jtK"/>
+                    <tabBarItem key="tabBarItem" title="" image="location.png" id="yHW-9b-jtK"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eKG-97-4Je">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -168,7 +168,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="jBv-9d-8iy" customClass="SelectCategoryTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oh5-A1-6mv">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -873,7 +873,7 @@
         <scene sceneID="sFr-b9-SWd">
             <objects>
                 <navigationController id="1KV-LZ-8Qg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Items" image="tab4.png" id="PCE-mp-vfB"/>
+                    <tabBarItem key="tabBarItem" title="My Items" image="message.png" id="PCE-mp-vfB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yu-id-nPd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -890,11 +890,11 @@
     <resources>
         <image name="Ariel1.png" width="500" height="500"/>
         <image name="button.png" width="145" height="42"/>
+        <image name="location.png" width="32" height="32"/>
+        <image name="message.png" width="32" height="32"/>
         <image name="pink-heart.png" width="17" height="16"/>
         <image name="tab1.png" width="30" height="30"/>
-        <image name="tab2.png" width="30" height="30"/>
         <image name="tab3.png" width="30" height="30"/>
-        <image name="tab4.png" width="30" height="30"/>
         <image name="tab5.png" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -903,6 +903,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="n9J-QT-Ng1"/>
+        <segue reference="VMa-Ye-aGk"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -77,7 +77,7 @@
     UITabBar* tabBarAppearance = [UITabBar appearance];
 //    [tabBarAppearance setSelectionIndicatorImage:[[UIImage imageNamed:@"tab_sel"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     
-    tabBarAppearance.tintColor = [self mainColor];
+  //  tabBarAppearance.tintColor = [self mainColor];
     NSMutableDictionary* segmentAttributes = [NSMutableDictionary dictionary];
     segmentAttributes[NSFontAttributeName] = [UIFont fontWithName:[self mainFont] size:12.0f];
     [[UISegmentedControl appearance] setTitleTextAttributes:segmentAttributes forState:UIControlStateNormal];

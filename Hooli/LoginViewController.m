@@ -237,7 +237,9 @@
                                 
                                 [HUD hide:YES];
                                 
-                                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                                [self loginSuccessWithUser:[PFUser currentUser]];
+                                
+                               // [self performSegueWithIdentifier:@"loginSuccess" sender:self];
                                 
                             }
                             else{
@@ -263,17 +265,7 @@
                 
                 [HUD hide:YES];
                 
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                                message:@"Log In Error"
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:nil
-//                                                      otherButtonTitles:@"Dismiss", nil];
-//                [alert show];
-//        
             }];
-            
-            
-            
             
         }
     }];
@@ -284,7 +276,6 @@
 
 
 -(void)loginSuccessWithUser:(PFUser *)currentUser{
-    
     
   //  [[HLSettings sharedInstance]saveCurrentUser:currentUser];
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

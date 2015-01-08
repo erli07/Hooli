@@ -277,6 +277,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="B4H-cG-Aal"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="emailLabel" destination="wbd-Bs-y5n" id="SDp-KZ-GzO"/>
                         <outlet property="emailText" destination="ZVM-L5-LYP" id="kez-vL-uFa"/>

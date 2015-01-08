@@ -152,7 +152,17 @@
     
     if(indexPath.section == 0){
         
-        cell.textLabel.text = @"My Items";
+        if(indexPath.row == 0){
+            
+            cell.textLabel.text = @"My Items";
+            
+        }
+        else{
+            
+            cell.textLabel.text = @"My Activities";
+            
+        }
+
         
     }
     else if(indexPath.section == 1){
@@ -183,7 +193,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 1;
+        return 2;
     else if(section == 1)
         return 2;
     else
