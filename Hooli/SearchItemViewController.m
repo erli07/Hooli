@@ -12,6 +12,7 @@
 #import "OfferCategory.h"
 #import "OffersManager.h"
 #import "SearchResultViewController.h"
+#import "HLSettings.h"
 @interface SearchItemViewController ()
 
 @end
@@ -28,6 +29,12 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [[HLSettings sharedInstance]setCurrentPageIndex:1];
+
 }
 
 - (void)didReceiveMemoryWarning {

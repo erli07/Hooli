@@ -10,10 +10,11 @@
 #import <Parse/Parse.h>
 @interface LocationManager ()
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLGeocoder *geoCoder;
 @end
 
 @implementation LocationManager
-@synthesize currentLocation;
+@synthesize currentLocation,geoCoder,convertedAddress;
 +(LocationManager *)sharedInstance{
     
     static LocationManager *_sharedInstance = nil;
@@ -88,6 +89,39 @@
     return geoPoint;
 }
 
+- (void)convertGeopointToAddress
+{
+    __block NSString *returnAddress = @"";
+    
+    self.geoCoder = [[CLGeocoder alloc]init];
+
+    [self.geoCoder reverseGeocodeLocation:self.locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        if(error){
+            
+            NSLog(@"%@", [error localizedDescription]);
+            
+        }
+        CLPlacemark *placemark = [placemarks lastObject];
+        
+//        NSString *startAddressString = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@",
+//                              placemark.subThoroughfare, placemark.thoroughfare,
+//                              placemark.postalCode, placemark.locality,
+//                              placemark.administrativeArea,
+//                              placemark.country];
+        
+        NSString *startAddressString = [NSString stringWithFormat:@"%@ %@ %@",
+                                        placemark.locality, placemark.administrativeArea,
+                                        placemark.postalCode];
+        
+        self.convertedAddress = startAddressString;
+        
+        //NSLog(@"Get address %@",startAddressString);
+        
+        // call a method to execute the rest of the logic
+    }];
+}
+
 #pragma mark - CLLocationManagerDelegate methods
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
@@ -95,6 +129,10 @@
     CLLocation *newLocation = [locations lastObject];
     
     self.currentLocation = newLocation.coordinate;
+    
+    [self convertGeopointToAddress];
+    
+   // [self stopLocationUpdate];
     
 }
 

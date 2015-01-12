@@ -35,6 +35,9 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)viewWillAppear:(BOOL)animated{
     
+    
+    [[HLSettings sharedInstance]setCurrentPageIndex:0];
+    
     [self resetNavBar];
     
 //    if(![PFUser currentUser]){
@@ -67,18 +70,18 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [[OffersManager sharedInstance]setPageCounter:0];
     [[HLSettings sharedInstance]setPreferredDistance:25];
+//    
+//    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+//                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+//                                     target:self
+//                                     action:@selector(showSearchVC)];
+//    self.navigationItem.rightBarButtonItem = searchButton;
     
-    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
-                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                     target:self
-                                     action:@selector(showSearchVC)];
-    self.navigationItem.rightBarButtonItem = searchButton;
-    
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
-                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                       target:self
-                                       action:@selector(showMoreItems)];
-    self.navigationItem.leftBarButtonItem = settingsButton;
+//    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
+//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+//                                       target:self
+//                                       action:@selector(showMoreItems)];
+//    self.navigationItem.leftBarButtonItem = settingsButton;
     
     self.view.tintColor = [HLTheme mainColor];
     [self.layout configureLayout] ;
@@ -189,6 +192,7 @@ static NSString * const reuseIdentifier = @"Cell";
         [self.collectionView updateDataFromCloud];
     }
 }
+
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
     
     CGPoint scrollVelocity = [self.collectionView.panGestureRecognizer

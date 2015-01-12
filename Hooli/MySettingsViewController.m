@@ -9,6 +9,7 @@
 #import "MySettingsViewController.h"
 #import "HLTheme.h"
 #import "AboutViewController.h"
+#import "IntroViewController.h"
 @interface MySettingsViewController ()
 @property (nonatomic)  NSArray *sectionArray;
 
@@ -35,31 +36,41 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
     
-     if(indexPath.section == 0){
-         
-         NSString *textToShare = @"Use Hooli to sell your unused stuff!";
-         NSURL *myApp = [NSURL URLWithString:@"http://itunes.apple.com/app/id378458261"];
-         
-         NSArray *objectsToShare = @[textToShare, myApp];
-         
-         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-         
-         NSArray *excludeActivities = @[UIActivityTypeAirDrop,
-                                        UIActivityTypePrint,
-                                        UIActivityTypeAssignToContact,
-                                        UIActivityTypeSaveToCameraRoll,
-                                        UIActivityTypeAddToReadingList,
-                                        UIActivityTypePostToFlickr,
-                                        UIActivityTypePostToVimeo];
-         
-         activityVC.excludedActivityTypes = excludeActivities;
-         
-         [self presentViewController:activityVC animated:YES completion:nil];
-         
-     }
-     else if(indexPath.section == 1){
+    
+    if(indexPath.section == 0){
+        
+        if(indexPath.row == 0){
+            
+            UIStoryboard *introSB = [UIStoryboard storyboardWithName:@"Intro" bundle:nil];
+            IntroViewController *introVC = [introSB instantiateViewControllerWithIdentifier:@"IntroViewController"];
+            introVC.navigationController.navigationBarHidden = YES;
+            [self.navigationController pushViewController:introVC animated:NO];
+            
+        }
+        else{
+            NSString *textToShare = @"Use Hooli to sell your unused stuff!";
+            NSURL *myApp = [NSURL URLWithString:@"http://itunes.apple.com/app/id378458261"];
+            
+            NSArray *objectsToShare = @[textToShare, myApp];
+            
+            UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+            
+            NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                           UIActivityTypePrint,
+                                           UIActivityTypeAssignToContact,
+                                           UIActivityTypeSaveToCameraRoll,
+                                           UIActivityTypeAddToReadingList,
+                                           UIActivityTypePostToFlickr,
+                                           UIActivityTypePostToVimeo];
+            
+            activityVC.excludedActivityTypes = excludeActivities;
+            
+            [self presentViewController:activityVC animated:YES completion:nil];
+        }
+        
+    }
+    else if(indexPath.section == 1){
         
         if(indexPath.row == 0){
             MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
@@ -167,5 +178,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+    
 }
 @end

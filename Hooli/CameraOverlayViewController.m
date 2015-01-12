@@ -37,21 +37,14 @@
 
 - (IBAction)selectPhotos:(id)sender {
     
-    
-    
 
-            
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.delegate = self;
             picker.allowsEditing = YES;
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             
             [self presentViewController:picker animated:YES completion:NULL];
-            
-    
 
-
-  //  [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.selectPhoto" object:self];
 
 }
 
@@ -93,11 +86,6 @@
 
 }
 
--(void)addDismissGesture:(id)sender{
-    
-    
-}
-
 -(void)setImage:(UIImage *)image withImageIndex:(int)imageIndex{
     
     switch (imageIndex) {
@@ -122,7 +110,7 @@
 
 - (IBAction)cancelCameraView:(id)sender {
     
-    [[HLSettings sharedInstance]setIsPostingOffer:YES];
+//    [[HLSettings sharedInstance]setIsPostingOffer:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.cancelCameraView" object:self];
     
@@ -147,7 +135,7 @@
         [HUD show:YES];
         
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.cancelCameraView" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.goToPostForm" object:self];
         
         
     }

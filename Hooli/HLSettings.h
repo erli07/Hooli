@@ -15,7 +15,9 @@
 @property (nonatomic, assign) float preferredDistance;
 @property (nonatomic, assign) BOOL isRefreshNeeded;
 @property (nonatomic, assign) BOOL showSoldItems;
+@property (nonatomic, assign) NSInteger currentPageIndex;
 
 - (PFUser *)getCurrentUser ;
 - (void)saveCurrentUser:(PFUser *)currentUser;
+
 @end

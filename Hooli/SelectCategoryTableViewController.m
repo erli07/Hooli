@@ -10,6 +10,7 @@
 #import "OfferCategory.h"
 #import "HLTheme.h"
 #import "HLSettings.h"
+#import "FormManager.h"
 @interface SelectCategoryTableViewController ()
 
 @end
@@ -56,7 +57,10 @@
     
     NSArray *categoryArray = [NSArray arrayWithObjects:[[OfferCategory allCategories]objectAtIndex:indexPath.row], nil];
     
-    [[HLSettings sharedInstance]setCategory:categoryArray];
+    [[FormManager sharedInstance]setDetailType:HL_ITEM_DETAIL_CATEGORY];
+    [[FormManager sharedInstance]setItemCategory:[[OfferCategory allCategories]objectAtIndex:indexPath.row]];
+    
+    //[[HLSettings sharedInstance]setCategory:categoryArray];
     
 }
 

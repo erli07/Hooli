@@ -59,6 +59,9 @@ typedef void (^UploadFailureBlock) (id error);
 -(void)deleteOfferModelWithOfferId:(NSString *)offerId
                              block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
+-(void)updateOfferModelWithOfferId:(NSString *)offerID newOfferModel:(OfferModel *)newOfferModel
+                             block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
 -(void)fetchChattingIdByOfferId:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure;
 
 @end

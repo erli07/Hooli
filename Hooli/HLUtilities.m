@@ -43,6 +43,22 @@
     
 }
 
++ (void)saveFirstLaunchStatus:(BOOL)status{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setBool:status forKey:FIRST_LAUNCH_KEY];
+    [ud synchronize];
+    
+}
+
++ (BOOL)getFirstLaunchStatus{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    return [ud boolForKey:FIRST_LAUNCH_KEY];
+    
+}
+
+
 
 
 

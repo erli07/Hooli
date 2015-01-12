@@ -19,4 +19,6 @@
 + (void)playViberation;
 + (void)playSoundPlusViberation;
 
++ (void)saveFirstLaunchStatus:(BOOL)status;
++ (BOOL)getFirstLaunchStatus;
 @end

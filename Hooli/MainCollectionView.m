@@ -22,12 +22,12 @@ static NSString * const reuseIdentifier = @"Cell";
     MBProgressHUD *HUD;
 }
 
-@synthesize refreshControl, objectDataSource;
+@synthesize refreshControl, objectDataSource,isLoading;
 -(id)init{
     
     if(!self){
         self = [super init];
- 
+        
     }
     
     return self;
@@ -38,7 +38,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.backgroundColor = [HLTheme viewBackgroundColor];
     self.dataSource = self;
-  //  self.delegate = self;
+    //  self.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"ItemCell" bundle: nil];
     [self registerNib:nib forCellWithReuseIdentifier:reuseIdentifier];
     
@@ -56,37 +56,14 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)updateDataFromCloud{
     
-    HUD = [[MBProgressHUD alloc] initWithView:self];
-    [self addSubview:HUD];
-    HUD.delegate = self;
-    [HUD show:YES];
-    
-    [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
+    if(!self.isLoading){
         
-        self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
+        self.isLoading = YES;
         
-        if(self.objectDataSource){
-            
-            [self reloadData];
-        }
-
-        [HUD hide:YES];
-        
-
-    } failure:^(id error) {
-        
-        NSLog(@"Retrived Images Error %@",[error description] );
-        [HUD hide:YES];
-        
-    }];
-}
-
--(void)reloadCollectionViews{
-    
-    if (self.refreshControl) {
-        
-        [HUD hide:YES];
-
+        HUD = [[MBProgressHUD alloc] initWithView:self];
+        [self addSubview:HUD];
+        HUD.delegate = self;
+        [HUD show:YES];
         
         [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
             
@@ -94,21 +71,68 @@ static NSString * const reuseIdentifier = @"Cell";
             
             if(self.objectDataSource){
                 
-                    [self reloadData];
+                [self reloadData];
             }
             
-            [self.refreshControl endRefreshing];
+            self.isLoading = NO;
+            
+            [HUD hide:YES];
             
             
         } failure:^(id error) {
             
             NSLog(@"Retrived Images Error %@",[error description] );
             
-            [self.refreshControl endRefreshing];
-
+            self.isLoading = NO;
+            
+            [HUD hide:YES];
+            
         }];
+        
     }
+}
 
+-(void)reloadCollectionViews{
+    
+    if (self.refreshControl) {
+        
+        [HUD hide:YES];
+        
+        [self updateDataFromCloud];
+        
+        [self.refreshControl endRefreshing];
+        
+//        
+//        [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
+//            
+//            self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
+//            
+//            if(self.objectDataSource){
+//                
+//                [self reloadData];
+//            }
+//            
+//            [self.refreshControl endRefreshing];
+//            
+//            
+//        } failure:^(id error) {
+//            
+//            NSLog(@"Retrived Images Error %@",[error description] );
+//            
+//            [self.refreshControl endRefreshing];
+//            
+//        }];
+    }
+    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+
+    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height )
+    {
+        [self updateDataFromCloud];
+    }
+    
 }
 
 -(void)reloadDataByOffersArray:(NSArray *)offers{
@@ -119,8 +143,8 @@ static NSString * const reuseIdentifier = @"Cell";
         
         [self reloadData];
     }
-
-
+    
+    
 }
 
 #pragma mark collectionview delegate
@@ -138,7 +162,7 @@ static NSString * const reuseIdentifier = @"Cell";
     OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
     
     [cell updateCellWithOfferModel:offer];
-
+    
     
     return cell;
 }
@@ -150,7 +174,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [HUD removeFromSuperview];
     HUD = nil;
-
+    
 }
 
 

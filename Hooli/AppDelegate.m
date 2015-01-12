@@ -15,7 +15,7 @@
 #import "HLSettings.h"
 #import "EaseMob.h"
 #import "AccountManager.h"
-
+#import "HLUtilities.h"
 @interface AppDelegate ()
 
 @end
@@ -64,20 +64,28 @@
         }];
         
     }
-    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Intro" bundle:nil];
-    UINavigationController *introNav = [mainSb instantiateViewControllerWithIdentifier:@"IntroNav"];
-    introNav.navigationBar.hidden = YES;
-    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.rootViewController = introNav;
-    [self.window makeKeyAndVisible];
-    /*
-    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
-    homeNav.navigationBar.hidden = YES;
-    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.rootViewController = homeNav;
-    [self.window makeKeyAndVisible];
-     */
+    
+    
+    if(![HLUtilities getFirstLaunchStatus]){
+        
+        [HLUtilities saveFirstLaunchStatus:YES];
+        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Intro" bundle:nil];
+        UINavigationController *introNav = [mainSb instantiateViewControllerWithIdentifier:@"IntroNav"];
+        introNav.navigationBar.hidden = YES;
+        self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        self.window.rootViewController = introNav;
+        [self.window makeKeyAndVisible];
+    }
+    else{
+        
+        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
+        homeNav.navigationBar.hidden = YES;
+        self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        self.window.rootViewController = homeNav;
+        [self.window makeKeyAndVisible];
+        
+    }
     
     
     //    if ( [PFUser currentUser]) {

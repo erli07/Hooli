@@ -194,6 +194,7 @@
                         <outlet property="soldImageView" destination="iTa-x6-v2u" id="RrV-th-ziN"/>
                         <segue destination="MVj-wp-YUW" kind="push" identifier="map" id="Fgg-sq-Tau"/>
                         <segue destination="qUg-nI-uEy" kind="push" id="Wzf-l3-52l"/>
+                        <segue destination="uqk-5K-aWC" kind="push" identifier="editOffer" id="60W-fP-DfT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5C-fh-byp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -222,7 +223,78 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IgQ-dc-ceI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1404" y="798"/>
+            <point key="canvasLocation" x="1124" y="1011"/>
+        </scene>
+        <!--Update Offer Details View Controller-->
+        <scene sceneID="Qdq-8V-Rlv">
+            <objects>
+                <viewController id="uqk-5K-aWC" customClass="UpdateOfferDetailsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="W7H-S7-R2D">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="17" id="Pmo-uV-8GG">
+                                <rect key="frame" x="99" y="103" width="192" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qWK-pq-xdU">
+                                <rect key="frame" x="32" y="107" width="46" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="17" id="COZ-hF-Wrt">
+                                <rect key="frame" x="99" y="159" width="192" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4cH-SO-oAE">
+                                <rect key="frame" x="32" y="163" width="40" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LhB-fJ-l0J">
+                                <rect key="frame" x="32" y="211" width="88" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0Rw-7t-wHB">
+                                <rect key="frame" x="124" y="284" width="47" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="submit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitNewOfferDetails:" destination="uqk-5K-aWC" eventType="touchUpInside" id="Gen-Mq-xPu"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="17" id="FvP-sl-pP0">
+                                <rect key="frame" x="32" y="240" width="259" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6wc-rC-3kG"/>
+                    <connections>
+                        <outlet property="descriptionTextFiled" destination="FvP-sl-pP0" id="sFb-cP-TDS"/>
+                        <outlet property="nameTextField" destination="Pmo-uV-8GG" id="ZHa-SA-wUw"/>
+                        <outlet property="priceTextField" destination="COZ-hF-Wrt" id="QWz-TA-BLL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aja-bX-JFf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1615" y="539"/>
         </scene>
         <!--User Cart View Controller-->
         <scene sceneID="6wB-ld-kn4">

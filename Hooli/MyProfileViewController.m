@@ -13,6 +13,8 @@
 #import "EditProfileViewController.h"
 #import "MyCartViewController.h"
 #import "HomeViewViewController.h"
+#import "HLSettings.h"
+
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -36,6 +38,9 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    
+    [[HLSettings sharedInstance]setCurrentPageIndex:4];
+
     
     if([self checkIfUserLogin]){
         
@@ -157,11 +162,7 @@
             cell.textLabel.text = @"My Items";
             
         }
-        else{
-            
-            cell.textLabel.text = @"My Activities";
-            
-        }
+
 
         
     }
@@ -193,7 +194,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 2;
+        return 1;
     else if(section == 1)
         return 2;
     else

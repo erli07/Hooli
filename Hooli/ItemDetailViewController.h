@@ -13,7 +13,7 @@
 @protocol UpdateCollectionViewDelegate;
 
 
-@interface ItemDetailViewController : UIViewController<UIScrollViewDelegate,UIAlertViewDelegate>{
+@interface ItemDetailViewController : UIViewController<UIScrollViewDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate>{
     
     __weak id <UpdateCollectionViewDelegate> updateCollectionViewDelegate;
 
@@ -37,10 +37,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet SMPageControl *pageControl;
+@property (nonatomic, assign) BOOL isFirstPosted;
 - (IBAction)likeButtonPressed:(id)sender;
 - (IBAction)addToCart:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *seeMapButton;
 - (IBAction)seeMapButtonClicked:(id)sender;
+-(void)getOfferDetailsFromCloud;
+-(void)refreshOfferDetailsFromCloud;
+
+
 @end
 
 @protocol  UpdateCollectionViewDelegate <NSObject>

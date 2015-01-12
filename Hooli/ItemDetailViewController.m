@@ -21,7 +21,10 @@
 #import "ActivityManager.h"
 #import "NSString+MD5.h"
 #import "ChatViewController.h"
-
+#import "messages.h"
+#import "ChatView.h"
+#import "UpdateOfferDetailsViewController.h"
+#import "HomeTabBarController.h"
 
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
@@ -37,12 +40,75 @@
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID,soldImageView,chattingId;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID,soldImageView,chattingId,isFirstPosted;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
     [self configureUIElements];
+    
+    //  [self getOfferDetailsFromCloud];
+    
+    // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self setNavBarVisible:YES animated:NO];
+    
+    [self refreshOfferDetailsFromCloud];
+}
+
+- (void)setNavBarVisible:(BOOL)visible animated:(BOOL)animated {
+    
+    // bail if the current state matches the desired state
+    if ([self navBarIsVisible] == visible) return;
+    
+    // get a frame calculation ready
+    CGRect frame = self.navigationController.navigationBar.frame;
+    CGFloat height = frame.size.height + 20;
+    CGFloat offsetY = (visible)? height : -height;
+    
+    self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
+    
+    
+}
+
+// know the current state
+- (BOOL)navBarIsVisible {
+    
+    return self.navigationController.navigationBar.frame.origin.y >= 0;
+    
+}
+
+-(void)deleteSelf{
+    
+    
+    UIAlertView *deleteAlert = [[UIAlertView alloc]initWithTitle:@"Delete this offer?" message:@"Are you sure you want to delete this offer?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    
+    [deleteAlert show];
+    
+    
+}
+
+-(void)reportItem{
+    
+    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
+    mailVC.mailComposeDelegate = self;
+    [mailVC setSubject:@"My Subject"];
+    [mailVC setMessageBody:@"Hello there." isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
+    
+    if (mailVC)
+        
+        [self presentViewController:mailVC animated:YES completion:^{
+            
+        }];
+    
+}
+
+
+-(void)getOfferDetailsFromCloud{
     
     if(!self.offerObject){
         
@@ -82,67 +148,107 @@
         
     }else{
         
-        self.bottomButtonsView.hidden = YES;
         
-        [self.parentScrollView setContentSize:self.contentView.frame.size];
         
         [self updateOfferDetailInfo:self.offerObject];
         
     }
-    // Do any additional setup after loading the view.
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    
-    [self setNavBarVisible:YES animated:NO];
     
 }
 
-- (void)setNavBarVisible:(BOOL)visible animated:(BOOL)animated {
-    
-    // bail if the current state matches the desired state
-    if ([self navBarIsVisible] == visible) return;
-    
-    // get a frame calculation ready
-    CGRect frame = self.navigationController.navigationBar.frame;
-    CGFloat height = frame.size.height + 20;
-    CGFloat offsetY = (visible)? height : -height;
-    
-    self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
+-(void)refreshOfferDetailsFromCloud{
     
     
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    [HUD show:YES];
+    
+    
+    if(self.isFirstPosted){
+        
+        [self updateOfferDetailInfo:self.offerObject];
+        
+        self.bottomButtonsView.hidden = YES;
+        
+        [self.parentScrollView setContentSize:self.contentView.frame.size];
+        
+        self.navigationController.navigationItem.hidesBackButton = YES;
+        
+        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
+                                          initWithTitle:@"Close"
+                                          style:UIBarButtonItemStyleDone
+                                          target:self
+                                          action:@selector(closeDetailPage)];
+        self.navigationItem.leftBarButtonItem = leftBarButton;
+        
+        self.profilePicture.userInteractionEnabled = NO;
+        
+        self.categoryLabel.userInteractionEnabled = NO;
+        
+        [HUD hide:YES];
+        
+    }
+    else{
+        
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            
+            
+            [[OffersManager sharedInstance]fetchOfferByID:self.offerId
+                                              withSuccess:^(id downloadObject) {
+                                                  
+                                                  // Dispatch to main thread to update the UI
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      
+                                                      self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
+                                                      
+                                                      [self updateOfferDetailInfo:self.offerObject];
+                                                      
+                                                      [HUD hide:YES];
+                                                      
+                                                  });
+                                                  
+                                              } failure:^(id error) {
+                                                  
+                                                  NSLog(@"%@",[error description]);
+                                                  
+                                                  [HUD hide:YES];
+                                                  
+                                              }];
+            
+        });
+        
+    }
 }
 
-// know the current state
-- (BOOL)navBarIsVisible {
-    
-    return self.navigationController.navigationBar.frame.origin.y >= 0;
-    
-}
-
--(void)deleteSelf{
-    
-    
-    UIAlertView *deleteAlert = [[UIAlertView alloc]initWithTitle:@"Delete this offer?" message:@"Are you sure you want to delete this offer?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-    
-    [deleteAlert show];
-    
-    
-}
 
 -(void)updateOfferDetailInfo:(OfferModel *)offerModel{
     
-    if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
+    
+    if(!self.isFirstPosted){
         
-        UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                           initWithTitle:@"Delete"
-                                           style:UIBarButtonItemStyleDone
-                                           target:self
-                                           action:@selector(deleteSelf)];
-        self.navigationItem.rightBarButtonItem = rightBarButton;
+        if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
+            
+            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                               initWithTitle:@"Edit"
+                                               style:UIBarButtonItemStyleDone
+                                               target:self
+                                               action:@selector(redirectToEditPage)];
+            self.navigationItem.rightBarButtonItem = rightBarButton;
+            
+        }
+        
+        else{
+            
+            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                               initWithTitle:@"Report"
+                                               style:UIBarButtonItemStyleDone
+                                               target:self
+                                               action:@selector(reportItem)];
+            self.navigationItem.rightBarButtonItem = rightBarButton;
+        }
         
     }
-    
     
     self.itemNameLabel.text =  offerModel.offerName;
     
@@ -410,40 +516,60 @@
 
 - (IBAction)contactSeller:(id)sender {
     
-    __weak ItemDetailViewController *weakSelf = self;
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    PFUser *user1 = [PFUser currentUser];
     
-    [[AccountManager sharedInstance]loadAccountDataWithUserId:self.offerObject.user.objectId Success:^(id object) {
+    NSString *user2_Id = self.offerObject.user.objectId;
+    
+    
+    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
         
-        PFUser *currentUser = [PFUser currentUser];
-        UserModel *userModel = (UserModel *)object;
+        NSString *roomId = StartPrivateChat(user1, object);
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+        ChatView *chatView = [[ChatView alloc] initWith:roomId];
+        chatView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:chatView animated:YES];
         
+    } failure:^(id error) {
         
-        EMConversation *conversation = [[EMConversation alloc]init];
-        conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userModel.chattingId isGroup:NO];
-        ChatViewController *chatVC = [[ChatViewController alloc] initWithChatter:conversation.chatter isGroup:conversation.isGroup];
-        chatVC.receiver = [[ChatterObject alloc]initWithChatterID:conversation.chatter username:userModel.username portrait: userModel.portraitImage isSender:NO];
-        
-        PFFile *profileImage = [currentUser objectForKey:kHLUserModelKeyPortraitImage];
-        
-        [profileImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            if (!error) {
-                
-                UIImage *image = [UIImage imageWithData:data];
-                
-                chatVC.sender = [[ChatterObject alloc]initWithChatterID:[currentUser objectForKey:kHLUserModelKeyUserIdMD5] username:[currentUser objectForKey:kHLUserModelKeyUserName] portrait:image isSender:YES];
-                
-                chatVC.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:chatVC animated:YES];
-                
-                // image can now be set on a UIImageView
-            }
-        }];
-        
-    } Failure:^(id error) {
-        
-        NSLog(@"%@",error);
-
     }];
+    
+    
+    
+    //    __weak ItemDetailViewController *weakSelf = self;
+    //
+    //    [[AccountManager sharedInstance]loadAccountDataWithUserId:self.offerObject.user.objectId Success:^(id object) {
+    //
+    //        PFUser *currentUser = [PFUser currentUser];
+    //        UserModel *userModel = (UserModel *)object;
+    //
+    //
+    //        EMConversation *conversation = [[EMConversation alloc]init];
+    //        conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userModel.chattingId isGroup:NO];
+    //        ChatViewController *chatVC = [[ChatViewController alloc] initWithChatter:conversation.chatter isGroup:conversation.isGroup];
+    //        chatVC.receiver = [[ChatterObject alloc]initWithChatterID:conversation.chatter username:userModel.username portrait: userModel.portraitImage isSender:NO];
+    //
+    //        PFFile *profileImage = [currentUser objectForKey:kHLUserModelKeyPortraitImage];
+    //
+    //        [profileImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+    //            if (!error) {
+    //
+    //                UIImage *image = [UIImage imageWithData:data];
+    //
+    //                chatVC.sender = [[ChatterObject alloc]initWithChatterID:[currentUser objectForKey:kHLUserModelKeyUserIdMD5] username:[currentUser objectForKey:kHLUserModelKeyUserName] portrait:image isSender:YES];
+    //
+    //                chatVC.hidesBottomBarWhenPushed = YES;
+    //                [weakSelf.navigationController pushViewController:chatVC animated:YES];
+    //
+    //                // image can now be set on a UIImageView
+    //            }
+    //        }];
+    //
+    //    } Failure:^(id error) {
+    //
+    //        NSLog(@"%@",error);
+    //
+    //    }];
     
 }
 
@@ -470,12 +596,38 @@
     
 }
 
+-(void)redirectToEditPage{
+    
+    [self performSegueWithIdentifier:@"editOffer" sender:self];
+    
+}
+
+-(void)closeDetailPage{
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+    vc.selectedIndex = 0;
+    [self presentViewController:vc animated:NO completion:^{
+        
+    }];
+    
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
     if([segue.identifier isEqualToString:@"map"])
     {
         MapViewController *map = segue.destinationViewController;
         map.offerLocation = self.offerLocation;
+    }
+    else if([segue.identifier isEqualToString:@"editOffer"]){
+        
+        UpdateOfferDetailsViewController *destVC = segue.destinationViewController;
+        destVC.offerId = self.offerObject.offerId;
+        destVC.oldName = self.offerObject.offerName;
+        destVC.oldPrice = self.offerObject.offerPrice;
+        destVC.oldDescription = self.offerObject.offerDescription;
+        
     }
     
 }

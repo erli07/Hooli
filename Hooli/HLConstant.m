@@ -14,7 +14,8 @@
 NSString *const kHLOfferCategoryHomeGoods = @"Home Goods";
 NSString *const kHLOfferCategoryFurniture = @"Furniture";
 NSString *const kHLOfferCategoryBabyKids = @"Baby & Kids";
-NSString *const kHLOfferCategoryClothes = @"Women Clothes & Shoes";
+NSString *const kHLOfferCategoryWomenClothes = @"Women Clothes & Shoes";
+NSString *const kHLOfferCategoryMenClothes = @"Men Clothes & Shoes";
 NSString *const kHLOfferCategoryBooks = @"Books";
 NSString *const kHLOfferCategoryElectronics = @"Electronics";
 NSString *const kHLOfferCategoryCollectiblesArt = @"Collectibles & Art";
@@ -35,7 +36,7 @@ NSString *const kHLNeedCategory9 = @"其他";
 
 int const kHLOfferCellHeight = 151.0;
 int const kHLOfferCellWidth = 151.0;
-int const kHLOffersNumberShowAtFirstTime = 20;
+int const kHLOffersNumberShowAtFirstTime = 10;
 int const kHLNeedsNumberShowAtFirstTime = 30;
 int const kHLMaxSearchDistance = 50;
 int const kHLDefaultSearchDistance = 50;

@@ -487,6 +487,37 @@
     }];
     
 }
+
+-(void)fetchUserWithUserId:(NSString *)objectId
+                    success:(DownloadSuccessBlock)success
+                    failure:(DownloadFailureBlock)failure{
+    
+    _dowloadSuccess = success;
+    _downloadFailure = failure;
+    
+    
+        PFQuery * query = [PFUser query];
+        [query whereKey:@"objectId" equalTo:objectId];
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            
+            
+            if (!object) {
+                
+                _downloadFailure(error);
+                
+            }
+            else{
+                
+                _dowloadSuccess((PFUser *)object);
+                
+            }
+            
+        }];
+
+    
+}
+
+
 //-(void)getUserPortraitImageWithUserID:(NSString *)userID withCell:(ChatListCell *)cell block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
 //    
 //    PFQuery * query = [PFUser query];

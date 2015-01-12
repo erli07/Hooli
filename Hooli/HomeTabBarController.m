@@ -8,6 +8,9 @@
 #import "NeedTableViewController.h"
 #import "HomeTabBarController.h"
 #import "HLConstant.h"
+#import "CameraOverlayViewController.h"
+#import "HomeViewViewController.h"
+#import "MyCameraViewController.h"
 @interface HomeTabBarController ()
 
 @end
@@ -16,12 +19,6 @@
 @synthesize needViewController,needNavigationController;
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.delegate = self;
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    self.needViewController = [[storyboard instantiateViewControllerWithIdentifier:@"NeedTableViewController"]initWithStyle:UITableViewStylePlain];
-   // [self.needViewController setParseClassName:kHLCloudNeedClass];
-//    self.needViewController = [[NeedTableViewController alloc]initWithStyle:UITableViewStylePlain];
-//    self.needNavigationController = [[UINavigationController alloc] initWithRootViewController:self.needViewController];
 
     // Do any additional setup after loading the view.
 }
@@ -32,6 +29,32 @@
 }
 
 
+
+
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item  {
+    
+    if(item.tag == 2){
+        
+        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+        MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
+//        cameraVC.navigationController.navigationBarHidden = YES;
+//        cameraVC.navigationItem.hidesBackButton = YES;
+        
+        [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
+            
+        
+            [self.navigationController pushViewController:cameraVC animated:NO];
+            
+            
+        
+        }];
+
+        
+    }
+    
+}
+
 -(void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     
@@ -40,10 +63,12 @@
     if(tabBarController.selectedIndex == 3){
         
         
-     //   [self.needNavigationController pushViewController:self.needViewController animated:YES];
+        //   [self.needNavigationController pushViewController:self.needViewController animated:YES];
         
     }
     
 }
+
+
 
 @end

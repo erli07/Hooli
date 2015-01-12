@@ -53,6 +53,7 @@ typedef void (^DownloadFailureBlock) (id error);
                           Success:(DownloadSuccessBlock)success
                           Failure:(DownloadFailureBlock)failure;
 -(UIImage *)getPortraitImage;
+
 -(void)submitUserProfileWithUser:(UserModel *)userModel
                          Success:(UploadSuccessBlock)success
                          Failure:(UploadFailureBlock)failure;
@@ -70,5 +71,7 @@ typedef void (^DownloadFailureBlock) (id error);
                          success:(DownloadSuccessBlock)success
                          failure:(DownloadFailureBlock)failure;
 
-
+-(void)fetchUserWithUserId:(NSString *)objectId
+                   success:(DownloadSuccessBlock)success
+                   failure:(DownloadFailureBlock)failure;
 @end

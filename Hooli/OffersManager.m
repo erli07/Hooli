@@ -374,7 +374,6 @@
         PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
         [query whereKey:kHLOfferModelKeyOfferId equalTo:offerID];
 
-
         // [query orderByAscending:@"createdAt"];
         [query getObjectInBackgroundWithId:offerID block:^(PFObject *object, NSError *error) {
             if (!error) {
@@ -523,6 +522,40 @@
         }
         
     }];
+}
+
+-(void)updateOfferModelWithOfferId:(NSString *)offerID newOfferModel:(OfferModel *)newOfferModel
+                             block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerID];
+    
+    if(newOfferModel.offerName){
+        
+        [object setObject:newOfferModel.offerName forKey:kHLOfferModelKeyOfferName];
+
+    }
+    
+    if(newOfferModel.offerDescription){
+        
+        [object setObject:newOfferModel.offerDescription forKey:kHLOfferModelKeyDescription];
+        
+    }
+    
+    if(newOfferModel.offerPrice){
+        
+        [object setObject:newOfferModel.offerPrice forKey:kHLOfferModelKeyPrice];
+        
+    }
+    
+    // Save
+    [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if (completionBlock) {
+            completionBlock(succeeded,error);
+        }
+        
+    }];
+        
 }
 
 -(void)deleteOfferModelWithOfferId:(NSString *)offerId  block:(void (^)(BOOL succeeded, NSError *error))completionBlock{

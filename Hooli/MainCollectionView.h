@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-@interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource,MBProgressHUDDelegate>
+@interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource,MBProgressHUDDelegate,UIScrollViewDelegate>
 -(void)configureView;
 -(void)updateDataFromCloud;
 -(void)reloadDataByOffersArray:(NSArray *)offers;
 
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *objectDataSource;
+@property (nonatomic) BOOL isLoading;
 
 @end
