@@ -20,7 +20,7 @@
 #import "UserCartViewController.h"
 #import "ActivityManager.h"
 #import "NSString+MD5.h"
-#import "ChatViewController.h"
+//#import "ChatViewController.h"
 #import "messages.h"
 #import "ChatView.h"
 #import "UpdateOfferDetailsViewController.h"

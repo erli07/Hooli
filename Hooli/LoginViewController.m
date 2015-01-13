@@ -14,7 +14,7 @@
 #import "HLSettings.h"
 #import "EditProfileViewController.h"
 #import <Parse/Parse.h>
-#import "EaseMob.h"
+//#import "EaseMob.h"
 #import "ChatListViewController.h"
 
 @interface LoginViewController ()<MBProgressHUDDelegate>{

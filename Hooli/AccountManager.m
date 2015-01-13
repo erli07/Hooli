@@ -9,7 +9,7 @@
 #import "AccountManager.h"
 #import "OfferModel.h"
 #import "UserModel.h"
-#import "ChatListCell.h"
+//#import "ChatListCell.h"
 #import "NSString+MD5.h"
 @implementation AccountManager
 @synthesize uploadFailure = _uploadFailure;
