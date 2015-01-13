@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EaseMob.h"
+//#import "EaseMob.h"
 #import <Parse/Parse.h>
 @interface ChattingManager : NSObject
 
