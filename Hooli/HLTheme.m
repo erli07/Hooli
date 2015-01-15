@@ -19,9 +19,12 @@
 }
 
 + (UIColor*)mainColor{
-//    return [UIColor colorWithRed:0.99f green:0.36f blue:0.35f alpha:1.0f];
     
-    return [UIColor colorWithRed:(253.0/255.0) green:(92.0/255.0) blue:(89.0/255.0) alpha:1.0];
+    //return [UIColor colorWithRed:(74.0/255.0) green:(165.0/255.0) blue:(254.0/255.0) alpha:1.0];
+   // return [UIColor colorWithRed:(1.0/255.0) green:(109.0/255.0) blue:(215.0/255.0) alpha:1.0];
+    return [UIColor colorWithRed:(3.0/255.0) green:(130.0/255.0) blue:(254.0/255.0) alpha:1.0];
+
+   // return [UIColor colorWithRed:(253.0/255.0) green:(92.0/255.0) blue:(89.0/255.0) alpha:1.0];
 }
 
 + (UIColor*)foregroundColor{
@@ -66,15 +69,17 @@
 
 +(void)customizeTheme{
     
-    [UINavigationBar appearance].tintColor = [self mainColor];
+   // [UINavigationBar appearance].tintColor = [self mainColor];
+    [UINavigationBar appearance].tintColor = [UIColor whiteColor];
+    [[UINavigationBar appearance] setBarTintColor:[self mainColor]];
     NSMutableDictionary* navbarAttributes = [NSMutableDictionary dictionary];
     navbarAttributes[NSFontAttributeName] = [UIFont fontWithName:[self boldFont] size:19.0f];
-    navbarAttributes[NSForegroundColorAttributeName] = [UIColor colorWithWhite:0.3f alpha:1.0f];
+    navbarAttributes[NSForegroundColorAttributeName] = [UIColor colorWithWhite:1.0f alpha:1.0f];
     [UINavigationBar appearance].titleTextAttributes = navbarAttributes;
     
-    [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:1.0 green:91.0/255.0 blue:84.0/255.0 alpha:1.0]];
-   // [[UITabBar appearance] setBarTintColor:[self mainColor]];
-    UITabBar* tabBarAppearance = [UITabBar appearance];
+   [[UITabBar appearance] setTintColor:[self mainColor]];
+    [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+  //  UITabBar* tabBarAppearance = [UITabBar appearance];
 //    [tabBarAppearance setSelectionIndicatorImage:[[UIImage imageNamed:@"tab_sel"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     
   //  tabBarAppearance.tintColor = [self mainColor];

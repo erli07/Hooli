@@ -14,21 +14,25 @@
 #import "HLSettings.h"
 #import "SearchItemViewController.h"
 #import "LoginViewController.h"
+#import "MyCameraViewController.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate>{
     
 }
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-
+@property (nonatomic,strong) UIButton *addItemButton;
 @property (nonatomic, strong) NSString *itemID;
 @end
 
 static NSString * const reuseIdentifier = @"Cell";
 
 @implementation HomeViewViewController
-@synthesize refreshControl;
+@synthesize refreshControl,addItemButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+   
+   // [self.addItemButton bringSubviewToFront:self.view];
 
     [self initViewELements];
 }
@@ -91,6 +95,14 @@ static NSString * const reuseIdentifier = @"Cell";
     self.navigationItem.title = @"Discover";
     [self updateCollectionViewData];
     [self addSwipeGesture];
+    
+    self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, 64, 64)];
+    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168);
+    [self.addItemButton setBackgroundImage:[UIImage imageNamed:@"camera_128x128"] forState:UIControlStateNormal];
+    [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.addItemButton];
+    [self.addItemButton bringSubviewToFront:self.collectionView];
+    
 }
 
 #pragma register notification
@@ -259,6 +271,9 @@ static NSString * const reuseIdentifier = @"Cell";
         
         collectionView.origin.y = (visible)? 107 : 55;
         collectionView.size.height = (visible)? 431 : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
+        self.addItemButton.alpha =(visible)?1:0;
+        
+        self.addItemButton.center = (visible)?CGPointMake(160, 452):CGPointMake(160,568);
         self.collectionView.frame = collectionView;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         
@@ -301,6 +316,23 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     return YES;
+}
+
+
+-(void)showCamera:(id)sender{
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
+
+    
+    [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
+        
+        
+        [self.navigationController pushViewController:cameraVC animated:NO];
+        
+        
+    }];
+
 }
 
 @end

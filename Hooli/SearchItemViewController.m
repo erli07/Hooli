@@ -14,7 +14,7 @@
 #import "SearchResultViewController.h"
 #import "HLSettings.h"
 @interface SearchItemViewController ()
-
+@property (nonatomic) NSArray* imagesArray;
 @end
 
 @implementation SearchItemViewController
@@ -24,6 +24,8 @@
     self.title = @"Search";
   //  self.navigationController.navigationBar.backgroundColor = [HLTheme mainColor];
     self.categories = [OfferCategory allCategories];
+    
+    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"books_48x48"], [UIImage imageNamed:@"books_48x48"],[UIImage imageNamed:@"books_48x48"],[UIImage imageNamed:@"books_48x48"],[UIImage imageNamed:@"sports_32x32"],[UIImage imageNamed:@"sports_32x32"],[UIImage imageNamed:@"sports_32x32"],nil];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -60,6 +62,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categoryCell" forIndexPath:indexPath];
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
+ //   [cell.imageView setImage:[self.imagesArray objectAtIndex:indexPath.row]];
      cell.textLabel.text = [self.categories objectAtIndex:indexPath.row];
     return cell;
 }

@@ -25,6 +25,8 @@
 
 +(NSArray *)allCategories{
     
-    return [[NSArray alloc]initWithObjects:kHLOfferCategoryHomeGoods,kHLOfferCategoryFurniture,kHLOfferCategoryBabyKids,kHLOfferCategoryBooks,kHLOfferCategoryWomenClothes,kHLOfferCategoryMenClothes,kHLOfferCategoryCollectiblesArt,kHLOfferCategoryElectronics,kHLOfferCategorySportingGoods,kHLOfferCategoryOther,nil];
+  //  return [[NSArray alloc]initWithObjects:kHLOfferCategoryHomeGoods,kHLOfferCategoryFurniture,kHLOfferCategoryBabyKids,kHLOfferCategoryBooks,kHLOfferCategoryWomenClothes,kHLOfferCategoryMenClothes,kHLOfferCategoryCollectiblesArt,kHLOfferCategoryElectronics,kHLOfferCategorySportingGoods,kHLOfferCategoryOther,nil];
+    
+        return [[NSArray alloc]initWithObjects:kHLOfferCategoryFurniture,kHLOfferCategoryBooks,kHLOfferCategoryWomenClothes,kHLOfferCategoryMenClothes,kHLOfferCategoryElectronics,kHLOfferCategorySportingGoods,kHLOfferCategoryOther,nil];
 }
 @end

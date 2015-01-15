@@ -36,7 +36,7 @@
     
     //    self.titleLabel.textColor = [UIColor blackColor];
     //    self.timeLabel.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
-    self.likesLabel.textColor = [HLTheme mainColor];
+    self.likesLabel.textColor = [UIColor colorWithRed:(253.0/255.0) green:(92.0/255.0) blue:(89.0/255.0) alpha:1.0];
     
     self.contentView.backgroundColor = [UIColor whiteColor];
     

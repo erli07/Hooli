@@ -71,6 +71,15 @@
 		0E2A12601A0599CD0036F8EB /* HLConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A125F1A0599CD0036F8EB /* HLConstant.m */; };
 		0E2A12621A05A3DE0036F8EB /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E2A12611A05A3DE0036F8EB /* shadow.png */; };
 		0E3BA9AB1A43BEFF002BE988 /* MyCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3BA9AA1A43BEFF002BE988 /* MyCartViewController.m */; };
+		0E405D3B1A67896E0044B60A /* addItem.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D3A1A67896E0044B60A /* addItem.png */; };
+		0E405D3D1A6791D30044B60A /* search-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D3C1A6791D30044B60A /* search-32.png */; };
+		0E405D3F1A6792D40044B60A /* find-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D3E1A6792D40044B60A /* find-32.png */; };
+		0E405D411A679A9C0044B60A /* camera-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D401A679A9C0044B60A /* camera-128.png */; };
+		0E405D431A679B730044B60A /* camera_128x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D421A679B730044B60A /* camera_128x128.png */; };
+		0E405D451A679C300044B60A /* men_clothes_32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D441A679C300044B60A /* men_clothes_32x32.png */; };
+		0E405D471A679D750044B60A /* sports_32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D461A679D750044B60A /* sports_32x32.png */; };
+		0E405D491A679E770044B60A /* camera_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D481A679E770044B60A /* camera_64x64.png */; };
+		0E405D4B1A679EE30044B60A /* books_48x48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E405D4A1A679EE30044B60A /* books_48x48.png */; };
 		0E50F12E1A1452670048FA27 /* UserCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E50F12D1A1452670048FA27 /* UserCartViewController.m */; };
 		0E50F1341A1476FB0048FA27 /* shot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E50F1301A1476FB0048FA27 /* shot@2x.png */; };
 		0E50F1361A1476FB0048FA27 /* shot_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E50F1321A1476FB0048FA27 /* shot_h@2x.png */; };
@@ -369,6 +378,15 @@
 		0E2A125F1A0599CD0036F8EB /* HLConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLConstant.m; sourceTree = "<group>"; };
 		0E2A12611A05A3DE0036F8EB /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shadow.png; path = ../shadow.png; sourceTree = "<group>"; };
 		0E3BA9AA1A43BEFF002BE988 /* MyCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCartViewController.m; sourceTree = "<group>"; };
+		0E405D3A1A67896E0044B60A /* addItem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addItem.png; sourceTree = "<group>"; };
+		0E405D3C1A6791D30044B60A /* search-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-32.png"; sourceTree = "<group>"; };
+		0E405D3E1A6792D40044B60A /* find-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "find-32.png"; sourceTree = "<group>"; };
+		0E405D401A679A9C0044B60A /* camera-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-128.png"; sourceTree = "<group>"; };
+		0E405D421A679B730044B60A /* camera_128x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_128x128.png; sourceTree = "<group>"; };
+		0E405D441A679C300044B60A /* men_clothes_32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = men_clothes_32x32.png; sourceTree = "<group>"; };
+		0E405D461A679D750044B60A /* sports_32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sports_32x32.png; sourceTree = "<group>"; };
+		0E405D481A679E770044B60A /* camera_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_64x64.png; sourceTree = "<group>"; };
+		0E405D4A1A679EE30044B60A /* books_48x48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = books_48x48.png; sourceTree = "<group>"; };
 		0E50F12C1A1452670048FA27 /* UserCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCartViewController.h; sourceTree = "<group>"; };
 		0E50F12D1A1452670048FA27 /* UserCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCartViewController.m; sourceTree = "<group>"; };
 		0E50F1301A1476FB0048FA27 /* shot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shot@2x.png"; sourceTree = "<group>"; };
@@ -1091,6 +1109,15 @@
 		0EB888271A3820590054F982 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0E405D4A1A679EE30044B60A /* books_48x48.png */,
+				0E405D481A679E770044B60A /* camera_64x64.png */,
+				0E405D461A679D750044B60A /* sports_32x32.png */,
+				0E405D441A679C300044B60A /* men_clothes_32x32.png */,
+				0E405D421A679B730044B60A /* camera_128x128.png */,
+				0E405D401A679A9C0044B60A /* camera-128.png */,
+				0E405D3E1A6792D40044B60A /* find-32.png */,
+				0E405D3C1A6791D30044B60A /* search-32.png */,
+				0E405D3A1A67896E0044B60A /* addItem.png */,
 				45D2C42E1A632FB6006ADB53 /* album-64.png */,
 				0EDF40651A2468890034C6F4 /* imageedit_7_4972766291.png */,
 				0EDF3FFB1A21B42C0034C6F4 /* bkg.png */,
@@ -1672,6 +1699,7 @@
 			files = (
 				45C6C6271A5D1C2600913660 /* star-32.png in Resources */,
 				45C6C62D1A5D21EC00913660 /* tag-32.png in Resources */,
+				0E405D411A679A9C0044B60A /* camera-128.png in Resources */,
 				0E17BF9619FE04800042C4DD /* pink-heart.png in Resources */,
 				0ECAC36F19FF2A65002866DE /* pageControl-dot@2x.png in Resources */,
 				0EE4998A1A101A7D0046B3C7 /* Login.storyboard in Resources */,
@@ -1688,6 +1716,7 @@
 				0E0019D11A0B3F660086CD77 /* Ariel1.png in Resources */,
 				45C6C61F1A5D1A9A00913660 /* dollar-32.png in Resources */,
 				457AC6EF1A5C6AF400BFC619 /* pageDot.png in Resources */,
+				0E405D471A679D750044B60A /* sports_32x32.png in Resources */,
 				457AC6CB1A5C69B600BFC619 /* Intro.storyboard in Resources */,
 				457DA2021A5E2FD00099E52E /* JSQMessagesViewController.xib in Resources */,
 				457DA1401A5E26120099E52E /* messages-32.png in Resources */,
@@ -1700,6 +1729,8 @@
 				45C6C6211A5D1B9D00913660 /* user-group-32.png in Resources */,
 				0EDF40011A21B6380034C6F4 /* icon@2x.png in Resources */,
 				0ECAC35D19FF1BCC002866DE /* button-pressed.png in Resources */,
+				0E405D451A679C300044B60A /* men_clothes_32x32.png in Resources */,
+				0E405D431A679B730044B60A /* camera_128x128.png in Resources */,
 				457DA1F91A5E2FD00099E52E /* JSQMessages.strings in Resources */,
 				0E63A7BD1A2626DF0038B1AE /* Chat.storyboard in Resources */,
 				457DA14E1A5E2F4C0099E52E /* MessagesView.xib in Resources */,
@@ -1709,11 +1740,13 @@
 				0E17BF9719FE04800042C4DD /* pink-heart@2x.png in Resources */,
 				0EDF40021A21B6380034C6F4 /* icon.png in Resources */,
 				457DA2441A5E51DD0099E52E /* NO_Messages-2-512.png in Resources */,
+				0E405D3B1A67896E0044B60A /* addItem.png in Resources */,
 				0EE499821A1016690046B3C7 /* LoginWithFacebook.png in Resources */,
 				457DA2221A5E2FD00099E52E /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				45F2C0711A51DA3E0004D476 /* NeedTableViewCell.xib in Resources */,
 				457AC6FE1A5C86F000BFC619 /* CreateActivityViewController.xib in Resources */,
 				0E17BF9519FE04800042C4DD /* pink-eye@2x.png in Resources */,
+				0E405D3D1A6791D30044B60A /* search-32.png in Resources */,
 				457DA2391A5E30730099E52E /* ProgressHUD.bundle in Resources */,
 				0E0019E01A0E948F0086CD77 /* sliderMinTrack.png in Resources */,
 				45D2C4451A65C050006ADB53 /* Default-667h@2x.png in Resources */,
@@ -1739,7 +1772,9 @@
 				0E17BEDF19FC8BAE0042C4DD /* Images.xcassets in Resources */,
 				0E86AA671A4B3B4B000C71E8 /* NeedsCell.xib in Resources */,
 				0ECAC3BB1A01D4AA002866DE /* CameraOverlayViewController.xib in Resources */,
+				0E405D4B1A679EE30044B60A /* books_48x48.png in Resources */,
 				0ECAC36919FF2983002866DE /* LICENSE in Resources */,
+				0E405D491A679E770044B60A /* camera_64x64.png in Resources */,
 				457DA2161A5E2FD00099E52E /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				0E17BF9819FE04800042C4DD /* tab1.png in Resources */,
 				457DA1F81A5E2FD00099E52E /* JSQMessagesAssets.bundle in Resources */,
@@ -1765,6 +1800,7 @@
 				457DA1421A5E279D0099E52E /* message-32.png in Resources */,
 				457AC6ED1A5C6AF400BFC619 /* icon2@2x.png in Resources */,
 				457AC6E81A5C6AF400BFC619 /* bg2@2x.png in Resources */,
+				0E405D3F1A6792D40044B60A /* find-32.png in Resources */,
 				0E0019DF1A0E948F0086CD77 /* sliderMaxTrack@2x.png in Resources */,
 				457DA2201A5E2FD00099E52E /* JSQMessagesToolbarContentView.xib in Resources */,
 				0E17BF9119FE04800042C4DD /* collections4.png in Resources */,

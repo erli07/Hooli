@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Need Nav Controller-->
+        <!--Search-->
         <scene sceneID="ehN-oH-HZg">
             <objects>
                 <navigationController id="NaV-6u-kYj" customClass="NeedNavController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" systemItem="search" id="yHW-9b-jtK"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="find-32.png" id="yHW-9b-jtK"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eKG-97-4Je">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -685,7 +685,6 @@
                     <connections>
                         <segue destination="KpJ-4a-BBa" kind="relationship" relationship="viewControllers" id="i8r-dE-XbK"/>
                         <segue destination="NaV-6u-kYj" kind="relationship" relationship="viewControllers" id="pdH-uF-cPT"/>
-                        <segue destination="M7h-vh-J1a" kind="relationship" relationship="viewControllers" id="UAB-wp-U3V"/>
                         <segue destination="1KV-LZ-8Qg" kind="relationship" relationship="viewControllers" id="qGb-vK-9zk"/>
                         <segue destination="ErL-aS-9xf" kind="relationship" relationship="viewControllers" id="FIZ-4C-qZt"/>
                     </connections>
@@ -693,21 +692,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36M-LB-2zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1099" y="-1696"/>
-        </scene>
-        <!--Post Item-->
-        <scene sceneID="RIY-6e-dOY">
-            <objects>
-                <navigationController navigationBarHidden="YES" id="M7h-vh-J1a" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Post Item" image="tab3.png" id="QfN-t3-wrR"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gw2-NT-xf7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hMi-mB-sy9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-755" y="-1215"/>
         </scene>
         <!--Profile-->
         <scene sceneID="3xC-mR-Ygy">
@@ -804,11 +788,11 @@
             </objects>
             <point key="canvasLocation" x="1440" y="-3800"/>
         </scene>
-        <!--message-->
+        <!--Messages-->
         <scene sceneID="sFr-b9-SWd">
             <objects>
                 <navigationController id="1KV-LZ-8Qg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="message" image="message-32.png" id="PCE-mp-vfB"/>
+                    <tabBarItem key="tabBarItem" title="Messages" image="message-32.png" id="PCE-mp-vfB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yu-id-nPd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -824,10 +808,10 @@
     </scenes>
     <resources>
         <image name="NO_Messages-2-512.png" width="512" height="512"/>
+        <image name="find-32.png" width="32" height="32"/>
         <image name="message-32.png" width="32" height="32"/>
         <image name="pink-heart.png" width="17" height="16"/>
         <image name="tab1.png" width="30" height="30"/>
-        <image name="tab3.png" width="30" height="30"/>
         <image name="tab5.png" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

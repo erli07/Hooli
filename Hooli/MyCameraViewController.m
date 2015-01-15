@@ -470,9 +470,9 @@
     
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     PostFormViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"PostFormViewController"];
-    //    vc.navigationItem.hidesBackButton = NO;
-    //    vc.navigationController.navigationBarHidden = NO;
-    //
+    vc.navigationItem.hidesBackButton = NO;
+    vc.navigationController.navigationBarHidden = NO;
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
     
     [self.picker dismissViewControllerAnimated:NO completion:^{

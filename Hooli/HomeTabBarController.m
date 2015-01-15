@@ -36,19 +36,6 @@
     
     if(item.tag == 2){
         
-        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
-        MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
-//        cameraVC.navigationController.navigationBarHidden = YES;
-//        cameraVC.navigationItem.hidesBackButton = YES;
-        
-        [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
-            
-        
-            [self.navigationController pushViewController:cameraVC animated:NO];
-            
-            
-        
-        }];
 
         
     }
