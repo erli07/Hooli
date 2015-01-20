@@ -16,7 +16,10 @@
 //#import "EaseMob.h"
 #import "AccountManager.h"
 #import "HLUtilities.h"
+#import "NotificationsViewController.h"
+#import "Reachability.h"
 @interface AppDelegate ()
+@property (nonatomic, strong) NotificationsViewController *activityViewController;
 
 @end
 
@@ -119,7 +122,13 @@
     //
     
     return YES;
+
 }
+
+- (BOOL)isParseReachable {
+    return self.networkStatus != NotReachable;
+}
+
 
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

@@ -73,6 +73,8 @@
         _geoPoint.latitude = offerLocation.latitude;
         _geoPoint.longitude = offerLocation.longitude;
         _isOfferSold = isOfferSold;
+        _image = [imageArray objectAtIndex:0];
+        
     }
     return self;
     
@@ -101,6 +103,7 @@
         _offerPrice = offerPrice;
         _offerLocation = offerLocation;
         _isOfferSold = isOfferSold;
+        
     }
     return self;
 }
@@ -127,6 +130,7 @@
         _offerPrice = offerPrice;
         _offerLocation = offerLocation;
         _isOfferSold = isOfferSold;
+        _image = [imageArray objectAtIndex:0];
     }
     return self;
 }

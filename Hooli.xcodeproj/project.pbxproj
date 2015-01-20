@@ -94,6 +94,26 @@
 		0E86AA731A4C9EA3000C71E8 /* NeedsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA721A4C9EA3000C71E8 /* NeedsCell.m */; };
 		0E86AA761A4CB7AE000C71E8 /* NeedsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA751A4CB7AE000C71E8 /* NeedsManager.m */; };
 		0E86AA7C1A4D2D81000C71E8 /* NeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA7B1A4D2D81000C71E8 /* NeedDetailViewController.m */; };
+		0E9605361A6D64CC00791E4E /* notification-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605351A6D64CC00791E4E /* notification-32.png */; };
+		0E9605391A6D661800791E4E /* NotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605381A6D661800791E4E /* NotificationsViewController.m */; };
+		0E96053D1A6D69A900791E4E /* NotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96053C1A6D69A900791E4E /* NotificationTableViewCell.m */; };
+		0E9605401A6D710100791E4E /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96053F1A6D710100791E4E /* TTTTimeIntervalFormatter.m */; };
+		0E9605431A6D71E200791E4E /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605421A6D71E200791E4E /* ProfileImageView.m */; };
+		0E9605481A6D726C00791E4E /* AvatarPlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605441A6D726C00791E4E /* AvatarPlaceholder.png */; };
+		0E9605491A6D726C00791E4E /* AvatarPlaceholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605451A6D726C00791E4E /* AvatarPlaceholder@2x.png */; };
+		0E96054A1A6D726C00791E4E /* AvatarPlaceholderBig.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605461A6D726C00791E4E /* AvatarPlaceholderBig.png */; };
+		0E96054B1A6D726C00791E4E /* AvatarPlaceholderBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605471A6D726C00791E4E /* AvatarPlaceholderBig@2x.png */; };
+		0E96054E1A6D74BF00791E4E /* BaseTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96054D1A6D74BF00791E4E /* BaseTextCell.m */; };
+		0E9605541A6DB76100791E4E /* SettingsActionSheetDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605531A6DB76100791E4E /* SettingsActionSheetDelegate.m */; };
+		0E9605571A6DCF8700791E4E /* ItemCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605561A6DCF8700791E4E /* ItemCommentViewController.m */; };
+		0E96055A1A6DD05C00791E4E /* ItemDetailsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605591A6DD05C00791E4E /* ItemDetailsHeaderView.m */; };
+		0E96055D1A6DF8DE00791E4E /* ItemCommentFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96055C1A6DF8DE00791E4E /* ItemCommentFooterView.m */; };
+		0E9605631A6E1D9000791E4E /* itemCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605621A6E1D9000791E4E /* itemCommentView.m */; };
+		0E9605661A6E236500791E4E /* IconAddComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605641A6E236500791E4E /* IconAddComment.png */; };
+		0E9605671A6E236500791E4E /* IconAddComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605651A6E236500791E4E /* IconAddComment@2x.png */; };
+		0E96056A1A6E24B700791E4E /* TextFieldComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605681A6E24B700791E4E /* TextFieldComment.png */; };
+		0E96056B1A6E24B700791E4E /* TextFieldComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605691A6E24B700791E4E /* TextFieldComment@2x.png */; };
+		0E96056E1A6E49FC00791E4E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96056D1A6E49FC00791E4E /* Reachability.m */; };
 		0E9DC00C1A40D3EA00685C5C /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DC00B1A40D3EA00685C5C /* NSString+MD5.m */; };
 		0EB5E7411A4E5035009A1186 /* NeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5E7401A4E5035009A1186 /* NeedTableViewController.m */; };
 		0EB5E7471A50B897009A1186 /* HomeTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5E7461A50B897009A1186 /* HomeTabBarController.m */; };
@@ -411,6 +431,37 @@
 		0E86AA751A4CB7AE000C71E8 /* NeedsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedsManager.m; sourceTree = "<group>"; };
 		0E86AA7A1A4D2D81000C71E8 /* NeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedDetailViewController.h; sourceTree = "<group>"; };
 		0E86AA7B1A4D2D81000C71E8 /* NeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedDetailViewController.m; sourceTree = "<group>"; };
+		0E9605351A6D64CC00791E4E /* notification-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-32.png"; sourceTree = "<group>"; };
+		0E9605371A6D661800791E4E /* NotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsViewController.h; sourceTree = "<group>"; };
+		0E9605381A6D661800791E4E /* NotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsViewController.m; sourceTree = "<group>"; };
+		0E96053B1A6D69A900791E4E /* NotificationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTableViewCell.h; sourceTree = "<group>"; };
+		0E96053C1A6D69A900791E4E /* NotificationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTableViewCell.m; sourceTree = "<group>"; };
+		0E96053E1A6D710100791E4E /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTTimeIntervalFormatter.h; path = SMPageControl/TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
+		0E96053F1A6D710100791E4E /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTTimeIntervalFormatter.m; path = SMPageControl/TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
+		0E9605411A6D71E200791E4E /* ProfileImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageView.h; sourceTree = "<group>"; };
+		0E9605421A6D71E200791E4E /* ProfileImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageView.m; sourceTree = "<group>"; };
+		0E9605441A6D726C00791E4E /* AvatarPlaceholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AvatarPlaceholder.png; sourceTree = "<group>"; };
+		0E9605451A6D726C00791E4E /* AvatarPlaceholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AvatarPlaceholder@2x.png"; sourceTree = "<group>"; };
+		0E9605461A6D726C00791E4E /* AvatarPlaceholderBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AvatarPlaceholderBig.png; sourceTree = "<group>"; };
+		0E9605471A6D726C00791E4E /* AvatarPlaceholderBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AvatarPlaceholderBig@2x.png"; sourceTree = "<group>"; };
+		0E96054C1A6D74BF00791E4E /* BaseTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTextCell.h; sourceTree = "<group>"; };
+		0E96054D1A6D74BF00791E4E /* BaseTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTextCell.m; sourceTree = "<group>"; };
+		0E9605521A6DB76100791E4E /* SettingsActionSheetDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsActionSheetDelegate.h; sourceTree = "<group>"; };
+		0E9605531A6DB76100791E4E /* SettingsActionSheetDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsActionSheetDelegate.m; sourceTree = "<group>"; };
+		0E9605551A6DCF8700791E4E /* ItemCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCommentViewController.h; sourceTree = "<group>"; };
+		0E9605561A6DCF8700791E4E /* ItemCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCommentViewController.m; sourceTree = "<group>"; };
+		0E9605581A6DD05C00791E4E /* ItemDetailsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailsHeaderView.h; sourceTree = "<group>"; };
+		0E9605591A6DD05C00791E4E /* ItemDetailsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailsHeaderView.m; sourceTree = "<group>"; };
+		0E96055B1A6DF8DE00791E4E /* ItemCommentFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCommentFooterView.h; sourceTree = "<group>"; };
+		0E96055C1A6DF8DE00791E4E /* ItemCommentFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCommentFooterView.m; sourceTree = "<group>"; };
+		0E9605611A6E1D9000791E4E /* itemCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itemCommentView.h; sourceTree = "<group>"; };
+		0E9605621A6E1D9000791E4E /* itemCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = itemCommentView.m; sourceTree = "<group>"; };
+		0E9605641A6E236500791E4E /* IconAddComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconAddComment.png; sourceTree = "<group>"; };
+		0E9605651A6E236500791E4E /* IconAddComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconAddComment@2x.png"; sourceTree = "<group>"; };
+		0E9605681A6E24B700791E4E /* TextFieldComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextFieldComment.png; sourceTree = "<group>"; };
+		0E9605691A6E24B700791E4E /* TextFieldComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TextFieldComment@2x.png"; sourceTree = "<group>"; };
+		0E96056C1A6E49FC00791E4E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		0E96056D1A6E49FC00791E4E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		0E9DC00A1A40D3EA00685C5C /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		0E9DC00B1A40D3EA00685C5C /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		0EB5E73F1A4E5035009A1186 /* NeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedTableViewController.h; sourceTree = "<group>"; };
@@ -923,6 +974,7 @@
 				0E17BF4B19FDCE000042C4DD /* Cart */,
 				0E17BF4919FDCDE50042C4DD /* Camera */,
 				0E17BF4819FDCDDB0042C4DD /* User */,
+				0E96053A1A6D662700791E4E /* Notifications */,
 				0E17BF6519FDFA850042C4DD /* Login */,
 			);
 			name = Controller;
@@ -1086,6 +1138,31 @@
 			name = Needs;
 			sourceTree = "<group>";
 		};
+		0E96053A1A6D662700791E4E /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				0E9605371A6D661800791E4E /* NotificationsViewController.h */,
+				0E9605381A6D661800791E4E /* NotificationsViewController.m */,
+				0E96053B1A6D69A900791E4E /* NotificationTableViewCell.h */,
+				0E96053C1A6D69A900791E4E /* NotificationTableViewCell.m */,
+				0E9605411A6D71E200791E4E /* ProfileImageView.h */,
+				0E9605421A6D71E200791E4E /* ProfileImageView.m */,
+				0E96054C1A6D74BF00791E4E /* BaseTextCell.h */,
+				0E96054D1A6D74BF00791E4E /* BaseTextCell.m */,
+				0E9605521A6DB76100791E4E /* SettingsActionSheetDelegate.h */,
+				0E9605531A6DB76100791E4E /* SettingsActionSheetDelegate.m */,
+				0E9605551A6DCF8700791E4E /* ItemCommentViewController.h */,
+				0E9605561A6DCF8700791E4E /* ItemCommentViewController.m */,
+				0E9605581A6DD05C00791E4E /* ItemDetailsHeaderView.h */,
+				0E9605591A6DD05C00791E4E /* ItemDetailsHeaderView.m */,
+				0E96055B1A6DF8DE00791E4E /* ItemCommentFooterView.h */,
+				0E96055C1A6DF8DE00791E4E /* ItemCommentFooterView.m */,
+				0E9605611A6E1D9000791E4E /* itemCommentView.h */,
+				0E9605621A6E1D9000791E4E /* itemCommentView.m */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
 		0EB5E74B1A5106F5009A1186 /* Need */ = {
 			isa = PBXGroup;
 			children = (
@@ -1109,6 +1186,15 @@
 		0EB888271A3820590054F982 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0E9605681A6E24B700791E4E /* TextFieldComment.png */,
+				0E9605691A6E24B700791E4E /* TextFieldComment@2x.png */,
+				0E9605641A6E236500791E4E /* IconAddComment.png */,
+				0E9605651A6E236500791E4E /* IconAddComment@2x.png */,
+				0E9605441A6D726C00791E4E /* AvatarPlaceholder.png */,
+				0E9605451A6D726C00791E4E /* AvatarPlaceholder@2x.png */,
+				0E9605461A6D726C00791E4E /* AvatarPlaceholderBig.png */,
+				0E9605471A6D726C00791E4E /* AvatarPlaceholderBig@2x.png */,
+				0E9605351A6D64CC00791E4E /* notification-32.png */,
 				0E405D4A1A679EE30044B60A /* books_48x48.png */,
 				0E405D481A679E770044B60A /* camera_64x64.png */,
 				0E405D461A679D750044B60A /* sports_32x32.png */,
@@ -1234,6 +1320,10 @@
 		4530733C1A1550AE0010B5A1 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				0E96056C1A6E49FC00791E4E /* Reachability.h */,
+				0E96056D1A6E49FC00791E4E /* Reachability.m */,
+				0E96053E1A6D710100791E4E /* TTTTimeIntervalFormatter.h */,
+				0E96053F1A6D710100791E4E /* TTTTimeIntervalFormatter.m */,
 				45D2C44A1A65CB32006ADB53 /* MBProgressHUD */,
 				0E86AA5C1A493B4B000C71E8 /* MGSwipeTableCell */,
 				0ECAC36419FF2983002866DE /* SMPageControl */,
@@ -1653,6 +1743,7 @@
 				TargetAttributes = {
 					0E17BECD19FC8BAE0042C4DD = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 8LWS69DJWZ;
 					};
 					0E17BEE619FC8BAE0042C4DD = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -1710,11 +1801,13 @@
 				45C6C6231A5D1BD500913660 /* location.png in Resources */,
 				457DA23E1A5E35660099E52E /* chat_blank@2x.png in Resources */,
 				0ECAC35E19FF1BCC002866DE /* button.png in Resources */,
+				0E9605491A6D726C00791E4E /* AvatarPlaceholder@2x.png in Resources */,
 				0E17BEDD19FC8BAE0042C4DD /* Main.storyboard in Resources */,
 				0E50F1361A1476FB0048FA27 /* shot_h@2x.png in Resources */,
 				0ECAC35F19FF1BCC002866DE /* button-pressed@2x.png in Resources */,
 				0E0019D11A0B3F660086CD77 /* Ariel1.png in Resources */,
 				45C6C61F1A5D1A9A00913660 /* dollar-32.png in Resources */,
+				0E9605481A6D726C00791E4E /* AvatarPlaceholder.png in Resources */,
 				457AC6EF1A5C6AF400BFC619 /* pageDot.png in Resources */,
 				0E405D471A679D750044B60A /* sports_32x32.png in Resources */,
 				457AC6CB1A5C69B600BFC619 /* Intro.storyboard in Resources */,
@@ -1742,6 +1835,7 @@
 				457DA2441A5E51DD0099E52E /* NO_Messages-2-512.png in Resources */,
 				0E405D3B1A67896E0044B60A /* addItem.png in Resources */,
 				0EE499821A1016690046B3C7 /* LoginWithFacebook.png in Resources */,
+				0E9605671A6E236500791E4E /* IconAddComment@2x.png in Resources */,
 				457DA2221A5E2FD00099E52E /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				45F2C0711A51DA3E0004D476 /* NeedTableViewCell.xib in Resources */,
 				457AC6FE1A5C86F000BFC619 /* CreateActivityViewController.xib in Resources */,
@@ -1756,6 +1850,8 @@
 				457AC6F01A5C6AF400BFC619 /* pageDot@2x.png in Resources */,
 				0ECAC37419FF2B78002866DE /* Details2.png in Resources */,
 				457DA2461A5E51FB0099E52E /* NO_Messages-2-256.png in Resources */,
+				0E9605361A6D64CC00791E4E /* notification-32.png in Resources */,
+				0E9605661A6E236500791E4E /* IconAddComment.png in Resources */,
 				457DA2181A5E2FD00099E52E /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
 				0E17BF8F19FE04800042C4DD /* collections2.png in Resources */,
 				0EDF3FF91A21B02B0034C6F4 /* transparent.png in Resources */,
@@ -1774,12 +1870,14 @@
 				0ECAC3BB1A01D4AA002866DE /* CameraOverlayViewController.xib in Resources */,
 				0E405D4B1A679EE30044B60A /* books_48x48.png in Resources */,
 				0ECAC36919FF2983002866DE /* LICENSE in Resources */,
+				0E96054B1A6D726C00791E4E /* AvatarPlaceholderBig@2x.png in Resources */,
 				0E405D491A679E770044B60A /* camera_64x64.png in Resources */,
 				457DA2161A5E2FD00099E52E /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				0E17BF9819FE04800042C4DD /* tab1.png in Resources */,
 				457DA1F81A5E2FD00099E52E /* JSQMessagesAssets.bundle in Resources */,
 				45D2C4461A65C050006ADB53 /* Default-763h@3x.png in Resources */,
 				0E17BF9C19FE04800042C4DD /* tab5.png in Resources */,
+				0E96056A1A6E24B700791E4E /* TextFieldComment.png in Resources */,
 				0E17BF9B19FE04800042C4DD /* tab4.png in Resources */,
 				457AC6F51A5C6AF400BFC619 /* title4@2x.png in Resources */,
 				457DA21D1A5E2FD00099E52E /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
@@ -1803,6 +1901,7 @@
 				0E405D3F1A6792D40044B60A /* find-32.png in Resources */,
 				0E0019DF1A0E948F0086CD77 /* sliderMaxTrack@2x.png in Resources */,
 				457DA2201A5E2FD00099E52E /* JSQMessagesToolbarContentView.xib in Resources */,
+				0E96054A1A6D726C00791E4E /* AvatarPlaceholderBig.png in Resources */,
 				0E17BF9119FE04800042C4DD /* collections4.png in Resources */,
 				0E17BF9919FE04800042C4DD /* tab2.png in Resources */,
 				457AC6EA1A5C6AF400BFC619 /* bg4@2x.png in Resources */,
@@ -1811,6 +1910,7 @@
 				0E17BF9319FE04800042C4DD /* collections6.png in Resources */,
 				457AC6F41A5C6AF400BFC619 /* title3@2x.png in Resources */,
 				0E17BF8E19FE04800042C4DD /* collections1.png in Resources */,
+				0E96056B1A6E24B700791E4E /* TextFieldComment@2x.png in Resources */,
 				0E17BF9219FE04800042C4DD /* collections5.png in Resources */,
 				45C6C6331A5D24B100913660 /* money-orange-32.png in Resources */,
 				457AC6EE1A5C6AF400BFC619 /* icon3@2x.png in Resources */,
@@ -1840,9 +1940,12 @@
 				0E17BF6419FDFA7F0042C4DD /* LoginViewController.m in Sources */,
 				45D2C4351A6334BA006ADB53 /* FormDetailViewController.m in Sources */,
 				457DA14D1A5E2F4C0099E52E /* MessagesView.m in Sources */,
+				0E96055A1A6DD05C00791E4E /* ItemDetailsHeaderView.m in Sources */,
 				0E17BF5119FDD1250042C4DD /* MyCameraViewController.m in Sources */,
 				457DA2311A5E30170099E52E /* messages.m in Sources */,
 				457DA1881A5E2FBA0099E52E /* UIProgressView+AFNetworking.m in Sources */,
+				0E9605541A6DB76100791E4E /* SettingsActionSheetDelegate.m in Sources */,
+				0E96055D1A6DF8DE00791E4E /* ItemCommentFooterView.m in Sources */,
 				457DA2491A5F22560099E52E /* UpdateOfferDetailsViewController.m in Sources */,
 				0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */,
 				457DA1811A5E2FBA0099E52E /* AFURLResponseSerialization.m in Sources */,
@@ -1856,6 +1959,7 @@
 				45F2C0701A51DA3E0004D476 /* NeedTableViewCell.m in Sources */,
 				457DA18A1A5E2FBA0099E52E /* UIWebView+AFNetworking.m in Sources */,
 				4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */,
+				0E96053D1A6D69A900791E4E /* NotificationTableViewCell.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
 				457DA20E1A5E2FD00099E52E /* JSQMessagesAvatarImage.m in Sources */,
 				0E03ACC51A1F191C00827B6C /* MySettingsViewController.m in Sources */,
@@ -1906,6 +2010,7 @@
 				457DA2011A5E2FD00099E52E /* JSQMessagesViewController.m in Sources */,
 				457DA1801A5E2FBA0099E52E /* AFURLRequestSerialization.m in Sources */,
 				45D2C4491A65CA1B006ADB53 /* MBProgressHUD.m in Sources */,
+				0E9605431A6D71E200791E4E /* ProfileImageView.m in Sources */,
 				457DA2211A5E2FD00099E52E /* JSQMessagesTypingIndicatorFooterView.m in Sources */,
 				0E86AA5A1A493B45000C71E8 /* MGSwipeButton.m in Sources */,
 				457DA1831A5E2FBA0099E52E /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -1917,9 +2022,11 @@
 				0E17BED419FC8BAE0042C4DD /* main.m in Sources */,
 				457DA2121A5E2FD00099E52E /* JSQMessagesCellTextView.m in Sources */,
 				457DA23A1A5E30730099E52E /* ProgressHUD.m in Sources */,
+				0E9605391A6D661800791E4E /* NotificationsViewController.m in Sources */,
 				457DA2141A5E2FD00099E52E /* JSQMessagesCollectionViewCell.m in Sources */,
 				457DA21A1A5E2FD00099E52E /* JSQMessagesInputToolbar.m in Sources */,
 				0E86AA761A4CB7AE000C71E8 /* NeedsManager.m in Sources */,
+				0E96056E1A6E49FC00791E4E /* Reachability.m in Sources */,
 				457DA2041A5E2FD00099E52E /* JSQMessagesBubbleImageFactory.m in Sources */,
 				457DA1FC1A5E2FD00099E52E /* UIColor+JSQMessages.m in Sources */,
 				457DA2061A5E2FD00099E52E /* JSQMessagesTimestampFormatter.m in Sources */,
@@ -1939,14 +2046,18 @@
 				45D2C42B1A622688006ADB53 /* MyCameraManager.m in Sources */,
 				457DA1FA1A5E2FD00099E52E /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
 				0E17BF5419FDD1430042C4DD /* MyProfileViewController.m in Sources */,
+				0E9605571A6DCF8700791E4E /* ItemCommentViewController.m in Sources */,
+				0E9605401A6D710100791E4E /* TTTTimeIntervalFormatter.m in Sources */,
 				0E2A12541A052AF90036F8EB /* OffersManager.m in Sources */,
 				457DA17A1A5E2FBA0099E52E /* AFHTTPRequestOperation.m in Sources */,
+				0E9605631A6E1D9000791E4E /* itemCommentView.m in Sources */,
 				457DA2131A5E2FD00099E52E /* JSQMessagesCollectionView.m in Sources */,
 				457DA1871A5E2FBA0099E52E /* UIImageView+AFNetworking.m in Sources */,
 				457DA21C1A5E2FD00099E52E /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				457DA17E1A5E2FBA0099E52E /* AFSecurityPolicy.m in Sources */,
 				457DA21F1A5E2FD00099E52E /* JSQMessagesToolbarContentView.m in Sources */,
 				0ECAC39319FF5880002866DE /* MainCollectionView.m in Sources */,
+				0E96054E1A6D74BF00791E4E /* BaseTextCell.m in Sources */,
 				457AC6D51A5C6A2F00BFC619 /* EAIntroPage.m in Sources */,
 				0E17BEFC19FC927A0042C4DD /* ItemDetailViewController.m in Sources */,
 				457DA17B1A5E2FBA0099E52E /* AFHTTPRequestOperationManager.m in Sources */,
@@ -2105,6 +2216,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2129,6 +2241,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

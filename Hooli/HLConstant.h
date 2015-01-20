@@ -117,6 +117,7 @@ extern NSString *const kHLOfferPhotKeyPhoto;
 
 extern NSString *const kHLCloudOfferClass;
 extern NSString *const kHLCloudActivityClass;
+extern NSString *const kHLCloudNotificationClass;
 extern NSString *const kHLCloudNeedClass;
 extern NSString *const kHLCloudUserClass;
 
@@ -134,5 +135,24 @@ extern NSString *const kHLOfferAttributesLikeCountKey;
 extern NSString *const kHLOfferAttributesLikersKey;
 extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
 extern NSString *const kHLOfferAttributesLikerdOffersKey;
+
+
+extern NSString *const kHLNotificationTypeKey;
+extern NSString *const kHLNotificationFromUserKey;
+extern NSString *const kHLNotificationToUserKey;
+extern NSString *const kHLNotificationContentKey;
+extern NSString *const kHLNotificationOfferKey;
+
+
+extern NSString *const kHLNotificationTypeLike;
+extern NSString *const kHLNotificationTypeFollow ;
+extern NSString *const kHLNotificationTypeComment;
+extern NSString *const kHLNotificationTypeJoined;
+
+extern NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification;
+extern NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey;
+extern NSString *const kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification;
+extern NSString *const kHLUtilityDidFinishProcessingProfilePictureNotification;
+extern NSString *const kHLItemDetailsUserCommentedNotification;
 
 @end

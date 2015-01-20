@@ -12,6 +12,7 @@
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "HLConstant.h"
 #import "ChattingManager.h"
+#import "ProfileImageView.h"
 //#import "ChatListCell.h"
 typedef void (^UploadSuccessBlock) ();
 typedef void (^UploadFailureBlock) (id error);
@@ -37,7 +38,7 @@ typedef void (^DownloadFailureBlock) (id error);
 -(NSString *)getGender;
 
 -(void)submitUserInfoFromSignup:(UserModel *)userModel block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
-
+- (void)setUserProfilePicture:(ProfileImageView *)profileImageView withUserId:(NSString *)userId;
 - (void)setUserFacebookProfilePicture:(UIImageView *)profileImageView;
 - (void)setUserProfilePicture:(UIImageView *)profileImageView;
 - (void)loadFaceBookAccountDataWithSuccess:(DownloadSuccessBlock)success

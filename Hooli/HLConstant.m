@@ -73,19 +73,18 @@ NSString *const kHLNeedsModelKeyName = @"name";
 NSString *const kHLNeedsModelKeyGeoPoint = @"geoPoint";
 NSString *const kHLNeedsModelKeyStatus = @"status";
 
-
 NSString *const kHLOfferPhotoKeyOfferID = @"offerID";
 NSString *const kHLOfferPhotKeyPhoto = @"photo";
 
-
 NSString *const kHLCloudOfferClass = @"Offer";
 NSString *const kHLCloudNeedClass = @"Need";
+NSString *const kHLCloudNotificationClass = @"Notification";
+
 NSString *const kHLCloudUserClass = @"_User";
 NSString *const kHLCloudActivityClass = @"Activity";
 
 NSString *const kHLActivityKeyOffer = @"offer";
 NSString *const kHLActivityKeyUser = @"user";
-
 
 NSString *const kHLFilterDictionarySearchType = @"searchType";
 NSString *const kHLFilterDictionarySearchKeyCategory = @"searchByCategory";
@@ -93,12 +92,26 @@ NSString *const kHLFilterDictionarySearchKeyWords = @"searchByWords";
 NSString *const kHLFilterDictionarySearchKeyUser = @"searchByUser";
 NSString *const kHLFilterDictionarySearchKeyUserLikes = @"searchByUserLikes";
 
-
 NSString *const kHLOfferAttributesLikeCountKey = @"likeCount";
 NSString *const kHLOfferAttributesLikersKey = @"likers";
 NSString *const kHLOfferAttributesLikerdOffersKey = @"likedOffers";
-
 NSString *const kHLOfferAttributesIsLikedByCurrentUserKey = @"islikedByCurrentUser";
 
+NSString *const kHLNotificationTypeKey = @"type";
+NSString *const kHLNotificationFromUserKey = @"fromUser";
+NSString *const kHLNotificationToUserKey = @"toUser";
+NSString *const kHLNotificationContentKey = @"content";
+NSString *const kHLNotificationOfferKey = @"offer";
+
+NSString *const kHLNotificationTypeLike       = @"like";
+NSString *const kHLNotificationTypeFollow     = @"follow";
+NSString *const kHLNotificationTypeComment    = @"comment";
+NSString *const kHLNotificationTypeJoined     = @"joined";
+
+NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification = @"com.Hooli.ApplicationDidReceiveRemoteNotification";
+NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey = @"com.Hooli.Feed.lastRefresh";
+NSString *const kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification = @"com.Hooli.userLikedUnlikedPhotoCallbackFinished";
+NSString *const kHLUtilityDidFinishProcessingProfilePictureNotification  = @"com.Hooli.didFinishProcessingProfilePictureNotification";
+NSString *const kHLItemDetailsUserCommentedNotification = @"com.Hooli.itemDetailsUserCommentedNotification";
 
 @end

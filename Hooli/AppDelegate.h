@@ -10,6 +10,7 @@
 //#import "EaseMob.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 //@interface AppDelegate : UIResponder <UIApplicationDelegate,IChatManagerDelegate>
+@property (nonatomic, readonly) int networkStatus;
 
 @property (strong, nonatomic) UIWindow *window;
 
