@@ -12,6 +12,7 @@
 #import "NotificationTableViewCell.h"
 #import "MBProgressHUD.h"
 #import "OffersManager.h"
+#import "AccountManager.h"
 #import "OfferModel.h"
 @interface ItemCommentViewController ()
 @property (nonatomic, strong) UITextField *commentTextField;
@@ -132,6 +133,8 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     // Register to be notified when the keyboard will be shown to scroll the view
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLikedOrUnlikedPhoto:) name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
+    
+    
 }
 
 

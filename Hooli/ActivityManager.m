@@ -157,7 +157,7 @@
 }
 
 - (void)getLikedOffersByUser:(PFUser *)user WithSuccess:(DownloadSuccessBlock)success
-                                                Failure:(DownloadFailureBlock)failure{
+                     Failure:(DownloadFailureBlock)failure{
     
     _downloadSuccess = success ;
     _downloadFailure = failure;
@@ -184,11 +184,11 @@
             
             [[HLCache sharedCache] setLikedOffersByUser:user likedOffers:likedOffers];
             
-
+            
         }
         else{
             
-       
+            
             _downloadFailure(nil);
             
         }
@@ -196,6 +196,269 @@
         
         
     }];
+}
+
+
+#pragma mark follow activity
+
+- (void)followUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    //can not follow self
+    
+    if([user.objectId isEqual:[[PFUser currentUser]objectId]])
+        return;
+    
+    PFQuery *queryExistingFollowing = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [queryExistingFollowing whereKey:kHLNotificationToUserKey equalTo: user];
+    [queryExistingFollowing whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
+    [queryExistingFollowing setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryExistingFollowing findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+        
+        if (!error) {
+            for (PFObject *activity in activities) {
+                [activity deleteInBackground];
+            }
+        }
+        // proceed to creating new like
+        
+        PFObject *followActivity = [PFObject objectWithClassName:kHLCloudNotificationClass];
+        [followActivity setObject:user forKey:kHLNotificationToUserKey];
+        [followActivity setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+        [followActivity setObject:kHLNotificationTypeFollow forKey:kHLNotificationTypeKey];
+        //                [likeActivity setObject:offer.offerId forKey:kHLActivityKeyOffer];
+        //                [likeActivity setObject:[[PFUser currentUser]objectId ] forKey:kHLActivityKeyUser];
+        PFACL *followACL = [PFACL ACLWithUser:[PFUser currentUser]];
+        [followACL setPublicReadAccess:YES];
+        [followACL setWriteAccess:YES forUser:[PFUser currentUser]];
+        followActivity.ACL = followACL;
+        
+        [followActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (completionBlock) {
+                completionBlock(succeeded,error);
+                if(succeeded){
+                    NSLog(@"Follow success");
+                }
+                
+            }
+            
+        }];
+        
+    }];
+    
+    
+}
+- (void)unFollowUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    //can not unfollow self
+    if([user.objectId isEqual:[[PFUser currentUser]objectId]])
+        return;
+    
+    PFQuery *queryExistingFollowing = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [queryExistingFollowing whereKey:kHLNotificationToUserKey equalTo:user];
+    [queryExistingFollowing whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+    [queryExistingFollowing whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
+    [queryExistingFollowing setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryExistingFollowing findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+        if (!error) {
+            for (PFObject *activity in activities) {
+                [activity delete];
+            }
+            if (completionBlock) {
+                
+                NSLog(@"Unfollow success");
+                completionBlock(YES,nil);
+            }
+        }
+        else{
+            
+            if (completionBlock) {
+                completionBlock(NO,nil);
+            }
+            
+        }
+        
+    }];
+}
+
+- (void)getFollowersByUser:(PFUser *)user
+               WithSuccess:(DownloadSuccessBlock)success
+                   Failure:(DownloadFailureBlock)failure{
+    
+    _downloadSuccess = success ;
+    _downloadFailure = failure;
+    
+    NSMutableArray *followersArray = [NSMutableArray array];
+    
+    PFQuery *queryFollwers = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [queryFollwers includeKey:kHLNotificationFromUserKey];
+    [queryFollwers whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+    [queryFollwers whereKey:kHLNotificationToUserKey equalTo:user];
+    [queryFollwers findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            for (PFObject *object in objects) {
+                
+                PFUser *follower = [object objectForKey:kHLNotificationFromUserKey];
+                
+                [followersArray addObject:follower];
+                
+            }
+            
+            NSLog(@"Get followers %d", [followersArray count]);
+            
+            _downloadSuccess(followersArray);
+            // [[HLCache sharedCache] setLikedOffersByUser:user likedOffers:likedOffers];
+        }
+        else{
+            
+            _downloadFailure(nil);
+        }
+        
+    }];
+    
+    
+}
+
+- (void)getFollowedUsersByUser:(PFUser *)user
+                   WithSuccess:(DownloadSuccessBlock)success
+                       Failure:(DownloadFailureBlock)failure{
+    
+    _downloadSuccess = success ;
+    _downloadFailure = failure;
+    
+    NSMutableArray *followedUsersArray = [NSMutableArray array];
+    
+    PFQuery *queryFollowee = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [queryFollowee includeKey:kHLNotificationToUserKey];
+    [queryFollowee whereKey:kHLNotificationFromUserKey equalTo:user];
+    [queryFollowee whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+    [queryFollowee findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            for (PFObject *object in objects) {
+                
+                PFUser *followedUser = [object objectForKey:kHLNotificationToUserKey];
+                
+                [followedUsersArray addObject:followedUser];
+                
+            }
+            NSLog(@"Get followed users %d", [followedUsersArray count]);
+            
+            _downloadSuccess(followedUsersArray);
+            
+            // [[HLCache sharedCache] setLikedOffersByUser:user likedOffers:likedOffers];
+        }
+        else{
+            
+            _downloadFailure(nil);
+            
+        }
+        
+    }];
+    
+}
+
+
+
+- (void)getFriendsByUser:(PFUser *)user
+             WithSuccess:(DownloadSuccessBlock)success
+                 Failure:(DownloadFailureBlock)failure{
+    
+    _downloadSuccess = success ;
+    _downloadFailure = failure;
+    
+    NSMutableArray *friendsArray = [NSMutableArray array];
+    
+    PFQuery *followeeQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [followeeQuery whereKey:kHLNotificationFromUserKey equalTo:user];
+    [followeeQuery whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+    
+    PFQuery *friendsQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [friendsQuery whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+    [friendsQuery whereKey:kHLNotificationToUserKey equalTo:user];
+    [friendsQuery whereKey:kHLNotificationFromUserKey matchesKey:kHLNotificationToUserKey inQuery:followeeQuery];
+    
+    [friendsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (!error) {
+            NSLog(@"objects %@",objects);
+            
+            for (PFObject *object in objects) {
+                
+                PFUser *friend = [object objectForKey:kHLNotificationFromUserKey];
+                
+                [friendsArray addObject:friend];
+                
+            }
+            
+            _downloadSuccess(friendsArray);
+            
+        }
+        
+        _downloadFailure(nil);
+        
+    }];
+    
+}
+
+- (void)getUserRelationshipWithUserOne:(PFUser *)user1
+                               UserTwo:(PFUser *)user2
+                             WithBlock:(void (^)(RelationshipType relationType, NSError *error))completionBlock{
+    
+    
+    __block RelationshipType relationType = HL_RELATIONSHIP_TYPE_NONE;
+    
+    PFQuery *followeeQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [followeeQuery whereKey:kHLNotificationFromUserKey equalTo:user1];
+    [followeeQuery whereKey:kHLNotificationToUserKey equalTo:user2];
+    [followeeQuery whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+    [followeeQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if([objects count]!=0){
+            
+            relationType = HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
+            
+            PFQuery *followerQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+            [followerQuery whereKey:kHLNotificationFromUserKey equalTo:user2];
+            [followerQuery whereKey:kHLNotificationToUserKey equalTo:user1];
+            [followerQuery whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+            [followerQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if(objects){
+                    
+                    relationType = HL_RELATIONSHIP_TYPE_FRIENDS;
+                    completionBlock(relationType,nil);
+                    
+                }
+                
+            }];
+            
+        }
+        else{
+            
+            PFQuery *followerQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+            [followerQuery whereKey:kHLNotificationFromUserKey equalTo:user2];
+            [followerQuery whereKey:kHLNotificationToUserKey equalTo:user1];
+            [followerQuery whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
+            [followerQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                
+                if([objects count]!=0){
+                    
+                    relationType = HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
+                    completionBlock(relationType,nil);
+                    
+                }
+                else{
+                    
+                    completionBlock(relationType,nil);
+                    
+                }
+                
+            }];
+            
+        }
+        
+    }];
+    
+
 }
 
 @end

@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "OfferModel.h"
+
+typedef enum{
+    HL_RELATIONSHIP_TYPE_NONE = 1,
+    HL_RELATIONSHIP_TYPE_FRIENDS,
+    HL_RELATIONSHIP_TYPE_IS_FOLLOWED,
+    HL_RELATIONSHIP_TYPE_IS_FOLLOWING,
+    
+} RelationshipType;
+
 typedef void (^DownloadSuccessBlock) (id downloadObjects);
 typedef void (^DownloadFailureBlock) (id error);
 
@@ -28,5 +37,22 @@ typedef void (^UploadFailureBlock) (id error);
 - (void)setOfferLikesCount:(UILabel *)label withOffer:(OfferModel *)offer;
 - (void)isOfferLikedByCurrentUser:(OfferModel *)offer block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 - (void)getLikedOffersByUser:(PFUser *)user WithSuccess:(DownloadSuccessBlock)success
-                                                Failure:(DownloadFailureBlock)failure;
+                     Failure:(DownloadFailureBlock)failure;
+
+
+- (void)followUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+- (void)unFollowUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+- (void)getFollowersByUser:(PFUser *)user
+               WithSuccess:(DownloadSuccessBlock)success
+                   Failure:(DownloadFailureBlock)failure;
+- (void)getFollowedUsersByUser:(PFUser *)user
+                   WithSuccess:(DownloadSuccessBlock)success
+                       Failure:(DownloadFailureBlock)failure;
+- (void)getFriendsByUser:(PFUser *)user
+             WithSuccess:(DownloadSuccessBlock)success
+                 Failure:(DownloadFailureBlock)failure;
+- (void)getUserRelationshipWithUserOne:(PFUser *)user1
+                               UserTwo:(PFUser *)user2
+                             WithBlock:(void (^)(RelationshipType relationType, NSError *error))completionBlock;
+
 @end
