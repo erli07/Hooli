@@ -168,7 +168,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 //            nameString = [commentAuthor objectForKey:kHLUserModelKeyUserName];
 //        }
 //        
-        return [NotificationTableViewCell heightForCellWithName:@"aaaaaaaaaaaaaaaaa" contentString:commentString cellInsetWidth:kHLCellInsetWidth];
+        return [NotificationTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLUserModelKeyUserName] contentString:commentString cellInsetWidth:kHLCellInsetWidth];
         
     }
     
