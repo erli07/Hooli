@@ -71,7 +71,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
         [self.nameButton setBackgroundColor:[UIColor clearColor]];
         
         if ([reuseIdentifier isEqualToString:@"CommentCell"]) {
-            [self.nameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [self.nameButton setTitleColor:[UIColor colorWithRed:34.0f/255.0f green:34.0f/255.0f blue:34.0f/255.0f alpha:1.0f]  forState:UIControlStateNormal];
             [self.nameButton setTitleColor:[UIColor colorWithRed:114.0f/255.0f green:114.0f/255.0f blue:114.0f/255.0f alpha:1.0f] forState:UIControlStateHighlighted];
         } else {
             [self.nameButton setTitleColor:[UIColor colorWithRed:34.0f/255.0f green:34.0f/255.0f blue:34.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
@@ -240,8 +240,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
 //        [self.avatarImageView setImage:[PAPUtility defaultProfilePicture]];
 //    }
 //    
-//    [self.nameButton setTitle:[self.user objectForKey:kPAPUserDisplayNameKey] forState:UIControlStateNormal];
-//    [self.nameButton setTitle:[self.user objectForKey:kPAPUserDisplayNameKey] forState:UIControlStateHighlighted];
+    [self.nameButton setTitle:[self.user objectForKey:kHLUserModelKeyUserName] forState:UIControlStateNormal];
+    [self.nameButton setTitle:[self.user objectForKey:kHLUserModelKeyUserName] forState:UIControlStateHighlighted];
     
     // If user is set after the contentText, we reset the content to include padding
     if (self.contentLabel.text) {

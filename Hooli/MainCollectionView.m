@@ -9,6 +9,7 @@
 #import "MainCollectionView.h"
 #import "ItemCell.h"
 #import "DataSource.h"
+#import <malloc/malloc.h>
 #import "HLTheme.h"
 #import "OffersManager.h"
 #import <Parse/Parse.h>
@@ -56,9 +57,13 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)updateDataFromCloud{
     
+    NSLog(@"Start loading" );
+
     if(!self.isLoading){
         
         self.isLoading = YES;
+        NSLog(@"In loading" );
+ 
         
         HUD = [[MBProgressHUD alloc] initWithView:self];
         [self addSubview:HUD];
@@ -73,7 +78,8 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 [self reloadData];
             }
-            
+            NSLog(@"Loading over" );
+
             self.isLoading = NO;
             
             [HUD hide:YES];
@@ -81,7 +87,7 @@ static NSString * const reuseIdentifier = @"Cell";
             
         } failure:^(id error) {
             
-            NSLog(@"Retrived Images Error %@",[error description] );
+          //  NSLog(@"Retrived Images Error %@",[error description] );
             
             self.isLoading = NO;
             
@@ -159,7 +165,12 @@ static NSString * const reuseIdentifier = @"Cell";
     
     ItemCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
+    
     OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
+    
+//    NSLog(@"GET DATA SIZE %lu k", sizeof(offer) );
+//    NSLog(@"Size of %@: %zd k", NSSt       ringFromClass([OfferModel class]), malloc_size((__bridge const void *) offer));
+
     
     [cell updateCellWithOfferModel:offer];
     

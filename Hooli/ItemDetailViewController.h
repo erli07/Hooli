@@ -10,6 +10,8 @@
 #import "SMPageControl.h"
 #import <MessageUI/MessageUI.h>
 #import "OfferModel.h"
+#import "ItemCommentViewController.h"
+
 @protocol UpdateCollectionViewDelegate;
 
 
@@ -24,7 +26,6 @@
 @property (nonatomic, strong) OfferModel *offerObject;
 @property (weak, nonatomic) IBOutlet UIImageView *soldImageView;
 @property (nonatomic, strong) NSString *userID;
-@property (weak, nonatomic) IBOutlet UIView *bottomButtonsView;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
@@ -36,8 +37,11 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
+@property (nonatomic, strong) ItemCommentViewController *commentVC;
 @property (weak, nonatomic) IBOutlet SMPageControl *pageControl;
 @property (nonatomic, assign) BOOL isFirstPosted;
+@property (weak, nonatomic) IBOutlet UIButton *makeOfferButton;
+- (IBAction)makeOffer:(id)sender;
 - (IBAction)likeButtonPressed:(id)sender;
 - (IBAction)addToCart:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *seeMapButton;

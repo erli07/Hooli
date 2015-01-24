@@ -9,10 +9,13 @@
 #import <Parse/Parse.h>
 #import "ItemDetailsHeaderView.h"
 #import "BaseTextCell.h"
+#import "OfferModel.h"
 
 @interface ItemCommentViewController : PFQueryTableViewController<UITextFieldDelegate, UIActionSheetDelegate, BaseTextCellDelegate>
-@property (nonatomic, strong) PFObject *offer;
+@property (nonatomic, strong) OfferModel *offer;
 
-- (id)initWithOffer:(PFObject*)aOffer;
+- (id)initWithOffer:(OfferModel*)aOffer;
+
+-(NSInteger )getViewHeight;
 
 @end

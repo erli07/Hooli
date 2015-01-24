@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="QaB-Df-H42">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="QaB-Df-H42">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -29,39 +29,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="zsI-w5-9h6">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WKH-hQ-Kzv">
-                                        <rect key="frame" x="0.0" y="524" width="160" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <state key="normal" title="Like" backgroundImage="button.png">
-                                            <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="likeButtonPressed:" destination="77g-qC-D7O" eventType="touchUpInside" id="wMo-ke-cPw"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="KCR-Rf-s8T">
-                                        <rect key="frame" x="160" y="524" width="160" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <state key="normal" title="Contact" backgroundImage="button.png">
-                                            <color key="titleColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="contactSeller:" destination="77g-qC-D7O" eventType="touchUpInside" id="UJU-7g-pni"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Gob-r8-OIz">
-                                <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="j97-W2-0Sx">
@@ -167,6 +136,28 @@
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="KCR-Rf-s8T">
+                                                <rect key="frame" x="55" y="451" width="216" height="37"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="1" green="0.46241210360000001" blue="0.40053151679999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                <state key="normal" title="Make Offer" backgroundImage="button.png">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="makeOffer:" destination="77g-qC-D7O" eventType="touchUpInside" id="7pw-aB-Ol8"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TBu-QB-LUK">
+                                                <rect key="frame" x="178" y="260" width="48" height="48"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="likeButtonPressed:" destination="77g-qC-D7O" eventType="touchUpInside" id="i0v-AK-AdT"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -177,12 +168,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ora-Cm-AdR"/>
                     <connections>
-                        <outlet property="bottomButtonsView" destination="zsI-w5-9h6" id="oFe-wq-tfj"/>
                         <outlet property="categoryLabel" destination="yZu-fU-gVe" id="e96-tT-9Z4"/>
                         <outlet property="contentView" destination="7Lb-uX-yZt" id="7vp-lO-oBr"/>
                         <outlet property="itemNameLabel" destination="dAf-Fd-LF2" id="wD8-wu-6O5"/>
-                        <outlet property="likeButton" destination="WKH-hQ-Kzv" id="MIV-Fg-269"/>
+                        <outlet property="likeButton" destination="TBu-QB-LUK" id="iwn-i8-62x"/>
                         <outlet property="locationLabel" destination="mTc-zl-rGP" id="Oqz-hg-ClM"/>
+                        <outlet property="makeOfferButton" destination="KCR-Rf-s8T" id="Ntr-rG-vLV"/>
                         <outlet property="offerDescription" destination="c0d-D6-kgT" id="Vdj-yB-dZz"/>
                         <outlet property="offerDetailView" destination="j97-W2-0Sx" id="k5u-ze-eGd"/>
                         <outlet property="pageControl" destination="LEs-X2-OTS" id="j3A-to-0eq"/>

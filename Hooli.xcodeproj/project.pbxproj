@@ -165,6 +165,8 @@
 		0EE4998A1A101A7D0046B3C7 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EE499891A101A7D0046B3C7 /* Login.storyboard */; };
 		0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */; };
 		0EE499941A1029080046B3C7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE499931A1029080046B3C7 /* UserModel.m */; };
+		0EFA0ECF1A72174500A05ABC /* unlike-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ECE1A72174500A05ABC /* unlike-48.png */; };
+		0EFA0ED31A7217DF00A05ABC /* like-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ED21A7217DF00A05ABC /* like-48.png */; };
 		4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADE81A15577C00486C43 /* HLUtilities.m */; };
 		4510ADEC1A15C6CC00486C43 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADEB1A15C6CC00486C43 /* ActivityManager.m */; };
 		4530733F1A1550E30010B5A1 /* HLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4530733E1A1550E30010B5A1 /* HLCache.m */; };
@@ -533,6 +535,8 @@
 		0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		0EE499921A1029080046B3C7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		0EE499931A1029080046B3C7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		0EFA0ECE1A72174500A05ABC /* unlike-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlike-48.png"; sourceTree = "<group>"; };
+		0EFA0ED21A7217DF00A05ABC /* like-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like-48.png"; sourceTree = "<group>"; };
 		4510ADE71A15577C00486C43 /* HLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLUtilities.h; sourceTree = "<group>"; };
 		4510ADE81A15577C00486C43 /* HLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLUtilities.m; sourceTree = "<group>"; };
 		4510ADEA1A15C6CC00486C43 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityManager.h; sourceTree = "<group>"; };
@@ -1186,6 +1190,8 @@
 		0EB888271A3820590054F982 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0EFA0ED21A7217DF00A05ABC /* like-48.png */,
+				0EFA0ECE1A72174500A05ABC /* unlike-48.png */,
 				0E9605681A6E24B700791E4E /* TextFieldComment.png */,
 				0E9605691A6E24B700791E4E /* TextFieldComment@2x.png */,
 				0E9605641A6E236500791E4E /* IconAddComment.png */,
@@ -1867,6 +1873,7 @@
 				0E03ACC71A1F195500827B6C /* Profile.storyboard in Resources */,
 				0E17BEDF19FC8BAE0042C4DD /* Images.xcassets in Resources */,
 				0E86AA671A4B3B4B000C71E8 /* NeedsCell.xib in Resources */,
+				0EFA0ED31A7217DF00A05ABC /* like-48.png in Resources */,
 				0ECAC3BB1A01D4AA002866DE /* CameraOverlayViewController.xib in Resources */,
 				0E405D4B1A679EE30044B60A /* books_48x48.png in Resources */,
 				0ECAC36919FF2983002866DE /* LICENSE in Resources */,
@@ -1883,6 +1890,7 @@
 				457DA21D1A5E2FD00099E52E /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				457AC6E91A5C6AF400BFC619 /* bg3@2x.png in Resources */,
 				0ECAC36019FF1BCC002866DE /* button@2x.png in Resources */,
+				0EFA0ECF1A72174500A05ABC /* unlike-48.png in Resources */,
 				45C6C62F1A5D223200913660 /* map-32.png in Resources */,
 				457DA2421A5E50B60099E52E /* NO_Messages-2-128.png in Resources */,
 				45C6C6291A5D1DD000913660 /* message.png in Resources */,

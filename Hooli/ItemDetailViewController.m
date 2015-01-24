@@ -40,12 +40,15 @@
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,bottomButtonsView,userID,soldImageView,chattingId,isFirstPosted;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,userID,soldImageView,chattingId,isFirstPosted,commentVC;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
+    
+    
     [self configureUIElements];
+    
     
     //  [self getOfferDetailsFromCloud];
     
@@ -112,7 +115,7 @@
     
     if(!self.offerObject){
         
-        self.bottomButtonsView.hidden = NO;
+        //self.bottomButtonsView.hidden = NO;
         
         HUD = [[MBProgressHUD alloc] initWithView:self.view];
         [self.view addSubview:HUD];
@@ -168,9 +171,9 @@
         
         [self updateOfferDetailInfo:self.offerObject];
         
-        self.bottomButtonsView.hidden = YES;
+        //self.bottomButtonsView.hidden = YES;
         
-        [self.parentScrollView setContentSize:self.contentView.frame.size];
+        //        [self.parentScrollView setContentSize:self.contentView.frame.size];
         
         self.navigationController.navigationItem.hidesBackButton = YES;
         
@@ -194,7 +197,7 @@
         dispatch_async(queue, ^{
             
             
-            [[OffersManager sharedInstance]fetchOfferByID:self.offerId
+            [[OffersManager sharedInstance]fetchOfferByID:@"EuLwDPinW0"
                                               withSuccess:^(id downloadObject) {
                                                   
                                                   // Dispatch to main thread to update the UI
@@ -262,12 +265,12 @@
     if([offerModel.isOfferSold boolValue]){
         
         self.soldImageView.image = [UIImage imageNamed:@"sold"];
-        self.bottomButtonsView.hidden = YES;
+        //   self.bottomButtonsView.hidden = YES;
         
     }
     else{
         
-        self.bottomButtonsView.hidden = NO;
+        // self.bottomButtonsView.hidden = NO;
         self.soldImageView.image = nil;
     }
     
@@ -286,12 +289,6 @@
         
     }];
     
-    
-    
-    CGRect newFrame = self.contentView.frame;
-    newFrame.size.height = self.offerDescription.frame.size.height + self.offerDescription.frame.origin.y + kScrollViewOffset;
-    self.contentView.frame = newFrame;
-    [self.parentScrollView setContentSize:newFrame.size];
     
     self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.height/2;
     self.profilePicture.layer.masksToBounds = YES;
@@ -326,6 +323,25 @@
         
     }
     
+    if(self.offerObject){
+        
+        self.commentVC = [[ItemCommentViewController alloc]initWithOffer:self.offerObject];
+        
+        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20 , 320,  self.commentVC.tableView.contentSize.height)];
+        
+        NSLog(@"Commet %@",self.commentVC.view);
+
+        
+        [self.parentScrollView addSubview:self.commentVC.view];
+        
+        [self.parentScrollView setContentSize:CGSizeMake(320, self.commentVC.view.frame.size.height + self.commentVC.view.frame.origin.y)];
+        
+        [self.parentScrollView setFrame:CGRectMake(0, 0, 320, self.parentScrollView.contentSize.height)];
+
+        NSLog(@"Parent %@", self.parentScrollView);
+        
+    }
+    
 }
 
 
@@ -335,11 +351,16 @@
     self.navigationController.navigationBar.hidden = NO;
     self.title = @"Item Detail";
     
-    [self.parentScrollView setScrollEnabled:YES];
-    [self.parentScrollView setContentSize:self.contentView.frame.size];
+    [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
+    [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
     
-    UIImage* buttonImage = [[UIImage imageNamed:@"button-pressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    UIImage* buttonPressedImage = [[UIImage imageNamed:@"button"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [self.parentScrollView setScrollEnabled:YES];
+    [self.parentScrollView setContentSize:CGSizeMake(320, 3024)];
+    
+    UIImage* buttonImage = [UIImage imageNamed:@"like-48"];
+    UIImage* buttonPressedImage = [UIImage imageNamed:@"unlike-48"];
+    
+    
     [self.addToCartButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [self.addToCartButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
     self.addToCartButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
@@ -347,10 +368,14 @@
     [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
     [self.likeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [self.likeButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
-    self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
-    [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.likeButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
+    
+    [self.likeButton bringSubviewToFront:self.parentScrollView];
+    [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
+    self.makeOfferButton.layer.cornerRadius = 10.0f;
+    self.makeOfferButton.layer.masksToBounds = YES;
+    //    self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
+    //    [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //    [self.likeButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
     self.itemNameLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     self.offerDescription.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
@@ -463,6 +488,11 @@
  }
  */
 
+- (IBAction)makeOffer:(id)sender {
+    
+    
+}
+
 - (IBAction)likeButtonPressed:(id)sender {
     
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
@@ -507,9 +537,10 @@
 
 -(void)updateLikeButtonImage:(BOOL)flag{
     
-    [self.likeButton setTitle:flag ? @"Like" :@"Dislike" forState:UIControlStateNormal];
-    [self.likeButton setBackgroundImage:[UIImage imageNamed:flag ? @"button-pressed.png" :@"button.png"] forState:UIControlStateNormal];
-    [self.likeButton setTitleColor:flag?[UIColor whiteColor]:[HLTheme mainColor] forState:UIControlStateNormal];
+    
+    //[self.likeButton setImage:nil forState:UIControlStateNormal];
+    
+    [self.likeButton setImage:[UIImage imageNamed:flag ? @"unlike-48.png" :@"like-48.png"] forState:UIControlStateNormal];
     
     
 }

@@ -300,7 +300,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
-            NSLog(@"Successfully retrieved %d photos.", objects.count);
+           // NSLog(@"Successfully retrieved %d photos.", objects.count);
             
             [PFQuery clearAllCachedResults];
 
@@ -315,7 +315,7 @@
         } else {
             // Log details of the failure
             _downloadFailure(error);
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+           // NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
     

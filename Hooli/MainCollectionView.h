@@ -16,6 +16,6 @@
 
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *objectDataSource;
-@property (nonatomic) BOOL isLoading;
+@property (nonatomic) __block BOOL isLoading;
 
 @end

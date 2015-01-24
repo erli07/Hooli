@@ -33,8 +33,13 @@
     self.distanceBackground.layer.cornerRadius = self.distanceBackground.frame.size.height/2;
     self.distanceBackground.layer.masksToBounds = YES;
     self.contentView.tintColor = [HLTheme mainColor];
-    
-    //    self.titleLabel.textColor = [UIColor blackColor];
+    self.productImageView.layer.cornerRadius = 10.0f;
+    self.productImageView.layer.masksToBounds = YES;
+    self.shadowView.layer.cornerRadius = 10.0f;
+    self.shadowView.layer.masksToBounds = YES;
+    self.backgroundColor = [UIColor clearColor];
+    self.layer.cornerRadius = 10.0f;
+    self.layer.masksToBounds = YES;    //    self.titleLabel.textColor = [UIColor blackColor];
     //    self.timeLabel.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
     self.likesLabel.textColor = [UIColor colorWithRed:(253.0/255.0) green:(92.0/255.0) blue:(89.0/255.0) alpha:1.0];
     
@@ -76,7 +81,14 @@
 
 -(void)updateCellWithOfferModel:(OfferModel *)offerModel{
     
-    self.productImageView.image = offerModel.image;
+    [offerModel.theImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        
+        if(!error){
+            
+            self.productImageView.image = [UIImage imageWithData:data];
+        
+        }
+    }];
     
     self.distanceLabel.text =[[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
     

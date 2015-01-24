@@ -12,12 +12,11 @@
 #import "NotificationTableViewCell.h"
 #import "MBProgressHUD.h"
 #import "OffersManager.h"
-#import "OfferModel.h"
+
 @interface ItemCommentViewController ()
 @property (nonatomic, strong) UITextField *commentTextField;
 @property (nonatomic, strong) ItemDetailsHeaderView *headerView;
 @property (nonatomic, assign) BOOL likersQueryInProgress;
-@property (nonatomic, strong) OfferModel *offerModel;
 @end
 
 static const CGFloat kHLCellInsetWidth = 0.0f;
@@ -25,7 +24,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 @implementation ItemCommentViewController
 
 @synthesize commentTextField;
-@synthesize offer, headerView,offerModel;
+@synthesize offer, headerView;
 
 #pragma mark - Initialization
 
@@ -34,7 +33,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
 }
 
-- (id)initWithOffer:(PFObject *)aOffer {
+- (id)initWithOffer:(OfferModel *)aOffer {
     
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
@@ -42,76 +41,53 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         self.parseClassName = kHLCloudNotificationClass;
         
         // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
+        self.pullToRefreshEnabled = NO;
         
         // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
+        self.paginationEnabled = NO;
         
         // The number of comments to show per page
-        self.objectsPerPage = 30;
+        self.objectsPerPage = 100;
         
         self.offer = aOffer;
         
         self.likersQueryInProgress = NO;
+        
+        self.tableView.scrollEnabled = NO;
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aCoder {
-    self = [super initWithCoder:aCoder];
-    
-    if (self) {
-        // The className to query on
-        self.parseClassName = kHLCloudNotificationClass;
-        
-        // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
-        
-        // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
-        
-        // The number of objects to show per page
-        self.objectsPerPage = 100;
-        
-        // The Loading text clashes with the dark Anypic design
-        self.loadingViewEnabled = NO;
-        
-        self.offer = [[PFObject alloc]initWithClassName:kHLCloudOfferClass];
-        
-    }
-    return self;
-}
+//- (id)initWithCoder:(NSCoder *)aCoder {
+//    self = [super initWithCoder:aCoder];
+//    
+//    if (self) {
+//        // The className to query on
+//        self.parseClassName = kHLCloudNotificationClass;
+//        
+//        // Whether the built-in pagination is enabled
+//        self.paginationEnabled = YES;
+//        
+//        // Whether the built-in pull-to-refresh is enabled
+//        self.pullToRefreshEnabled = YES;
+//        
+//        // The number of objects to show per page
+//        self.objectsPerPage = 100;
+//        
+//        // The Loading text clashes with the dark Anypic design
+//        self.loadingViewEnabled = NO;
+//        
+//        self.offer = [[OfferModel alloc]initOfferWithPFObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:@"EuLwDPinW0"]];
+//        
+//    }
+//    return self;
+//}
 
 
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-    
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        
-        
-        [[OffersManager sharedInstance]fetchOfferByID:@"4RUXyHGWka"
-                                          withSuccess:^(id downloadObject) {
-                                              
-                                              // Dispatch to main thread to update the UI
-                                              dispatch_async(dispatch_get_main_queue(), ^{
-                                                  
-                                                  self.offer = downloadObject;
-                                                  self.offerModel = [[OfferModel alloc]initOfferDetailsWithPFObject:downloadObject];
-                                                  
-                                                  
-                                              });
-                                              
-                                          } failure:^(id error) {
-                                              
-                                              NSLog(@"%@",[error description]);
-                                              
-                                              
-                                          }];
-        
-    });
-    
+
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -138,7 +114,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.headerView reloadLikeBar];
+   // [self.headerView reloadLikeBar];
     
     // we will only hit the network if we have no cached data for this photo
     //    BOOL hasCachedLikers = [[PAPCache sharedCache] attributesForPhoto:self.photo] != nil;
@@ -165,7 +141,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 //            nameString = [commentAuthor objectForKey:kHLUserModelKeyUserName];
 //        }
 //        
-        return [NotificationTableViewCell heightForCellWithName:@"aaaaaaaaaaaaaaaaa" contentString:commentString cellInsetWidth:kHLCellInsetWidth];
+        return [NotificationTableViewCell heightForCellWithName:@"aaaaaaaaaaaaaaaaaa" contentString:commentString cellInsetWidth:kHLCellInsetWidth];
         
     }
     
@@ -178,11 +154,10 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (PFQuery *)queryForTable {
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    //   [query whereKey:kHLNotificationPhotoKey equalTo:self.offer];
+    [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.offer.offerId]];
     [query includeKey:kHLNotificationFromUserKey];
     [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeComment];
     [query orderByAscending:@"createdAt"];
-    
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
@@ -199,9 +174,31 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     
-    [self.headerView reloadLikeBar];
+//    [self.headerView reloadLikeBar];
     // [self loadLikers];
 }
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
+    /* Create custom view to display section header... */
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 20)];
+    [label setFont:[UIFont boldSystemFontOfSize:15]];
+    NSString *titleForHeader = [NSString stringWithFormat:@"Comment(%d)",[self.objects count]];
+    /* Section header is in 0th index... */
+    [label setText:titleForHeader];
+    [view addSubview:label];
+    [view setBackgroundColor:[UIColor whiteColor]]; //your background color...
+    return view;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    
+    NSString *titleForHeader = [NSString stringWithFormat:@"Comment(%d)",[self.objects count]];
+    
+    return titleForHeader;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
@@ -245,17 +242,14 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     
     NSString *trimmedComment = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    if (trimmedComment.length != 0 && [self.offer objectForKey:kHLOfferModelKeyThumbNail]) {
-        
-        NSData *imageData = UIImagePNGRepresentation(self.offerModel.image);
-        PFFile *image = [PFFile fileWithName:@"offer_image.jpg" data:imageData];
-        
+    if (trimmedComment.length != 0) {
+                
         PFObject *comment = [PFObject objectWithClassName:kHLCloudNotificationClass];
         [comment setObject:trimmedComment forKey:kHLNotificationContentKey]; // Set comment text
-        [comment setObject:self.offerModel.user forKey:kHLNotificationToUserKey]; // Set toUser
+        [comment setObject:self.offer.user forKey:kHLNotificationToUserKey]; // Set toUser
         [comment setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey]; // Set fromUser
         [comment setObject:kHLNotificationTypeComment forKey:kHLNotificationTypeKey];
-        [comment setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.offerModel.offerId] forKeyedSubscript:kHLNotificationOfferKey];
+        [comment setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.offer.offerId] forKeyedSubscript:kHLNotificationOfferKey];
         
         // [comment setObject:image forKey:kHLOfferModelKeyImage];
         
@@ -303,6 +297,17 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"New Comment", nil) message:NSLocalizedString(@"Your comment will be posted next time there is an Internet connection.", nil)  delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Dismiss", nil), nil];
     [alert show];
+}
+
+-(NSInteger )getViewHeight{
+    
+    [self loadObjects];
+    
+    [self.tableView layoutIfNeeded];
+    
+    CGSize tableViewSize=self.tableView.contentSize;
+    
+    return tableViewSize.height;
 }
 
 @end

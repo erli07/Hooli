@@ -20,6 +20,7 @@
 @synthesize imageArray = _imageArray;
 @synthesize geoPoint = _geoPoint;
 @synthesize isOfferSold = _isOfferSold;
+@synthesize theImageFile = _theImageFile;
 
 -(id)initOfferModelWithUser:(PFObject *)user
                       image:(UIImage *)image
@@ -83,7 +84,7 @@
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
-                         image:(UIImage *)image
+                     imageFile:(PFFile *)imageFile
                      offerName:(NSString *)offerName
                          price:(NSString *)offerPrice
                       category:(NSString *)offerCategory
@@ -95,7 +96,7 @@
     if(self)
     {
         _offerId = offerId;
-        _image = image;
+        _theImageFile = imageFile;
         _offerName = offerName;
         _user = user;
         _offerCategory = offerCategory;
@@ -138,8 +139,6 @@
 -(id)initOfferWithPFObject:(PFObject *)object{
     
     PFFile *theImage = [object objectForKey:kHLOfferModelKeyThumbNail];
-    NSData *imageData = [theImage getData];
-    UIImage *image = [UIImage imageWithData:imageData];
     NSString *price = [object objectForKey:kHLOfferModelKeyPrice];
     NSString *category = [object objectForKey:kHLOfferModelKeyCategory];
     PFUser *user = [object objectForKey:kHLOfferModelKeyUser];
@@ -150,7 +149,7 @@
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
     NSNumber *offerStatus = [object objectForKeyedSubscript:kHLOfferModelKeyOfferStatus];
     
-    return  [self initOfferModelWithOfferId:offerId user:user image:image offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus];
+    return  [self initOfferModelWithOfferId:offerId user:user imageFile:theImage offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus];
 }
 
 -(id)initOfferDetailsWithPFObject:(PFObject *)object{

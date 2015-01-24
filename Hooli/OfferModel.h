@@ -19,6 +19,7 @@ typedef enum {
 
 @interface OfferModel : NSObject
 @property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) PFFile *theImageFile;
 @property (nonatomic, strong) NSArray *imageArray;
 @property (nonatomic, assign) HLOfferType offerType;
 @property (nonatomic, strong) PFObject *user;
@@ -55,7 +56,7 @@ typedef enum {
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
-                         image:(UIImage *)image
+                     imageFile:(PFFile *)imageFile
                      offerName:(NSString *)offerName
                          price:(NSString *)offerPrice
                       category:(NSString *)offerCategory
