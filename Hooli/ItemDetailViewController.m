@@ -1,4 +1,4 @@
-//
+   //
 //  ItemDetailViewController.m
 //  Hooli
 //
@@ -552,6 +552,39 @@
 
 - (IBAction)likeButtonPressed:(id)sender {
     
+    PFUser *user1 = [PFUser currentUser];
+    
+    NSString *user2_Id = self.offerObject.user.objectId;
+    
+    
+    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
+        
+        
+        PFUser *user2 = (PFUser *)object;
+        
+        [[ActivityManager sharedInstance]unFollowUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
+            
+//            [[ActivityManager sharedInstance]getFollowersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+//                
+//            } Failure:^(id error) {
+//                
+//            }];
+//            
+//            
+//            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+//                
+//            } Failure:^(id error) {
+//                
+//            }];
+            
+        }];
+    
+        
+    } failure:^(id error) {
+        
+    }];
+    
+    
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
     
     if(!toggleIsOn){
@@ -648,11 +681,55 @@
     
     [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
         
-        NSString *roomId = StartPrivateChat(user1, object);
-        //---------------------------------------------------------------------------------------------------------------------------------------------
-        ChatView *chatView = [[ChatView alloc] initWith:roomId];
-        chatView.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:chatView animated:YES];
+        
+        PFUser *user2 = (PFUser *)object;
+        
+       //       [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
+
+        
+     
+        
+        
+        [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
+
+            [[ActivityManager sharedInstance]getUserRelationshipWithUserOne:[PFUser currentUser] UserTwo:user2 WithBlock:^(RelationshipType relationType, NSError *error) {
+                
+                NSLog(@"Relation type %d",relationType);
+                
+            }];
+            
+           
+        }];
+//
+//            
+//            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+//                
+//            } Failure:^(id error) {
+//                
+//            }];
+//
+//            [[ActivityManager sharedInstance]getFriendsByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+//                
+//                NSLog(@"Get friends count %d %@", [downloadObjects count], downloadObjects);
+//
+//                
+//            } Failure:^(id error) {
+//                
+//            }];
+//            
+//            
+//     
+//            
+//        }];
+        
+
+        
+        
+   
+//        NSString *roomId = StartPrivateChat(user1, object);
+//        ChatView *chatView = [[ChatView alloc] initWith:roomId];
+//        chatView.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:chatView animated:YES];
         
     } failure:^(id error) {
         
