@@ -21,8 +21,9 @@
 
 }
 @property (nonatomic, weak) id <UpdateCollectionViewDelegate> updateCollectionViewDelegate;
+@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (nonatomic, strong) NSString *offerId;
-@property (weak, nonatomic) IBOutlet UIView *offerDetailView;
+@property (weak, nonatomic) IBOutlet UIScrollView *offerDetailView;
 @property (nonatomic, strong) OfferModel *offerObject;
 @property (weak, nonatomic) IBOutlet UIImageView *soldImageView;
 @property (nonatomic, strong) NSString *userID;
@@ -33,7 +34,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *offerDescription;
 @property (weak, nonatomic) IBOutlet UIButton *addToCartButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIScrollView *parentScrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;

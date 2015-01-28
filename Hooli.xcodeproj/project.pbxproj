@@ -94,6 +94,7 @@
 		0E86AA731A4C9EA3000C71E8 /* NeedsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA721A4C9EA3000C71E8 /* NeedsCell.m */; };
 		0E86AA761A4CB7AE000C71E8 /* NeedsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA751A4CB7AE000C71E8 /* NeedsManager.m */; };
 		0E86AA7C1A4D2D81000C71E8 /* NeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA7B1A4D2D81000C71E8 /* NeedDetailViewController.m */; };
+		0E92B90C1A78618400B1FB6C /* heart-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E92B90B1A78618400B1FB6C /* heart-64.png */; };
 		0E9605361A6D64CC00791E4E /* notification-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605351A6D64CC00791E4E /* notification-32.png */; };
 		0E9605391A6D661800791E4E /* NotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605381A6D661800791E4E /* NotificationsViewController.m */; };
 		0E96053D1A6D69A900791E4E /* NotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96053C1A6D69A900791E4E /* NotificationTableViewCell.m */; };
@@ -167,6 +168,7 @@
 		0EE499941A1029080046B3C7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE499931A1029080046B3C7 /* UserModel.m */; };
 		0EFA0ECF1A72174500A05ABC /* unlike-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ECE1A72174500A05ABC /* unlike-48.png */; };
 		0EFA0ED31A7217DF00A05ABC /* like-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ED21A7217DF00A05ABC /* like-48.png */; };
+		0EFA0F0A1A77637200A05ABC /* NotificationFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */; };
 		4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADE81A15577C00486C43 /* HLUtilities.m */; };
 		4510ADEC1A15C6CC00486C43 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADEB1A15C6CC00486C43 /* ActivityManager.m */; };
 		4530733F1A1550E30010B5A1 /* HLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4530733E1A1550E30010B5A1 /* HLCache.m */; };
@@ -287,7 +289,6 @@
 		45C6C6311A5D224500913660 /* user-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C6C6301A5D224500913660 /* user-32.png */; };
 		45C6C6331A5D24B100913660 /* money-orange-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 45C6C6321A5D24B100913660 /* money-orange-32.png */; };
 		45C6C6371A5DBF5300913660 /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6C6351A5DBF5300913660 /* ActivityDetailViewController.m */; };
-		45C6C6381A5DBF5300913660 /* ActivityDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45C6C6361A5DBF5300913660 /* ActivityDetailViewController.xib */; };
 		45D2C42B1A622688006ADB53 /* MyCameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D2C42A1A622688006ADB53 /* MyCameraManager.m */; };
 		45D2C42F1A632FB6006ADB53 /* album-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 45D2C42E1A632FB6006ADB53 /* album-64.png */; };
 		45D2C4321A63345C006ADB53 /* PostFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D2C4311A63345C006ADB53 /* PostFormViewController.m */; };
@@ -342,7 +343,7 @@
 		0E17BEEC19FC8BAE0042C4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E17BEED19FC8BAE0042C4DD /* HooliTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HooliTests.m; sourceTree = "<group>"; };
 		0E17BEFA19FC927A0042C4DD /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
-		0E17BEFB19FC927A0042C4DD /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
+		0E17BEFB19FC927A0042C4DD /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; wrapsLines = 1; };
 		0E17BF0619FC94410042C4DD /* HLTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLTheme.h; sourceTree = "<group>"; };
 		0E17BF0719FC94410042C4DD /* HLTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLTheme.m; sourceTree = "<group>"; };
 		0E17BF0919FC94B70042C4DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -433,6 +434,7 @@
 		0E86AA751A4CB7AE000C71E8 /* NeedsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedsManager.m; sourceTree = "<group>"; };
 		0E86AA7A1A4D2D81000C71E8 /* NeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedDetailViewController.h; sourceTree = "<group>"; };
 		0E86AA7B1A4D2D81000C71E8 /* NeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedDetailViewController.m; sourceTree = "<group>"; };
+		0E92B90B1A78618400B1FB6C /* heart-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart-64.png"; sourceTree = "<group>"; };
 		0E9605351A6D64CC00791E4E /* notification-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-32.png"; sourceTree = "<group>"; };
 		0E9605371A6D661800791E4E /* NotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsViewController.h; sourceTree = "<group>"; };
 		0E9605381A6D661800791E4E /* NotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsViewController.m; sourceTree = "<group>"; };
@@ -537,6 +539,8 @@
 		0EE499931A1029080046B3C7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		0EFA0ECE1A72174500A05ABC /* unlike-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlike-48.png"; sourceTree = "<group>"; };
 		0EFA0ED21A7217DF00A05ABC /* like-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like-48.png"; sourceTree = "<group>"; };
+		0EFA0F081A77637200A05ABC /* NotificationFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationFeedViewController.h; sourceTree = "<group>"; };
+		0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationFeedViewController.m; sourceTree = "<group>"; };
 		4510ADE71A15577C00486C43 /* HLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLUtilities.h; sourceTree = "<group>"; };
 		4510ADE81A15577C00486C43 /* HLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLUtilities.m; sourceTree = "<group>"; };
 		4510ADEA1A15C6CC00486C43 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityManager.h; sourceTree = "<group>"; };
@@ -751,7 +755,6 @@
 		45C6C6321A5D24B100913660 /* money-orange-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "money-orange-32.png"; sourceTree = "<group>"; };
 		45C6C6341A5DBF5300913660 /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailViewController.h; sourceTree = "<group>"; };
 		45C6C6351A5DBF5300913660 /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailViewController.m; sourceTree = "<group>"; };
-		45C6C6361A5DBF5300913660 /* ActivityDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityDetailViewController.xib; sourceTree = "<group>"; };
 		45D2C4291A622688006ADB53 /* MyCameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCameraManager.h; sourceTree = "<group>"; };
 		45D2C42A1A622688006ADB53 /* MyCameraManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCameraManager.m; sourceTree = "<group>"; };
 		45D2C42E1A632FB6006ADB53 /* album-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "album-64.png"; sourceTree = "<group>"; };
@@ -1147,6 +1150,8 @@
 			children = (
 				0E9605371A6D661800791E4E /* NotificationsViewController.h */,
 				0E9605381A6D661800791E4E /* NotificationsViewController.m */,
+				0EFA0F081A77637200A05ABC /* NotificationFeedViewController.h */,
+				0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */,
 				0E96053B1A6D69A900791E4E /* NotificationTableViewCell.h */,
 				0E96053C1A6D69A900791E4E /* NotificationTableViewCell.m */,
 				0E9605411A6D71E200791E4E /* ProfileImageView.h */,
@@ -1190,6 +1195,7 @@
 		0EB888271A3820590054F982 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0E92B90B1A78618400B1FB6C /* heart-64.png */,
 				0EFA0ED21A7217DF00A05ABC /* like-48.png */,
 				0EFA0ECE1A72174500A05ABC /* unlike-48.png */,
 				0E9605681A6E24B700791E4E /* TextFieldComment.png */,
@@ -1403,7 +1409,6 @@
 				45C6C6321A5D24B100913660 /* money-orange-32.png */,
 				45C6C6341A5DBF5300913660 /* ActivityDetailViewController.h */,
 				45C6C6351A5DBF5300913660 /* ActivityDetailViewController.m */,
-				45C6C6361A5DBF5300913660 /* ActivityDetailViewController.xib */,
 			);
 			name = Activitiy;
 			sourceTree = "<group>";
@@ -1885,6 +1890,7 @@
 				45D2C4461A65C050006ADB53 /* Default-763h@3x.png in Resources */,
 				0E17BF9C19FE04800042C4DD /* tab5.png in Resources */,
 				0E96056A1A6E24B700791E4E /* TextFieldComment.png in Resources */,
+				0E92B90C1A78618400B1FB6C /* heart-64.png in Resources */,
 				0E17BF9B19FE04800042C4DD /* tab4.png in Resources */,
 				457AC6F51A5C6AF400BFC619 /* title4@2x.png in Resources */,
 				457DA21D1A5E2FD00099E52E /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
@@ -1897,7 +1903,6 @@
 				0EDF3FFE1A21B4630034C6F4 /* portrait.png in Resources */,
 				457DA2401A5E35660099E52E /* profile_blank@2x.png in Resources */,
 				0E2A12621A05A3DE0036F8EB /* shadow.png in Resources */,
-				45C6C6381A5DBF5300913660 /* ActivityDetailViewController.xib in Resources */,
 				457AC6EC1A5C6AF400BFC619 /* icon1@2x.png in Resources */,
 				0ECAC39C1A01B820002866DE /* Detail.storyboard in Resources */,
 				45D2C42F1A632FB6006ADB53 /* album-64.png in Resources */,
@@ -2065,6 +2070,7 @@
 				457DA17E1A5E2FBA0099E52E /* AFSecurityPolicy.m in Sources */,
 				457DA21F1A5E2FD00099E52E /* JSQMessagesToolbarContentView.m in Sources */,
 				0ECAC39319FF5880002866DE /* MainCollectionView.m in Sources */,
+				0EFA0F0A1A77637200A05ABC /* NotificationFeedViewController.m in Sources */,
 				0E96054E1A6D74BF00791E4E /* BaseTextCell.m in Sources */,
 				457AC6D51A5C6A2F00BFC619 /* EAIntroPage.m in Sources */,
 				0E17BEFC19FC927A0042C4DD /* ItemDetailViewController.m in Sources */,

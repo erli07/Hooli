@@ -113,5 +113,8 @@ NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey = @"com.
 NSString *const kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification = @"com.Hooli.userLikedUnlikedPhotoCallbackFinished";
 NSString *const kHLUtilityDidFinishProcessingProfilePictureNotification  = @"com.Hooli.didFinishProcessingProfilePictureNotification";
 NSString *const kHLItemDetailsUserCommentedNotification = @"com.Hooli.itemDetailsUserCommentedNotification";
+NSString *const kHLItemDetailsReloadContentSizeNotification = @"com.Hooli.itemDetailsReloadContentSizeNotification";
+NSString *const kHLItemDetailsLiftCommentViewNotification = @"com.Hooli.itemDetailsLiftCommentViewNotification";
+NSString *const kHLItemDetailsPutDownCommentViewNotification = @"com.Hooli.itemDetailsPutDownCommentViewNotification";
 
 @end

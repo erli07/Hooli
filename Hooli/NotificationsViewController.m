@@ -39,7 +39,7 @@
         self.pullToRefreshEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 15;
+        self.objectsPerPage = 50;
         
         // The Loading text clashes with the dark Anypic design
         self.loadingViewEnabled = NO;
@@ -51,9 +51,7 @@
     [super viewDidLoad];
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-    
-    [super viewDidLoad];
-    
+        
     UIView *texturedBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
     [texturedBackgroundView setBackgroundColor:[UIColor blackColor]];
     self.tableView.backgroundView = texturedBackgroundView;
@@ -93,20 +91,23 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.objects.count) {
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        NSString *activityString = [NotificationsViewController stringForNotificationType:(NSString*)[object objectForKey:kHLNotificationTypeKey]];
-        
-        PFUser *user = (PFUser*)[object objectForKey:kHLNotificationFromUserKey];
-        NSString *nameString = NSLocalizedString(@"Someone", nil);
-        if (user && [user objectForKey:kHLUserModelKeyUserName] && [[user objectForKey:kHLUserModelKeyUserName] length] > 0) {
-            nameString = [user objectForKey:kHLUserModelKeyUserName];
-        }
-        
-        return [NotificationTableViewCell heightForCellWithName:nameString contentString:activityString];
-    } else {
-        return 44.0f;
-    }
+//    if (indexPath.row < self.objects.count) {
+//        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+//       // NSString *activityString = [NotificationsViewController stringForNotificationType:(NSString*)[object objectForKey:kHLNotificationTypeKey]];
+//         NSString *activityString = @"Comment"; 
+//        PFUser *user = (PFUser*)[object objectForKey:kHLNotificationFromUserKey];
+//        NSString *nameString = NSLocalizedString(@"Someone", nil);
+//        if (user && [user objectForKey:kHLUserModelKeyUserName] && [[user objectForKey:kHLUserModelKeyUserName] length] > 0) {
+//            nameString = [user objectForKey:kHLUserModelKeyUserName];
+//        }
+//        
+//        
+//        return [NotificationTableViewCell heightForCellWithName:nameString contentString:activityString];
+//    } else {
+//        return 44.0f;
+//    }
+    
+     return 44.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -141,9 +142,9 @@
     }
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    [query whereKey:kHLNotificationToUserKey equalTo:[PFUser currentUser]];
-    [query whereKey:kHLNotificationFromUserKey notEqualTo:[PFUser currentUser]];
-    [query whereKeyExists:kHLNotificationFromUserKey];
+   // [query whereKey:kHLNotificationToUserKey equalTo:[PFUser currentUser]];
+ //   [query whereKey:kHLNotificationFromUserKey notEqualTo:[PFUser currentUser]];
+  //  [query whereKeyExists:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationOfferKey];
     [query orderByDescending:@"createdAt"];
@@ -211,13 +212,13 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     
-    [cell setActivity:object];;
-    
-    if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
-        [cell setIsNew:YES];
-    } else {
-        [cell setIsNew:NO];
-    }
+//    [cell setActivity:object];;
+//    
+//    if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
+//        [cell setIsNew:YES];
+//    } else {
+//        [cell setIsNew:NO];
+//    }
     
     [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
     

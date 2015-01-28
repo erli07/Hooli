@@ -75,10 +75,10 @@
             </objects>
             <point key="canvasLocation" x="252" y="-2022"/>
         </scene>
-        <!--Item Comment View Controller-->
+        <!--Notification Feed View Controller-->
         <scene sceneID="nRv-rr-xbs">
             <objects>
-                <tableViewController id="2vw-aS-iKH" customClass="ItemCommentViewController" sceneMemberID="viewController">
+                <tableViewController id="2vw-aS-iKH" customClass="NotificationFeedViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Scp-Ef-CtJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -750,7 +750,6 @@
                         <segue destination="NaV-6u-kYj" kind="relationship" relationship="viewControllers" id="pdH-uF-cPT"/>
                         <segue destination="1KV-LZ-8Qg" kind="relationship" relationship="viewControllers" id="qGb-vK-9zk"/>
                         <segue destination="ErL-aS-9xf" kind="relationship" relationship="viewControllers" id="FIZ-4C-qZt"/>
-                        <segue destination="cXU-HP-P88" kind="relationship" relationship="viewControllers" id="ofK-X8-iYi"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36M-LB-2zl" userLabel="First Responder" sceneMemberID="firstResponder"/>

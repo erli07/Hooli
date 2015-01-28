@@ -13,6 +13,7 @@
 
 @interface ItemCommentViewController : PFQueryTableViewController<UITextFieldDelegate, UIActionSheetDelegate, BaseTextCellDelegate>
 @property (nonatomic, strong) OfferModel *offer;
+@property (nonatomic, strong) UITextField *commentTextField;
 
 - (id)initWithOffer:(OfferModel*)aOffer;
 

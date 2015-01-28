@@ -16,7 +16,7 @@
 @interface NotificationTableViewCell : BaseTextCell
 
 /*!Setter for the activity associated with this cell */
-@property (nonatomic, strong) PFObject *activity;
+@property (nonatomic, strong) PFObject *notification;
 
 /*!Set the new state. This changes the background of the cell. */
 - (void)setIsNew:(BOOL)isNew;

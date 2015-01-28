@@ -41,12 +41,32 @@
 
 @implementation ItemDetailViewController
 @synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,userID,soldImageView,chattingId,isFirstPosted,commentVC;
+
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLItemDetailsReloadContentSizeNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLItemDetailsLiftCommentViewNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLItemDetailsPutDownCommentViewNotification object:nil];
+
+    
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
     
+    [self.view addGestureRecognizer:tap];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftCommentView:) name:kHLItemDetailsLiftCommentViewNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(putDownCommentView) name:kHLItemDetailsPutDownCommentViewNotification object:nil];
+
     [self configureUIElements];
     
     
@@ -197,7 +217,7 @@
         dispatch_async(queue, ^{
             
             
-            [[OffersManager sharedInstance]fetchOfferByID:@"EuLwDPinW0"
+            [[OffersManager sharedInstance]fetchOfferByID:self.offerId
                                               withSuccess:^(id downloadObject) {
                                                   
                                                   // Dispatch to main thread to update the UI
@@ -317,7 +337,17 @@
         [[ActivityManager sharedInstance]isOfferLikedByCurrentUser:offerModel block:^(BOOL succeeded, NSError *error) {
             
             toggleIsOn = succeeded;
-            [self updateLikeButtonImage:!succeeded];
+            
+            if(toggleIsOn){
+                
+                self.likeCountLabel.text = @"Liked";
+            }
+            else{
+                
+                self.likeCountLabel.text = @"Like";
+                
+            }
+           // [self updateLikeButtonImage:!succeeded];
             
         }];
         
@@ -327,20 +357,46 @@
         
         self.commentVC = [[ItemCommentViewController alloc]initWithOffer:self.offerObject];
         
-        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20 , 320,  self.commentVC.tableView.contentSize.height)];
+        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20, 320, self.commentVC.tableView.contentSize.height)];
         
-        NSLog(@"Commet %@",self.commentVC.view);
+        [self.offerDetailView addSubview:self.commentVC.view];
+        
+     //   [self.parentScrollView setFrame:CGRectMake(0, 0, 320, self.parentScrollView.contentSize.height )];
 
-        
-        [self.parentScrollView addSubview:self.commentVC.view];
-        
-        [self.parentScrollView setContentSize:CGSizeMake(320, self.commentVC.view.frame.size.height + self.commentVC.view.frame.origin.y)];
-        
-        [self.parentScrollView setFrame:CGRectMake(0, 0, 320, self.parentScrollView.contentSize.height)];
-
-        NSLog(@"Parent %@", self.parentScrollView);
         
     }
+    
+}
+
+-(void)liftCommentView:(NSNotification*)note{
+        
+    NSDictionary* info = [note userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [self.offerDetailView setContentOffset:CGPointMake(0.0f, self.offerDetailView.contentSize.height-kbSize.height - 74) animated:YES];
+    
+}
+
+-(void)putDownCommentView{
+    
+      [self.offerDetailView setContentOffset:CGPointMake(0.0f, -64.0f) animated:YES];
+    
+}
+
+-(void)dismissKeyboard{
+    
+    [self.commentVC.commentTextField resignFirstResponder];
+    [self putDownCommentView];
+    
+}
+
+-(void)reloadContentsize{
+    
+//    [self.offerDetailView setFrame:CGRectMake(0, 0, 320, self.offerDetailView.frame.size.height + self.commentVC.tableView.contentSize.height)];
+    
+    [self.offerDetailView setContentSize:CGSizeMake(320, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height - 74)];
+    
+    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20, 320, self.commentVC.tableView.contentSize.height)];
+
     
 }
 
@@ -352,13 +408,12 @@
     self.title = @"Item Detail";
     
     [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
-    [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
+   // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
+    self.offerDetailView.bounces = NO;
+
     
-    [self.parentScrollView setScrollEnabled:YES];
-    [self.parentScrollView setContentSize:CGSizeMake(320, 3024)];
-    
-    UIImage* buttonImage = [UIImage imageNamed:@"like-48"];
-    UIImage* buttonPressedImage = [UIImage imageNamed:@"unlike-48"];
+    UIImage* buttonImage = [UIImage imageNamed:@"heart-64"];
+    UIImage* buttonPressedImage = [UIImage imageNamed:@"heart-64"];
     
     
     [self.addToCartButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -367,10 +422,12 @@
     [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
+    
+    
     [self.likeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     
-    [self.likeButton bringSubviewToFront:self.parentScrollView];
-    [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
+    [self.likeButton bringSubviewToFront:self.offerDetailView];
+    [self.makeOfferButton bringSubviewToFront:self.offerDetailView];
     self.makeOfferButton.layer.cornerRadius = 10.0f;
     self.makeOfferButton.layer.masksToBounds = YES;
     //    self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
@@ -537,10 +594,46 @@
 
 -(void)updateLikeButtonImage:(BOOL)flag{
     
+
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        self.likeCountLabel.alpha = 0;
+        self.likeButton.alpha = 0;
+        
+  
+        
+
+    } completion: ^(BOOL finished) {
+ 
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            self.likeCountLabel.alpha = 1.0;
+            self.likeButton.alpha = 1.0;
+            
+            if(!flag){
+                
+                self.likeCountLabel.text = @"Liked";
+            }
+            else{
+                
+                self.likeCountLabel.text = @"Like";
+                
+            }
+            
+        } completion: ^(BOOL finished) {
+            
+      
+            
+        }];
+
+    }];
+    
+
     
     //[self.likeButton setImage:nil forState:UIControlStateNormal];
     
-    [self.likeButton setImage:[UIImage imageNamed:flag ? @"unlike-48.png" :@"like-48.png"] forState:UIControlStateNormal];
+    //[self.likeButton setImage:[UIImage imageNamed:flag ? @"unlike-48.png" :@"like-48.png"] forState:UIControlStateNormal];
     
     
 }

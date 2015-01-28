@@ -21,7 +21,7 @@
 @end
 
 @implementation UserCartViewController
-@synthesize userNameLabel,profileImageView,userID;
+@synthesize userNameLabel,profileImageView,userID,followersCount,followingCount;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -138,4 +138,9 @@
     }
 }
 
+- (IBAction)followItemOwner:(id)sender {
+    
+    
+    
+}
 @end

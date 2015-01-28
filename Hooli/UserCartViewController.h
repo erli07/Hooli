@@ -16,5 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (nonatomic, strong) NSString *userID;
+- (IBAction)followItemOwner:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *followersCount;
+@property (weak, nonatomic) IBOutlet UILabel *followingCount;
 
 @end

@@ -12,9 +12,9 @@
 #import "NotificationTableViewCell.h"
 #import "MBProgressHUD.h"
 #import "OffersManager.h"
+#import "AccountManager.h"
 
 @interface ItemCommentViewController ()
-@property (nonatomic, strong) UITextField *commentTextField;
 @property (nonatomic, strong) ItemDetailsHeaderView *headerView;
 @property (nonatomic, assign) BOOL likersQueryInProgress;
 @end
@@ -29,7 +29,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 #pragma mark - Initialization
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
 }
 
@@ -47,7 +47,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         self.paginationEnabled = NO;
         
         // The number of comments to show per page
-        self.objectsPerPage = 100;
+        self.objectsPerPage = 5;
         
         self.offer = aOffer;
         
@@ -58,30 +58,29 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     return self;
 }
 
-//- (id)initWithCoder:(NSCoder *)aCoder {
-//    self = [super initWithCoder:aCoder];
-//    
-//    if (self) {
-//        // The className to query on
-//        self.parseClassName = kHLCloudNotificationClass;
-//        
-//        // Whether the built-in pagination is enabled
-//        self.paginationEnabled = YES;
-//        
-//        // Whether the built-in pull-to-refresh is enabled
-//        self.pullToRefreshEnabled = YES;
-//        
-//        // The number of objects to show per page
-//        self.objectsPerPage = 100;
-//        
-//        // The Loading text clashes with the dark Anypic design
-//        self.loadingViewEnabled = NO;
-//        
-//        self.offer = [[OfferModel alloc]initOfferWithPFObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:@"EuLwDPinW0"]];
-//        
-//    }
-//    return self;
-//}
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
+    
+    if (self) {
+        // The className to query on
+        self.parseClassName = kHLCloudNotificationClass;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 5;
+        
+        // The Loading text clashes with the dark Anypic design
+        self.loadingViewEnabled = NO;
+
+        
+    }
+    return self;
+}
 
 
 #pragma mark - UIViewController
@@ -93,6 +92,16 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [super viewDidLoad];
+    
+//    [[OffersManager sharedInstance]fetchOfferByID:@"EuLwDPinW0" withSuccess:^(id downloadObjects) {
+//        
+//        self.offer = [[OfferModel alloc]initOfferWithPFObject:downloadObjects];
+//        
+//    } failure:^(id error) {
+//        
+//    }];
+    
+
     
     // Set table view properties
     UIView *texturedBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -106,14 +115,20 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     self.tableView.tableFooterView = footerView;
     
     // Register to be notified when the keyboard will be shown to scroll the view
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLikedOrUnlikedPhoto:) name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidCommentOnPhoto:) name:kHLItemDetailsUserCommentedNotification object:nil];
+  //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLikedOrUnlikedPhoto:) name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
    // [self.headerView reloadLikeBar];
     
     // we will only hit the network if we have no cached data for this photo
@@ -155,6 +170,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
     [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.offer.offerId]];
+    [query includeKey:kHLNotificationOfferKey];
     [query includeKey:kHLNotificationFromUserKey];
     [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeComment];
     [query orderByAscending:@"createdAt"];
@@ -173,6 +189,8 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
+    
+     [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsReloadContentSizeNotification object:self];
     
 //    [self.headerView reloadLikeBar];
     // [self loadLikers];
@@ -245,6 +263,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     if (trimmedComment.length != 0) {
                 
         PFObject *comment = [PFObject objectWithClassName:kHLCloudNotificationClass];
+        [comment fetchIfNeeded];
         [comment setObject:trimmedComment forKey:kHLNotificationContentKey]; // Set comment text
         [comment setObject:self.offer.user forKey:kHLNotificationToUserKey]; // Set toUser
         [comment setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey]; // Set fromUser
@@ -286,17 +305,27 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     return [textField resignFirstResponder];
 }
 
-- (void)keyboardWillShow:(NSNotification*)note {
+- (void)keyboardDidShow:(NSNotification*)note {
     // Scroll the view to the comment text box
-    NSDictionary* info = [note userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    [self.tableView setContentOffset:CGPointMake(0.0f, self.tableView.contentSize.height-kbSize.height) animated:YES];
+ [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsLiftCommentViewNotification object:nil userInfo:[note userInfo]];
+    
+}
+
+-(void)dismissKeyboard {
+    [commentTextField resignFirstResponder];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsPutDownCommentViewNotification object:self];
+
 }
 
 - (void)handleCommentTimeout:(NSTimer *)aTimer {
     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"New Comment", nil) message:NSLocalizedString(@"Your comment will be posted next time there is an Internet connection.", nil)  delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Dismiss", nil), nil];
     [alert show];
+}
+
+- (void)userDidCommentOnPhoto:(NSNotification *)note {
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 -(NSInteger )getViewHeight{
