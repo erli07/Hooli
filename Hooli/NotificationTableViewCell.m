@@ -9,6 +9,8 @@
 #import "NotificationTableViewCell.h"
 #import "TTTTimeIntervalFormatter.h"
 #import "ProfileImageView.h"
+#import "NotificationFeedViewController.h"
+#import "HLConstant.h"
 
 static TTTTimeIntervalFormatter *timeFormatter;
 
@@ -16,7 +18,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 @property (nonatomic, strong) UIButton *profileImageButton;
 @property (nonatomic) BOOL hasActivityImage;
-@property (nonatomic, strong) ProfileImageView *profileImageView;
+@property (nonatomic, strong) ProfileImageView *activityImageView;
+@property (nonatomic) NSString *activityType;
 
 - (void)setActivityImageFile:(PFFile *)image;
 - (void)didTapActivityButton:(id)sender;
@@ -45,11 +48,14 @@ static TTTTimeIntervalFormatter *timeFormatter;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.accessoryType = UITableViewCellAccessoryNone;
         self.hasActivityImage = NO; //No until one is set
+
         
-        self.profileImageView = [[ProfileImageView alloc] init];
-        [self.profileImageView setBackgroundColor:[UIColor clearColor]];
-        [self.profileImageView setOpaque:YES];
-        [self.mainView addSubview:self.profileImageView];
+        self.activityImageView = [[ProfileImageView alloc] init];
+        [self.activityImageView setBackgroundColor:[UIColor clearColor]];
+        [self.activityImageView setOpaque:YES];
+        self.activityImageView.layer.cornerRadius = avatarDim/2;
+        self.activityImageView.layer.masksToBounds = YES;
+        [self.mainView addSubview:self.activityImageView];
         
         self.profileImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.profileImageButton setBackgroundColor:[UIColor clearColor]];
@@ -65,69 +71,93 @@ static TTTTimeIntervalFormatter *timeFormatter;
     // Configure the view for the selected state
 }
 
+- (void)layoutSubviews {
+    
+    [super layoutSubviews];
+
+    [self.activityImageView setFrame:CGRectMake( [UIScreen mainScreen].bounds.size.width - 46.0f, avatarY, avatarDim, avatarDim)];
+    
+    // Add activity image if one was set
+    if (self.hasActivityImage) {
+        [self.activityImageView setHidden:NO];
+    } else {
+        [self.activityImageView setHidden:YES];
+    }
+    
+//    // Change frame of the content text so it doesn't go through the right-hand side picture
+//    CGSize contentSize = [self.contentLabel.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 72.0f - 46.0f, CGFLOAT_MAX)
+//                                                              options:NSStringDrawingUsesLineFragmentOrigin // wordwrap?
+//                                                           attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}
+//                                                              context:nil].size;
+//    [self.contentLabel setFrame:CGRectMake( 46.0f, 15.0f, contentSize.width, contentSize.height)];
+//    
+//    // Layout the timestamp label given new vertical
+//    CGSize timeSize = [self.timeLabel.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 72.0f - 46.0f, CGFLOAT_MAX)
+//                                                        options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
+//                                                     attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f]}
+//                                                        context:nil].size;
+//    [self.timeLabel setFrame:CGRectMake( 46.0f, self.contentLabel.frame.origin.y + self.contentLabel.frame.size.height + 7.0f, timeSize.width, timeSize.height)];
+}
 
 - (void)setIsNew:(BOOL)isNew {
     if (isNew) {
-        [self.mainView setBackgroundColor:[UIColor colorWithRed:29.0f/255.0f green:29.0f/255.0f blue:29.0f/255.0f alpha:1.0f]];
-    } else {
-        [self.mainView setBackgroundColor:[UIColor clearColor]];
+        [self.mainView setBackgroundColor:[UIColor whiteColor]];
     }
 }
 
 
 -(void)setNotification:(PFObject *)notification{
     
-    
-    NSLog(@"%@",self.user.username);
-    
-}
+    if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeFollow] || [[notification objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeJoined]) {
+        [self setActivityImageFile:nil];
+    } else {
+        
+        PFFile *activityImageFile = (PFFile*)[[notification objectForKey:kHLNotificationOfferKey] objectForKey:kHLOfferModelKeyThumbNail];
+        
+        [self setActivityImageFile:activityImageFile];
+    }
 
-- (void)setActivity:(PFObject *)activity {
-    // Set the activity property
-//    _activity = activity;
-//    if ([[activity objectForKey:kPAPActivityTypeKey] isEqualToString:kPAPActivityTypeFollow] || [[activity objectForKey:kPAPActivityTypeKey] isEqualToString:kPAPActivityTypeJoined]) {
-//        [self setActivityImageFile:nil];
-//    } else {
-//        [self setActivityImageFile:(PFFile*)[[activity objectForKey:kPAPActivityPhotoKey] objectForKey:kPAPPhotoThumbnailKey]];
-//    }
-//    
-//    NSString *activityString = [PAPActivityFeedViewController stringForActivityType:(NSString*)[activity objectForKey:kPAPActivityTypeKey]];
-//    self.user = [activity objectForKey:kPAPActivityFromUserKey];
-//    
-//    // Set name button properties and avatar image
-//    if ([PAPUtility userHasProfilePictures:self.user]) {
-//        [self.avatarImageView setFile:[self.user objectForKey:kPAPUserProfilePicSmallKey]];
-//    } else {
-//        [self.avatarImageView setImage:[PAPUtility defaultProfilePicture]];
-//    }
-//    
-//    NSString *nameString = NSLocalizedString(@"Someone", @"Text when the user's name is unknown");
-//    if (self.user && [self.user objectForKey:kPAPUserDisplayNameKey] && [[self.user objectForKey:kPAPUserDisplayNameKey] length] > 0) {
-//        nameString = [self.user objectForKey:kPAPUserDisplayNameKey];
-//    }
-//    
-//    [self.nameButton setTitle:nameString forState:UIControlStateNormal];
-//    [self.nameButton setTitle:nameString forState:UIControlStateHighlighted];
     
-    // If user is set after the contentText, we reset the content to include padding
+    NSString *activityString = [NotificationFeedViewController stringForNotificationType:(NSString*)[notification objectForKey:kHLNotificationTypeKey]];
+    
+    if([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:khlNotificationTypMakeOffer]){
+        
+        activityString  = [NSString stringWithFormat:@"%@ %@", activityString,[notification objectForKey:kHLNotificationContentKey]];
+        
+    }
+    
+    self.user = [notification objectForKey:kHLNotificationFromUserKey];
+    
     if (self.contentLabel.text) {
         [self setContentText:self.contentLabel.text];
     }
     
-//    if (self.user) {
-//        CGSize nameSize = [self.nameButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-//                                                                        options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
-//                                                                     attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:13.0f]}
-//                                                                        context:nil].size;
-//        NSString *paddedString = [BaseTextCell padString:activityString withFont:[UIFont systemFontOfSize:13.0f] toWidth:nameSize.width];
-//        [self.contentLabel setText:paddedString];
-//    } else { // Otherwise we ignore the padding and we'll add it after we set the user
-//        [self.contentLabel setText:activityString];
-//    }
+        if (self.user) {
+            CGSize nameSize = [self.nameButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+                                                                            options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
+                                                                         attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:13.0f]}
+                                                                            context:nil].size;
+            NSString *paddedString = [BaseTextCell padString:activityString withFont:[UIFont systemFontOfSize:13.0f] toWidth:nameSize.width];
+            [self.contentLabel setText:paddedString];
+        } else { // Otherwise we ignore the padding and we'll add it after we set the user
+            [self.contentLabel setText:activityString];
+        }
     
-    [self.timeLabel setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:[activity createdAt]]];
+    [self.timeLabel setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:[notification createdAt]]];
     
     [self setNeedsDisplay];
+    
+}
+
+- (void)setActivityImageFile:(PFFile *)imageFile {
+    
+    if (imageFile) {
+        [self.activityImageView setFile:imageFile];
+        [self setHasActivityImage:YES];
+    } else {
+        [self setHasActivityImage:NO];
+    }
+    
 }
 
 @end

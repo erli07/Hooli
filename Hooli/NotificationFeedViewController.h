@@ -8,6 +8,10 @@
 
 #import <Parse/Parse.h>
 
-@interface NotificationFeedViewController : PFQueryTableViewController
+@interface NotificationFeedViewController : PFQueryTableViewController<UIActionSheetDelegate>
+
++ (NSString *)stringForNotificationType:(NSString *)notificationType;
+
+@property (nonatomic) PFObject *notification;
 
 @end

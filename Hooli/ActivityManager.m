@@ -280,12 +280,10 @@
     }];
 }
 
-- (void)getFollowersByUser:(PFUser *)user
-               WithSuccess:(DownloadSuccessBlock)success
-                   Failure:(DownloadFailureBlock)failure{
+- (void)getFollowersByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock{
     
-    _downloadSuccess = success ;
-    _downloadFailure = failure;
+//    _downloadSuccess = success ;
+//    _downloadFailure = failure;
     
     NSMutableArray *followersArray = [NSMutableArray array];
     
@@ -304,14 +302,21 @@
                 
             }
             
-            NSLog(@"Get followers %d", [followersArray count]);
-            
-            _downloadSuccess(followersArray);
+            if(completionBlock){
+                
+                completionBlock(followersArray, nil);
+            }
+          
             // [[HLCache sharedCache] setLikedOffersByUser:user likedOffers:likedOffers];
         }
         else{
             
-            _downloadFailure(nil);
+            if(completionBlock){
+                
+                completionBlock(nil, error);
+            }
+
+            
         }
         
     }];
@@ -319,12 +324,7 @@
     
 }
 
-- (void)getFollowedUsersByUser:(PFUser *)user
-                   WithSuccess:(DownloadSuccessBlock)success
-                       Failure:(DownloadFailureBlock)failure{
-    
-    _downloadSuccess = success ;
-    _downloadFailure = failure;
+- (void)getFollowedUsersByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock{
     
     NSMutableArray *followedUsersArray = [NSMutableArray array];
     
@@ -344,14 +344,19 @@
             }
             NSLog(@"Get followed users %d", [followedUsersArray count]);
             
-            _downloadSuccess(followedUsersArray);
+            if(completionBlock){
+                
+                completionBlock(followedUsersArray, nil);
+            }
             
             // [[HLCache sharedCache] setLikedOffersByUser:user likedOffers:likedOffers];
         }
         else{
             
-            _downloadFailure(nil);
-            
+            if(completionBlock){
+                
+                completionBlock(nil, error);
+            }
         }
         
     }];
@@ -360,14 +365,9 @@
 
 
 
-- (void)getFriendsByUser:(PFUser *)user
-             WithSuccess:(DownloadSuccessBlock)success
-                 Failure:(DownloadFailureBlock)failure{
+- (void)getFriendsByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock{
     
-    _downloadSuccess = success ;
-    _downloadFailure = failure;
-    
-    NSMutableArray *friendsArray = [NSMutableArray array];
+     NSMutableArray *friendsArray = [NSMutableArray array];
     
     PFQuery *followeeQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
     [followeeQuery whereKey:kHLNotificationFromUserKey equalTo:user];
@@ -391,11 +391,23 @@
                 
             }
             
-            _downloadSuccess(friendsArray);
+            if(completionBlock){
+                
+                completionBlock(friendsArray, nil);
+            }
+
+            
+        }
+        else{
+            
+            if(completionBlock){
+                
+                completionBlock(nil, error);
+            }
+
             
         }
         
-        _downloadFailure(nil);
         
     }];
     
@@ -459,6 +471,83 @@
     }];
     
 
+}
+
+
+- (void)makeOfferToOffer:(OfferModel *)offerObject
+               withPrice:(NSString *)price
+                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFQuery *queryExistingMakeOffer = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [queryExistingMakeOffer whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.offerId]];
+    [queryExistingMakeOffer whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
+    [queryExistingMakeOffer includeKey:kHLNotificationToUserKey];
+    [queryExistingMakeOffer setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryExistingMakeOffer findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+//        
+        if (!error) {
+            for (PFObject *activity in activities) {
+                [activity deleteInBackground];
+            }
+        }
+        
+        // proceed to creating new like
+        
+        PFUser *toUser = (PFUser *)offerObject.user;
+        
+        PFObject *activity = [PFObject objectWithClassName:kHLCloudNotificationClass];
+        [activity setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.offerId] forKey:kHLNotificationOfferKey];
+        [activity setObject:toUser forKey:kHLNotificationToUserKey];
+        [activity setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+        [activity setObject:khlNotificationTypMakeOffer forKey:kHLNotificationTypeKey];
+        [activity setObject:price forKey:kHLNotificationContentKey];
+        
+        //                [likeActivity setObject:[[PFUser currentUser]objectId ] forKey:kHLActivityKeyUser];
+        PFACL *aACL = [PFACL ACLWithUser:[PFUser currentUser]];
+        [aACL setPublicReadAccess:YES];
+        [aACL setWriteAccess:YES forUser:[PFUser currentUser]];
+        activity.ACL = aACL;
+        
+        [activity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (completionBlock) {
+                completionBlock(succeeded,error);
+                if(succeeded){
+                    NSLog(@"Make offer success");
+                }
+                
+            }
+            
+        }];
+        
+    }];
+
+}
+-(void)isOfferAlreadyMadeByCurrentUser:(OfferModel *)offerObject
+                                 block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [query whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.offerId]];
+    [query whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
+    [query includeKey:kHLNotificationToUserKey];
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
+        if(object){
+            
+            if (completionBlock) {
+                completionBlock(YES,error);
+            }
+            
+        }
+        else{
+            
+            if (completionBlock) {
+                completionBlock(NO,error);
+            }
+            
+        }
+        
+    }];
 }
 
 @end

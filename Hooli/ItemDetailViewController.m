@@ -1,4 +1,4 @@
-   //
+//
 //  ItemDetailViewController.m
 //  Hooli
 //
@@ -29,6 +29,9 @@
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
 
+
+#define deleteIndex 0
+#define priceIndex 1
 @interface ItemDetailViewController ()<MFMailComposeViewControllerDelegate>
 {
     MBProgressHUD *HUD;
@@ -37,19 +40,21 @@
 @property (nonatomic) CLLocationCoordinate2D offerLocation;
 @property (nonatomic) BOOL toggleIsOn;
 @property (nonatomic) NSString *chattingId;
+@property (nonatomic) NSString *offerPrice;
+
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,userID,soldImageView,chattingId,isFirstPosted,commentVC;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,userID,soldImageView,chattingId,isFirstPosted,commentVC,offerPrice;
 
 -(void)dealloc{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLItemDetailsReloadContentSizeNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLItemDetailsLiftCommentViewNotification object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLItemDetailsPutDownCommentViewNotification object:nil];
-
+    
     
 }
 
@@ -66,7 +71,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftCommentView:) name:kHLItemDetailsLiftCommentViewNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(putDownCommentView) name:kHLItemDetailsPutDownCommentViewNotification object:nil];
-
+    
     [self configureUIElements];
     
     
@@ -108,7 +113,7 @@
     
     
     UIAlertView *deleteAlert = [[UIAlertView alloc]initWithTitle:@"Delete this offer?" message:@"Are you sure you want to delete this offer?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-    
+    deleteAlert.tag = deleteIndex;
     [deleteAlert show];
     
     
@@ -150,6 +155,7 @@
                                                   
                                                   // Dispatch to main thread to update the UI
                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                      
                                                       
                                                       self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
                                                       
@@ -244,6 +250,25 @@
     }
 }
 
+- (IBAction)makeOffer:(id)sender {
+    
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    
+    UITextField* tf = [alertView textFieldAtIndex:0];
+    
+    tf.text = self.offerObject.offerPrice;
+    
+    tf.keyboardType = UIKeyboardTypeNumberPad;
+    
+    alertView.tag = priceIndex;
+    
+    [alertView show];
+    
+}
+
 
 -(void)updateOfferDetailInfo:(OfferModel *)offerModel{
     
@@ -298,7 +323,7 @@
     [[AccountManager sharedInstance]loadAccountDataWithUserId:offerModel.user.objectId Success:^(id object) {
         
         
-        UserModel *userModel = (UserModel *)object;
+        UserModel *userModel = [[UserModel alloc]initUserWithPFObject:object];
         
         self.profilePicture.image = userModel.portraitImage;
         
@@ -347,7 +372,7 @@
                 self.likeCountLabel.text = @"Like";
                 
             }
-           // [self updateLikeButtonImage:!succeeded];
+            // [self updateLikeButtonImage:!succeeded];
             
         }];
         
@@ -361,15 +386,15 @@
         
         [self.offerDetailView addSubview:self.commentVC.view];
         
-     //   [self.parentScrollView setFrame:CGRectMake(0, 0, 320, self.parentScrollView.contentSize.height )];
-
+        //   [self.parentScrollView setFrame:CGRectMake(0, 0, 320, self.parentScrollView.contentSize.height )];
+        
         
     }
     
 }
 
 -(void)liftCommentView:(NSNotification*)note{
-        
+    
     NSDictionary* info = [note userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     [self.offerDetailView setContentOffset:CGPointMake(0.0f, self.offerDetailView.contentSize.height-kbSize.height - 74) animated:YES];
@@ -378,7 +403,7 @@
 
 -(void)putDownCommentView{
     
-      [self.offerDetailView setContentOffset:CGPointMake(0.0f, -64.0f) animated:YES];
+    [self.offerDetailView setContentOffset:CGPointMake(0.0f, -64.0f) animated:YES];
     
 }
 
@@ -391,12 +416,12 @@
 
 -(void)reloadContentsize{
     
-//    [self.offerDetailView setFrame:CGRectMake(0, 0, 320, self.offerDetailView.frame.size.height + self.commentVC.tableView.contentSize.height)];
+    //    [self.offerDetailView setFrame:CGRectMake(0, 0, 320, self.offerDetailView.frame.size.height + self.commentVC.tableView.contentSize.height)];
     
     [self.offerDetailView setContentSize:CGSizeMake(320, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height - 74)];
     
     [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20, 320, self.commentVC.tableView.contentSize.height)];
-
+    
     
 }
 
@@ -408,9 +433,9 @@
     self.title = @"Item Detail";
     
     [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
-   // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
+    // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
     self.offerDetailView.bounces = NO;
-
+    
     
     UIImage* buttonImage = [UIImage imageNamed:@"heart-64"];
     UIImage* buttonPressedImage = [UIImage imageNamed:@"heart-64"];
@@ -511,44 +536,61 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if(buttonIndex== 1){
+    if(alertView.tag == deleteIndex){
         
-        [HUD show:YES];
-        [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
+        if(buttonIndex== 1){
             
-            if(succeeded){
-                [HUD hide:YES];
-                [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-            else{
+            [HUD show:YES];
+            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
                 
-                NSLog(@"Delete self error %@", [error description]);
+                if(succeeded){
+                    [HUD hide:YES];
+                    [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+                else{
+                    
+                    NSLog(@"Delete self error %@", [error description]);
+                    
+                }
                 
-            }
+            }];
             
-        }];
+        }
         
     }
-    else{
+    else if(alertView.tag == priceIndex){
         
+        if(buttonIndex== 1){
+            
+            NSString *price = [alertView textFieldAtIndex:0].text;
+            
+            [[ActivityManager sharedInstance]makeOfferToOffer:self.offerObject withPrice:price block:^(BOOL succeeded, NSError *error) {
+                
+                if (succeeded) {
+                    
+                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations" message:@"Succesfully made offer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alertView show];
+                }
+                else{
+                    
+                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry..." message:@"Some problems occurs. Fail to make offer." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alertView show];
+                }
+                
+                
+            }];
+            
+        }
     }
-}
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-- (IBAction)makeOffer:(id)sender {
-    
     
 }
+
+
+
+
 
 - (IBAction)likeButtonPressed:(id)sender {
     
@@ -564,21 +606,21 @@
         
         [[ActivityManager sharedInstance]unFollowUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
             
-//            [[ActivityManager sharedInstance]getFollowersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-//                
-//            } Failure:^(id error) {
-//                
-//            }];
-//            
-//            
-//            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-//                
-//            } Failure:^(id error) {
-//                
-//            }];
+            //            [[ActivityManager sharedInstance]getFollowersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+            //
+            //            } Failure:^(id error) {
+            //
+            //            }];
+            //
+            //
+            //            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+            //
+            //            } Failure:^(id error) {
+            //
+            //            }];
             
         }];
-    
+        
         
     } failure:^(id error) {
         
@@ -627,17 +669,14 @@
 
 -(void)updateLikeButtonImage:(BOOL)flag{
     
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         
         self.likeCountLabel.alpha = 0;
         self.likeButton.alpha = 0;
         
-  
-        
-
     } completion: ^(BOOL finished) {
- 
+        
         
         [UIView animateWithDuration:0.3 animations:^{
             
@@ -656,13 +695,13 @@
             
         } completion: ^(BOOL finished) {
             
-      
+            
             
         }];
-
+        
     }];
     
-
+    
     
     //[self.likeButton setImage:nil forState:UIControlStateNormal];
     
@@ -684,52 +723,52 @@
         
         PFUser *user2 = (PFUser *)object;
         
-       //       [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
-
+        //       [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
         
-     
+        
+        
         
         
         [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
-
+            
             [[ActivityManager sharedInstance]getUserRelationshipWithUserOne:[PFUser currentUser] UserTwo:user2 WithBlock:^(RelationshipType relationType, NSError *error) {
                 
                 NSLog(@"Relation type %d",relationType);
                 
             }];
             
-           
+            
         }];
-//
-//            
-//            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-//                
-//            } Failure:^(id error) {
-//                
-//            }];
-//
-//            [[ActivityManager sharedInstance]getFriendsByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-//                
-//                NSLog(@"Get friends count %d %@", [downloadObjects count], downloadObjects);
-//
-//                
-//            } Failure:^(id error) {
-//                
-//            }];
-//            
-//            
-//     
-//            
-//        }];
-        
-
+        //
+        //
+        //            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+        //
+        //            } Failure:^(id error) {
+        //
+        //            }];
+        //
+        //            [[ActivityManager sharedInstance]getFriendsByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+        //
+        //                NSLog(@"Get friends count %d %@", [downloadObjects count], downloadObjects);
+        //
+        //
+        //            } Failure:^(id error) {
+        //
+        //            }];
+        //
+        //
+        //
+        //
+        //        }];
         
         
-   
-//        NSString *roomId = StartPrivateChat(user1, object);
-//        ChatView *chatView = [[ChatView alloc] initWith:roomId];
-//        chatView.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:chatView animated:YES];
+        
+        
+        
+        //        NSString *roomId = StartPrivateChat(user1, object);
+        //        ChatView *chatView = [[ChatView alloc] initWith:roomId];
+        //        chatView.hidesBottomBarWhenPushed = YES;
+        //        [self.navigationController pushViewController:chatView animated:YES];
         
     } failure:^(id error) {
         

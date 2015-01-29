@@ -18,6 +18,7 @@
 @synthesize uploadFailure = _uploadFailure;
 @synthesize uploadSuccess = _uploadSuccess;
 @synthesize pageCounter;
+@synthesize followedUserArray;
 
 +(OffersManager *)sharedInstance{
     
@@ -178,7 +179,7 @@
                 _uploadSuccess();
                 
             });
-
+            
         }
         else{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -239,7 +240,7 @@
     
     
     [self retrieveOffersByFilter:self.filterDictionary];
-
+    
     
 }
 
@@ -251,12 +252,7 @@
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     
-//    if(![[HLSettings sharedInstance]showSoldItems]){
-//        
-//        [query whereKey:kHLOfferModelKeyOfferStatus notEqualTo:[NSNumber numberWithBool:YES]];
-//        
-//    }
-
+    
     if(filterDictionary){
         
         if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyCategory]){
@@ -281,29 +277,34 @@
             [query whereKey:kHLOfferModelKeyUser equalTo:user];
             
         }
-//        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyUserLikes]){
-//            
-//            id user = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyUserLikes];
-//            
-//            [query whereKey:kHLOfferModelKeyUser equalTo:user];
-//
-//        }
+        
+        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyFollowedUsers]){
+            
+            
+            [query whereKey:kHLOfferModelKeyUser containedIn:self.followedUserArray];
+            
+            
+        }
+        
     }
     
-    [query orderByAscending:@"createdAt"];
+    if([[HLSettings sharedInstance]showSoldItems]){
+        
+        [query whereKey:kHLOfferModelKeyOfferStatus notEqualTo:[NSNumber numberWithBool:YES]];
+        
+    }
+    
+    [query orderByDescending:@"createdAt"];
     [query setLimit:kHLOffersNumberShowAtFirstTime];
     [query setSkip:kHLOffersNumberShowAtFirstTime * self.pageCounter];
-    //    [query whereKey:kHLOfferModelKeyGeoPoint nearGeoPoint:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] withinMiles:[[HLSettings sharedInstance]preferredDistance]];
-    // [query whereKey:kHLOfferModelKeyCategory equalTo:@"Home Goods"];
-    //  [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
-           // NSLog(@"Successfully retrieved %d photos.", objects.count);
+            // NSLog(@"Successfully retrieved %d photos.", objects.count);
             
             [PFQuery clearAllCachedResults];
-
+            
             for (id object in objects) {
                 
                 [retrivedObjects addObject:object];
@@ -315,7 +316,7 @@
         } else {
             // Log details of the failure
             _downloadFailure(error);
-           // NSLog(@"Error: %@ %@", error, [error userInfo]);
+            // NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
     
@@ -324,7 +325,7 @@
 
 -(void)updateTableByOffersArray:(NSArray *)offers{
     
-
+    
     
     
 }
@@ -339,8 +340,8 @@
         // Dispatch to main thread to update the UI
         dispatch_async(dispatch_get_main_queue(), ^{
             
-  //          [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
-
+            //          [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+            
             _dowloadSuccess(offersArray);
             
         });
@@ -373,7 +374,7 @@
         
         PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
         [query whereKey:kHLOfferModelKeyOfferId equalTo:offerID];
-
+        
         // [query orderByAscending:@"createdAt"];
         [query getObjectInBackgroundWithId:offerID block:^(PFObject *object, NSError *error) {
             if (!error) {
@@ -407,9 +408,9 @@
         [query getObjectInBackgroundWithId:offerID block:^(PFObject *object, NSError *error) {
             if (object) {
                 
-         
-                    // This does not require a network access.
-                    PFObject *band = [object objectForKey:kHLCloudUserClass];
+                
+                // This does not require a network access.
+                PFObject *band = [object objectForKey:kHLCloudUserClass];
                 
                 id objects = [band objectForKey:kHLUserModelKeyEmail];
                 
@@ -524,6 +525,29 @@
     }];
 }
 
+-(void)getOfferSoldStatusWithOfferID:(NSString *)offerID block:(void (^)(BOOL status, NSError *error))completionBlock{
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
+    
+    [query whereKey:kHLOfferModelKeyOfferId equalTo:offerID];
+    
+    [query getObjectInBackgroundWithId:offerID block:^(PFObject *object, NSError *error) {
+        if (!error) {
+            
+            BOOL status = [[object objectForKey:kHLOfferModelKeyOfferStatus]boolValue];
+            
+            completionBlock(status,error);
+            
+        } else {
+            // Log details of the failure
+        }
+        
+    }];
+
+    
+}
+
+
 -(void)updateOfferModelWithOfferId:(NSString *)offerID newOfferModel:(OfferModel *)newOfferModel
                              block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     
@@ -532,7 +556,7 @@
     if(newOfferModel.offerName){
         
         [object setObject:newOfferModel.offerName forKey:kHLOfferModelKeyOfferName];
-
+        
     }
     
     if(newOfferModel.offerDescription){
@@ -555,7 +579,7 @@
         }
         
     }];
-        
+    
 }
 
 -(void)deleteOfferModelWithOfferId:(NSString *)offerId  block:(void (^)(BOOL succeeded, NSError *error))completionBlock{

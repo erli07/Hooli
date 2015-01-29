@@ -10,6 +10,12 @@
 #import "HLConstant.h"
 #import "NotificationTableViewCell.h"
 #import "MBProgressHUD.h"
+#import "ItemDetailViewController.h"
+#import "ChatView.h"
+#import "messages.h"
+#import "HLSettings.h"
+#import "OffersManager.h"
+#import "UserCartViewController.h"
 @interface NotificationFeedViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
 @property (nonatomic, strong) UIView *blankTimelineView;
@@ -17,6 +23,7 @@
 
 @implementation NotificationFeedViewController
 @synthesize lastRefresh,blankTimelineView;
+@synthesize notification = _notification;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -46,10 +53,6 @@
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     
-    UIView *texturedBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
-    [texturedBackgroundView setBackgroundColor:[UIColor blackColor]];
-    self.tableView.backgroundView = texturedBackgroundView;
-    
     self.title = @"Notification";
     
     // Add Settings button
@@ -65,7 +68,7 @@
     
     
     lastRefresh = [[NSUserDefaults standardUserDefaults] objectForKey:kHlUserDefaultsActivityFeedViewControllerLastRefreshKey];
-
+    
     // Do any additional setup after loading the view.
 }
 
@@ -78,10 +81,11 @@
     }
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    // [query whereKey:kHLNotificationToUserKey equalTo:[PFUser currentUser]];
-    //   [query whereKey:kHLNotificationFromUserKey notEqualTo:[PFUser currentUser]];
-    //  [query whereKeyExists:kHLNotificationFromUserKey];
+    [query whereKey:kHLNotificationToUserKey equalTo:[PFUser currentUser]];
+    [query whereKey:kHLNotificationFromUserKey notEqualTo:[PFUser currentUser]];
+    [query whereKeyExists:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationFromUserKey];
+    [query includeKey:kHLNotificationToUserKey];
     [query includeKey:kHLNotificationOfferKey];
     [query orderByDescending:@"createdAt"];
     
@@ -151,25 +155,212 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     
-    cell.textLabel.text = @"aaaaaaaaaa";
     
     PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
-    PFUser *toUser = [object objectForKey:kHLNotificationToUserKey];
-
-    [cell setUser:toUser];
+    
+    [cell setUser:fromUser];
     
     [cell setNotification:object];
- 
-  //  [cell setActivity:object];;
     
-//    if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
-//        [cell setIsNew:YES];
-//    } else {
-//        [cell setIsNew:NO];
-//    }
-//    
-  //  [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
+    //    if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
+    //        [cell setIsNew:YES];
+    //    } else {
+    //        [cell setIsNew:NO];
+    //    }
+    //
+    //  [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row < self.objects.count) {
+        
+        _notification = [self.objects objectAtIndex:indexPath.row];
+        
+        if ([[_notification objectForKey:kHLNotificationTypeKey]isEqualToString:kHLNotificationTypeFollow]) {
+            
+            [self seeUserDetail];
+            
+        }
+        else if ([[_notification objectForKey:kHLNotificationTypeKey]isEqualToString:khlNotificationTypMakeOffer]) {
+            
+            [[OffersManager sharedInstance]getOfferSoldStatusWithOfferID:[[_notification objectForKey:kHLNotificationOfferKey]objectId] block:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    
+                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"This item has been sold. Change the status in your items list." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alertView show];
+                    
+                }
+                else{
+                    
+                    UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                                            @"Accept Bid",
+                                            @"Contact",
+                                            @"See offer detail",
+                                            nil];
+                    popup.tag = 1;
+                    [popup showInView:[UIApplication sharedApplication].keyWindow];
+                }
+            }];
+        }
+        else if ([[_notification objectForKey:kHLNotificationTypeKey]isEqualToString:kHLNotificationTypeComment]) {
+            
+            [self seeOfferDetail];
+        }
+        
+    } else if (self.paginationEnabled) {
+        
+        [self loadNextPage];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //    if (indexPath.row < self.objects.count) {
+    //        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+    //        NSString *notificationStr= [NotificationFeedViewController stringForNotificationType:(NSString*)[object objectForKey:kHLNotificationTypeKey]];
+    //
+    //        PFUser *user = (PFUser*)[object objectForKey:kHLNotificationFromUserKey];
+    //        NSString *nameString = @"Someone";
+    //
+    //        if (user && [user objectForKey:kHLUserModelKeyUserName] && [[user objectForKey:kHLUserModelKeyUserName] length] > 0) {
+    //            nameString = [user objectForKey:kHLUserModelKeyUserName];
+    //        }
+    //
+    //        return [NotificationTableViewCell heightForCellWithName:nameString contentString:notificationStr];
+    //    } else {
+    //        return 44.0f;
+    //    }
+    
+    return 59.0f;
+}
+
++ (NSString *)stringForNotificationType:(NSString *)notificationType {
+    
+    if ([notificationType isEqualToString:kHLNotificationTypeLike]) {
+        return NSLocalizedString(@"liked your photo", nil);
+    } else if ([notificationType isEqualToString:kHLNotificationTypeFollow]) {
+        return NSLocalizedString(@"started following you", nil);
+    } else if ([notificationType isEqualToString:kHLNotificationTypeComment]) {
+        return NSLocalizedString(@"commented on your item", nil);
+    } else if ([notificationType isEqualToString:kHLNotificationTypeJoined]) {
+        return NSLocalizedString(@"joined Hooli", nil);
+    } else if ([notificationType isEqualToString:khlNotificationTypMakeOffer]){
+        return NSLocalizedString(@"bid on your item for", nil);
+    }
+    else  {
+        return nil;
+    }
+    
+}
+
+-(void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (popup.tag) {
+        case 1: {
+            switch (buttonIndex) {
+                case 0:
+                {
+                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to accept this bid?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                    
+                    alertView.tag = 0;
+                    
+                    [alertView show];
+                }
+                    
+                    break;
+                    
+                case 1:
+                    
+                    [self startChattingWithBidder];
+                    break;
+                    
+                case 2:
+                    
+                    [self seeOfferDetail];
+                    break;
+                    
+                default:
+                    break;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+-(void)seeUserDetail{
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    vc.userID = [[_notification objectForKey:kHLNotificationFromUserKey]objectId];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)seeOfferDetail{
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+    vc.offerId = [[_notification objectForKey:kHLNotificationOfferKey]objectId];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)startChattingWithBidder{
+    
+    NSString *roomId = StartPrivateChat([PFUser currentUser], [_notification objectForKey:kHLNotificationToUserKey]);
+    ChatView *chatView = [[ChatView alloc] initWith:roomId];
+    chatView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:chatView animated:YES];
+    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if(alertView.tag == 0){
+        
+        if(buttonIndex == 1){
+            
+            PFObject *offer = [_notification objectForKey:kHLNotificationOfferKey];
+            
+            [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:offer.objectId
+                                                                 soldStatus:YES
+                                                                      block:^(BOOL succeeded, NSError *error)
+             {
+                 
+                 if(succeeded){
+                     
+                     NSString *userName = [[_notification objectForKey:kHLNotificationFromUserKey]objectForKey:kHLUserModelKeyUserName];
+                     
+                     NSString *message = [NSString stringWithFormat:@"You decide to sell the item to %@, other can't see the item unless you change the status in your items list.", userName];
+                     
+                     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                     
+                     [alertView show];
+                     
+                     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+                 }
+                 
+             }];
+            
+            
+        }
+        
+    }
+    
+}
+
+
+- (void)applicationDidReceiveRemoteNotification:(NSNotification *)note {
+    [self loadObjects];
 }
 @end

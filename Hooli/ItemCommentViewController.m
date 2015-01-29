@@ -13,7 +13,7 @@
 #import "MBProgressHUD.h"
 #import "OffersManager.h"
 #import "AccountManager.h"
-
+#import "OfferModel.h"
 @interface ItemCommentViewController ()
 @property (nonatomic, strong) ItemDetailsHeaderView *headerView;
 @property (nonatomic, assign) BOOL likersQueryInProgress;
@@ -76,7 +76,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         
         // The Loading text clashes with the dark Anypic design
         self.loadingViewEnabled = NO;
-
+        
         
     }
     return self;
@@ -86,22 +86,22 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [super viewDidLoad];
     
-//    [[OffersManager sharedInstance]fetchOfferByID:@"EuLwDPinW0" withSuccess:^(id downloadObjects) {
-//        
-//        self.offer = [[OfferModel alloc]initOfferWithPFObject:downloadObjects];
-//        
-//    } failure:^(id error) {
-//        
-//    }];
+    //    [[OffersManager sharedInstance]fetchOfferByID:@"EuLwDPinW0" withSuccess:^(id downloadObjects) {
+    //
+    //        self.offer = [[OfferModel alloc]initOfferWithPFObject:downloadObjects];
+    //
+    //    } failure:^(id error) {
+    //
+    //    }];
     
-
+    
     
     // Set table view properties
     UIView *texturedBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -115,21 +115,17 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     self.tableView.tableFooterView = footerView;
     
     // Register to be notified when the keyboard will be shown to scroll the view
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidCommentOnPhoto:) name:kHLItemDetailsUserCommentedNotification object:nil];
-  //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLikedOrUnlikedPhoto:) name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLikedOrUnlikedPhoto:) name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
+    //
+    
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self
-                                   action:@selector(dismissKeyboard)];
-    
-    [self.view addGestureRecognizer:tap];
-   // [self.headerView reloadLikeBar];
+    // [self.headerView reloadLikeBar];
     
     // we will only hit the network if we have no cached data for this photo
     //    BOOL hasCachedLikers = [[PAPCache sharedCache] attributesForPhoto:self.photo] != nil;
@@ -144,19 +140,19 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     
     if (indexPath.row < self.objects.count) { // A comment row
         
-//        PFUser *commentAuthor = (PFUser *)[[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationFromUserKey];
-//        
-//        //        PFObject *object = [self.objects objectAtIndex:indexPath.row];
-//        
-//        
+        //        PFUser *commentAuthor = (PFUser *)[[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationFromUserKey];
+        //
+        //        //        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        //
+        //
         NSString *commentString = [self.objects[indexPath.row] objectForKey:kHLNotificationContentKey];
-//        
-//        NSString *nameString = @"";
-//        if (commentAuthor) {
-//            nameString = [commentAuthor objectForKey:kHLUserModelKeyUserName];
-//        }
-//        
-        return [NotificationTableViewCell heightForCellWithName:@"aaaaaaaaaaaaaaaaaa" contentString:commentString cellInsetWidth:kHLCellInsetWidth];
+        //
+        //        NSString *nameString = @"";
+        //        if (commentAuthor) {
+        //            nameString = [commentAuthor objectForKey:kHLUserModelKeyUserName];
+        //        }
+        //
+        return [NotificationTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLUserModelKeyUserName] contentString:commentString cellInsetWidth:kHLCellInsetWidth];
         
     }
     
@@ -190,9 +186,16 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     
-     [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsReloadContentSizeNotification object:self];
+    //
+    //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+    //                                   initWithTarget:self
+    //                                   action:@selector(dismissKeyboard)];
+    //
+    //    [self.tableView addGestureRecognizer:tap];
     
-//    [self.headerView reloadLikeBar];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsReloadContentSizeNotification object:self];
+    
+    //    [self.headerView reloadLikeBar];
     // [self loadLikers];
 }
 
@@ -231,7 +234,11 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         cell.delegate = self;
     }
     
-    //    cell.textLabel.text =[object objectForKey:kHLNotificationContentKey];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [cell addGestureRecognizer:tap];
     
     [cell setUser:[object objectForKey:kHLNotificationFromUserKey]];
     [cell setContentText:[object objectForKey:kHLNotificationContentKey]];
@@ -261,7 +268,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     NSString *trimmedComment = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
     if (trimmedComment.length != 0) {
-                
+        
         PFObject *comment = [PFObject objectWithClassName:kHLCloudNotificationClass];
         [comment fetchIfNeeded];
         [comment setObject:trimmedComment forKey:kHLNotificationContentKey]; // Set comment text
@@ -307,14 +314,16 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 
 - (void)keyboardDidShow:(NSNotification*)note {
     // Scroll the view to the comment text box
- [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsLiftCommentViewNotification object:nil userInfo:[note userInfo]];
     
+    if([commentTextField isFirstResponder]){
+        [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsLiftCommentViewNotification object:nil userInfo:[note userInfo]];
+    }
 }
 
 -(void)dismissKeyboard {
     [commentTextField resignFirstResponder];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsPutDownCommentViewNotification object:self];
-
+    
 }
 
 - (void)handleCommentTimeout:(NSTimer *)aTimer {
@@ -328,15 +337,5 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     [self.tableView endUpdates];
 }
 
--(NSInteger )getViewHeight{
-    
-    [self loadObjects];
-    
-    [self.tableView layoutIfNeeded];
-    
-    CGSize tableViewSize=self.tableView.contentSize;
-    
-    return tableViewSize.height;
-}
 
 @end

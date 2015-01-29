@@ -42,17 +42,18 @@ typedef void (^UploadFailureBlock) (id error);
 
 - (void)followUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 - (void)unFollowUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
-- (void)getFollowersByUser:(PFUser *)user
-               WithSuccess:(DownloadSuccessBlock)success
-                   Failure:(DownloadFailureBlock)failure;
-- (void)getFollowedUsersByUser:(PFUser *)user
-                   WithSuccess:(DownloadSuccessBlock)success
-                       Failure:(DownloadFailureBlock)failure;
-- (void)getFriendsByUser:(PFUser *)user
-             WithSuccess:(DownloadSuccessBlock)success
-                 Failure:(DownloadFailureBlock)failure;
+- (void)getFollowersByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock;
+- (void)getFollowedUsersByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock;
+- (void)getFriendsByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock;
 - (void)getUserRelationshipWithUserOne:(PFUser *)user1
                                UserTwo:(PFUser *)user2
                              WithBlock:(void (^)(RelationshipType relationType, NSError *error))completionBlock;
+- (void)makeOfferToOffer:(OfferModel *)offerObject
+               withPrice:(NSString *)price
+                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
+-(void)isOfferAlreadyMadeByCurrentUser:(OfferModel *)offerObject
+                                 block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
 
 @end

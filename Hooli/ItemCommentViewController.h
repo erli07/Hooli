@@ -17,6 +17,4 @@
 
 - (id)initWithOffer:(OfferModel*)aOffer;
 
--(NSInteger )getViewHeight;
-
 @end

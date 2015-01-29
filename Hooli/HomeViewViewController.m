@@ -15,6 +15,8 @@
 #import "SearchItemViewController.h"
 #import "LoginViewController.h"
 #import "MyCameraViewController.h"
+#import "ActivityManager.h"
+#import "HLConstant.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate>{
     
 }
@@ -31,10 +33,13 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
-   // [self.addItemButton bringSubviewToFront:self.view];
-
+    
+    // [self.addItemButton bringSubviewToFront:self.view];
+    
     [self initViewELements];
+    
+    [self getFollowedUserItems];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -44,11 +49,12 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self resetNavBar];
     
-//    if(![PFUser currentUser]){
-//        
-//        [self initViewELements];
-//        
-//    }
+    
+    //    if(![PFUser currentUser]){
+    //
+    //        [self initViewELements];
+    //
+    //    }
     
 }
 
@@ -59,6 +65,7 @@ static NSString * const reuseIdentifier = @"Cell";
         
         [self updateCollectionViewData];
         [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+        [self getFollowedUserItems];
         
     }
     
@@ -69,23 +76,49 @@ static NSString * const reuseIdentifier = @"Cell";
     [[OffersManager sharedInstance]clearData];
 }
 
+-(void)updateCollectionViewData{
+    
+    [[OffersManager sharedInstance]clearData];
+    
+    [self.collectionView updateDataFromCloud];
+    
+}
+
+-(void)getFollowedUserItems{
+    
+    if([PFUser currentUser]){
+        
+        [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] block:^(NSArray *array, NSError *error) {
+            
+            if(array){
+                
+                [OffersManager sharedInstance].followedUserArray = array;
+                
+            }
+            
+            
+        }];
+        
+    }
+    
+}
 
 -(void)initViewELements{
     
     [[OffersManager sharedInstance]setPageCounter:0];
     [[HLSettings sharedInstance]setPreferredDistance:25];
-//    
-//    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
-//                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-//                                     target:self
-//                                     action:@selector(showSearchVC)];
-//    self.navigationItem.rightBarButtonItem = searchButton;
+    //
+    //    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+    //                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+    //                                     target:self
+    //                                     action:@selector(showSearchVC)];
+    //    self.navigationItem.rightBarButtonItem = searchButton;
     
-//    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
-//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-//                                       target:self
-//                                       action:@selector(showMoreItems)];
-//    self.navigationItem.leftBarButtonItem = settingsButton;
+    //    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
+    //                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+    //                                       target:self
+    //                                       action:@selector(showMoreItems)];
+    //    self.navigationItem.leftBarButtonItem = settingsButton;
     
     self.view.tintColor = [HLTheme mainColor];
     [self.layout configureLayout] ;
@@ -139,13 +172,7 @@ static NSString * const reuseIdentifier = @"Cell";
                                                  name:@"Hooli.reloadHomeData" object:nil];
 }
 
--(void)updateCollectionViewData{
-    
-    [[OffersManager sharedInstance]clearData];
-    
-    [self.collectionView updateDataFromCloud];
-    
-}
+
 
 
 #pragma mark collectionview delegate
@@ -323,7 +350,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
-
+    
     
     [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
         
@@ -332,7 +359,42 @@ static NSString * const reuseIdentifier = @"Cell";
         
         
     }];
-
+    
 }
 
+
+
+- (IBAction)segmentChange:(id)sender {
+    
+    if(self.segmentControl.selectedSegmentIndex == 0){
+        
+        self.collectionView.hidden = NO;
+        
+        [self updateCollectionViewData];
+        
+    }
+    else if(self.segmentControl.selectedSegmentIndex == 1){
+        
+        if([PFUser currentUser]){
+            
+            [[OffersManager sharedInstance]clearData];
+            
+            [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
+            
+            if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
+                
+                [self.collectionView updateDataFromCloud];
+                
+            }
+            else{
+                
+                self.collectionView.hidden = YES;
+                
+            }
+            
+        }
+    }
+    
+    
+}
 @end

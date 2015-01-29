@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
 @property (nonatomic, strong) NSArray* collections;
+- (IBAction)segmentChange:(id)sender;
 
 
 @end

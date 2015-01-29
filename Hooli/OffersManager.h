@@ -31,6 +31,7 @@ typedef void (^UploadFailureBlock) (id error);
 @property (nonatomic, strong)  NSDictionary *filterDictionary;
 @property (nonatomic, strong)  NSMutableArray *offersArray;
 @property (nonatomic, assign) NSInteger pageCounter;
+@property (nonatomic, strong) NSArray *followedUserArray;
 
 +(OffersManager *)sharedInstance;
 
@@ -55,6 +56,8 @@ typedef void (^UploadFailureBlock) (id error);
 
 -(void)updateOfferSoldStatusWithOfferID:(NSString *)offerID  soldStatus:(BOOL)soldStatus
                             block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
+-(void)getOfferSoldStatusWithOfferID:(NSString *)offerID block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
 -(void)deleteOfferModelWithOfferId:(NSString *)offerId
                              block:(void (^)(BOOL succeeded, NSError *error))completionBlock;

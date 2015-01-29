@@ -63,7 +63,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
         self.avatarImageView = [[ProfileImageView alloc] init];
         [self.avatarImageView setBackgroundColor:[UIColor clearColor]];
         [self.avatarImageView setOpaque:YES];
-        self.avatarImageView.layer.cornerRadius = 16.0f;
+        self.avatarImageView.layer.cornerRadius = avatarDim/2;
         self.avatarImageView.layer.masksToBounds = YES;
         [mainView addSubview:self.avatarImageView];
         
@@ -128,8 +128,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
     [mainView setFrame:CGRectMake(cellInsetWidth, self.contentView.frame.origin.y, self.contentView.frame.size.width-2*cellInsetWidth, self.contentView.frame.size.height)];
     
     // Layout avatar image
-    [self.avatarImageView setFrame:CGRectMake(avatarX, avatarY + 5.0f, avatarDim, avatarDim)];
-    [self.avatarImageButton setFrame:CGRectMake(avatarX, avatarY + 5.0f, avatarDim, avatarDim)];
+    [self.avatarImageView setFrame:CGRectMake(avatarX, avatarY , avatarDim, avatarDim)];
+    [self.avatarImageButton setFrame:CGRectMake(avatarX, avatarY , avatarDim, avatarDim)];
     
     // Layout the name button
     CGSize nameSize = [self.nameButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)

@@ -19,5 +19,7 @@
 - (IBAction)followItemOwner:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *followersCount;
 @property (weak, nonatomic) IBOutlet UILabel *followingCount;
+@property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet UILabel *friendsCount;
 
 @end

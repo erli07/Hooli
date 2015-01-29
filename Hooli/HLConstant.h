@@ -130,6 +130,7 @@ extern NSString *const kHLFilterDictionarySearchKeyCategory;
 extern NSString *const kHLFilterDictionarySearchKeyWords;
 extern NSString *const kHLFilterDictionarySearchKeyUser;
 extern NSString *const kHLFilterDictionarySearchKeyUserLikes;
+extern NSString *const kHLFilterDictionarySearchKeyFollowedUsers;
 
 extern NSString *const kHLOfferAttributesLikeCountKey;
 extern NSString *const kHLOfferAttributesLikersKey;
@@ -148,6 +149,7 @@ extern NSString *const kHLNotificationTypeLike;
 extern NSString *const kHLNotificationTypeFollow ;
 extern NSString *const kHLNotificationTypeComment;
 extern NSString *const kHLNotificationTypeJoined;
+extern NSString *const khlNotificationTypMakeOffer;
 
 extern NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification;
 extern NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey;

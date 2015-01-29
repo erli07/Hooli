@@ -58,7 +58,7 @@
 
 /*! Layout constants */
 #define vertBorderSpacing 8.0f
-#define vertElemSpacing 0.0f
+#define vertElemSpacing 3.0f
 
 #define horiBorderSpacing 8.0f
 #define horiBorderSpacingBottom 9.0f
@@ -68,7 +68,7 @@
 
 #define avatarX horiBorderSpacing
 #define avatarY vertBorderSpacing
-#define avatarDim 33.0f
+#define avatarDim 43.0f
 
 #define nameX avatarX+avatarDim+horiElemSpacing
 #define nameY vertTextBorderSpacing

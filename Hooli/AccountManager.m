@@ -206,9 +206,8 @@
         }
         else{
             
-            UserModel *userModel = [[UserModel alloc]initUserWithPFObject:object];
             
-            _dowloadSuccess(userModel);
+            _dowloadSuccess(object);
             
         }
     }];

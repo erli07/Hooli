@@ -91,6 +91,7 @@ NSString *const kHLFilterDictionarySearchKeyCategory = @"searchByCategory";
 NSString *const kHLFilterDictionarySearchKeyWords = @"searchByWords";
 NSString *const kHLFilterDictionarySearchKeyUser = @"searchByUser";
 NSString *const kHLFilterDictionarySearchKeyUserLikes = @"searchByUserLikes";
+NSString *const kHLFilterDictionarySearchKeyFollowedUsers = @"searchByFollowedUsers";
 
 NSString *const kHLOfferAttributesLikeCountKey = @"likeCount";
 NSString *const kHLOfferAttributesLikersKey = @"likers";
@@ -107,6 +108,8 @@ NSString *const kHLNotificationTypeLike       = @"like";
 NSString *const kHLNotificationTypeFollow     = @"follow";
 NSString *const kHLNotificationTypeComment    = @"comment";
 NSString *const kHLNotificationTypeJoined     = @"joined";
+NSString *const khlNotificationTypMakeOffer     = @"make offer";
+
 
 NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification = @"com.Hooli.ApplicationDidReceiveRemoteNotification";
 NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey = @"com.Hooli.Feed.lastRefresh";
