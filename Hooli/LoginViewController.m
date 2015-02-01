@@ -84,10 +84,7 @@
     
     
     
-    
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
+   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
     
     PFQuery *query = [PFUser query];
     [query whereKey:@"email" equalTo:self.emailText.text];
@@ -107,7 +104,8 @@
                                                 
                         if(succeeded){
                             
-                            [HUD hide:YES];
+                             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
                             
                             [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
                                 
@@ -121,7 +119,7 @@
                         }
                         else{
                             
-                            [HUD hide:YES];
+                             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                             
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                             message:@"Log In Error"
@@ -138,7 +136,7 @@
                 }
                 else{
                     
-                    [HUD hide:YES];
+                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
 
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
@@ -154,7 +152,7 @@
         }
         else{
             
-            [HUD hide:YES];
+             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
 
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                             message:@"Email does not exist. Please sign up."
@@ -186,23 +184,15 @@
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me",@"email"];
     
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    
-    // Register for HUD callbacks so we can remove it from the window at the right time
-    HUD.delegate = self;
-    
     // Show the HUD while the provided method executes in a new thread
-    [HUD show:YES];
-    
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];    
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         
         
         if (!user) {
             
-            [HUD hide:YES];
-
+             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             
             NSString *errorMessage = nil;
             if (!error) {
@@ -235,7 +225,7 @@
                             
                             if(succeeded){
                                 
-                                [HUD hide:YES];
+                                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                                 
                                 [self loginSuccessWithUser:[PFUser currentUser]];
                                 
@@ -244,7 +234,7 @@
                             }
                             else{
                                 
-                                [HUD hide:YES];
+                                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                                 
 //                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
 //                                                                                message:@"Log In Error"
@@ -263,7 +253,7 @@
                 
             } Failure:^(id error) {
                 
-                [HUD hide:YES];
+                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                 
             }];
             

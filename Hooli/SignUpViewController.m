@@ -157,12 +157,8 @@ const CGFloat duration = 0.3;
     
     UserModel *userModel = [[UserModel alloc]initUserWithEmail:self.emailText.text userName:self.nameText.text password:self.passwordText.text portraitImage:self.portraitImage.image];
     
-    
-    
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
-    
+
+   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];    
     
     [[AccountManager sharedInstance]checkIfUserExistedWithUser:userModel block:^(BOOL succeeded, NSError *error) {
         
@@ -171,7 +167,7 @@ const CGFloat duration = 0.3;
             
             [[AccountManager sharedInstance]submitUserProfileWithUser:userModel Success:^{
                 
-                [HUD hide:YES];
+                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                 
                 UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
@@ -185,7 +181,7 @@ const CGFloat duration = 0.3;
                 
             } Failure:^(id error) {
                 
-                [HUD hide:YES];
+                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                 
                 NSLog(@"Submit failure");
                 
@@ -195,7 +191,7 @@ const CGFloat duration = 0.3;
         }
         else{
             
-            [HUD hide:YES];
+             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
 
             NSString *alertMsg = [NSString stringWithFormat:@"User with email:%@ already registered", emailText.text];
             

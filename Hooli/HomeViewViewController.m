@@ -74,6 +74,7 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)viewWillDisappear:(BOOL)animated{
     
     [[OffersManager sharedInstance]clearData];
+    
 }
 
 -(void)updateCollectionViewData{

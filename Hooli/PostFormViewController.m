@@ -321,10 +321,8 @@ numberOfRowsInComponent:(NSInteger)component
 
 -(void)submitOfferToCloud{
 
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
-
+   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+    
     NSArray *imagesArray = [[ImageCache sharedInstance]getimagesArray];
     NSString *itemName = [[FormManager sharedInstance]itemName];
     NSString *itemPrice = [[FormManager sharedInstance]itemPrice];
@@ -336,7 +334,8 @@ numberOfRowsInComponent:(NSInteger)component
 
     [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
 
-        [HUD hide:YES];
+         [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+        
         [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
 
         UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
@@ -356,7 +355,8 @@ numberOfRowsInComponent:(NSInteger)component
         
     } withFailure:^(id error) {
 
-        [HUD hide:YES];
+         [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
 
     }];
 

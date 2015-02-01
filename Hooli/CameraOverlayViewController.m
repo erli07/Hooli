@@ -129,11 +129,8 @@
     else{
         
         [[HLSettings sharedInstance]setIsPostingOffer:NO];
-        
-        HUD = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:HUD];
-        [HUD show:YES];
-        
+    
+        [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"Hooli.goToPostForm" object:self];
         
@@ -143,7 +140,9 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [HUD hide:YES];
+    
+    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+    
 }
 
 

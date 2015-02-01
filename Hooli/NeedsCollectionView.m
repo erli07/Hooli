@@ -53,10 +53,8 @@ MBProgressHUD *HUD;
 
 -(void)updateDataFromCloud{
     
-    HUD = [[MBProgressHUD alloc] initWithView:self];
-    [self addSubview:HUD];
-    HUD.delegate = self;
-    [HUD show:YES];
+
+   [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
     
     [[NeedsManager sharedInstance]retrieveNeedsWithSuccess:^(NSArray *objects) {
         
@@ -67,13 +65,17 @@ MBProgressHUD *HUD;
             [self reloadData];
         }
         
-        [HUD hide:YES];
+        [MBProgressHUD hideHUDForView:self.superview animated:YES];
+
         
         
     } failure:^(id error) {
         
         NSLog(@"Retrived Images Error %@",[error description] );
-        [HUD hide:YES];
+        
+        [MBProgressHUD hideHUDForView:self.superview animated:YES];
+
+
         
     }];
 }
@@ -82,9 +84,8 @@ MBProgressHUD *HUD;
     
     if (self.refreshControl) {
         
-        [HUD hide:YES];
-        
-        
+         [MBProgressHUD hideHUDForView:self.superview animated:YES];
+
         [[NeedsManager sharedInstance]retrieveNeedsWithSuccess:^(NSArray *objects) {
             
             self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];

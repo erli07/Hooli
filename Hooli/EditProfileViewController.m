@@ -85,10 +85,7 @@
 
 - (IBAction)submitUser:(id)sender {
     
-    
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];    
     
     if(![self.userNameTextField.text isEqualToString:@""] || ![self.emailTextField.text isEqualToString:@""]){
         
@@ -98,13 +95,13 @@
         
         [[AccountManager sharedInstance]updateUserProfileWithUser:user Success:^{
             
-            [HUD hide:YES];
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
 
             [self.navigationController popToRootViewControllerAnimated:YES];
             
         } Failure:^(id error) {
             
-            [HUD hide:YES];
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             
         }];
         

@@ -142,9 +142,7 @@
         
         //self.bottomButtonsView.hidden = NO;
         
-        HUD = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:HUD];
-        [HUD show:YES];
+        [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
         
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
@@ -161,7 +159,8 @@
                                                       
                                                       [self updateOfferDetailInfo:self.offerObject];
                                                       
-                                                      [HUD hide:YES];
+                                                      [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
                                                       
                                                   });
                                                   
@@ -169,7 +168,7 @@
                                                   
                                                   NSLog(@"%@",[error description]);
                                                   
-                                                  [HUD hide:YES];
+                                                  [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                                                   
                                               }];
             
@@ -187,11 +186,7 @@
 
 -(void)refreshOfferDetailsFromCloud{
     
-    
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
-    
+   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];    
     
     if(self.isFirstPosted){
         
@@ -214,7 +209,8 @@
         
         self.categoryLabel.userInteractionEnabled = NO;
         
-        [HUD hide:YES];
+        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+;
         
     }
     else{
@@ -233,7 +229,8 @@
                                                       
                                                       [self updateOfferDetailInfo:self.offerObject];
                                                       
-                                                      [HUD hide:YES];
+                                                       [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
                                                       
                                                   });
                                                   
@@ -241,7 +238,8 @@
                                                   
                                                   NSLog(@"%@",[error description]);
                                                   
-                                                  [HUD hide:YES];
+                                                   [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
                                                   
                                               }];
             
@@ -540,11 +538,11 @@
         
         if(buttonIndex== 1){
             
-            [HUD show:YES];
-            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
+           [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
                 
                 if(succeeded){
-                    [HUD hide:YES];
+                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
                     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
                     [self.navigationController popViewControllerAnimated:YES];
                 }

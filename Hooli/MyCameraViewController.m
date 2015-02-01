@@ -116,8 +116,7 @@
 //
 //    HUD = [[MBProgressHUD alloc] initWithView:self.view];
 //    [self.view addSubview:HUD];
-//    [HUD show:YES];
-//
+//   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];//
 //    NSArray *imagesArray = [[ImageCache sharedInstance]getimagesArray];
 //
 //    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:self.priceInputBox.text offerName:self.itemNameTextField.text category:self.categoryTextView.text description:self.itemDetailTextView.text location:[[LocationManager sharedInstance]currentLocation] isOfferSold:[NSNumber numberWithBool:NO]];
@@ -128,7 +127,9 @@
 //
 //    [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
 //
-//        [HUD hide:YES];
+//         [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+//    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
 //        [[HLSettings sharedInstance]setIsPostingOffer:YES];
 //        [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
 //
@@ -151,13 +152,15 @@
 //
 //    } withFailure:^(id error) {
 //
-//        [HUD hide:YES];
+//         [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
 //
 //    }];
 //
 //    //    } withFailure:^(id error) {
 //    //
-//    //        [HUD hide:YES];
+//    //         [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
 //    //
 //    //
 //    //    }];

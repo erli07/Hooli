@@ -40,8 +40,7 @@
 //    HUD = [[MBProgressHUD alloc] initWithView:self.view];
 //    [self.view addSubview:HUD];
 //    HUD.delegate = self;
-//    [HUD show:YES];
-//    self.view.alpha = 0.2;
+//   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];//    self.view.alpha = 0.2;
 //    [self startLocationUpdate];
 //    [self updateMapView];
     

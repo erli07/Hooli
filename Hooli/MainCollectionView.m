@@ -58,17 +58,14 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)updateDataFromCloud{
     
     NSLog(@"Start loading" );
+    
+    [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
 
     if(!self.isLoading){
         
         self.isLoading = YES;
         NSLog(@"In loading" );
- 
-        
-        HUD = [[MBProgressHUD alloc] initWithView:self];
-        [self addSubview:HUD];
-        HUD.delegate = self;
-        [HUD show:YES];
+
         
         [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
             
@@ -82,7 +79,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
             self.isLoading = NO;
             
-            [HUD hide:YES];
+            [MBProgressHUD hideHUDForView:self.superview animated:YES];
             
             
         } failure:^(id error) {
@@ -91,7 +88,7 @@ static NSString * const reuseIdentifier = @"Cell";
             
             self.isLoading = NO;
             
-            [HUD hide:YES];
+            [MBProgressHUD hideHUDForView:self.superview animated:YES];
             
         }];
         
@@ -102,7 +99,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (self.refreshControl) {
         
-        [HUD hide:YES];
+         [MBProgressHUD hideHUDForView:self.superview animated:YES];
         
         [self updateDataFromCloud];
         
