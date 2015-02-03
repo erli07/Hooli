@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "HooliDev": {
+            "applicationId": "nLiRBbe4xwev8pUXbvD3x8Q2eQAuSg8NRQWsoo9y", 
+            "masterKey": "jSkBPGjwIzw5Iyy8owTSFyUiuNsRQ1lHbjZbso8a"
+        }, 
+        "_default": {
+            "link": "HooliDev"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.4"
+    }
+}
