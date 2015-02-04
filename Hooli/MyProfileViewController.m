@@ -16,6 +16,7 @@
 #import "HLSettings.h"
 #import "HLCache.h"
 #import "AppDelegate.h"
+#import "FollowListViewController.h"
 
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
@@ -104,13 +105,31 @@
             [self.navigationController pushViewController:vc animated:YES];
             
         }
-        else{
+        else if(indexPath.row == 1){
             
             UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"settings"];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
+        }
+        else if(indexPath.row == 2){
+            
+            FollowListViewController *vc = [[FollowListViewController alloc] init];
+            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
+            vc.fromUser = [PFUser currentUser];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+
+        }
+        else if(indexPath.row == 3){
+            
+            FollowListViewController *vc = [[FollowListViewController alloc] init];
+            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
+            vc.fromUser = [PFUser currentUser];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+
         }
         
     }
@@ -157,9 +176,19 @@
             cell.textLabel.text = @"My Profile";
             
         }
-        else{
+        else if(indexPath.row == 1){
             
             cell.textLabel.text = @"Settings";
+            
+        }
+        else if(indexPath.row == 2){
+            
+            cell.textLabel.text = @"Get Followers";
+
+        }
+        else if(indexPath.row == 3){
+            
+            cell.textLabel.text = @"Get Followed Users";
             
         }
     }
@@ -180,7 +209,7 @@
     if(section == 0)
         return 1;
     else if(section == 1)
-        return 2;
+        return 4;
     else
         return 1;
 }

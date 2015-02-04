@@ -33,6 +33,19 @@ NSString *const kHLNeedCategory8 = @"情感咨询";
 NSString *const kHLNeedCategory9 = @"其他";
 
 
+/*
+ 
+ 活动种类：
+ 
+ 结伴旅行
+ 户外活动
+ 娱乐休闲
+ 
+ 
+ 
+ */
+
+
 
 int const kHLOfferCellHeight = 151.0;
 int const kHLOfferCellWidth = 151.0;
@@ -47,6 +60,7 @@ NSString *const kHLUserModelKeyPortraitImage = @"PortraitImage";
 NSString *const kHLUserModelKeyUserId = @"objectId";
 NSString *const kHLUserModelKeyPassword = @"password";
 NSString *const kHLUserModelKeyUserIdMD5 = @"objectId_MD5";
+NSString *const kHLUserFacebookIDKey = @"facebookId";
 
 
 
@@ -115,6 +129,8 @@ NSString *const kHLNotificationTypeComment    = @"comment";
 NSString *const kHLNotificationTypeJoined     = @"joined";
 NSString *const khlNotificationTypMakeOffer     = @"make offer";
 
+//Cache
+NSString *const kHLUserAttributesIsFollowedByCurrentUserKey    = @"isFollowedByCurrentUser";
 
 NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification = @"com.Hooli.ApplicationDidReceiveRemoteNotification";
 NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey = @"com.Hooli.Feed.lastRefresh";

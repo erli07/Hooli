@@ -19,4 +19,11 @@
 - (void)setAttributesForOffer:(OfferModel *)offer likers:(NSArray *)likers likedByCurrentUser:(BOOL)likedByCurrentUser;
 -( void)setLikedOffersByUser:(PFUser *)user likedOffers:(NSArray *)likedOffers;
 
+- (NSDictionary *)attributesForUser:(PFUser *)user;
+- (void)setFollowStatus:(BOOL)following user:(PFUser *)user;
+- (BOOL)followStatusForUser:(PFUser *)user;
+
+
+- (void)setFacebookFriends:(NSArray *)friends;
+- (NSArray *)facebookFriends;
 @end

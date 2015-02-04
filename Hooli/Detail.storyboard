@@ -393,7 +393,6 @@
                         <outlet property="layout" destination="SNZ-jD-Zbe" id="eFr-eR-nlE"/>
                         <outlet property="profileImageView" destination="dHv-45-L3S" id="wIH-ox-jU7"/>
                         <outlet property="userNameLabel" destination="Al1-6u-yxY" id="6zQ-45-XJn"/>
-                        <segue destination="pP3-p2-gWi" kind="push" id="kIS-Vl-IPO"/>
                         <segue destination="Tca-1D-tuT" kind="push" id="t3Y-7g-POg"/>
                     </connections>
                 </viewController>
@@ -414,22 +413,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDx-fL-R8U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1981" y="-432"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="8CL-Qz-KFg">
-            <objects>
-                <viewController id="pP3-p2-gWi" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gUK-4s-7hx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="c0D-fF-LFW"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FLp-uc-kju" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2021" y="132"/>
+            <point key="canvasLocation" x="1894" y="-119"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bsK-yv-L79">

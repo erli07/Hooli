@@ -66,7 +66,6 @@
 
 @interface HLConstant : NSObject
 
-
 extern NSString *const kHLOfferCategoryHomeGoods;
 extern NSString *const kHLOfferCategoryFurniture;
 extern NSString *const kHLOfferCategoryBabyKids;
@@ -96,7 +95,7 @@ extern NSString *const kHLUserModelKeyPassword;
 extern NSString *const kHLUserModelKeyUserIdMD5;
 extern NSString *const kHLOfferModelKeyImage;
 extern NSString *const kHLOfferModelKeyThumbNail;
-
+extern NSString *const kHLUserFacebookIDKey;
 
 extern NSString *const kHLOfferModelKeyPrice;
 extern NSString *const kHLOfferModelKeyLikes;
@@ -168,6 +167,10 @@ extern NSString *const kHLItemDetailsPutDownCommentViewNotification;
 extern NSString *const kHLUserDefaultsCacheFacebookFriendsKey;
 extern NSString *const kHLLoadFeedObjectsNotification;
 extern NSString *const kHLLoadMessageObjectsNotification;
+
+#pragma mark - Cached User Attributes
+// keys
+extern NSString *const kHLUserAttributesIsFollowedByCurrentUserKey;
 
 #pragma mark - PFPush Notification Payload Keys
 extern NSString *const kAPNSKey;

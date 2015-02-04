@@ -91,6 +91,8 @@
 		0E28DD841A7FFA170025077C /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E28DD6A1A7FFA170025077C /* shadow.png */; };
 		0E28DD851A7FFA170025077C /* sliderThumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E28DD6B1A7FFA170025077C /* sliderThumb.png */; };
 		0E28DD861A7FFA170025077C /* sliderThumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E28DD6C1A7FFA170025077C /* sliderThumb@2x.png */; };
+		0E28DD891A81BC8F0025077C /* FollowListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28DD881A81BC8F0025077C /* FollowListViewController.m */; };
+		0E28DD8C1A81BEA70025077C /* FollowListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28DD8B1A81BEA70025077C /* FollowListCell.m */; };
 		0E2A12541A052AF90036F8EB /* OffersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A12531A052AF90036F8EB /* OffersManager.m */; };
 		0E2A12571A052B340036F8EB /* OfferModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A12561A052B340036F8EB /* OfferModel.m */; };
 		0E2A125D1A05996D0036F8EB /* OfferCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2A125C1A05996D0036F8EB /* OfferCategory.m */; };
@@ -419,6 +421,10 @@
 		0E28DD6A1A7FFA170025077C /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow.png; sourceTree = "<group>"; };
 		0E28DD6B1A7FFA170025077C /* sliderThumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliderThumb.png; sourceTree = "<group>"; };
 		0E28DD6C1A7FFA170025077C /* sliderThumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sliderThumb@2x.png"; sourceTree = "<group>"; };
+		0E28DD871A81BC8F0025077C /* FollowListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowListViewController.h; sourceTree = "<group>"; };
+		0E28DD881A81BC8F0025077C /* FollowListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowListViewController.m; sourceTree = "<group>"; };
+		0E28DD8A1A81BEA70025077C /* FollowListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowListCell.h; sourceTree = "<group>"; };
+		0E28DD8B1A81BEA70025077C /* FollowListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowListCell.m; sourceTree = "<group>"; };
 		0E2A12521A052AF90036F8EB /* OffersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersManager.h; sourceTree = "<group>"; };
 		0E2A12531A052AF90036F8EB /* OffersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersManager.m; sourceTree = "<group>"; };
 		0E2A12551A052B340036F8EB /* OfferModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferModel.h; sourceTree = "<group>"; };
@@ -1053,6 +1059,10 @@
 				0E03ACC41A1F191C00827B6C /* MySettingsViewController.m */,
 				0EB888341A3AE6C90054F982 /* AboutViewController.h */,
 				0EB888351A3AE6C90054F982 /* AboutViewController.m */,
+				0E28DD871A81BC8F0025077C /* FollowListViewController.h */,
+				0E28DD881A81BC8F0025077C /* FollowListViewController.m */,
+				0E28DD8A1A81BEA70025077C /* FollowListCell.h */,
+				0E28DD8B1A81BEA70025077C /* FollowListCell.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -1980,6 +1990,7 @@
 				45F2C0701A51DA3E0004D476 /* NeedTableViewCell.m in Sources */,
 				457DA18A1A5E2FBA0099E52E /* UIWebView+AFNetworking.m in Sources */,
 				4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */,
+				0E28DD891A81BC8F0025077C /* FollowListViewController.m in Sources */,
 				0E96053D1A6D69A900791E4E /* NotificationTableViewCell.m in Sources */,
 				0E17BF0819FC94410042C4DD /* HLTheme.m in Sources */,
 				457DA20E1A5E2FD00099E52E /* JSQMessagesAvatarImage.m in Sources */,
@@ -2089,6 +2100,7 @@
 				0ECAC36A19FF2983002866DE /* readme.md in Sources */,
 				457DA21E1A5E2FD00099E52E /* JSQMessagesMediaPlaceholderView.m in Sources */,
 				0E3BA9AB1A43BEFF002BE988 /* MyCartViewController.m in Sources */,
+				0E28DD8C1A81BEA70025077C /* FollowListCell.m in Sources */,
 				4510ADEC1A15C6CC00486C43 /* ActivityManager.m in Sources */,
 				0EB5E7411A4E5035009A1186 /* NeedTableViewController.m in Sources */,
 				0ECAC38C19FF4412002866DE /* ItemCell.m in Sources */,
