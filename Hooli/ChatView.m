@@ -40,7 +40,7 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 @implementation ChatView
-
+@synthesize toUser;
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (id)initWith:(NSString *)roomId_
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@
 		PFQuery *query = [PFQuery queryWithClassName:PF_CHAT_CLASS_NAME];
 		[query whereKey:PF_CHAT_ROOMID equalTo:roomId];
 		if (message_last != nil) [query whereKey:PF_CHAT_CREATEDAT greaterThan:message_last.date];
-		[query includeKey:PF_CHAT_USER];
+		[query includeKey:PF_CHAT_FROM_USER];
 		[query orderByDescending:PF_CHAT_CREATEDAT];
 		[query setLimit:50];
 		[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
@@ -131,7 +131,7 @@
 - (void)addMessage:(PFObject *)object
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	PFUser *user = object[PF_CHAT_USER];
+	PFUser *user = object[PF_CHAT_FROM_USER];
 	[users addObject:user];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	if (object[PF_CHAT_PICTURE] == nil)
@@ -177,7 +177,8 @@
 	}
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	PFObject *object = [PFObject objectWithClassName:PF_CHAT_CLASS_NAME];
-	object[PF_CHAT_USER] = [PFUser currentUser];
+	object[PF_CHAT_FROM_USER] = [PFUser currentUser];
+    object[PF_MESSAGES_TO_USER] = toUser;
 	object[PF_CHAT_ROOMID] = roomId;
 	object[PF_CHAT_TEXT] = text;
 	if (filePicture != nil) object[PF_CHAT_PICTURE] = filePicture;

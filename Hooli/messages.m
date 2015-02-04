@@ -44,7 +44,7 @@ void CreateMessageItem(PFUser *user,PFUser *chatter, NSString *roomId, NSString 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
-	[query whereKey:PF_MESSAGES_USER equalTo:user];
+	[query whereKey:PF_MESSAGES_FROM_USER equalTo:user];
 	[query whereKey:PF_MESSAGES_ROOMID equalTo:roomId];
 	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 	{
@@ -53,10 +53,10 @@ void CreateMessageItem(PFUser *user,PFUser *chatter, NSString *roomId, NSString 
 			if ([objects count] == 0)
 			{
 				PFObject *message = [PFObject objectWithClassName:PF_MESSAGES_CLASS_NAME];
-				message[PF_MESSAGES_USER] = user;
+				message[PF_MESSAGES_FROM_USER] = user;
 				message[PF_MESSAGES_ROOMID] = roomId;
 				message[PF_MESSAGES_DESCRIPTION] = description;
-				message[PF_MESSAGES_CHATTER] = chatter;
+				message[PF_MESSAGES_TO_USER] = chatter;
 				message[PF_MESSAGES_LASTMESSAGE] = @"";
 				message[PF_MESSAGES_COUNTER] = @0;
 				message[PF_MESSAGES_UPDATEDACTION] = [NSDate date];
@@ -98,7 +98,7 @@ void UpdateMessageCounter(NSString *roomId, NSString *lastMessage)
 		{
 			for (PFObject *message in objects)
 			{
-				PFUser *user = message[PF_MESSAGES_USER];
+				PFUser *user = message[PF_MESSAGES_FROM_USER];
 				if ([user.objectId isEqualToString:[PFUser currentUser].objectId] == NO)
 					[message incrementKey:PF_MESSAGES_COUNTER byAmount:@1];
 				//---------------------------------------------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ void ClearMessageCounter(NSString *roomId)
 {
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
 	[query whereKey:PF_MESSAGES_ROOMID equalTo:roomId];
-	[query whereKey:PF_MESSAGES_USER equalTo:[PFUser currentUser]];
+	[query whereKey:PF_MESSAGES_FROM_USER equalTo:[PFUser currentUser]];
 	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 	{
 		if (error == nil)

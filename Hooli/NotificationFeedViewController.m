@@ -47,6 +47,11 @@
     return self;
 }
 
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kHLLoadFeedObjectsNotification object:nil];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,7 +61,7 @@
     self.title = @"Notification";
     
     // Add Settings button
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidReceiveRemoteNotification:) name:kHLAppDelegateApplicationDidReceiveRemoteNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kHLLoadFeedObjectsNotification object:nil];
     
     self.blankTimelineView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankTimelineView setBackgroundColor:[UIColor whiteColor]];
@@ -114,7 +119,7 @@
     
     if (self.objects.count == 0 && ![[self queryForTable] hasCachedResult]) {
         self.tableView.scrollEnabled = NO;
-        self.navigationController.tabBarItem.badgeValue = nil;
+      //  self.navigationController.tabBarItem.badgeValue = nil;
         
         if (!self.blankTimelineView.superview) {
             self.blankTimelineView.alpha = 0.0f;
@@ -128,18 +133,18 @@
         self.tableView.tableHeaderView = nil;
         self.tableView.scrollEnabled = YES;
         
-        NSUInteger unreadCount = 0;
-        for (PFObject *activity in self.objects) {
-            if ([lastRefresh compare:[activity createdAt]] == NSOrderedAscending && ![[activity objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeJoined]) {
-                unreadCount++;
-            }
-        }
-        
-        if (unreadCount > 0) {
-            self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu",(unsigned long)unreadCount];
-        } else {
-            self.navigationController.tabBarItem.badgeValue = nil;
-        }
+//        NSUInteger unreadCount = 0;
+//        for (PFObject *activity in self.objects) {
+//            if ([lastRefresh compare:[activity createdAt]] == NSOrderedAscending && ![[activity objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeJoined]) {
+//                unreadCount++;
+//            }
+//        }
+//        
+//        if (unreadCount > 0) {
+//            self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu",(unsigned long)unreadCount];
+//        } else {
+//            self.navigationController.tabBarItem.badgeValue = nil;
+//        }
     }
 }
 
@@ -360,7 +365,6 @@
 }
 
 
-- (void)applicationDidReceiveRemoteNotification:(NSNotification *)note {
-    [self loadObjects];
-}
+
+
 @end

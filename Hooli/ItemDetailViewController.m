@@ -159,8 +159,8 @@
                                                       
                                                       [self updateOfferDetailInfo:self.offerObject];
                                                       
-                                                      [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
+                                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                      
                                                       
                                                   });
                                                   
@@ -168,7 +168,7 @@
                                                   
                                                   NSLog(@"%@",[error description]);
                                                   
-                                                  [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                                                   
                                               }];
             
@@ -186,7 +186,7 @@
 
 -(void)refreshOfferDetailsFromCloud{
     
-   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     if(self.isFirstPosted){
         
@@ -209,8 +209,8 @@
         
         self.categoryLabel.userInteractionEnabled = NO;
         
-        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        ;
         
     }
     else{
@@ -229,8 +229,8 @@
                                                       
                                                       [self updateOfferDetailInfo:self.offerObject];
                                                       
-                                                       [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
+                                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                      
                                                       
                                                   });
                                                   
@@ -238,8 +238,8 @@
                                                   
                                                   NSLog(@"%@",[error description]);
                                                   
-                                                   [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
+                                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                  
                                                   
                                               }];
             
@@ -250,20 +250,41 @@
 
 - (IBAction)makeOffer:(id)sender {
     
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    PFUser *user1 = [PFUser currentUser];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    NSString *user2_Id = self.offerObject.user.objectId;
     
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     
-    UITextField* tf = [alertView textFieldAtIndex:0];
+    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
+        
+        
+        PFUser *user2 = (PFUser *)object;
+        NSString *roomId = StartPrivateChat(user1, user2);
+        ChatView *chatView = [[ChatView alloc] initWith:roomId];
+        chatView.toUser = user2;
+        chatView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:chatView animated:YES];
+        
+    } failure:^(id error) {
+        
+    }];
     
-    tf.text = self.offerObject.offerPrice;
     
-    tf.keyboardType = UIKeyboardTypeNumberPad;
     
-    alertView.tag = priceIndex;
-    
-    [alertView show];
+    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    //
+    //    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    //
+    //    UITextField* tf = [alertView textFieldAtIndex:0];
+    //
+    //    tf.text = self.offerObject.offerPrice;
+    //
+    //    tf.keyboardType = UIKeyboardTypeNumberPad;
+    //
+    //    alertView.tag = priceIndex;
+    //
+    //    [alertView show];
     
 }
 
@@ -538,11 +559,11 @@
         
         if(buttonIndex== 1){
             
-           [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
                 
                 if(succeeded){
-                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    
                     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
                     [self.navigationController popViewControllerAnimated:YES];
                 }

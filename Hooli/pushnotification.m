@@ -51,16 +51,19 @@ void SendPushNotification(NSString *roomId, NSString *text)
 {
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
 	[query whereKey:PF_MESSAGES_ROOMID equalTo:roomId];
-	[query whereKey:PF_MESSAGES_USER notEqualTo:[PFUser currentUser]];
-	[query includeKey:PF_MESSAGES_USER];
+	[query whereKey:PF_MESSAGES_FROM_USER notEqualTo:[PFUser currentUser]];
+	[query includeKey:PF_MESSAGES_FROM_USER];
 	[query setLimit:1000];
 
 	PFQuery *queryInstallation = [PFInstallation query];
-	[queryInstallation whereKey:PF_INSTALLATION_USER matchesKey:PF_MESSAGES_USER inQuery:query];
+	[queryInstallation whereKey:PF_INSTALLATION_USER matchesKey:PF_MESSAGES_FROM_USER inQuery:query];
 
 	PFPush *push = [[PFPush alloc] init];
 	[push setQuery:queryInstallation];
 	[push setMessage:text];
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        kHLPushPayloadPayloadTypeMessagesKey,kHLPushPayloadPayloadTypeKey, @"default",kAPNSSoundKey,@"increment",kAPNSBadgeKey,nil];
+    [push setData:data];
 	[push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 	{
 		if (error != nil)

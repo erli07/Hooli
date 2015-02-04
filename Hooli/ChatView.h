@@ -17,4 +17,6 @@
 
 - (id)initWith:(NSString *)roomId_;
 
+@property (nonatomic) PFUser* toUser;
+
 @end

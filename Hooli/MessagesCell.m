@@ -47,7 +47,7 @@
 	imageUser.layer.cornerRadius = imageUser.frame.size.width/2;
 	imageUser.layer.masksToBounds = YES;
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	PFUser *lastUser = message[PF_MESSAGES_CHATTER];
+	PFUser *lastUser = message[PF_MESSAGES_TO_USER];
 	[imageUser setFile:lastUser[PF_USER_PICTURE]];
 	[imageUser loadInBackground];
 	//---------------------------------------------------------------------------------------------------------------------------------------------

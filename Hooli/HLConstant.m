@@ -73,6 +73,11 @@ NSString *const kHLNeedsModelKeyName = @"name";
 NSString *const kHLNeedsModelKeyGeoPoint = @"geoPoint";
 NSString *const kHLNeedsModelKeyStatus = @"status";
 
+//Installation
+
+NSString *const kHLInstallationUserKey = @"user";
+
+//Offer Class
 NSString *const kHLOfferPhotoKeyOfferID = @"offerID";
 NSString *const kHLOfferPhotKeyPhoto = @"photo";
 
@@ -119,5 +124,30 @@ NSString *const kHLItemDetailsUserCommentedNotification = @"com.Hooli.itemDetail
 NSString *const kHLItemDetailsReloadContentSizeNotification = @"com.Hooli.itemDetailsReloadContentSizeNotification";
 NSString *const kHLItemDetailsLiftCommentViewNotification = @"com.Hooli.itemDetailsLiftCommentViewNotification";
 NSString *const kHLItemDetailsPutDownCommentViewNotification = @"com.Hooli.itemDetailsPutDownCommentViewNotification";
+NSString *const kHLUserDefaultsCacheFacebookFriendsKey = @"com.Hooli.userDefaultsCacheFacebookFriendsKey";
+NSString *const kHLLoadFeedObjectsNotification = @"com.Hooli.loadFeedObjects";
+NSString *const kHLLoadMessageObjectsNotification = @"com.Hooli.loadMessageObjects";
+
+#pragma mark - Push Notification Payload Keys
+
+NSString *const kAPNSKey = @"aps";
+NSString *const kAPNSAlertKey = @"alert";
+NSString *const kAPNSBadgeKey = @"badge";
+NSString *const kAPNSSoundKey = @"sound";
+
+// the following keys are intentionally kept short, APNS has a maximum payload limit
+NSString *const kHLPushPayloadPayloadTypeKey          = @"p";
+NSString *const kHLPushPayloadPayloadTypeNotificationFeedKey  = @"nf";
+NSString *const kHLPushPayloadPayloadTypeMessagesKey = @"m";
+
+
+NSString *const kHLPushPayloadActivityTypeKey     = @"t";
+NSString *const kHLPushPayloadActivityLikeKey     = @"l";
+NSString *const kHLPushPayloadActivityCommentKey  = @"c";
+NSString *const kHLPushPayloadActivityFollowKey   = @"f";
+
+NSString *const kHLPushPayloadFromUserObjectIdKey = @"fu";
+NSString *const kHLPushPayloadToUserObjectIdKey   = @"tu";
+NSString *const kHLPushPayloadItemObjectIdKey      = @"objId";
 
 @end

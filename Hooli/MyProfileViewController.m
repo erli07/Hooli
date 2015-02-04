@@ -14,6 +14,8 @@
 #import "MyCartViewController.h"
 #import "HomeViewViewController.h"
 #import "HLSettings.h"
+#import "HLCache.h"
+#import "AppDelegate.h"
 
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
@@ -64,25 +66,7 @@
     
 }
 
-- (void)logoutFB{
-    
-    [PFUser logOut];
-    // Return to login view controller
-    
-    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:vc animated:YES completion:^{
-        
-    }];
-//    NSString * storyboardName = @"Login";
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-//    LoginViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-//    vc.hidesBottomBarWhenPushed = YES;
-//    vc.navigationController.navigationBarHidden = YES;
-//    [self.navigationController pushViewController:vc animated:YES];
-    // [self.navigationController popToRootViewControllerAnimated:YES];
-}
+
 #pragma mark -
 #pragma mark Data
 
@@ -223,7 +207,7 @@
     }
     else{
         
-        [self logoutFB];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] logOut];
     }
 }
 

@@ -29,7 +29,8 @@
 #define		PF_USER_THUMBNAIL					@"PortraitImage"			//	File
 
 #define		PF_CHAT_CLASS_NAME					@"Chat"					//	Class name
-#define		PF_CHAT_USER						@"user"					//	Pointer to User Class
+#define		PF_CHAT_FROM_USER					@"fromUser"					//	Pointer to User Class
+#define		PF_CHAT_TO_USER					    @"toUser"					//	Pointer to User Class
 #define		PF_CHAT_ROOMID						@"roomId"				//	String
 #define		PF_CHAT_TEXT						@"text"					//	String
 #define		PF_CHAT_PICTURE						@"picture"				//	File
@@ -39,10 +40,10 @@
 #define		PF_CHATROOMS_NAME					@"name"					//	String
 
 #define		PF_MESSAGES_CLASS_NAME				@"Messages"				//	Class name
-#define		PF_MESSAGES_USER					@"user"					//	Pointer to User Class
+#define		PF_MESSAGES_FROM_USER				@"fromUser"					//	Pointer to User Class
 #define		PF_MESSAGES_ROOMID					@"roomId"				//	String
 #define		PF_MESSAGES_DESCRIPTION				@"description"			//	String
-#define		PF_MESSAGES_CHATTER                 @"chatter"				//	Pointer to User Class
+#define		PF_MESSAGES_TO_USER                 @"toUser"				//	Pointer to User Class
 #define		PF_MESSAGES_LASTMESSAGE				@"lastMessage"			//	String
 #define		PF_MESSAGES_COUNTER					@"counter"				//	Number
 #define		PF_MESSAGES_UPDATEDACTION			@"updatedAction"		//	Date
@@ -57,6 +58,11 @@
 #define     ITEM_CONDITION_NEW @"New"
 #define     ITEM_CONDITION_RARELY_USED @"Rarely used"
 #define     ITEM_CONDITION_USED @"USED"
+
+#define     TAB_BAR_INDEX_ITEM_PAGE 0
+#define     TAB_BAR_INDEX_MESSAGES 2
+#define     TAB_BAR_INDEX_NOTIFICATION 3
+#define     TAB_BAR_INDEX_MY_PROFILE 4
 
 @interface HLConstant : NSObject
 
@@ -112,6 +118,8 @@ extern NSString *const kHLNeedsModelKeyName;
 extern NSString *const kHLNeedsModelKeyGeoPoint;
 extern NSString *const kHLNeedsModelKeyStatus;
 
+extern NSString *const kHLInstallationUserKey;
+
 extern NSString *const kHLOfferPhotoKeyOfferID;
 extern NSString *const kHLOfferPhotKeyPhoto;
 
@@ -137,13 +145,11 @@ extern NSString *const kHLOfferAttributesLikersKey;
 extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
 extern NSString *const kHLOfferAttributesLikerdOffersKey;
 
-
 extern NSString *const kHLNotificationTypeKey;
 extern NSString *const kHLNotificationFromUserKey;
 extern NSString *const kHLNotificationToUserKey;
 extern NSString *const kHLNotificationContentKey;
 extern NSString *const kHLNotificationOfferKey;
-
 
 extern NSString *const kHLNotificationTypeLike;
 extern NSString *const kHLNotificationTypeFollow ;
@@ -159,4 +165,28 @@ extern NSString *const kHLItemDetailsUserCommentedNotification;
 extern NSString *const kHLItemDetailsReloadContentSizeNotification;
 extern NSString *const kHLItemDetailsLiftCommentViewNotification;
 extern NSString *const kHLItemDetailsPutDownCommentViewNotification;
+extern NSString *const kHLUserDefaultsCacheFacebookFriendsKey;
+extern NSString *const kHLLoadFeedObjectsNotification;
+extern NSString *const kHLLoadMessageObjectsNotification;
+
+#pragma mark - PFPush Notification Payload Keys
+extern NSString *const kAPNSKey;
+extern NSString *const kAPNSAlertKey;
+extern NSString *const kAPNSBadgeKey;
+extern NSString *const kAPNSSoundKey;
+
+extern NSString *const kHLPushPayloadPayloadTypeKey;
+extern NSString *const kHLPushPayloadPayloadTypeNotificationFeedKey;
+extern NSString *const kHLPushPayloadPayloadTypeMessagesKey;
+
+
+extern NSString *const kHLPushPayloadActivityTypeKey;
+extern NSString *const kHLPushPayloadActivityLikeKey;
+extern NSString *const kHLPushPayloadActivityCommentKey;
+extern NSString *const kHLPushPayloadActivityFollowKey;
+
+extern NSString *const kHLPushPayloadFromUserObjectIdKey;
+extern NSString *const kHLPushPayloadToUserObjectIdKey;
+extern NSString *const kHLPushPayloadItemObjectIdKey;
+
 @end

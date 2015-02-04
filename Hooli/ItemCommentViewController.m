@@ -270,7 +270,6 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     if (trimmedComment.length != 0) {
         
         PFObject *comment = [PFObject objectWithClassName:kHLCloudNotificationClass];
-        [comment fetchIfNeeded];
         [comment setObject:trimmedComment forKey:kHLNotificationContentKey]; // Set comment text
         [comment setObject:self.offer.user forKey:kHLNotificationToUserKey]; // Set toUser
         [comment setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey]; // Set fromUser

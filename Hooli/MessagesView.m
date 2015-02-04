@@ -37,6 +37,12 @@
 
 @synthesize tableMessages, viewEmpty;
 
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kHLLoadMessageObjectsNotification object:nil];
+
+}
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -57,6 +63,8 @@
 {
 	[super viewDidLoad];
 	self.title = @"Messages";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:kHLLoadMessageObjectsNotification object:nil];
+
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	[tableMessages registerNib:[UINib nibWithNibName:@"MessagesCell" bundle:nil] forCellReuseIdentifier:@"MessagesCell"];
 	tableMessages.tableFooterView = [[UIView alloc] init];
@@ -99,8 +107,8 @@
 	if ([PFUser currentUser] != nil)
 	{
 		PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
-		[query whereKey:PF_MESSAGES_USER equalTo:[PFUser currentUser]];
-		[query includeKey:PF_MESSAGES_CHATTER];
+		[query whereKey:PF_MESSAGES_FROM_USER equalTo:[PFUser currentUser]];
+		[query includeKey:PF_MESSAGES_TO_USER];
 		[query orderByDescending:PF_MESSAGES_UPDATEDACTION];
 		[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 		{
@@ -110,7 +118,7 @@
 				[messages addObjectsFromArray:objects];
 				[tableMessages reloadData];
 				[self updateEmptyView];
-				[self updateTabCounter];
+				//[self updateTabCounter];
 			}
 			else [ProgressHUD showError:@"Network error."];
 			[refreshControl endRefreshing];
@@ -193,7 +201,7 @@
 	[messages removeObjectAtIndex:indexPath.row];
 	[tableMessages deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 	[self updateEmptyView];
-	[self updateTabCounter];
+	//[self updateTabCounter];
 }
 
 #pragma mark - Table view delegate
@@ -206,6 +214,7 @@
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	PFObject *message = messages[indexPath.row];
 	ChatView *chatView = [[ChatView alloc] initWith:message[PF_MESSAGES_ROOMID]];
+    chatView.toUser = message[PF_MESSAGES_TO_USER];
 	chatView.hidesBottomBarWhenPushed = YES;
 	[self.navigationController pushViewController:chatView animated:YES];
 }
