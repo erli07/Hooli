@@ -17,7 +17,7 @@
 @synthesize needsDescription = _needsDescription;
 @synthesize geoPoint = _geoPoint;
 @synthesize uploadTime = _uploadTime;
-@synthesize price = _price;
+@synthesize budget = _budget;
 @synthesize objectId = _objectId;
 @synthesize isOfferSold = _isOfferSold;
 @synthesize imageArray = _imageArray;
@@ -42,7 +42,7 @@
         _user = user;
         _category = category;
         _needsDescription = description;
-        _price = price;
+        _budget = price;
         _location = location;
         _isOfferSold = isOfferSold;
         
@@ -83,4 +83,24 @@
     return  [self initNeedModelWithObjectId:objectId user:user imageArray:imageArray name:name price:price category:category description:description location:location isOfferSold:offerStatus];
 }
 
+-(id)initNeedModelWithUser:(PFObject *)user
+               description:(NSString *)description
+                    budget:(NSString *)budget
+                  category:(NSString *)category{
+   
+    self = [super init];
+    if(self)
+    {
+        _user = user;
+        _category = category;
+        _needsDescription = description;
+        _budget = budget;
+        
+    }
+    
+    return self;
+
+    
+    
+}
 @end

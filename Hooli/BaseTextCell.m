@@ -16,6 +16,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     BOOL hideSeparator; // True if the separator shouldn't be shown
 }
 
+
 /* Private static helper to obtain the horizontal space left for name and content after taking the inset and image in consideration */
 + (CGFloat)horizontalTextSpaceForInsetWidth:(CGFloat)insetWidth;
 @end
@@ -231,6 +232,12 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     [[AccountManager sharedInstance]setUserProfilePicture:self.avatarImageView withUserId:user.objectId];
     
+//    UITapGestureRecognizer *tapOnAvatarImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnAvatarImageView:)];
+//    
+//    [tapOnAvatarImageView setNumberOfTapsRequired:1];
+//    
+//    [self.avatarImageView addGestureRecognizer:tapOnAvatarImageView];
+    
    // [self.avatarImageView setFile:[self.user objectForKey:kHLUserModelKeyPortraitImage]];
     
     // Set name button properties and avatar image
@@ -278,6 +285,12 @@ static TTTTimeIntervalFormatter *timeFormatter;
     horizontalTextSpace = [BaseTextCell horizontalTextSpaceForInsetWidth:insetWidth];
     [self setNeedsDisplay];
 }
+
+
+
+
+
+
 
 /* Since we remove the compile-time check for the delegate conforming to the protocol
  in order to allow inheritance, we add run-time checks. */

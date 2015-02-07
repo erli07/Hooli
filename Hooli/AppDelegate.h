@@ -15,5 +15,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 - (void)logOut;
+- (BOOL)isParseReachable;
 
 @end

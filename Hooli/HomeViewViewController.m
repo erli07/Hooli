@@ -17,27 +17,32 @@
 #import "MyCameraViewController.h"
 #import "ActivityManager.h"
 #import "HLConstant.h"
-@interface HomeViewViewController ()<UpdateCollectionViewDelegate>{
+#import "DCPathButton.h"
+#import "PostNeedViewController.h"
+#import "NeedDetailViewController.h"
+#import "NeedTableViewCell.h"
+@interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate>{
     
 }
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic,strong) UIButton *addItemButton;
+@property (nonatomic,strong) DCPathButton *addItemButton;
 @property (nonatomic, strong) NSString *itemID;
 @end
 
+static const CGFloat kHLCellInsetWidth = 0.0f;
 static NSString * const reuseIdentifier = @"Cell";
 
 @implementation HomeViewViewController
-@synthesize refreshControl,addItemButton;
+@synthesize refreshControl,addItemButton,needsViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     
-    // [self.addItemButton bringSubviewToFront:self.view];
-    
     [self initViewELements];
     
+    [self updateCollectionViewData];
+
     [self getFollowedUserItems];
     
 }
@@ -61,21 +66,25 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)viewDidAppear:(BOOL)animated{
     
     
-    if([[HLSettings sharedInstance]isRefreshNeeded]){
-        
-        [self updateCollectionViewData];
-        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
-        [self getFollowedUserItems];
-        
-    }
+//    if([[HLSettings sharedInstance]isRefreshNeeded]){
+//        
+//        
+//        
+//        [self updateCollectionViewData];
+//        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+//        [self getFollowedUserItems];
+//        
+//    }
     
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     
+    
     [[OffersManager sharedInstance]clearData];
     
 }
+
 
 -(void)updateCollectionViewData{
     
@@ -107,13 +116,23 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)initViewELements{
     
     [[OffersManager sharedInstance]setPageCounter:0];
+    
     [[HLSettings sharedInstance]setPreferredDistance:25];
+    
+    self.needsViewController = [[NeedTableViewController alloc]init];
     //
-    //    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
-    //                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-    //                                     target:self
-    //                                     action:@selector(showSearchVC)];
-    //    self.navigationItem.rightBarButtonItem = searchButton;
+    [self.needsViewController.view setFrame:self.collectionView.frame];
+    
+    [self.needsViewController.view setBackgroundColor:[HLTheme viewBackgroundColor]];
+
+    [self.view addSubview:self.needsViewController.view];
+    
+    self.needsViewController.tableView.delegate = self;
+    //
+    self.needsViewController.view.hidden = YES;
+    //
+    self.collectionView.hidden = NO;
+
     
     //    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
     //                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
@@ -122,21 +141,49 @@ static NSString * const reuseIdentifier = @"Cell";
     //    self.navigationItem.leftBarButtonItem = settingsButton;
     
     self.view.tintColor = [HLTheme mainColor];
+    
     [self.layout configureLayout] ;
+    
     [self.collectionView configureView];
+    
     self.collectionView.delegate = self;
+    
     [self registerNotifications];
+    
     self.navigationItem.title = @"Discover";
-    [self updateCollectionViewData];
+    
     [self addSwipeGesture];
     
-    self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, 64, 64)];
-    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168);
-    [self.addItemButton setBackgroundImage:[UIImage imageNamed:@"camera_128x128"] forState:UIControlStateNormal];
-    [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
+    [self configureAddButton];
+    
+
+    
+}
+
+-(void)configureAddButton{
+    
+    self.addItemButton  = [[DCPathButton alloc]initWithCenterImage:[UIImage imageNamed:@"camera_64x64"]
+                                                    hilightedImage:[UIImage imageNamed:@"camera_64x64"]];
+    [self.addItemButton setFrame:CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, 64, 64)];
+    
+    [self.addItemButton setDcButtonCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168) ];
+    
+    DCPathItemButton *itemButton_1 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
+                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
+                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
+                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
+    
+    DCPathItemButton *itemButton_2 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
+                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
+                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
+                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
+    
+    [self.addItemButton addPathItems:@[itemButton_1, itemButton_2]];
+    
+    self.addItemButton.delegate = self;
+    // [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addItemButton];
     [self.addItemButton bringSubviewToFront:self.collectionView];
-    
 }
 
 #pragma register notification
@@ -192,7 +239,35 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
+#pragma mark tableview delegate
 
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if([self checkIfUserLogin]){
+        
+        NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
+        NeedTableViewCell *cell = (NeedTableViewCell *)[self.needsViewController.tableView cellForRowAtIndexPath:indexPath];
+        detailVc.needId = cell.needId;
+        [self.navigationController pushViewController:detailVc animated:YES];
+
+        
+    }
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    if (indexPath.row < self.needsViewController.objects.count) { // A comment row
+        
+        NSString *commentString = [self.needsViewController.objects[indexPath.row] objectForKey:kHLNeedsModelKeyDescription];
+        
+        return [NeedTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLNeedsModelKeyUser] contentString:commentString cellInsetWidth:kHLCellInsetWidth];
+        
+    }
+    
+    // The pagination row
+    return 44.0f;
+}
 #pragma Navigation
 
 -(void)showMoreItems{
@@ -355,6 +430,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
         
+      //  [self presentViewController:cameraVC animated:YES completion:^{
+      //  }];
         
         [self.navigationController pushViewController:cameraVC animated:NO];
         
@@ -371,31 +448,84 @@ static NSString * const reuseIdentifier = @"Cell";
         
         self.collectionView.hidden = NO;
         
-        [self updateCollectionViewData];
+        self.needsViewController.view.hidden = YES;
+        
+      //  [self updateCollectionViewData];
         
     }
     else if(self.segmentControl.selectedSegmentIndex == 1){
         
-        if([PFUser currentUser]){
-            
-            [[OffersManager sharedInstance]clearData];
-            
-            [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
-            
-            if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
-                
-                [self.collectionView updateDataFromCloud];
-                
-            }
-            else{
-                
-                self.collectionView.hidden = YES;
-                
-            }
-            
-        }
+        self.collectionView.hidden = YES;
+        
+        self.needsViewController.view.hidden = NO;
+        
+        
+//        if([PFUser currentUser]){
+//            
+//            [[OffersManager sharedInstance]clearData];
+//            
+//            [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
+//            
+//            if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
+//                
+//                [self.collectionView updateDataFromCloud];
+//                
+//            }
+//            else{
+//                
+//                self.collectionView.hidden = YES;
+//                
+//            }
+//            
+//        }
     }
     
     
+}
+
+-(void)getOffersFromFollowedUsers{
+    
+    
+    if([PFUser currentUser]){
+        
+        [[OffersManager sharedInstance]clearData];
+        
+        [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
+        
+        if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
+            
+            [self.collectionView updateDataFromCloud];
+            
+        }
+        else{
+            
+            self.collectionView.hidden = YES;
+            
+        }
+        
+    }
+}
+
+#pragma mark DCPathButtonDelegate
+
+- (void)itemButtonTappedAtIndex:(NSUInteger)index
+{
+    if(index == 0){
+        
+        NSLog(@"Tap on button 1");
+        
+        [self showCamera:nil];
+        // When the user tap index 1 here ...
+    }
+    else{
+        
+        NSLog(@"Tap on button 2");
+        
+        PostNeedViewController *postVC = [[PostNeedViewController alloc]initWithStyle:UITableViewStyleGrouped];
+        
+        [self.navigationController pushViewController:postVC animated:YES];
+
+        // other code here ...
+    }
 }
 @end

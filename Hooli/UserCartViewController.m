@@ -19,7 +19,6 @@
 #import "ActivityManager.h"
 #import "HLTheme.h"
 @interface UserCartViewController ()
-@property (nonatomic, strong) PFUser *user;
 @property (nonatomic, assign) RelationshipType followStatus;
 @property (nonatomic, strong) NSArray *followersArray;
 @property (nonatomic, strong) NSArray *followingsArray;

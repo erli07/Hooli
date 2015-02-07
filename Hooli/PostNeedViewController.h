@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import "PostFormViewController.h"
 
-@interface PostNeedViewController : UIViewController
+@interface PostNeedViewController : UITableViewController
+
+@property (nonatomic,assign) CLLocationCoordinate2D needLocationCoordinate;
+@property (nonatomic) NSString *needDescription;
+@property (nonatomic) NSString *needBudget;
+@property (nonatomic) NSString *needCategory;
+@property (nonatomic, assign) DetailType detailType;
 
 @end

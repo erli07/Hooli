@@ -37,16 +37,12 @@ typedef void (^UploadFailureBlock) (id error);
 
 -(void)clearData;
 
--(void)uploadNeedToCloud:(NeedsModel *)need
-                withSuccess:(UploadSuccessBlock)uploadSuccess
-                withFailure:(UploadFailureBlock)uploadFailure;
+-(void)uploadNeedToCloud:(NeedsModel *)need block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
 -(void)retrieveNeedsWithSuccess:(DownloadSuccessBlock)dowloadSuccess
                          failure:(DownloadFailureBlock)downloadFailure;
 
--(void)fetchNeedByID:(NSString *)needId
-         withSuccess:(DownloadSuccessBlock)dowloadSuccess
-             failure:(DownloadFailureBlock)downloadFailure;
+-(void)fetchNeedByID:(NSString *)needId block:(void (^)(PFObject* object, NSError *error))completionBlock;
 
 -(void)updateNeedSoldStatusWithNeedID:(NSString *)needId
                             soldStatus:(BOOL)soldStatus

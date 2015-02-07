@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSArray *imageArray;
 //@property (nonatomic, assign) HLOfferType offerType;
 @property (nonatomic, strong) PFObject *user;
-@property (nonatomic, strong) NSString  *price;
+@property (nonatomic, strong) NSString  *budget;
 @property (nonatomic, strong) NSDate *uploadTime;
 @property (nonatomic, strong) NSString *objectId;
 @property (nonatomic, strong) NSString *name;
@@ -38,5 +38,10 @@
                     isOfferSold:(NSNumber *)isOfferSold;
 
 -(id)initNeedsObjectDetailsWithPFObject:(PFObject *)object;
+
+-(id)initNeedModelWithUser:(PFObject *)user
+               description:(NSString *)description
+                    budget:(NSString *)budget
+                  category:(NSString *)category;
 
 @end

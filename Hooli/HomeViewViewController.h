@@ -11,14 +11,14 @@
 #import "MainCollectionViewFlowLayout.h"
 #import "ItemCell.h"
 #import "MBProgressHUD.h"
-
-@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
+#import "NeedTableViewController.h"
+@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate,UIScrollViewDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, weak) IBOutlet MainCollectionView * collectionView;
 
 @property (nonatomic, weak) IBOutlet MainCollectionViewFlowLayout* layout;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
-
+@property (nonatomic) NeedTableViewController *needsViewController;
 @property (nonatomic, strong) NSArray* collections;
 - (IBAction)segmentChange:(id)sender;
 

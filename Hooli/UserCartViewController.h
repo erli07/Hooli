@@ -21,5 +21,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *followingCount;
 @property (weak, nonatomic) IBOutlet UIButton *followButton;
 @property (weak, nonatomic) IBOutlet UILabel *friendsCount;
+@property (nonatomic, strong) PFUser *user;
 
 @end

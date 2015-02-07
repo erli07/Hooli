@@ -60,6 +60,7 @@
     [[FormManager sharedInstance]setDetailType:HL_ITEM_DETAIL_CATEGORY];
     [[FormManager sharedInstance]setItemCategory:[[OfferCategory allCategories]objectAtIndex:indexPath.row]];
     
+    [self.navigationController popViewControllerAnimated:YES];
     //[[HLSettings sharedInstance]setCategory:categoryArray];
     
 }

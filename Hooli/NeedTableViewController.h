@@ -9,7 +9,7 @@
 #import <Parse/Parse.h>
 
 @interface NeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate>
-
+@property (nonatomic, strong) NSString *needId;
 @property (nonatomic, assign, getter = isFirstLaunch) BOOL firstLaunch;
 
 @end

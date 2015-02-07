@@ -13,6 +13,7 @@
 + (NSString*)boldFont;
 + (NSString*)mainFont;
 + (UIColor*)mainColor;
++ (UIColor *)secondColor;
 + (UIColor*)foregroundColor;
 + (UIColor*)viewBackgroundColor;
 

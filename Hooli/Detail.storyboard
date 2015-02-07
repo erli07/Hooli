@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="QaB-Df-H42">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="QaB-Df-H42">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -20,6 +20,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PkA-pB-YXa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="140" y="34"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="OCK-8n-iIh">
+            <objects>
+                <navigationController id="tuE-YD-Rch" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lUG-Nq-hJy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="oNY-mX-2hf" kind="relationship" relationship="rootViewController" id="6Ma-G1-XNf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9G6-bL-3bJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="28" y="790"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="iyN-bH-sXB">
+            <objects>
+                <viewController id="oNY-mX-2hf" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="O6d-MS-f51">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZOS-nw-JhK"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R0a-AB-ilr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="550" y="790"/>
         </scene>
         <!--Item Detail View Controller-->
         <scene sceneID="Lh9-J7-c9M">
@@ -74,11 +105,6 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" id="g7m-Lh-pae" customClass="SMPageControl">
-                                                <rect key="frame" x="126" y="4" width="68" height="16"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dAf-Fd-LF2">
                                                 <rect key="frame" x="85" y="8" width="206" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -215,7 +241,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IgQ-dc-ceI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1124" y="1011"/>
+            <point key="canvasLocation" x="1283" y="847"/>
         </scene>
         <!--Update Offer Details View Controller-->
         <scene sceneID="Qdq-8V-Rlv">

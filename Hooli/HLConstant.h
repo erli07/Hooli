@@ -125,6 +125,7 @@ extern NSString *const kHLOfferPhotKeyPhoto;
 extern NSString *const kHLCloudOfferClass;
 extern NSString *const kHLCloudActivityClass;
 extern NSString *const kHLCloudNotificationClass;
+extern NSString *const kHLCloudItemNeedClass;
 extern NSString *const kHLCloudNeedClass;
 extern NSString *const kHLCloudUserClass;
 

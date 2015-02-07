@@ -96,9 +96,9 @@ NSString *const kHLOfferPhotoKeyOfferID = @"offerID";
 NSString *const kHLOfferPhotKeyPhoto = @"photo";
 
 NSString *const kHLCloudOfferClass = @"Offer";
+NSString *const kHLCloudItemNeedClass = @"ItemNeed";
 NSString *const kHLCloudNeedClass = @"Need";
 NSString *const kHLCloudNotificationClass = @"Notification";
-
 NSString *const kHLCloudUserClass = @"_User";
 NSString *const kHLCloudActivityClass = @"Activity";
 

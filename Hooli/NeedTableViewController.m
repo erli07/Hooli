@@ -18,6 +18,8 @@
 
 @end
 
+static const CGFloat kHLCellInsetWidth = 0.0f;
+
 @implementation NeedTableViewController
 @synthesize firstLaunch,shouldReloadOnAppear;
 
@@ -49,15 +51,13 @@
 
 #pragma mark - PFQueryTableViewController
 
-- (id)initWithCoder:(NSCoder *)aCoder {
-    self = [super initWithCoder:aCoder];
+- (id)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:style];
     if (self) {
         
-        self.title = @"Need";
-        // self.outstandingSectionHeaderQueries = [NSMutableDictionary dictionary];
         
         // The className to query on
-        self.parseClassName = kHLCloudNeedClass;
+        self.parseClassName = kHLCloudItemNeedClass;
         
         // Whether the built-in pagination is enabled
         self.paginationEnabled = YES;
@@ -71,8 +71,26 @@
         // Improve scrolling performance by reusing UITableView section headers
         
         self.shouldReloadOnAppear = NO;
+
+        
     }
     return self;
+}
+
+#pragma mark - PFQueryTableViewController
+
+- (PFQuery *)queryForTable {
+    
+    PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    [query includeKey:kHLNeedsModelKeyUser];
+    [query orderByDescending:@"createdAt"];
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    
+    if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
+        [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    }
+    
+    return query;
 }
 
 - (void)objectsDidLoad:(NSError *)error {
@@ -107,51 +125,40 @@
         cell = [[NeedTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    cell.nameButton = nil;
+    cell.needId = object.objectId;
+    [cell setUser:[object objectForKey:kHLNeedsModelKeyUser]];
+    [cell setNeedContentText:[object objectForKey:kHLNeedsModelKeyDescription]];
+    [cell setDate:[object createdAt]];
+    //[cell setDistanceLabelText:@"distance: 1.1 mi"];
+    
     return cell;
     
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if([self checkIfUserLogin]){
-        
-        
-        ActivityDetailViewController *adVC = [[ActivityDetailViewController alloc]initWithNibName:@"ActivityDetailViewController" bundle:nil];
 
-//        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-//        NeedDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"NeedDetail"];
-        adVC.hidesBottomBarWhenPushed = YES;
-        //  vc.needId = cell.needId;
-        // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self.navigationController pushViewController:adVC animated:YES];
-        
-    }
-}
-
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    if (indexPath.row < self.objects.count) { // A comment row
+//        
+//        NSString *commentString = [self.objects[indexPath.row] objectForKey:kHLNeedsModelKeyDescription];
+//
+//        return [NeedTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLNeedsModelKeyUser] contentString:commentString cellInsetWidth:kHLCellInsetWidth];
+//        
+//    }
+//    
+//    // The pagination row
+//    return 44.0f;
+//}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
     
     if (scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height)
     {
         [self loadNextPage];
     }
+    
 }
 
-- (BOOL)checkIfUserLogin{
-    
-    
-    if(![PFUser currentUser]){
-        
-        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        self.navigationController.navigationBarHidden = NO;
-        [self.navigationController pushViewController:loginVC animated:YES];
-        return NO;
-        
-    }
-    
-    return YES;
-}
 
 @end

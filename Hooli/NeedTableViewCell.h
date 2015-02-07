@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseTextCell.h"
 #import <Parse/Parse.h>
-@interface NeedTableViewCell :PFTableViewCell
+@interface NeedTableViewCell :BaseTextCell
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *budgetLabel;
@@ -16,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *interestedImageView;
 @property (weak, nonatomic) IBOutlet UILabel *interestedNumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
-
+@property (nonatomic, strong) NSString *needId;
+-(void)setNeedContentText:(NSString *)contentText;
 @end

@@ -27,6 +27,11 @@
    // return [UIColor colorWithRed:(253.0/255.0) green:(92.0/255.0) blue:(89.0/255.0) alpha:1.0];
 }
 
++(UIColor *)secondColor{
+    
+    return [UIColor colorWithRed:(74.0/255.0) green:(165.0/255.0) blue:(254.0/255.0) alpha:1.0];
+}
+
 +(UIColor *)emptyBackgroundColor{
     
      return [UIColor colorWithRed:(1.0/255.0) green:(109.0/255.0) blue:(215.0/255.0) alpha:1.0];

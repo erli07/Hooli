@@ -15,6 +15,10 @@
 @property (nonatomic, strong) OfferModel *offer;
 @property (nonatomic, strong) UITextField *commentTextField;
 
+@property (nonatomic, strong) PFObject *aObject;
+
 - (id)initWithOffer:(OfferModel*)aOffer;
+
+- (id)initWithObject:(PFObject *)_object;
 
 @end

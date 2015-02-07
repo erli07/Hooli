@@ -26,7 +26,7 @@
     
     self.needsNameLabel.text = needModel.name;
     
-    self.priceLabel.text = needModel.price;
+    self.priceLabel.text = needModel.budget;
     
     [self updateCellWithNeedStatus:needModel];
     

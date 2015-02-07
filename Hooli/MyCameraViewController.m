@@ -390,7 +390,7 @@
     
     if ([self.presentedViewController class] == [UIImagePickerController class]) {
         
-     //   [self dismissViewControllerAnimated:NO completion:^{
+      //  [self dismissViewControllerAnimated:NO completion:^{
             
             UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
@@ -398,11 +398,11 @@
             
             [self.picker presentViewController:vc animated:NO completion:^{
                 
-              //  self.picker = nil;
+                self.picker = nil;
                 
             }];
             
-    //    }];
+     //   }];
         
     }
 }

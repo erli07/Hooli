@@ -19,4 +19,8 @@
 @property (nonatomic) NSString *itemCondition;
 @property (nonatomic) NSString *itemLocation;
 
+
+@property (nonatomic) NSString *needItemDescription;
+@property (nonatomic) NSString *needItemBudget;
+
 @end

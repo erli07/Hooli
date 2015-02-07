@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HLConstant.h"
+#import "ItemCommentViewController.h"
 
 @interface NeedDetailViewController : UIViewController
 
 @property(nonatomic, strong) NSString *needId;
+@property (nonatomic, strong) ItemCommentViewController *commentVC;
 
 @end

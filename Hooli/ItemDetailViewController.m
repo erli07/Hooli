@@ -251,40 +251,40 @@
 - (IBAction)makeOffer:(id)sender {
     
     //---------------------------------------------------------------------------------------------------------------------------------------------
-    PFUser *user1 = [PFUser currentUser];
+//    PFUser *user1 = [PFUser currentUser];
+//    
+//    NSString *user2_Id = self.offerObject.user.objectId;
+//    
+//    
+//    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
+//        
+//        
+//        PFUser *user2 = (PFUser *)object;
+//        NSString *roomId = StartPrivateChat(user1, user2);
+//        ChatView *chatView = [[ChatView alloc] initWith:roomId];
+//        chatView.toUser = user2;
+//        chatView.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:chatView animated:YES];
+//        
+//    } failure:^(id error) {
+//        
+//    }];
     
-    NSString *user2_Id = self.offerObject.user.objectId;
     
     
-    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
-        
-        
-        PFUser *user2 = (PFUser *)object;
-        NSString *roomId = StartPrivateChat(user1, user2);
-        ChatView *chatView = [[ChatView alloc] initWith:roomId];
-        chatView.toUser = user2;
-        chatView.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:chatView animated:YES];
-        
-    } failure:^(id error) {
-        
-    }];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
     
+        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     
+        UITextField* tf = [alertView textFieldAtIndex:0];
     
-    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    //
-    //    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    //
-    //    UITextField* tf = [alertView textFieldAtIndex:0];
-    //
-    //    tf.text = self.offerObject.offerPrice;
-    //
-    //    tf.keyboardType = UIKeyboardTypeNumberPad;
-    //
-    //    alertView.tag = priceIndex;
-    //
-    //    [alertView show];
+        tf.text = self.offerObject.offerPrice;
+    
+        tf.keyboardType = UIKeyboardTypeNumberPad;
+    
+        alertView.tag = priceIndex;
+    
+        [alertView show];
     
 }
 
@@ -399,7 +399,13 @@
     
     if(self.offerObject){
         
-        self.commentVC = [[ItemCommentViewController alloc]initWithOffer:self.offerObject];
+        PFObject *object = [[PFObject alloc]initWithClassName:kHLCloudOfferClass];
+        
+        [object setObject:self.offerObject.user forKey:kHLOfferModelKeyUser];
+        
+        object.objectId  = self.offerObject.offerId;
+        
+        self.commentVC = [[ItemCommentViewController alloc]initWithObject:object];
         
         [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20, 320, self.commentVC.tableView.contentSize.height)];
         

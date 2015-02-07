@@ -11,7 +11,7 @@
 
 #import <Parse/Parse.h>
 #import "ProgressHUD.h"
-
+#import "UserCartViewController.h"
 #import "HLConstant.h"
 #import "camera.h"
 #import "messages.h"
@@ -385,6 +385,13 @@
 		   atIndexPath:(NSIndexPath *)indexPath
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
+    JSQMessage *message = [messages objectAtIndex:indexPath.row];
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    vc.userID = message.senderId;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 	NSLog(@"didTapAvatarImageView");
 }
 

@@ -18,31 +18,36 @@
 @implementation FollowListViewController
 @synthesize followStatus,fromUser;
 
-- (id)initWithCoder:(NSCoder *)aCoder {
-    self = [super initWithCoder:aCoder];
-    
-    if (self) {
-        // The className to query on
-        self.parseClassName = kHLCloudNotificationClass;
-        
-        // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
-        
-        // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
-        
-        // The number of objects to show per page
-        self.objectsPerPage = 50;
-        
-        // The Loading text clashes with the dark Anypic design
-        self.loadingViewEnabled = NO;
-    }
-    return self;
-}
+//- (id)initWithCoder:(NSCoder *)aCoder {
+//    self = [super initWithCoder:aCoder];
+//    
+//    if (self) {
+//        // The className to query on
+//        self.parseClassName = kHLCloudNotificationClass;
+//        
+//        // Whether the built-in pagination is enabled
+//        self.paginationEnabled = YES;
+//        
+//        // Whether the built-in pull-to-refresh is enabled
+//        self.pullToRefreshEnabled = YES;
+//        
+//        // The number of objects to show per page
+//        self.objectsPerPage = 50;
+//        
+//        // The Loading text clashes with the dark Anypic design
+//        self.loadingViewEnabled = NO;
+//    }
+//    return self;
+//}
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
+        
+        
+//        self.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
+//        
+//        self.fromUser = [PFUser currentUser];
         
         self.parseClassName = kHLCloudNotificationClass;
         
@@ -65,7 +70,7 @@
 
 - (void)viewDidLoad {
     
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+   // self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -269,7 +274,7 @@
                             
                             [cellView.followButton setTitle:@"UnFollow" forState:UIControlStateNormal] ;
                             [cellView.followButton setTitle:@"UnFollow" forState:UIControlStateHighlighted] ;
-                            [cellView.followButton setBackgroundColor:[UIColor redColor]];
+                            [cellView.followButton setBackgroundColor:[HLTheme secondColor]];
 
 
                         }

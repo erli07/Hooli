@@ -70,24 +70,9 @@
 
 
 -(void)uploadNeedToCloud:(NeedsModel *)need
-               withSuccess:(UploadSuccessBlock)success
-               withFailure:(UploadFailureBlock)failure{
+                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     
-    _uploadSuccess = success ;
-    _uploadFailure = failure;
-    
-    
-    PFObject *needClass = [PFObject objectWithClassName:kHLCloudNeedClass];
-    
-    
-    for (int i = 0; i <[need.imageArray count]; i++) {
-        
-        NSData *imageData = [HLUtilities compressImage:[need.imageArray objectAtIndex:i] WithCompression:0.05f];
-        PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
-        [needClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
-        
-    }
-    
+    PFObject *needClass = [PFObject objectWithClassName:kHLCloudItemNeedClass];
     
     needClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
     [needClass.ACL setPublicReadAccess:YES];
@@ -96,28 +81,21 @@
     PFUser *user = [PFUser currentUser];
     [needClass setObject:user forKey:kHLNeedsModelKeyUser];
     [needClass setObject:need.needsDescription forKey:kHLNeedsModelKeyDescription];
-    [needClass setObject:need.price forKey:kHLNeedsModelKeyPrice];
+    [needClass setObject:need.budget forKey:kHLNeedsModelKeyPrice];
     [needClass setObject:need.category forKey:kHLNeedsModelKeyCategory];
-    [needClass setObject:need.name forKey:kHLNeedsModelKeyName];
+//    [needClass setObject:need.name forKey:kHLNeedsModelKeyName];
 //    [needClass setObject:[[LocationManager sharedInstance]currentLocation] forKey:kHLNeedsModelKeyGeoPoint];
     
     [needClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                _uploadSuccess();
-                
-            });
-            
+
+            completionBlock(YES, error);
+
         }
         else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                _uploadFailure(error);
-                
-            });
-            // Log details of the failure
+
+            completionBlock(NO, error);
+            
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
@@ -137,7 +115,7 @@
 
 -(void)retrieveNeedsByFilter:(NSDictionary *)filterDictionary{
     
-    PFQuery *query = [PFQuery queryWithClassName:kHLCloudNeedClass];
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudItemNeedClass];
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     
     if(filterDictionary){
@@ -228,25 +206,24 @@
     
 }
 
--(void)fetchNeedByID:(NSString *)needId withSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure{
+-(void)fetchNeedByID:(NSString *)needId block:(void (^)(PFObject* object, NSError *error))completionBlock{
     
-    _dowloadSuccess = dowloadSuccess ;
-    _downloadFailure = downloadFailure;
-    
+
     if(needId!=nil){
         
-        PFQuery *query = [PFQuery queryWithClassName:kHLCloudNeedClass];
+        PFQuery *query = [PFQuery queryWithClassName:kHLCloudItemNeedClass];
         [query whereKey:@"objectId" equalTo:needId];
-        // [query orderByAscending:@"createdAt"];
+        [query includeKey:kHLNeedsModelKeyUser];
         [query getObjectInBackgroundWithId:needId block:^(PFObject *object, NSError *error) {
             if (!error) {
                 
-                _dowloadSuccess(object);
+                if (completionBlock) {
+                    completionBlock(object,error);
+                }
                 
             } else {
                 // Log details of the failure
-                _downloadFailure(error);
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
+               NSLog(@"Error: %@ %@", error, [error userInfo]);
             }
             
         }];
@@ -257,7 +234,7 @@
 
 -(void)updateNeedSoldStatusWithNeedID:(NSString *)needId soldStatus:(BOOL)soldStatus block:(void (^)(BOOL, NSError *))completionBlock{
     
-    PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudNeedClass objectId:needId];
+    PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudItemNeedClass objectId:needId];
     
     [object setObject:[NSNumber numberWithBool:soldStatus] forKey:kHLNeedsModelKeyStatus];
     
@@ -274,7 +251,7 @@
 
 -(void)deleteNeedModelWithNeedId:(NSString *)needId block:(void (^)(BOOL, NSError *))completionBlock{
     
-    PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudNeedClass
+    PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudItemNeedClass
                                                        objectId:needId];
     
     [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -294,22 +271,6 @@
     
 }
 
--(void)uploadDemoNeedModel{
-    
-   
-    
-    NeedsModel *need = [[NeedsModel alloc]initNeedModelWithObjectId:nil user:[PFUser currentUser] imageArray:nil name:@"Needs Test" price:@"$100" category:@"other" description:@"This is a simple description" location: [[LocationManager sharedInstance]currentLocation] isOfferSold:[NSNumber numberWithBool:NO]];
-    
-    [self uploadNeedToCloud:need withSuccess:^{
-        
-        
-    } withFailure:^(id error) {
-    
-        
-    }];
-    
-    
-}
 
 
 @end

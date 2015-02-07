@@ -16,13 +16,14 @@
 #import "HLSettings.h"
 #import "OffersManager.h"
 #import "UserCartViewController.h"
+#import "FollowListCell.h"
 @interface NotificationFeedViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
-@property (nonatomic, strong) UIView *blankTimelineView;
+@property (nonatomic, strong) UIView *blankView;
 @end
 
 @implementation NotificationFeedViewController
-@synthesize lastRefresh,blankTimelineView;
+@synthesize lastRefresh,blankView;
 @synthesize notification = _notification;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -63,13 +64,12 @@
     // Add Settings button
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kHLLoadFeedObjectsNotification object:nil];
     
-    self.blankTimelineView = [[UIView alloc] initWithFrame:self.tableView.bounds];
-    [self.blankTimelineView setBackgroundColor:[UIColor whiteColor]];
+    self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
+    [self.blankView setBackgroundColor:[UIColor whiteColor]];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setBackgroundImage:[UIImage imageNamed:@"Ariel1"] forState:UIControlStateNormal];
     [button setFrame:CGRectMake(24.0f, 113.0f, 271.0f, 271.0f)];
-    // [button addTarget:self action:@selector(inviteFriendsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.blankTimelineView addSubview:button];
+    [self.blankView addSubview:button];
     
     
     lastRefresh = [[NSUserDefaults standardUserDefaults] objectForKey:kHlUserDefaultsActivityFeedViewControllerLastRefreshKey];
@@ -121,12 +121,11 @@
         self.tableView.scrollEnabled = NO;
       //  self.navigationController.tabBarItem.badgeValue = nil;
         
-        if (!self.blankTimelineView.superview) {
-            self.blankTimelineView.alpha = 0.0f;
-            self.tableView.tableHeaderView = self.blankTimelineView;
-            
+        if (!self.blankView.superview) {
+            self.blankView.alpha = 0.0f;
+            self.tableView.tableHeaderView = self.blankView;
             [UIView animateWithDuration:0.200f animations:^{
-                self.blankTimelineView.alpha = 1.0f;
+                self.blankView.alpha = 1.0f;
             }];
         }
     } else {
@@ -326,6 +325,18 @@
     ChatView *chatView = [[ChatView alloc] initWith:roomId];
     chatView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:chatView animated:YES];
+    
+}
+
+
+- (void)cell:(FollowListCell *)cellView didTapUserButton:(PFUser *)aUser {
+    // Push account view controller
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    vc.userID = aUser.objectId;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

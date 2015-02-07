@@ -66,7 +66,7 @@
         self.followButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.followButton.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
         self.followButton.titleEdgeInsets = UIEdgeInsetsMake( 0.0f, 10.0f, 0.0f, 0.0f);
-        [self.followButton setBackgroundColor:[UIColor redColor]];
+        [self.followButton setBackgroundColor:[HLTheme secondColor]];
         [self.followButton setTintColor:[UIColor whiteColor]];
 //        [self.followButton setBackgroundImage:[UIImage imageNamed:@"ButtonFollow.png"]
 //                                     forState:UIControlStateNormal];

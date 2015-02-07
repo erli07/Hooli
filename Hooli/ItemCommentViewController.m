@@ -24,14 +24,40 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 @implementation ItemCommentViewController
 
 @synthesize commentTextField;
-@synthesize offer, headerView;
+@synthesize offer, headerView, aObject;
 
 #pragma mark - Initialization
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.offer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification object:self.aObject];
 }
+
+-(id)initWithObject:(PFObject *)_object{
+    
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        // The className to query on
+        self.parseClassName = kHLCloudNotificationClass;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = NO;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = NO;
+        
+        // The number of comments to show per page
+        self.objectsPerPage = 5;
+        
+        self.aObject = _object;
+        
+        self.likersQueryInProgress = NO;
+        
+        self.tableView.scrollEnabled = NO;
+    }
+    return self;
+}
+
 
 - (id)initWithOffer:(OfferModel *)aOffer {
     
@@ -165,7 +191,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (PFQuery *)queryForTable {
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.offer.offerId]];
+    [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:self.parseClassName objectId:self.aObject.objectId]];
     [query includeKey:kHLNotificationOfferKey];
     [query includeKey:kHLNotificationFromUserKey];
     [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeComment];
@@ -271,7 +297,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         
         PFObject *comment = [PFObject objectWithClassName:kHLCloudNotificationClass];
         [comment setObject:trimmedComment forKey:kHLNotificationContentKey]; // Set comment text
-        [comment setObject:self.offer.user forKey:kHLNotificationToUserKey]; // Set toUser
+        [comment setObject:[self.aObject objectForKey:@"user"] forKey:kHLNotificationToUserKey]; // Set toUser
         [comment setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey]; // Set fromUser
         [comment setObject:kHLNotificationTypeComment forKey:kHLNotificationTypeKey];
         [comment setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.offer.offerId] forKeyedSubscript:kHLNotificationOfferKey];
@@ -300,7 +326,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
                 [alert show];
             }
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsUserCommentedNotification object:self.offer userInfo:@{@"comments": @(self.objects.count + 1)}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsUserCommentedNotification object:self.aObject userInfo:@{@"comments": @(self.objects.count + 1)}];
             
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             [self loadObjects];
