@@ -35,9 +35,20 @@ static NSString * const reuseIdentifier = @"Cell";
 @implementation HomeViewViewController
 @synthesize refreshControl,addItemButton,needsViewController;
 
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showCamera:)
+                                                 name:kHLShowCameraViewNotification object:nil];
+    
+    [[HLSettings sharedInstance]setShowSoldItems:NO];
     
     [self initViewELements];
     
@@ -121,6 +132,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.needsViewController = [[NeedTableViewController alloc]init];
     //
+        
     [self.needsViewController.view setFrame:self.collectionView.frame];
     
     [self.needsViewController.view setBackgroundColor:[HLTheme viewBackgroundColor]];
@@ -191,6 +203,19 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)addSwipeGesture{
     
+    
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    
+    // Setting the swipe direction.
+    [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
+    
+    // Adding the swipe gesture on image view
+    [self.collectionView addGestureRecognizer:swipeLeft];
+    [self.needsViewController.view addGestureRecognizer:swipeRight];
+    
+    
     UISwipeGestureRecognizer * swipeUp=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeUp:)];
     swipeUp.direction=UISwipeGestureRecognizerDirectionUp;
     [self.view addGestureRecognizer:swipeUp];
@@ -209,7 +234,22 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     //Do what you want here
 }
+-(void)handleSwipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    NSLog(@"Swipe Left");
+    
+    [self.segmentControl setSelectedSegmentIndex:0];
+    //Do what you want here
+}
 
+-(void)handleSwipeRight:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    NSLog(@"Swipe Right");
+    
+    [self.segmentControl setSelectedSegmentIndex:1];
+
+    //Do what you want here
+}
 
 #pragma register notification
 
@@ -247,6 +287,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if([self checkIfUserLogin]){
         
         NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
+        detailVc.hidesBottomBarWhenPushed = YES;
         NeedTableViewCell *cell = (NeedTableViewCell *)[self.needsViewController.tableView cellForRowAtIndexPath:indexPath];
         detailVc.needId = cell.needId;
         [self.navigationController pushViewController:detailVc animated:YES];
@@ -254,6 +295,7 @@ static NSString * const reuseIdentifier = @"Cell";
         
     }
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
@@ -522,6 +564,8 @@ static NSString * const reuseIdentifier = @"Cell";
         NSLog(@"Tap on button 2");
         
         PostNeedViewController *postVC = [[PostNeedViewController alloc]initWithStyle:UITableViewStyleGrouped];
+        
+        postVC.hidesBottomBarWhenPushed = YES;
         
         [self.navigationController pushViewController:postVC animated:YES];
 

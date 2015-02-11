@@ -20,7 +20,7 @@
 #import "OffersManager.h"
 #import "ItemDetailViewController.h"
 #import "HLSettings.h"
-
+#import "FormManager.h"
 @interface PostFormViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
 }
@@ -53,7 +53,7 @@
     
     NSString *address = [[LocationManager sharedInstance]convertedAddress];
     
-    _detailsArray =[NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", address,nil];
+    _detailsArray =[NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", address,@"", nil];
     
     self.itemLocationCoordinate = [[LocationManager sharedInstance]currentLocation];
     
@@ -181,7 +181,10 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }
-    
+    else if(indexPath.section == 6){
+     
+        [self submitOfferToCloud];
+    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -200,6 +203,10 @@
     cell.detailTextLabel.numberOfLines = 10;
     
     cell.detailTextLabel.text = [_detailsArray objectAtIndex:indexPath.section];
+    
+    [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+    
+    cell.textLabel.textColor = [HLTheme mainColor];
     
     if(indexPath.section == 0){
         
@@ -234,12 +241,15 @@
         cell.textLabel.text = @"Item Location";
         
     }
+    else if(indexPath.section == 6){
+        
+        cell.textLabel.text = @"Submit";
+        
+    }
     
     cell.detailTextLabel.text = [_detailsArray objectAtIndex:indexPath.section];
     
-    [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
-    
-    cell.textLabel.textColor = [HLTheme mainColor];
+
     
     return cell;
 }
@@ -330,11 +340,13 @@ numberOfRowsInComponent:(NSInteger)component
     NSString *itemDescription = [[FormManager sharedInstance]itemDescription];
     
 
-    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:self.itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO]];
+    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:self.itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] toUser:[[FormManager sharedInstance]toUser]];
 
     [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
 
          [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+        
+        [[FormManager sharedInstance]setToUser:nil];
         
         [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
 

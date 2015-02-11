@@ -75,7 +75,7 @@ NSString *const kHLOfferModelKeyUser = @"user";
 NSString *const kHLOfferModelKeyOfferName = @"offerName";
 NSString *const kHLOfferModelKeyGeoPoint = @"geoPoint";
 NSString *const kHLOfferModelKeyOfferStatus = @"offerStatus";
-
+NSString *const kHLOfferModelKeyToUser = @"toUser";
 
 NSString *const kHLNeedsModelKeyPrice= @"price";
 //NSString *const kHLNeedsModelKeyLikes;
@@ -105,6 +105,10 @@ NSString *const kHLCloudActivityClass = @"Activity";
 NSString *const kHLActivityKeyOffer = @"offer";
 NSString *const kHLActivityKeyUser = @"user";
 
+NSString *const kHLCommentTypeKey = @"type";
+NSString *const kHLCommentTypeOffer = @"offer";
+NSString *const kHLCommentTypeNeed = @"need";
+
 NSString *const kHLFilterDictionarySearchType = @"searchType";
 NSString *const kHLFilterDictionarySearchKeyCategory = @"searchByCategory";
 NSString *const kHLFilterDictionarySearchKeyWords = @"searchByWords";
@@ -122,12 +126,16 @@ NSString *const kHLNotificationFromUserKey = @"fromUser";
 NSString *const kHLNotificationToUserKey = @"toUser";
 NSString *const kHLNotificationContentKey = @"content";
 NSString *const kHLNotificationOfferKey = @"offer";
+NSString *const kHLNotificationNeedKey = @"need";
+
 
 NSString *const kHLNotificationTypeLike       = @"like";
 NSString *const kHLNotificationTypeFollow     = @"follow";
-NSString *const kHLNotificationTypeComment    = @"comment";
+NSString *const kHLNotificationTypeOfferComment    = @"offerComment";
+NSString *const kHLNotificationTypeNeedComment    = @"needComment";
 NSString *const kHLNotificationTypeJoined     = @"joined";
 NSString *const khlNotificationTypMakeOffer     = @"make offer";
+NSString *const khlNotificationTypOfferItem     = @"Offer Item";
 
 //Cache
 NSString *const kHLUserAttributesIsFollowedByCurrentUserKey    = @"isFollowedByCurrentUser";
@@ -143,6 +151,8 @@ NSString *const kHLItemDetailsPutDownCommentViewNotification = @"com.Hooli.itemD
 NSString *const kHLUserDefaultsCacheFacebookFriendsKey = @"com.Hooli.userDefaultsCacheFacebookFriendsKey";
 NSString *const kHLLoadFeedObjectsNotification = @"com.Hooli.loadFeedObjects";
 NSString *const kHLLoadMessageObjectsNotification = @"com.Hooli.loadMessageObjects";
+NSString *const kHLShowCameraViewNotification = @"com.Hooli.showCameraView";
+
 
 #pragma mark - Push Notification Payload Keys
 
@@ -159,7 +169,8 @@ NSString *const kHLPushPayloadPayloadTypeMessagesKey = @"m";
 
 NSString *const kHLPushPayloadActivityTypeKey     = @"t";
 NSString *const kHLPushPayloadActivityLikeKey     = @"l";
-NSString *const kHLPushPayloadActivityCommentKey  = @"c";
+NSString *const kHLPushPayloadActivityCommentNeedKey  = @"cn";
+NSString *const kHLPushPayloadActivityCommentOfferKey  = @"co";
 NSString *const kHLPushPayloadActivityFollowKey   = @"f";
 
 NSString *const kHLPushPayloadFromUserObjectIdKey = @"fu";

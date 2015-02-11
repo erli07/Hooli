@@ -21,4 +21,6 @@
 
 + (void)saveFirstLaunchStatus:(BOOL)status;
 + (BOOL)getFirstLaunchStatus;
+
++ (BOOL)checkIfUserLogin;
 @end

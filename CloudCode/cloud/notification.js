@@ -41,17 +41,18 @@ Parse.Cloud.afterSave('Notification', function(request) {
 var alertMessage = function(request) {
   var message = "";
 
-  if (request.object.get("type") === "comment") {
+  if (request.object.get("type") === "needComment" || request.object.get("type") === "offerComment"  ) {
     if (request.user.get('username')) {
       message = request.user.get('username') + ': ' + request.object.get('content').trim();
     } else {
-      message = "Someone commented on your photo.";
+      message = "Someone commented on your item.";
     }
-  } else if (request.object.get("type") === "like") {
+  }
+   else if (request.object.get("type") === "like") {
     if (request.user.get('username')) {
-      message = request.user.get('username') + ' likes your photo.';
+      message = request.user.get('username') + ' likes your itemsss.';
     } else {
-      message = 'Someone likes your photo.';
+      message = 'Someone likes your item.';
     }
   } else if (request.object.get("type") === "follow") {
     if (request.user.get('username')) {
@@ -72,18 +73,28 @@ var alertMessage = function(request) {
 var alertPayload = function(request) {
   var payload = {};
 
-  if (request.object.get("type") === "comment") {
+  if (request.object.get("type") === "offerComment") {
     return {
       alert: alertMessage(request), // Set our alert message.
       badge: 'Increment', // Increment the target device's badge count.
       // The following keys help Anypic load the correct photo in response to this push notification.
 	  sound: 'default',
       p: 'nf', // Payload Type: Activity
-      t: 'c', // Activity Type: Comment
+      t: 'co', // Activity Type: Comment
       fu: request.object.get('fromUser').id, // From User
       objId: request.object.id // Photo Id
     };
-  } else if (request.object.get("type") === "like") {
+  } else if (request.object.get("type") === "needComment") {
+    return {
+      alert: alertMessage(request), // Set our alert message.
+      // The following keys help Anypic load the correct photo in response to this push notification.
+	  sound: 'default',
+      p: 'nf', // Payload Type: Activity
+      t: 'cn', // Activity Type: Like
+      fu: request.object.get('fromUser').id, // From User
+      objId: request.object.id // Photo Id
+    };
+  }else if (request.object.get("type") === "like") {
     return {
       alert: alertMessage(request), // Set our alert message.
       // The following keys help Anypic load the correct photo in response to this push notification.

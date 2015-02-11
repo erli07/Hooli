@@ -33,7 +33,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *offerLikesNum;
 @property (nonatomic, strong) PFGeoPoint *geoPoint;
 @property (nonatomic, assign) NSNumber *isOfferSold;
-
+@property (nonatomic, strong) PFUser *toUser;
 
 -(id)initOfferModelWithUser:(PFObject *)user
                       image:(UIImage *)image
@@ -63,6 +63,16 @@ typedef enum {
                    description:(NSString *)offerDescription
                       location:(CLLocationCoordinate2D) offerLocation
                    isOfferSold:(NSNumber *)isOfferSold;
+
+-(id)initOfferModelWithUser:(PFObject *)user
+                 imageArray:(NSArray *)imageArray
+                      price:(NSString *)offerPrice
+                  offerName:(NSString *)offerName
+                   category:(NSString *)offerCategory
+                description:(NSString *)offerDescription
+                   location:(CLLocationCoordinate2D) offerLocation
+                isOfferSold:(NSNumber *)isOfferSold
+                     toUser:(PFUser *)toUser;
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user

@@ -40,6 +40,7 @@
 -(id)initNeedsObjectDetailsWithPFObject:(PFObject *)object;
 
 -(id)initNeedModelWithUser:(PFObject *)user
+                     title:(NSString *)title
                description:(NSString *)description
                     budget:(NSString *)budget
                   category:(NSString *)category;

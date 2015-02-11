@@ -388,11 +388,11 @@
     JSQMessage *message = [messages objectAtIndex:indexPath.row];
     
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
-    vc.userID = message.senderId;
-    vc.hidesBottomBarWhenPushed = YES;
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
+    vc.userID =  message.senderId;
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
-	NSLog(@"didTapAvatarImageView");
+    
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------

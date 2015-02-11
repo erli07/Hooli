@@ -170,6 +170,10 @@
     [offerClass setObject:offer.offerCategory forKey:kHLOfferModelKeyCategory];
     [offerClass setObject:offer.offerName forKey:kHLOfferModelKeyOfferName];
     [offerClass setObject:offer.geoPoint forKey:kHLOfferModelKeyGeoPoint];
+    if(offer.toUser){
+        [offerClass setObject:offer.toUser forKey:kHLOfferModelKeyToUser];
+    }
+    
     
     [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
@@ -288,11 +292,11 @@
         
     }
     
-    if([[HLSettings sharedInstance]showSoldItems]){
+   // if([[HLSettings sharedInstance]showSoldItems]){
         
         [query whereKey:kHLOfferModelKeyOfferStatus notEqualTo:[NSNumber numberWithBool:YES]];
         
-    }
+  //  }
     
     [query orderByDescending:@"createdAt"];
     [query setLimit:kHLOffersNumberShowAtFirstTime];
@@ -543,7 +547,7 @@
         }
         
     }];
-
+    
     
 }
 

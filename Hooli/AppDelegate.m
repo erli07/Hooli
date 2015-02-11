@@ -16,11 +16,9 @@
 //#import "EaseMob.h"
 #import "AccountManager.h"
 #import "HLUtilities.h"
-#import "NotificationsViewController.h"
 #import "Reachability.h"
 #import "HLCache.h"
 @interface AppDelegate ()
-@property (nonatomic, strong) NotificationsViewController *activityViewController;
 
 @end
 

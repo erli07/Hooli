@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
+#define Rgb2UIColor(r, g, b)  [UIColor colorWithRed:((r) / 255.0) green:((g) / 255.0) blue:((b) / 255.0) alpha:1.0]
+
 #define HEXCOLOR(c) [UIColor colorWithRed:((c>>24)&0xFF)/255.0 green:((c>>16)&0xFF)/255.0 blue:((c>>8)&0xFF)/255.0 alpha:((c)&0xFF)/255.0]
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -87,6 +89,10 @@ extern int const kHLNeedsNumberShowAtFirstTime;
 extern int const kHLMaxSearchDistance;
 extern int const kHLDefaultSearchDistance;
 
+extern NSString *const kHLCommentTypeKey;
+extern NSString *const kHLCommentTypeOffer;
+extern NSString *const kHLCommentTypeNeed;
+
 extern NSString *const kHLUserModelKeyEmail;
 extern NSString *const kHLUserModelKeyUserName;
 extern NSString *const kHLUserModelKeyPortraitImage;
@@ -106,6 +112,7 @@ extern NSString *const kHLOfferModelKeyOfferId;
 extern NSString *const kHLOfferModelKeyOfferName;
 extern NSString *const kHLOfferModelKeyGeoPoint;
 extern NSString *const kHLOfferModelKeyOfferStatus;
+extern NSString *const kHLOfferModelKeyToUser;
 
 extern NSString *const kHLNeedsModelKeyPrice;
 extern NSString *const kHLNeedsModelKeyLikes;
@@ -150,12 +157,16 @@ extern NSString *const kHLNotificationFromUserKey;
 extern NSString *const kHLNotificationToUserKey;
 extern NSString *const kHLNotificationContentKey;
 extern NSString *const kHLNotificationOfferKey;
+extern NSString *const kHLNotificationNeedKey;
 
 extern NSString *const kHLNotificationTypeLike;
 extern NSString *const kHLNotificationTypeFollow ;
-extern NSString *const kHLNotificationTypeComment;
+//extern NSString *const kHLNotificationTypeComment;
+extern NSString *const kHLNotificationTypeOfferComment;
+extern NSString *const kHLNotificationTypeNeedComment;
 extern NSString *const kHLNotificationTypeJoined;
 extern NSString *const khlNotificationTypMakeOffer;
+extern NSString *const khlNotificationTypOfferItem;
 
 extern NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification;
 extern NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey;
@@ -168,7 +179,7 @@ extern NSString *const kHLItemDetailsPutDownCommentViewNotification;
 extern NSString *const kHLUserDefaultsCacheFacebookFriendsKey;
 extern NSString *const kHLLoadFeedObjectsNotification;
 extern NSString *const kHLLoadMessageObjectsNotification;
-
+extern NSString *const kHLShowCameraViewNotification;
 #pragma mark - Cached User Attributes
 // keys
 extern NSString *const kHLUserAttributesIsFollowedByCurrentUserKey;
@@ -186,7 +197,8 @@ extern NSString *const kHLPushPayloadPayloadTypeMessagesKey;
 
 extern NSString *const kHLPushPayloadActivityTypeKey;
 extern NSString *const kHLPushPayloadActivityLikeKey;
-extern NSString *const kHLPushPayloadActivityCommentKey;
+extern NSString *const kHLPushPayloadActivityCommentNeedKey;
+extern NSString *const kHLPushPayloadActivityCommentOfferKey;
 extern NSString *const kHLPushPayloadActivityFollowKey;
 
 extern NSString *const kHLPushPayloadFromUserObjectIdKey;

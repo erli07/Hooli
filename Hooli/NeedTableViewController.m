@@ -21,7 +21,7 @@
 static const CGFloat kHLCellInsetWidth = 0.0f;
 
 @implementation NeedTableViewController
-@synthesize firstLaunch,shouldReloadOnAppear;
+@synthesize firstLaunch,shouldReloadOnAppear,user;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,6 +82,12 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (PFQuery *)queryForTable {
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    
+    if(self.user){
+        
+        [query whereKey:kHLNeedsModelKeyUser equalTo:user];
+    }
+    
     [query includeKey:kHLNeedsModelKeyUser];
     [query orderByDescending:@"createdAt"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
@@ -128,7 +134,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     cell.nameButton = nil;
     cell.needId = object.objectId;
     [cell setUser:[object objectForKey:kHLNeedsModelKeyUser]];
-    [cell setNeedContentText:[object objectForKey:kHLNeedsModelKeyDescription]];
+    [cell setNeedContentText:[object objectForKey:kHLNeedsModelKeyName]];
     [cell setDate:[object createdAt]];
     //[cell setDistanceLabelText:@"distance: 1.1 mi"];
     
@@ -137,19 +143,35 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 }
 
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    if (indexPath.row < self.objects.count) { // A comment row
-//        
-//        NSString *commentString = [self.objects[indexPath.row] objectForKey:kHLNeedsModelKeyDescription];
-//
-//        return [NeedTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLNeedsModelKeyUser] contentString:commentString cellInsetWidth:kHLCellInsetWidth];
-//        
-//    }
-//    
-//    // The pagination row
-//    return 44.0f;
-//}
+#pragma mark tableview delegate
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if([self checkIfUserLogin]){
+        
+        NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
+        NeedTableViewCell *cell = (NeedTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        detailVc.needId = cell.needId;
+        [self.navigationController pushViewController:detailVc animated:YES];
+        
+        
+    }
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    if (indexPath.row < self.objects.count) { // A comment row
+        
+        NSString *commentString = [self.objects[indexPath.row] objectForKey:kHLNeedsModelKeyDescription];
+        
+        return [NeedTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLNeedsModelKeyUser] contentString:commentString cellInsetWidth:0];
+        
+    }
+    
+    // The pagination row
+    return 44.0f;
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -158,6 +180,23 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         [self loadNextPage];
     }
     
+}
+
+- (BOOL)checkIfUserLogin{
+    
+    
+    if(![PFUser currentUser]){
+        
+        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        loginVC.navigationController.navigationBarHidden = NO;
+        loginVC.navigationItem.hidesBackButton = YES;
+        [self.navigationController pushViewController:loginVC animated:NO];
+        return NO;
+        
+    }
+    
+    return YES;
 }
 
 

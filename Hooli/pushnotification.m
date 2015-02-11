@@ -62,7 +62,7 @@ void SendPushNotification(NSString *roomId, NSString *text)
 	[push setQuery:queryInstallation];
 	[push setMessage:text];
     NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        kHLPushPayloadPayloadTypeMessagesKey,kHLPushPayloadPayloadTypeKey, @"default",kAPNSSoundKey,@"increment",kAPNSBadgeKey,nil];
+                                        kHLPushPayloadPayloadTypeMessagesKey,kHLPushPayloadPayloadTypeKey, @"default",kAPNSSoundKey,@"increment",kAPNSBadgeKey,text,kAPNSAlertKey,nil];
     [push setData:data];
 	[push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 	{

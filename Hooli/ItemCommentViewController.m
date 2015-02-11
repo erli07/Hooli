@@ -130,10 +130,10 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     
     
     // Set table view properties
-    UIView *texturedBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
-    texturedBackgroundView.backgroundColor = [UIColor blackColor];
-    self.tableView.backgroundView = texturedBackgroundView;
-    
+//    UIView *texturedBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
+//    texturedBackgroundView.backgroundColor = [UIColor whiteColor];
+//    self.tableView.backgroundView = texturedBackgroundView;
+//    
     // Set table footer
     ItemCommentFooterView *footerView = [[ItemCommentFooterView alloc] initWithFrame:[ItemCommentFooterView rectForView]];
     commentTextField = footerView.commentField;
@@ -191,10 +191,27 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (PFQuery *)queryForTable {
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:self.parseClassName objectId:self.aObject.objectId]];
-    [query includeKey:kHLNotificationOfferKey];
+    
+    if([[self.aObject objectForKey:kHLCommentTypeKey] isEqualToString: kHLCommentTypeNeed]){
+        
+        [query includeKey:kHLNotificationNeedKey];
+        
+        [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeNeedComment];
+        
+        [query whereKey:kHLNotificationNeedKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudItemNeedClass objectId:self.aObject.objectId]];
+        
+    }
+    else if([[self.aObject objectForKey:kHLCommentTypeKey] isEqualToString: kHLCommentTypeOffer]){
+        
+        [query includeKey:kHLNotificationOfferKey];
+        
+        [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeOfferComment];
+
+        [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.aObject.objectId]];
+        
+    }
+    
     [query includeKey:kHLNotificationFromUserKey];
-    [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeComment];
     [query orderByAscending:@"createdAt"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
@@ -299,8 +316,19 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         [comment setObject:trimmedComment forKey:kHLNotificationContentKey]; // Set comment text
         [comment setObject:[self.aObject objectForKey:@"user"] forKey:kHLNotificationToUserKey]; // Set toUser
         [comment setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey]; // Set fromUser
-        [comment setObject:kHLNotificationTypeComment forKey:kHLNotificationTypeKey];
-        [comment setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.offer.offerId] forKeyedSubscript:kHLNotificationOfferKey];
+        
+        if( [[self.aObject objectForKey:kHLCommentTypeKey] isEqualToString:kHLCommentTypeOffer]){
+            
+            [comment setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.aObject.objectId] forKeyedSubscript:kHLNotificationOfferKey];
+            [comment setObject:kHLNotificationTypeOfferComment forKey:kHLNotificationTypeKey];
+
+        }
+        else if( [[self.aObject objectForKey:kHLCommentTypeKey] isEqualToString:kHLCommentTypeNeed]){
+            
+            [comment setObject:[PFObject objectWithoutDataWithClassName:kHLCloudItemNeedClass objectId:self.aObject.objectId] forKeyedSubscript:kHLNotificationNeedKey];
+            [comment setObject:kHLNotificationTypeNeedComment forKey:kHLNotificationTypeKey];
+
+        }
         
         // [comment setObject:image forKey:kHLOfferModelKeyImage];
         

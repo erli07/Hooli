@@ -10,6 +10,7 @@
 #import "HLTheme.h"
 #import "AboutViewController.h"
 #import "IntroViewController.h"
+#import "AppDelegate.h"
 @interface MySettingsViewController ()
 @property (nonatomic)  NSArray *sectionArray;
 
@@ -99,12 +100,20 @@
         }
         
     }
+    else if(indexPath.section == 2){
+        
+                UIAlertView *logoutAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                logoutAlert.delegate = self;
+                [logoutAlert show];
+    }
     
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingsCell" forIndexPath:indexPath];
+    [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+    cell.textLabel.textColor = [HLTheme mainColor];
     
     if(indexPath.section == 0){
         
@@ -139,10 +148,16 @@
             cell.textLabel.text = @"About Hooli";
         }
     }
+    else if(indexPath.section == 2){
+        
+        cell.textLabel.text = @"Log Out";
+        cell.textLabel.textColor = [UIColor whiteColor];
+        [cell setBackgroundColor:[HLTheme mainColor]];
+
+    }
     
     
-    [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
-    cell.textLabel.textColor = [HLTheme mainColor];
+
     
     return cell;
 }
@@ -151,14 +166,16 @@
     
     if(section == 0)
         return 2;
-    else
+    else if(section == 1)
         return 3;
+    else
+        return 1;
     
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return  2;
+    return  3;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -179,5 +196,18 @@
         
     }];
     
+}
+
+#pragma mark alert view delegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if(buttonIndex == 0){
+        
+    }
+    else{
+        
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] logOut];
+    }
 }
 @end

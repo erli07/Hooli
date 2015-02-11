@@ -11,3 +11,24 @@ Parse.Cloud.beforeSave('Offer', function(request, response) {
     response.error('Cannot set user on Offer to a user other than the current user.');
   }
 });
+
+Parse.Cloud.afterSave('Offer', function(request) {
+  // Only send push notifications for new activities
+  if (request.object.existed()) {
+    return;
+  }
+
+  var toUser = request.object.get("toUser");
+  if (!toUser) {
+    throw "Undefined toUser. Skipping push for Activity " + request.object.get('type') + " : " + request.object.id;
+    return;
+  }
+
+  var fromUser = request.object.get("user");
+  
+  var offer = request.object.get("offer");
+  
+  
+});
+
+

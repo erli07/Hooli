@@ -21,6 +21,7 @@
 @synthesize geoPoint = _geoPoint;
 @synthesize isOfferSold = _isOfferSold;
 @synthesize theImageFile = _theImageFile;
+@synthesize toUser = _toUser;
 
 -(id)initOfferModelWithUser:(PFObject *)user
                       image:(UIImage *)image
@@ -75,6 +76,40 @@
         _geoPoint.longitude = offerLocation.longitude;
         _isOfferSold = isOfferSold;
         _image = [imageArray objectAtIndex:0];
+        
+    }
+    return self;
+    
+    
+}
+
+
+-(id)initOfferModelWithUser:(PFObject *)user
+                 imageArray:(NSArray *)imageArray
+                      price:(NSString *)offerPrice
+                  offerName:(NSString *)offerName
+                   category:(NSString *)offerCategory
+                description:(NSString *)offerDescription
+                   location:(CLLocationCoordinate2D) offerLocation
+                isOfferSold:(NSNumber *)isOfferSold
+                     toUser:(PFUser *)toUser{
+    
+    self = [super init];
+    if(self)
+    {
+        _imageArray = imageArray;
+        _user = user;
+        _offerName = offerName;
+        _offerCategory = offerCategory;
+        _offerDescription = offerDescription;
+        _offerPrice = offerPrice;
+        _offerLocation = offerLocation;
+        _geoPoint = [[PFGeoPoint alloc]init];
+        _geoPoint.latitude = offerLocation.latitude;
+        _geoPoint.longitude = offerLocation.longitude;
+        _isOfferSold = isOfferSold;
+        _image = [imageArray objectAtIndex:0];
+        _toUser = toUser;
         
     }
     return self;

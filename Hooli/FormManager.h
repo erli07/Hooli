@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PostFormViewController.h"
+#import <Parse/Parse.h>
 @interface FormManager : NSObject
 +(FormManager *)sharedInstance;
 
@@ -19,6 +20,7 @@
 @property (nonatomic) NSString *itemCondition;
 @property (nonatomic) NSString *itemLocation;
 
+@property (nonatomic) PFUser *toUser;
 
 @property (nonatomic) NSString *needItemDescription;
 @property (nonatomic) NSString *needItemBudget;

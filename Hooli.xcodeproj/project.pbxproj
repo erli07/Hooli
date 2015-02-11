@@ -123,7 +123,6 @@
 		0E86AA7C1A4D2D81000C71E8 /* NeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA7B1A4D2D81000C71E8 /* NeedDetailViewController.m */; };
 		0E92B90C1A78618400B1FB6C /* heart-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E92B90B1A78618400B1FB6C /* heart-64.png */; };
 		0E9605361A6D64CC00791E4E /* notification-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9605351A6D64CC00791E4E /* notification-32.png */; };
-		0E9605391A6D661800791E4E /* NotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605381A6D661800791E4E /* NotificationsViewController.m */; };
 		0E96053D1A6D69A900791E4E /* NotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96053C1A6D69A900791E4E /* NotificationTableViewCell.m */; };
 		0E9605401A6D710100791E4E /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96053F1A6D710100791E4E /* TTTTimeIntervalFormatter.m */; };
 		0E9605431A6D71E200791E4E /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9605421A6D71E200791E4E /* ProfileImageView.m */; };
@@ -194,6 +193,9 @@
 		0EFA0ECF1A72174500A05ABC /* unlike-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ECE1A72174500A05ABC /* unlike-48.png */; };
 		0EFA0ED31A7217DF00A05ABC /* like-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ED21A7217DF00A05ABC /* like-48.png */; };
 		0EFA0F0A1A77637200A05ABC /* NotificationFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */; };
+		0EFF7D5B1A895DDB0087D464 /* MyRelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */; };
+		0EFF7D611A89659D0087D464 /* MyProfileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D601A89659D0087D464 /* MyProfileDetailViewController.m */; };
+		0EFF7D641A89E2F80087D464 /* UserAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D631A89E2F80087D464 /* UserAccountViewController.m */; };
 		4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADE81A15577C00486C43 /* HLUtilities.m */; };
 		4510ADEC1A15C6CC00486C43 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADEB1A15C6CC00486C43 /* ActivityManager.m */; };
 		4530733F1A1550E30010B5A1 /* HLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4530733E1A1550E30010B5A1 /* HLCache.m */; };
@@ -475,8 +477,6 @@
 		0E86AA7B1A4D2D81000C71E8 /* NeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedDetailViewController.m; sourceTree = "<group>"; };
 		0E92B90B1A78618400B1FB6C /* heart-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart-64.png"; sourceTree = "<group>"; };
 		0E9605351A6D64CC00791E4E /* notification-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-32.png"; sourceTree = "<group>"; };
-		0E9605371A6D661800791E4E /* NotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsViewController.h; sourceTree = "<group>"; };
-		0E9605381A6D661800791E4E /* NotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsViewController.m; sourceTree = "<group>"; };
 		0E96053B1A6D69A900791E4E /* NotificationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTableViewCell.h; sourceTree = "<group>"; };
 		0E96053C1A6D69A900791E4E /* NotificationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTableViewCell.m; sourceTree = "<group>"; };
 		0E96053E1A6D710100791E4E /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTTimeIntervalFormatter.h; path = SMPageControl/TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
@@ -577,6 +577,12 @@
 		0EFA0ED21A7217DF00A05ABC /* like-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like-48.png"; sourceTree = "<group>"; };
 		0EFA0F081A77637200A05ABC /* NotificationFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationFeedViewController.h; sourceTree = "<group>"; };
 		0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationFeedViewController.m; sourceTree = "<group>"; };
+		0EFF7D591A895DDB0087D464 /* MyRelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRelationshipViewController.h; sourceTree = "<group>"; };
+		0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRelationshipViewController.m; sourceTree = "<group>"; };
+		0EFF7D5F1A89659D0087D464 /* MyProfileDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileDetailViewController.h; sourceTree = "<group>"; };
+		0EFF7D601A89659D0087D464 /* MyProfileDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileDetailViewController.m; sourceTree = "<group>"; };
+		0EFF7D621A89E2F80087D464 /* UserAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAccountViewController.h; sourceTree = "<group>"; };
+		0EFF7D631A89E2F80087D464 /* UserAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAccountViewController.m; sourceTree = "<group>"; };
 		4510ADE71A15577C00486C43 /* HLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLUtilities.h; sourceTree = "<group>"; };
 		4510ADE81A15577C00486C43 /* HLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLUtilities.m; sourceTree = "<group>"; };
 		4510ADEA1A15C6CC00486C43 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityManager.h; sourceTree = "<group>"; };
@@ -1072,6 +1078,10 @@
 				0E03ACC61A1F195500827B6C /* Profile.storyboard */,
 				0E17BF5219FDD1430042C4DD /* MyProfileViewController.h */,
 				0E17BF5319FDD1430042C4DD /* MyProfileViewController.m */,
+				0EFF7D5F1A89659D0087D464 /* MyProfileDetailViewController.h */,
+				0EFF7D601A89659D0087D464 /* MyProfileDetailViewController.m */,
+				0EFF7D621A89E2F80087D464 /* UserAccountViewController.h */,
+				0EFF7D631A89E2F80087D464 /* UserAccountViewController.m */,
 				0E03ACC31A1F191C00827B6C /* MySettingsViewController.h */,
 				0E03ACC41A1F191C00827B6C /* MySettingsViewController.m */,
 				0EB888341A3AE6C90054F982 /* AboutViewController.h */,
@@ -1080,6 +1090,8 @@
 				0E28DD881A81BC8F0025077C /* FollowListViewController.m */,
 				0E28DD8A1A81BEA70025077C /* FollowListCell.h */,
 				0E28DD8B1A81BEA70025077C /* FollowListCell.m */,
+				0EFF7D591A895DDB0087D464 /* MyRelationshipViewController.h */,
+				0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -1177,8 +1189,6 @@
 		0E96053A1A6D662700791E4E /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				0E9605371A6D661800791E4E /* NotificationsViewController.h */,
-				0E9605381A6D661800791E4E /* NotificationsViewController.m */,
 				0EFA0F081A77637200A05ABC /* NotificationFeedViewController.h */,
 				0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */,
 				0E96053B1A6D69A900791E4E /* NotificationTableViewCell.h */,
@@ -2114,16 +2124,17 @@
 				45D2C4491A65CA1B006ADB53 /* MBProgressHUD.m in Sources */,
 				0E9605431A6D71E200791E4E /* ProfileImageView.m in Sources */,
 				457DA2211A5E2FD00099E52E /* JSQMessagesTypingIndicatorFooterView.m in Sources */,
+				0EFF7D5B1A895DDB0087D464 /* MyRelationshipViewController.m in Sources */,
 				0E86AA5A1A493B45000C71E8 /* MGSwipeButton.m in Sources */,
 				457DA1831A5E2FBA0099E52E /* AFNetworkActivityIndicatorManager.m in Sources */,
 				457DA2071A5E2FD00099E52E /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				457AC6FD1A5C86F000BFC619 /* CreateActivityViewController.m in Sources */,
 				0ECAC39019FF502B002866DE /* MainCollectionViewFlowLayout.m in Sources */,
 				457DA20A1A5E2FD00099E52E /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
+				0EFF7D611A89659D0087D464 /* MyProfileDetailViewController.m in Sources */,
 				0E17BED419FC8BAE0042C4DD /* main.m in Sources */,
 				457DA2121A5E2FD00099E52E /* JSQMessagesCellTextView.m in Sources */,
 				457DA23A1A5E30730099E52E /* ProgressHUD.m in Sources */,
-				0E9605391A6D661800791E4E /* NotificationsViewController.m in Sources */,
 				457DA2141A5E2FD00099E52E /* JSQMessagesCollectionViewCell.m in Sources */,
 				457DA21A1A5E2FD00099E52E /* JSQMessagesInputToolbar.m in Sources */,
 				0E86AA761A4CB7AE000C71E8 /* NeedsManager.m in Sources */,
@@ -2142,6 +2153,7 @@
 				457AC6CE1A5C6A0900BFC619 /* IntroViewController.m in Sources */,
 				0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */,
 				457AC6D61A5C6A2F00BFC619 /* EAIntroView.m in Sources */,
+				0EFF7D641A89E2F80087D464 /* UserAccountViewController.m in Sources */,
 				0EE499941A1029080046B3C7 /* UserModel.m in Sources */,
 				0E86AA701A4B3BCB000C71E8 /* NeedsModel.m in Sources */,
 				45D2C42B1A622688006ADB53 /* MyCameraManager.m in Sources */,
@@ -2336,7 +2348,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d4d6983f-aa6a-4289-8127-d33ff74a5c4d";
+				PROVISIONING_PROFILE = "56be8e0c-5854-468d-9f3e-205317210175";
 			};
 			name = Debug;
 		};
@@ -2361,7 +2373,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d4d6983f-aa6a-4289-8127-d33ff74a5c4d";
+				PROVISIONING_PROFILE = "56be8e0c-5854-468d-9f3e-205317210175";
 			};
 			name = Release;
 		};

@@ -239,9 +239,9 @@
 - (void)cell:(FollowListCell *)cellView didTapUserButton:(PFUser *)aUser {
     // Push account view controller
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
-    vc.userID = aUser.objectId;
-    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
+    vc.userID =  aUser.objectId;
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

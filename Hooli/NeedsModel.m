@@ -84,6 +84,7 @@
 }
 
 -(id)initNeedModelWithUser:(PFObject *)user
+                     title:(NSString *)title
                description:(NSString *)description
                     budget:(NSString *)budget
                   category:(NSString *)category{
@@ -95,6 +96,7 @@
         _category = category;
         _needsDescription = description;
         _budget = budget;
+        _name = title;
         
     }
     

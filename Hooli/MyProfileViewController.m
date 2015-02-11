@@ -17,15 +17,21 @@
 #import "HLCache.h"
 #import "AppDelegate.h"
 #import "FollowListViewController.h"
-
+#import "NeedTableViewCell.h"
+#import "NeedTableViewController.h"
+#import "NeedDetailViewController.h"
+#import "MyRelationshipViewController.h"
+#import "MyProfileDetailViewController.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
 @property (nonatomic,strong) UIButton *logoutButton;
+@property (nonatomic) NeedTableViewController *needsViewController;
+
 @end
 
 @implementation MyProfileViewController
-
+@synthesize needsViewController;
 - (void)viewDidLoad {
     
     
@@ -92,52 +98,79 @@
     
     if(indexPath.section == 0){
         
-        [self performSegueWithIdentifier:@"myItems" sender:self];
+        if(indexPath.row == 0){
+
+            [self performSegueWithIdentifier:@"myItems" sender:self];
+            
+        }
+        else if(indexPath.row == 1){
+            
+            self.needsViewController = [[NeedTableViewController alloc]init];
+            
+            self.needsViewController.user = [PFUser currentUser];
+            
+            self.needsViewController.hidesBottomBarWhenPushed = YES;
+            
+            [self.navigationController pushViewController:needsViewController animated:YES];
+
+        }
+
         
     }
     else if(indexPath.section == 1){
         
         if(indexPath.row == 0){
             
-            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-            EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"editProfile"];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
+            MyProfileDetailViewController *profileDetailVC = [[MyProfileDetailViewController alloc]initWithStyle:UITableViewStyleGrouped];
+            profileDetailVC.user = [PFUser currentUser];
+            profileDetailVC.tableView.allowsSelection = YES;
+            profileDetailVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:profileDetailVC animated:YES];
             
         }
         else if(indexPath.row == 1){
             
-            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"settings"];
+            MyRelationshipViewController *vc = [[MyRelationshipViewController alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
-        }
-        else if(indexPath.row == 2){
+//            FollowListViewController *vc = [[FollowListViewController alloc] init];
+//            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
+//            vc.fromUser = [PFUser currentUser];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
             
-            FollowListViewController *vc = [[FollowListViewController alloc] init];
-            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
-            vc.fromUser = [PFUser currentUser];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-
         }
-        else if(indexPath.row == 3){
-            
-            FollowListViewController *vc = [[FollowListViewController alloc] init];
-            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
-            vc.fromUser = [PFUser currentUser];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-
-        }
+//        else if(indexPath.row == 2){
+//            
+//            FollowListViewController *vc = [[FollowListViewController alloc] init];
+//            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
+//            vc.fromUser = [PFUser currentUser];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
+//
+//        }
+//        else if(indexPath.row == 3){
+//            
+//            FollowListViewController *vc = [[FollowListViewController alloc] init];
+//            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
+//            vc.fromUser = [PFUser currentUser];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
+//
+//        }
         
     }
     else if(indexPath.section == 2){
         
-        UIAlertView *logoutAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-        logoutAlert.delegate = self;
-        [logoutAlert show];
+        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"settings"];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+//        UIAlertView *logoutAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+//        logoutAlert.delegate = self;
+//        [logoutAlert show];
         
     }
     
@@ -165,6 +198,11 @@
             cell.textLabel.text = @"My Items";
             
         }
+        else if(indexPath.row == 1){
+            
+            cell.textLabel.text = @"My Needs";
+            
+        }
 
 
         
@@ -178,25 +216,17 @@
         }
         else if(indexPath.row == 1){
             
-            cell.textLabel.text = @"Settings";
+            cell.textLabel.text = @"My Relations";
             
         }
-        else if(indexPath.row == 2){
-            
-            cell.textLabel.text = @"Get Followers";
 
-        }
-        else if(indexPath.row == 3){
-            
-            cell.textLabel.text = @"Get Followed Users";
-            
-        }
     }
-    else{
+    else if(indexPath.section == 2){
         
-        cell.textLabel.text = @"Log Out";
-        
+        cell.textLabel.text = @"Settings";
+
     }
+
     
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
@@ -207,9 +237,9 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 1;
+        return 2;
     else if(section == 1)
-        return 4;
+        return 2;
     else
         return 1;
 }
@@ -227,18 +257,6 @@
     return view;
 }
 
-#pragma mark alert view delegate
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    if(buttonIndex == 0){
-        
-    }
-    else{
-        
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] logOut];
-    }
-}
 
 - (BOOL)checkIfUserLogin{
     
@@ -256,4 +274,6 @@
     
     return YES;
 }
+
+
 @end

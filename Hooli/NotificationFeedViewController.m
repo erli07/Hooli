@@ -17,6 +17,8 @@
 #import "OffersManager.h"
 #import "UserCartViewController.h"
 #import "FollowListCell.h"
+#import "NeedDetailViewController.h"
+#import "NeedTableViewCell.h"
 @interface NotificationFeedViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
 @property (nonatomic, strong) UIView *blankView;
@@ -213,9 +215,13 @@
                 }
             }];
         }
-        else if ([[_notification objectForKey:kHLNotificationTypeKey]isEqualToString:kHLNotificationTypeComment]) {
+        else if ([[_notification objectForKey:kHLNotificationTypeKey]isEqualToString:kHLNotificationTypeOfferComment]) {
             
             [self seeOfferDetail];
+        }
+        else if ([[_notification objectForKey:kHLNotificationTypeKey]isEqualToString:kHLNotificationTypeNeedComment]) {
+            
+            [self seeNeedDetail];
         }
         
     } else if (self.paginationEnabled) {
@@ -250,12 +256,16 @@
         return NSLocalizedString(@"liked your photo", nil);
     } else if ([notificationType isEqualToString:kHLNotificationTypeFollow]) {
         return NSLocalizedString(@"started following you", nil);
-    } else if ([notificationType isEqualToString:kHLNotificationTypeComment]) {
+    } else if ([notificationType isEqualToString:kHLNotificationTypeOfferComment]) {
         return NSLocalizedString(@"commented on your item", nil);
+    } else if ([notificationType isEqualToString:kHLNotificationTypeNeedComment]){
+        return NSLocalizedString(@"commented on your need", nil);
     } else if ([notificationType isEqualToString:kHLNotificationTypeJoined]) {
         return NSLocalizedString(@"joined Hooli", nil);
     } else if ([notificationType isEqualToString:khlNotificationTypMakeOffer]){
         return NSLocalizedString(@"bid on your item for", nil);
+    }else if ([notificationType isEqualToString:khlNotificationTypOfferItem]){
+        return NSLocalizedString(@"offer you an item", nil);
     }
     else  {
         return nil;
@@ -302,7 +312,7 @@
 -(void)seeUserDetail{
     
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
     vc.userID = [[_notification objectForKey:kHLNotificationFromUserKey]objectId];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
@@ -316,6 +326,16 @@
     vc.offerId = [[_notification objectForKey:kHLNotificationOfferKey]objectId];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)seeNeedDetail{
+    
+    
+    NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
+    detailVc.hidesBottomBarWhenPushed = YES;
+    detailVc.needId = [[_notification objectForKey:kHLNotificationNeedKey]objectId];
+    [self.navigationController pushViewController:detailVc animated:YES];
     
 }
 

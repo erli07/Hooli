@@ -13,14 +13,7 @@
 @interface UserCartViewController : UIViewController<UIScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet MainCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MainCollectionViewFlowLayout *layout;
-@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (nonatomic, strong) NSString *userID;
-- (IBAction)followItemOwner:(id)sender;
-@property (weak, nonatomic) IBOutlet UILabel *followersCount;
-@property (weak, nonatomic) IBOutlet UILabel *followingCount;
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
-@property (weak, nonatomic) IBOutlet UILabel *friendsCount;
 @property (nonatomic, strong) PFUser *user;
 
 @end

@@ -82,6 +82,7 @@
     [needClass setObject:user forKey:kHLNeedsModelKeyUser];
     [needClass setObject:need.needsDescription forKey:kHLNeedsModelKeyDescription];
     [needClass setObject:need.budget forKey:kHLNeedsModelKeyPrice];
+    [needClass setObject:need.name forKey:kHLNeedsModelKeyName];
     [needClass setObject:need.category forKey:kHLNeedsModelKeyCategory];
 //    [needClass setObject:need.name forKey:kHLNeedsModelKeyName];
 //    [needClass setObject:[[LocationManager sharedInstance]currentLocation] forKey:kHLNeedsModelKeyGeoPoint];

@@ -25,6 +25,7 @@
 #import "ChatView.h"
 #import "UpdateOfferDetailsViewController.h"
 #import "HomeTabBarController.h"
+#import "UserAccountViewController.h"
 
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
@@ -74,8 +75,7 @@
     
     [self configureUIElements];
     
-    
-    //  [self getOfferDetailsFromCloud];
+    [self getOfferDetailsFromCloud];
     
     // Do any additional setup after loading the view.
 }
@@ -84,7 +84,7 @@
     
     [self setNavBarVisible:YES animated:NO];
     
-    [self refreshOfferDetailsFromCloud];
+   // [self refreshOfferDetailsFromCloud];
 }
 
 - (void)setNavBarVisible:(BOOL)visible animated:(BOOL)animated {
@@ -142,7 +142,7 @@
         
         //self.bottomButtonsView.hidden = NO;
         
-        [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
@@ -397,13 +397,15 @@
         
     }
     
-    if(self.offerObject){
+    if(self.offerObject && self.offerId){
         
         PFObject *object = [[PFObject alloc]initWithClassName:kHLCloudOfferClass];
         
         [object setObject:self.offerObject.user forKey:kHLOfferModelKeyUser];
         
-        object.objectId  = self.offerObject.offerId;
+        object.objectId  = self.offerId;
+        
+        [object setObject:kHLCommentTypeOffer forKey:kHLCommentTypeKey];
         
         self.commentVC = [[ItemCommentViewController alloc]initWithObject:object];
         
@@ -457,10 +459,10 @@
     self.navigationController.navigationBar.hidden = NO;
     self.title = @"Item Detail";
     
-    [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
+   // [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
     // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
     self.offerDetailView.bounces = NO;
-    
+    [self.offerDetailView setBackgroundColor:[UIColor whiteColor]];
     
     UIImage* buttonImage = [UIImage imageNamed:@"heart-64"];
     UIImage* buttonPressedImage = [UIImage imageNamed:@"heart-64"];
@@ -496,9 +498,9 @@
 -(void)seeItemOwner{
     
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
     vc.userID = self.userID;
-    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
     
 }
@@ -542,7 +544,7 @@
     CGFloat padding = (self.scrollView.bounds.size.width - scrollHeight) / 2;
     for (UIImage *image in imagesArray) {
         
-        CGRect frame = CGRectMake(scrollContentWidth + padding + 30 , (self.scrollView.bounds.size.height - scrollHeight)/2, 200, 260);
+        CGRect frame = CGRectMake(scrollContentWidth + padding  , (self.scrollView.bounds.size.height - scrollHeight)/2, 260, 260);
         
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         preview.image = image;
@@ -565,7 +567,8 @@
         
         if(buttonIndex== 1){
             
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:self.offerId block:^(BOOL succeeded, NSError *error) {
                 
                 if(succeeded){
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
