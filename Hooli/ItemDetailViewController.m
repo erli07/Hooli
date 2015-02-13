@@ -296,12 +296,12 @@
         
         if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
             
-            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                               initWithTitle:@"Edit"
-                                               style:UIBarButtonItemStyleDone
-                                               target:self
-                                               action:@selector(redirectToEditPage)];
-            self.navigationItem.rightBarButtonItem = rightBarButton;
+//            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+//                                               initWithTitle:@"Edit"
+//                                               style:UIBarButtonItemStyleDone
+//                                               target:self
+//                                               action:@selector(redirectToEditPage)];
+//            self.navigationItem.rightBarButtonItem = rightBarButton;
             
         }
         

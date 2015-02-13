@@ -27,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.userInfoArray = @[@"See Items", @"See Needs", @"See Profile"];
+    self.userInfoArray = @[@"See Items", @"See Profile"];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -124,7 +124,7 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }
-    else if(indexPath.row == 1){
+    else if(indexPath.row == 2){
         
         NeedTableViewController *needsViewController = [[NeedTableViewController alloc]init];
         needsViewController.user = self.user;
@@ -132,7 +132,7 @@
         [self.navigationController pushViewController:needsViewController animated:YES];
         
     }
-    else if(indexPath.row == 2){
+    else if(indexPath.row == 1){
         
         MyProfileDetailViewController *profileDetailVC = [[MyProfileDetailViewController alloc]initWithStyle:UITableViewStyleGrouped];
         profileDetailVC.user = self.user;

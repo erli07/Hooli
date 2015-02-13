@@ -12,10 +12,9 @@
 #import "ItemCell.h"
 #import "MBProgressHUD.h"
 #import "NeedTableViewController.h"
-@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate,UIScrollViewDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate,UIScrollViewDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate>
 
 @property (nonatomic, weak) IBOutlet MainCollectionView * collectionView;
-
 @property (nonatomic, weak) IBOutlet MainCollectionViewFlowLayout* layout;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (nonatomic) NeedTableViewController *needsViewController;

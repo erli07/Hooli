@@ -18,7 +18,7 @@
 @end
 
 @implementation SearchItemViewController
-@synthesize searchBar;
+//@synthesize searchBar;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Search";
@@ -59,7 +59,16 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categoryCell" forIndexPath:indexPath];
+    
+    static NSString *cellIdentifier = @"categoryCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+        
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categoryCell" forIndexPath:indexPath];
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
  //   [cell.imageView setImage:[self.imagesArray objectAtIndex:indexPath.row]];
@@ -89,36 +98,36 @@
     //
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    
-    
-    
-    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      kHLFilterDictionarySearchKeyWords, kHLFilterDictionarySearchType,
-                                      searchBar.text,kHLFilterDictionarySearchKeyWords,nil];
-    
-    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+//    
+//    
+//    
+//    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                      kHLFilterDictionarySearchKeyWords, kHLFilterDictionarySearchType,
+//                                      searchBar.text,kHLFilterDictionarySearchKeyWords,nil];
+//    
+//    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+//
+//    
+//    [self performSegueWithIdentifier:@"searchResult" sender:self];
+//    
+//}
 
-    
-    [self performSegueWithIdentifier:@"searchResult" sender:self];
-    
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    
-    [self.searchBar resignFirstResponder];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{    
-    [self.searchBar setShowsCancelButton:YES animated:YES];
-}
-
-
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-    [self.searchBar setShowsCancelButton:NO animated:YES];
-}
+//- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+//    
+//    [self.searchBar resignFirstResponder];
+//}
+//
+//- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+//{    
+//    [self.searchBar setShowsCancelButton:YES animated:YES];
+//}
+//
+//
+//-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+//{
+//    [self.searchBar setShowsCancelButton:NO animated:YES];
+//}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     

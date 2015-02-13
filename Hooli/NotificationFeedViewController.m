@@ -93,6 +93,7 @@
     [query whereKeyExists:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationToUserKey];
+    [query includeKey:kHLNotificationNeedKey];
     [query includeKey:kHLNotificationOfferKey];
     [query orderByDescending:@"createdAt"];
     
@@ -160,7 +161,6 @@
         [cell setDelegate:self];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-    
     
     PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
     
@@ -353,7 +353,7 @@
     // Push account view controller
     
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
     vc.userID = aUser.objectId;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];

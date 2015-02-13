@@ -27,7 +27,7 @@
 -(void)goToUserProfile:(PFUser *)aUser{
     
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
     vc.userID = aUser.objectId;
     vc.hidesBottomBarWhenPushed = YES;
     

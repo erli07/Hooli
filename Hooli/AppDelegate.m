@@ -81,10 +81,13 @@
     else{
         
         UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
+        
+        UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+
+//        UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
      
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-        self.window.rootViewController = homeNav;
+        self.window.rootViewController = vc;
         [self.window makeKeyAndVisible];
 
         
