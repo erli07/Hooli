@@ -18,6 +18,8 @@
 @end
 
 @implementation SearchItemViewController
+@synthesize delegate;
+
 //@synthesize searchBar;
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,7 +38,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [[HLSettings sharedInstance]setCurrentPageIndex:1];
-
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,9 +71,10 @@
     }
         
 //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categoryCell" forIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
- //   [cell.imageView setImage:[self.imagesArray objectAtIndex:indexPath.row]];
+    //[cell.imageView setImage:[self.imagesArray objectAtIndex:indexPath.row]];
      cell.textLabel.text = [self.categories objectAtIndex:indexPath.row];
     return cell;
 }
@@ -91,11 +94,11 @@
                         cellText,kHLFilterDictionarySearchKeyCategory,nil];
     
     [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+
+    [self.delegate showSearchResultVC];
     
-    [self performSegueWithIdentifier:@"searchResult" sender:self];
+    
 
-
-    //
 }
 
 //- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{

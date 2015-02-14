@@ -26,20 +26,21 @@
 }
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic,strong) UIButton *addItemButton;
-@property (nonatomic,strong) UISearchBar *searchBar;
-@property (nonatomic) UISearchDisplayController *searchDisplayController;
-@property (nonatomic) SearchItemViewController *searchCategoryVC;
+@property (nonatomic,strong) IBOutlet UISearchBar *searchBar;
+@property (nonatomic) UISearchController *searchController;
+@property (nonatomic) SearchItemViewController *searchItemVC;
+@property (nonatomic, assign) BOOL showCategoryVC;
 //@property (nonatomic,strong) DCPathButton *addItemButton;
 
 @property (nonatomic, strong) NSString *itemID;
 @end
 
-static const CGFloat kHLCellInsetWidth = 0.0f;
+//static const CGFloat kHLCellInsetWidth = 0.0f;
 
 static NSString * const reuseIdentifier = @"Cell";
 
 @implementation HomeViewViewController
-@synthesize refreshControl,addItemButton,needsViewController,searchBar,searchDisplayController,searchCategoryVC;
+@synthesize refreshControl,addItemButton,needsViewController,searchBar,searchController,searchItemVC,showCategoryVC;
 
 -(void)dealloc{
     
@@ -59,7 +60,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [self initViewELements];
     
     [self updateCollectionViewData];
-
+    
     [self getFollowedUserItems];
     
 }
@@ -69,7 +70,17 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [[HLSettings sharedInstance]setCurrentPageIndex:0];
     
-  //  [self resetNavBar];
+    if(self.searchController.active){
+        
+        self.tabBarController.tabBar.hidden = YES;
+    }
+    else{
+        
+        self.tabBarController.tabBar.hidden = NO;
+        
+    }
+    
+    //  [self resetNavBar];
     
     
     //    if(![PFUser currentUser]){
@@ -82,16 +93,15 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)viewDidAppear:(BOOL)animated{
     
-    
-//    if([[HLSettings sharedInstance]isRefreshNeeded]){
-//        
-//        
-//        
-//        [self updateCollectionViewData];
-//        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
-//        [self getFollowedUserItems];
-//        
-//    }
+    //    if([[HLSettings sharedInstance]isRefreshNeeded]){
+    //
+    //
+    //
+    //        [self updateCollectionViewData];
+    //        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+    //        [self getFollowedUserItems];
+    //
+    //    }
     
 }
 
@@ -137,7 +147,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     //
     self.collectionView.hidden = NO;
-
+    
     
     //    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
     //                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
@@ -157,7 +167,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self registerNotifications];
     
-   // self.navigationItem.title = @"Discover";
+    // self.navigationItem.title = @"Discover";
     
     [self addSwipeGesture];
     
@@ -165,36 +175,116 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self configureSearchBar];
     
-
+    //    self.searchCategoryVC = [[SearchItemViewController alloc]init];
+    //
+    //    [self.searchCategoryVC.view setFrame:CGRectMake(60, 100, 200, 200)];
+    //
+    //    [self.view addSubview:self.searchCategoryVC.view];
     
 }
 
 -(void)configureSearchBar{
     
-    self.searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 50, 44)];
-    self.navigationItem.titleView = self.searchBar;
-    self.searchBar.delegate = self;
-//    self.navigationItem.titleView.frame = CGRectMake(100, 0, 100, 44);
-    self.searchBar.placeholder = @"Search Items...";
-    self.searchCategoryVC = [[SearchItemViewController alloc]init];
-    self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self.searchCategoryVC ];
-    self.searchDisplayController.delegate = self;
-    self.searchDisplayController.searchResultsDataSource = self.searchCategoryVC ;
-    self.searchDisplayController.searchResultsDelegate = self.searchCategoryVC ;
-    self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
+    self.searchController.delegate = self;
+    self.searchController.searchBar.delegate = self;
+    self.showCategoryVC = NO;
+    self.searchController.searchBar.tintColor = [HLTheme mainColor];
+    //  self.searchController.searchResultsUpdater = self;
+    self.searchController.active = NO;
+    self.searchController.searchBar.placeholder =  @"Search Items...";
+    self.searchController.searchBar.showsSearchResultsButton = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.navigationItem.titleView = self.searchController.searchBar;
+    
+}
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarResultsListButtonClicked:(UISearchBar *)searchBar {
+
+    if(!self.showCategoryVC){
+        
+        [self.view addSubview:[self getSearchCategoryView]];
+
+    }
+    else{
+    
+        [self removeCategoryView];
+
+    }
     
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
-    [self.searchDisplayController setActive:YES animated:YES];
+#pragma mark - UISearchControllerDelegate
+
+- (void)presentSearchController:(UISearchController *)searchController {
+    
+    [self.view addSubview:[self getSearchCategoryView]];
+    
 }
 
+-(UIView *)getSearchCategoryView{
+    
+    if(!self.searchItemVC){
+        
+        self.searchItemVC = [[SearchItemViewController alloc]init];
+        
+        self.searchItemVC.view.tag = 99;
+        
+        [self.searchItemVC.view setFrame:CGRectMake(0, 64, 320, 568)];
+        
+        self.searchItemVC.delegate = self;
+        
+        
+    }
+    
+    self.showCategoryVC = YES;
+
+    self.tabBarController.tabBar.hidden = YES;
+    
+    return self.searchItemVC.view;
+
+}
+
+-(void)removeCategoryView{
+    
+    for (UIView *subView in self.view.subviews)
+    {
+        if (subView.tag == 99)
+        {
+            [subView removeFromSuperview];
+        }
+    }
+    self.showCategoryVC = NO;
+
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+- (void)willPresentSearchController:(UISearchController *)searchController {
+    // do something before the search controller is presented
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController {
+    // do something after the search controller is presented
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController {
+    
+    [self removeCategoryView];
+    
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController {
+    // do something after the search controller is dismissed
+}
+
+
+#pragma mark - init
 -(void)initNeedsViewController{
     
     self.needsViewController = [[NeedTableViewController alloc]init];
     //
-    
     [self.needsViewController.view setFrame:self.collectionView.frame];
     
     [self.needsViewController.view setBackgroundColor:[HLTheme viewBackgroundColor]];
@@ -215,24 +305,24 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addItemButton];
     [self.addItemButton bringSubviewToFront:self.collectionView];
-//    self.addItemButton  = [[DCPathButton alloc]initWithCenterImage:[UIImage imageNamed:@"camera_64x64"]
-//                                                    hilightedImage:[UIImage imageNamed:@"camera_64x64"]];
-//
-//    [self.addItemButton setDcButtonCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168) ];
-//    DCPathItemButton *itemButton_1 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
-//                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
-//                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
-//                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
-//    
-//    DCPathItemButton *itemButton_2 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
-//                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
-//                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
-//                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
-//    
-//    [self.addItemButton addPathItems:@[itemButton_1, itemButton_2]];
-//    
-//    self.addItemButton.delegate = self;
-//     [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
+    //    self.addItemButton  = [[DCPathButton alloc]initWithCenterImage:[UIImage imageNamed:@"camera_64x64"]
+    //                                                    hilightedImage:[UIImage imageNamed:@"camera_64x64"]];
+    //
+    //    [self.addItemButton setDcButtonCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168) ];
+    //    DCPathItemButton *itemButton_1 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
+    //                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
+    //                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
+    //                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
+    //
+    //    DCPathItemButton *itemButton_2 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
+    //                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
+    //                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
+    //                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
+    //
+    //    [self.addItemButton addPathItems:@[itemButton_1, itemButton_2]];
+    //
+    //    self.addItemButton.delegate = self;
+    //     [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addItemButton];
     [self.addItemButton bringSubviewToFront:self.collectionView];
 }
@@ -286,7 +376,7 @@ static NSString * const reuseIdentifier = @"Cell";
     NSLog(@"Swipe Right");
     
     [self.segmentControl setSelectedSegmentIndex:1];
-
+    
     //Do what you want here
 }
 
@@ -319,42 +409,42 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 /*
-For need view
-#pragma mark tableview delegate
-
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if([self checkIfUserLogin]){
-        
-        NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
-        detailVc.hidesBottomBarWhenPushed = YES;
-        NeedTableViewCell *cell = (NeedTableViewCell *)[self.needsViewController.tableView cellForRowAtIndexPath:indexPath];
-        detailVc.needId = cell.needId;
-        [self.navigationController pushViewController:detailVc animated:YES];
-
-        
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    if (indexPath.row < self.needsViewController.objects.count) { // A comment row
-        
-        NSString *commentString = [self.needsViewController.objects[indexPath.row] objectForKey:kHLNeedsModelKeyDescription];
-        
-        return [NeedTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLNeedsModelKeyUser] contentString:commentString cellInsetWidth:kHLCellInsetWidth];
-        
-    }
-    
-    // The pagination row
-    return 44.0f;
-}
-
-*/
+ For need view
+ #pragma mark tableview delegate
  
  
+ -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+ 
+ if([self checkIfUserLogin]){
+ 
+ NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
+ detailVc.hidesBottomBarWhenPushed = YES;
+ NeedTableViewCell *cell = (NeedTableViewCell *)[self.needsViewController.tableView cellForRowAtIndexPath:indexPath];
+ detailVc.needId = cell.needId;
+ [self.navigationController pushViewController:detailVc animated:YES];
+ 
+ 
+ }
+ }
+ 
+ - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+ 
+ 
+ if (indexPath.row < self.needsViewController.objects.count) { // A comment row
+ 
+ NSString *commentString = [self.needsViewController.objects[indexPath.row] objectForKey:kHLNeedsModelKeyDescription];
+ 
+ return [NeedTableViewCell heightForCellWithName:[[PFUser currentUser]objectForKey:kHLNeedsModelKeyUser] contentString:commentString cellInsetWidth:kHLCellInsetWidth];
+ 
+ }
+ 
+ // The pagination row
+ return 44.0f;
+ }
+ 
+ */
+
+
 -(void)showMoreItems{
     
     [self performSegueWithIdentifier:@"showMore" sender:self];
@@ -515,8 +605,8 @@ For need view
     
     [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
         
-      //  [self presentViewController:cameraVC animated:YES completion:^{
-      //  }];
+        //  [self presentViewController:cameraVC animated:YES completion:^{
+        //  }];
         
         [self.navigationController pushViewController:cameraVC animated:NO];
         
@@ -535,7 +625,7 @@ For need view
         
         self.needsViewController.view.hidden = YES;
         
-      //  [self updateCollectionViewData];
+        //  [self updateCollectionViewData];
         
     }
     else if(self.segmentControl.selectedSegmentIndex == 1){
@@ -590,30 +680,15 @@ For need view
         
     }
 }
-/*
-#pragma mark DCPathButtonDelegate
 
-- (void)itemButtonTappedAtIndex:(NSUInteger)index
-{
-    if(index == 0){
-        
-        NSLog(@"Tap on button 1");
-        
-        [self showCamera:nil];
-        // When the user tap index 1 here ...
-    }
-    else{
-        
-//        NSLog(@"Tap on button 2");
-//        
-//        PostNeedViewController *postVC = [[PostNeedViewController alloc]initWithStyle:UITableViewStyleGrouped];
-//        
-//        postVC.hidesBottomBarWhenPushed = YES;
-//        
-//        [self.navigationController pushViewController:postVC animated:YES];
 
-    }
+-(void)showSearchResultVC{
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SearchResultViewController *resultVC = [mainSb instantiateViewControllerWithIdentifier:@"searchResult"];
+    resultVC.hidesBottomBarWhenPushed = YES;
+    [self.searchController.searchBar resignFirstResponder];
+    [self.navigationController pushViewController:resultVC animated:YES];
+    
 }
- 
- */
 @end

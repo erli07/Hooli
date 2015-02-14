@@ -369,6 +369,10 @@
                                         </view>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="acJ-lg-N4Q" id="1QR-J9-DKA"/>
+                                    <outlet property="delegate" destination="acJ-lg-N4Q" id="THq-sj-3Lt"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -379,20 +383,11 @@
                     <connections>
                         <outlet property="collectionView" destination="saZ-Q2-T5Q" id="DAM-cX-PQY"/>
                         <outlet property="layout" destination="8h7-u5-Zl2" id="XCR-qS-g7b"/>
-                        <outlet property="searchDisplayController" destination="WQR-Tq-VOf" id="b8e-R4-2sy"/>
                         <outlet property="segmentControl" destination="pJk-RA-bXm" id="1x7-iE-Xa2"/>
                         <segue destination="tEq-4M-AHx" kind="push" identifier="showMore" id="xeX-SV-4Mz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JbU-1N-pYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="WQR-Tq-VOf">
-                    <connections>
-                        <outlet property="delegate" destination="acJ-lg-N4Q" id="b6V-fe-qyU"/>
-                        <outlet property="searchContentsController" destination="acJ-lg-N4Q" id="8TR-3u-skW"/>
-                        <outlet property="searchResultsDataSource" destination="acJ-lg-N4Q" id="tmJ-F6-j87"/>
-                        <outlet property="searchResultsDelegate" destination="acJ-lg-N4Q" id="nb8-gr-OgE"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="585" y="-226"/>
         </scene>

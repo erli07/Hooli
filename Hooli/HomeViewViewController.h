@@ -12,7 +12,8 @@
 #import "ItemCell.h"
 #import "MBProgressHUD.h"
 #import "NeedTableViewController.h"
-@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate,UIScrollViewDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate>
+#import "SearchItemViewController.h"
+@interface HomeViewViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate,UIScrollViewDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate,ShowSearchResultDelegate>
 
 @property (nonatomic, weak) IBOutlet MainCollectionView * collectionView;
 @property (nonatomic, weak) IBOutlet MainCollectionViewFlowLayout* layout;
@@ -20,6 +21,5 @@
 @property (nonatomic) NeedTableViewController *needsViewController;
 @property (nonatomic, strong) NSArray* collections;
 - (IBAction)segmentChange:(id)sender;
-
-
 @end
+
