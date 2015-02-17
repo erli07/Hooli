@@ -189,11 +189,14 @@
 
 -(id)initOfferDetailsWithPFObject:(PFObject *)object{
     
-    NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:4];
+    NSMutableArray *imageArray = [[NSMutableArray alloc]init];
+    
+    PFObject *images = [object objectForKey:kHLOfferModelKeyImage];
+    
     
     for (int i=0; i< 4; i++) {
         
-        PFFile *theImage = [object objectForKey:[NSString stringWithFormat:@"imageFile%d",i]];
+        PFFile *theImage = [images objectForKey:[NSString stringWithFormat:@"imageFile%d",i]];
         
         if(theImage){
             
@@ -204,6 +207,7 @@
         }
         
     }
+
     NSString *price = [object objectForKey:kHLOfferModelKeyPrice];
     NSString *category = [object objectForKey:kHLOfferModelKeyCategory];
     PFUser *user = [object objectForKey:kHLOfferModelKeyUser];

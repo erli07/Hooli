@@ -10,16 +10,16 @@
 #import "NSString+MD5.h"
 
 @implementation UserModel
-@synthesize email,username,portraitImage,userID,password,chattingId;
+@synthesize email,username,portraitImage,userID,password,chattingId,gender,phoneNumber,wechat;
 
 
 
 
 
 -(id)initUserWithEmail:(NSString *)_email
-                userName:(NSString *)_username
-                password:(NSString *)_password
-           portraitImage:(UIImage *)_portraitImage{
+              userName:(NSString *)_username
+              password:(NSString *)_password
+         portraitImage:(UIImage *)_portraitImage{
     
     
     self = [super init];
@@ -30,10 +30,10 @@
         self.password = _password;
         self.portraitImage = _portraitImage;
         self.chattingId = [_email MD5];
-
+        
     }
     return self;
-
+    
 }
 
 -(id)initUserWithEmail:(NSString *)_email
@@ -52,6 +52,27 @@
         self.portraitImage = _portraitImage;
         self.userID = _userID;
         self.chattingId = [_email MD5];
+    }
+    return self;
+    
+}
+
+
+-(id)initUserWithEmail:(NSString *)_email
+              userName:(NSString *)_username
+         portraitImage:(UIImage *)_portraitImage
+                gender:(NSString *)_gender
+           phoneNumber:(NSString *)_phoneNumber
+                wechat:(NSString *)_wechat{
+    self = [super init];
+    if(self)
+    {
+        self.email = _email;
+        self.username = _username;
+        self.portraitImage = _portraitImage;
+        self.wechat = _wechat;
+        self.gender = _gender;
+        self.phoneNumber = _phoneNumber;
     }
     return self;
     

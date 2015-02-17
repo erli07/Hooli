@@ -474,7 +474,7 @@
     [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
     [[PFUser currentUser] setObject:userModel.email forKey:kHLUserModelKeyEmail];
     [[PFUser currentUser] setObject:userModel.username forKey:kHLUserModelKeyUserName];
-    [[PFUser currentUser] setObject:userModel.chattingId forKey:kHLUserModelKeyUserIdMD5];
+   // [[PFUser currentUser] setObject:userModel.chattingId forKey:kHLUserModelKeyUserIdMD5];
     [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         
@@ -503,8 +503,6 @@
         }
         
     }];
-    
-    
 }
 
 -(void)fetchChattingIdWithPFUser:(PFUser *)user

@@ -40,9 +40,7 @@
 }
 
 -(void)updateCollectionViewData{
-    
-    [[NeedsManager sharedInstance]clearData];
-    
+        
     [self.collectionView updateDataFromCloud];
     
 }

@@ -165,8 +165,8 @@
     NSMutableArray *likedOffers = [NSMutableArray array];
     
     PFQuery *queryLikes = [PFQuery queryWithClassName:kHLCloudActivityClass];
-    [queryLikes includeKey:kHLActivityKeyOffer];
     [queryLikes whereKey:kHLActivityKeyUser equalTo:user];
+    [queryLikes includeKey:kHLActivityKeyOffer];
     [queryLikes findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             
@@ -174,9 +174,13 @@
                 
                 PFObject *offerOriginal = [activity objectForKey:kHLActivityKeyOffer];
                 
+                if(offerOriginal){
+                
                 OfferModel *offerModel = [[OfferModel alloc]initOfferWithPFObject:offerOriginal];
                 
                 [likedOffers addObject:offerModel];
+                    
+                }
                 
             }
             

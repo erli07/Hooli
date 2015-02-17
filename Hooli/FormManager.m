@@ -9,7 +9,7 @@
 #import "FormManager.h"
 
 @implementation FormManager
-@synthesize itemCategory,itemCondition,itemDescription,itemLocation,itemName,itemPrice,detailType,needItemBudget,needItemDescription,toUser;
+@synthesize itemCategory,itemCondition,itemDescription,itemLocation,itemName,itemPrice,detailType,needItemBudget,needItemDescription,toUser,profileEmail,profileGender,profilePhone,profileUsername,profileWechat,profileDetailArray;
 +(FormManager *)sharedInstance{
     
     static FormManager *_sharedInstance = nil;

@@ -99,10 +99,13 @@ extern NSString *const kHLUserModelKeyPortraitImage;
 extern NSString *const kHLUserModelKeyUserId;
 extern NSString *const kHLUserModelKeyPassword;
 extern NSString *const kHLUserModelKeyUserIdMD5;
-extern NSString *const kHLOfferModelKeyImage;
-extern NSString *const kHLOfferModelKeyThumbNail;
+extern NSString *const kHLUserModelKeyGender;
+extern NSString *const kHLUserModelKeyPhoneNumber;
+extern NSString *const kHLUserModelKeyWechatNumber;
 extern NSString *const kHLUserFacebookIDKey;
 
+extern NSString *const kHLOfferModelKeyImage;
+extern NSString *const kHLOfferModelKeyThumbNail;
 extern NSString *const kHLOfferModelKeyPrice;
 extern NSString *const kHLOfferModelKeyLikes;
 extern NSString *const kHLOfferModelKeyDescription;
@@ -135,6 +138,7 @@ extern NSString *const kHLCloudNotificationClass;
 extern NSString *const kHLCloudItemNeedClass;
 extern NSString *const kHLCloudNeedClass;
 extern NSString *const kHLCloudUserClass;
+extern NSString *const kHLCloudOfferImagesClass;
 
 extern NSString *const kHLActivityKeyOffer;
 extern NSString *const kHLActivityKeyUser;
@@ -167,6 +171,8 @@ extern NSString *const kHLNotificationTypeNeedComment;
 extern NSString *const kHLNotificationTypeJoined;
 extern NSString *const khlNotificationTypMakeOffer;
 extern NSString *const khlNotificationTypOfferItem;
+
+extern NSString *const khlOfferImagesOfferKey;
 
 extern NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification;
 extern NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey;

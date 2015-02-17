@@ -38,6 +38,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
+    self.collectionView.disableRefreshFlag = YES;
     [self registerNotifications];
     _segmentedControl.selectedSegmentIndex = 0;
     [self getGivingItems];
@@ -46,7 +47,8 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
+
+
     if([[HLSettings sharedInstance]isRefreshNeeded]){
         
         if(self.segmentedControl.selectedSegmentIndex == 0){
@@ -62,14 +64,11 @@ static NSString * const reuseIdentifier = @"Cell";
         [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
 
     }
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-
-    [[OffersManager sharedInstance]clearData];
     
 }
 
@@ -84,7 +83,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)getGivingItems{
     
-    [[OffersManager sharedInstance]clearData];
+    self.collectionView.disableRefreshFlag = NO;
     
     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                       kHLFilterDictionarySearchKeyUser, kHLFilterDictionarySearchType,
@@ -98,6 +97,16 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)getLikedItems{
     
+    self.collectionView.disableRefreshFlag = YES;
+
+//    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                      kHLFilterDictionarySearchKeyUserLikes, kHLFilterDictionarySearchType,
+//                                      [PFUser currentUser],kHLFilterDictionarySearchKeyUser,nil];
+//    
+//    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+//
+//    [self.collectionView updateDataFromCloud];
+
     [[ActivityManager sharedInstance]getLikedOffersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
         
         [self.collectionView reloadDataByOffersArray:downloadObjects];

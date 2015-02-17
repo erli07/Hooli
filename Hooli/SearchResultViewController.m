@@ -11,6 +11,7 @@
 #import "ItemCell.h"
 #import "HLTheme.h"
 #import "OffersManager.h"
+#import "HLConstant.h"
 @interface SearchResultViewController ()
 
 @end
@@ -24,19 +25,18 @@
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
-    self.navigationItem.title = @"Result";
+   // self.navigationItem.title = @"Result";
     // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
+
     [self updateCollectionViewData];
     
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     
-    [[OffersManager sharedInstance]clearData];
 }
 
 

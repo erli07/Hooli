@@ -54,17 +54,31 @@
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
 
-//    CGImageRef imageRef = CGImageCreateWithImageInRect([chosenImage CGImage], CGRectMake(0, 0, 640, 640));
+    CGSize newSize = CGSizeMake(100.0f, 100.0f);
+    UIGraphicsBeginImageContext(newSize);
+    [chosenImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* croppedImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+    
+    CGDataProviderRef provider = CGImageGetDataProvider(croppedImage.CGImage);
+    NSData* data = (id)CFBridgingRelease(CGDataProviderCopyData(provider));
+    const uint8_t* bytes = [data bytes];
+    
+    NSLog(@"image size %s", bytes);
+    
+//    CGImageRef imageRef = CGImageCreateWithImageInRect([chosenImage CGImage], CGRectMake(0, 0, 150, 150));
 //    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
 //    CGImageRelease(imageRef);
     
     int photoIndex = [[ImageCache sharedInstance]photoCount];
     photoIndex = photoIndex + 1;
+    
     [[ImageCache sharedInstance]setPhotoCount:photoIndex ++];
     
-    [self setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
+    [self setImage:croppedImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
 
-    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
+    [[ImageCache sharedInstance] setImage:croppedImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
     
    [picker dismissViewControllerAnimated:YES completion:^{
       

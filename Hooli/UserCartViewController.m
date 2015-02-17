@@ -43,7 +43,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     
-    [[OffersManager sharedInstance]clearData];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -78,9 +77,7 @@
             
             NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                               kHLFilterDictionarySearchKeyUser, kHLFilterDictionarySearchType, object, kHLFilterDictionarySearchKeyUser,nil];
-            
-            [[OffersManager sharedInstance]clearData];
-            
+                        
             [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
             
             [self.collectionView updateDataFromCloud];

@@ -151,18 +151,11 @@
             [[OffersManager sharedInstance]fetchOfferByID:self.offerId
                                               withSuccess:^(id downloadObject) {
                                                   
-                                                  // Dispatch to main thread to update the UI
-                                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                                      
-                                                      
                                                       self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
                                                       
                                                       [self updateOfferDetailInfo:self.offerObject];
                                                       
                                                       [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                                      
-                                                      
-                                                  });
                                                   
                                               } failure:^(id error) {
                                                   
@@ -222,17 +215,12 @@
             [[OffersManager sharedInstance]fetchOfferByID:self.offerId
                                               withSuccess:^(id downloadObject) {
                                                   
-                                                  // Dispatch to main thread to update the UI
-                                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                                      
                                                       self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
                                                       
                                                       [self updateOfferDetailInfo:self.offerObject];
                                                       
                                                       [MBProgressHUD hideHUDForView:self.view animated:YES];
                                                       
-                                                      
-                                                  });
                                                   
                                               } failure:^(id error) {
                                                   
@@ -461,7 +449,7 @@
     
    // [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
     // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
-    self.offerDetailView.bounces = NO;
+    self.offerDetailView.bounces = YES;
     [self.offerDetailView setBackgroundColor:[UIColor whiteColor]];
     
     UIImage* buttonImage = [UIImage imageNamed:@"heart-64"];
@@ -470,7 +458,6 @@
     
     [self.addToCartButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [self.addToCartButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
-    self.addToCartButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
     [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
@@ -540,13 +527,16 @@
     self.scrollView.delegate = self;
     
     CGFloat scrollContentWidth = 0;
+    
     CGFloat scrollHeight = self.scrollView.bounds.size.height; // -20;
     CGFloat padding = (self.scrollView.bounds.size.width - scrollHeight) / 2;
+
     for (UIImage *image in imagesArray) {
         
-        CGRect frame = CGRectMake(scrollContentWidth + padding  , (self.scrollView.bounds.size.height - scrollHeight)/2, 260, 260);
+        CGRect frame = CGRectMake(scrollContentWidth + padding  , (self.scrollView.bounds.size.height - scrollHeight)/2, 320, 260);
         
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
+        
         preview.image = image;
         
         scrollContentWidth += self.scrollView.bounds.size.width;
@@ -555,6 +545,7 @@
     }
     
     self.scrollView.contentSize = CGSizeMake(scrollContentWidth, scrollHeight);
+    
     self.scrollView.contentOffset = CGPointMake(0, 0);
     
     [self scrollViewDidEndDecelerating:self.scrollView];
@@ -627,32 +618,32 @@
     NSString *user2_Id = self.offerObject.user.objectId;
     
     
-    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
-        
-        
-        PFUser *user2 = (PFUser *)object;
-        
-        [[ActivityManager sharedInstance]unFollowUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
-            
-            //            [[ActivityManager sharedInstance]getFollowersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-            //
-            //            } Failure:^(id error) {
-            //
-            //            }];
-            //
-            //
-            //            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-            //
-            //            } Failure:^(id error) {
-            //
-            //            }];
-            
-        }];
-        
-        
-    } failure:^(id error) {
-        
-    }];
+//    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
+//        
+//        
+//        PFUser *user2 = (PFUser *)object;
+//        
+//        [[ActivityManager sharedInstance]unFollowUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
+//            
+//            //            [[ActivityManager sharedInstance]getFollowersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+//            //
+//            //            } Failure:^(id error) {
+//            //
+//            //            }];
+//            //
+//            //
+//            //            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+//            //
+//            //            } Failure:^(id error) {
+//            //
+//            //            }];
+//            
+//        }];
+//        
+//        
+//    } failure:^(id error) {
+//        
+//    }];
     
     
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];

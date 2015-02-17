@@ -11,7 +11,7 @@
 
 @protocol ShowSearchResultDelegate <NSObject>
 
--(void)showSearchResultVC;
+-(void)showSearchResultVCWithCategory:(NSString *)category;
 
 @end
 

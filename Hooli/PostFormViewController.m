@@ -21,6 +21,7 @@
 #import "ItemDetailViewController.h"
 #import "HLSettings.h"
 #import "FormManager.h"
+#import "ItemConditionViewController.h"
 @interface PostFormViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
 }
@@ -53,7 +54,7 @@
     
     NSString *address = [[LocationManager sharedInstance]convertedAddress];
     
-    _detailsArray =[NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", address,@"", nil];
+    _detailsArray =[NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", address, nil];
     
     self.itemLocationCoordinate = [[LocationManager sharedInstance]currentLocation];
     
@@ -161,16 +162,9 @@
     
     else if(indexPath.section == 4){
         
-        if (_pickerView.hidden == YES) {
-            
-            _pickerView.hidden = NO;
-
-        }
-        else{
-            
-            _pickerView.hidden = YES;
-            
-        }
+        ItemConditionViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ItemConditionViewController"];
+        vc.title = @"Condition";
+        [self.navigationController pushViewController:vc animated:YES];
         
     }
     
@@ -181,10 +175,10 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }
-    else if(indexPath.section == 6){
-     
-        [self submitOfferToCloud];
-    }
+//    else if(indexPath.section == 6){
+//     
+//        [self submitOfferToCloud];
+//    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -241,11 +235,12 @@
         cell.textLabel.text = @"Item Location";
         
     }
-    else if(indexPath.section == 6){
-        
-        cell.textLabel.text = @"Submit";
-        
-    }
+//    else if(indexPath.section == 6){
+//        
+//        cell.textLabel.text = @"Submit";
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        cell.backgroundColor= [HLTheme mainColor];
+//    }
     
     cell.detailTextLabel.text = [_detailsArray objectAtIndex:indexPath.section];
     
@@ -284,8 +279,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-    
-    [view setBackgroundColor:[UIColor clearColor]]; //your background color...
+    [view setBackgroundColor:[UIColor clearColor]];
     return view;
 }
 
@@ -313,6 +307,7 @@ numberOfRowsInComponent:(NSInteger)component
 
 #pragma mark -
 #pragma mark PickerView Delegate
+
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
       inComponent:(NSInteger)component
 {
@@ -331,18 +326,32 @@ numberOfRowsInComponent:(NSInteger)component
 
 -(void)submitOfferToCloud{
 
-   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
     
     NSArray *imagesArray = [[ImageCache sharedInstance]getimagesArray];
     NSString *itemName = [[FormManager sharedInstance]itemName];
     NSString *itemPrice = [[FormManager sharedInstance]itemPrice];
     NSString *itemCategory = [[FormManager sharedInstance]itemCategory];
     NSString *itemDescription = [[FormManager sharedInstance]itemDescription];
+    NSString *itemCondtion = [[FormManager sharedInstance]itemCondition];
     
+    if(!imagesArray ||!itemName||!itemPrice||!itemCategory||!itemDescription||!itemCondtion){
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@""
+                                                              message:@"Item details are missing!"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+        [alertView show];
+        
+        return;
+    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
 
     OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:self.itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] toUser:[[FormManager sharedInstance]toUser]];
 
     [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
+        
 
          [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
         

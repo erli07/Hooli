@@ -138,72 +138,61 @@
         
     }
     
-    PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
-    
+    PFObject *offerImagesClass = [PFObject objectWithClassName:kHLCloudOfferImagesClass];
+
+   // [offerImagesClass setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.offerId] forKey:khlOfferImagesOfferKey];
     
     for (int i = 0; i <[offer.imageArray count]; i++) {
         
         NSData *imageData = [self compressImage:[offer.imageArray objectAtIndex:i] WithCompression:0.05f];
         PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
-        [offerClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
+        [offerImagesClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
         
     }
     
-    NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.01f];
-    PFFile *thumbNailFile = [PFFile fileWithName:@"thumbNail.jpg" data:thumbnailData];
-    [offerClass setObject:thumbNailFile forKey:kHLOfferModelKeyThumbNail];
-    
-    // Save PFFile
-    //    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-    //        if (!error) {
-    
-    // Create a PFObject around a PFFile and associate it with the current user
-    
-    offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-    [offerClass.ACL setPublicReadAccess:YES];
-    [offerClass.ACL setPublicWriteAccess:NO];
-    
-    PFUser *user = [PFUser currentUser];
-    [offerClass setObject:user forKey:kHLOfferModelKeyUser];
-    [offerClass setObject:offer.offerDescription forKey:kHLOfferModelKeyDescription];
-    [offerClass setObject:offer.offerPrice forKey:kHLOfferModelKeyPrice];
-    [offerClass setObject:offer.offerCategory forKey:kHLOfferModelKeyCategory];
-    [offerClass setObject:offer.offerName forKey:kHLOfferModelKeyOfferName];
-    [offerClass setObject:offer.geoPoint forKey:kHLOfferModelKeyGeoPoint];
-    if(offer.toUser){
-        [offerClass setObject:offer.toUser forKey:kHLOfferModelKeyToUser];
-    }
-    
-    
-    [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
+    [offerImagesClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if(succeeded){
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                _uploadSuccess();
-                
-            });
+            PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
+            NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.01f];
+            PFFile *thumbNailFile = [PFFile fileWithName:@"thumbNail.jpg" data:thumbnailData];
+            [offerClass setObject:thumbNailFile forKey:kHLOfferModelKeyThumbNail];
+            
+            offerClass.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+            [offerClass.ACL setPublicReadAccess:YES];
+            [offerClass.ACL setPublicWriteAccess:NO];
+            
+            PFUser *user = [PFUser currentUser];
+            [offerClass setObject:user forKey:kHLOfferModelKeyUser];
+            [offerClass setObject:offer.offerDescription forKey:kHLOfferModelKeyDescription];
+            [offerClass setObject:offer.offerPrice forKey:kHLOfferModelKeyPrice];
+            [offerClass setObject:offer.offerCategory forKey:kHLOfferModelKeyCategory];
+            [offerClass setObject:offer.offerName forKey:kHLOfferModelKeyOfferName];
+            [offerClass setObject:offer.geoPoint forKey:kHLOfferModelKeyGeoPoint];
+            [offerClass setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferImagesClass objectId:offerImagesClass.objectId] forKey:kHLOfferModelKeyImage];
+            if(offer.toUser){
+                [offerClass setObject:offer.toUser forKey:kHLOfferModelKeyToUser];
+            }
+            
+            
+            [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    
+                    _uploadSuccess();
+                    
+                }
+                else{
+                    _uploadFailure(error);
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
             
         }
-        else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                _uploadFailure(error);
-                
-            });
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
+        
     }];
-    //        }
-    //        else{
-    //            // Log details of the failure
-    //            NSLog(@"Error: %@ %@", error, [error userInfo]);
-    //        }
-    //    } progressBlock:^(int percentDone) {
-    //
-    //    }];
     
+  
 }
 
 -(NSData *)compressImage:(UIImage *)image WithCompression: (CGFloat) compressionQuality{
@@ -231,8 +220,6 @@
         [offersArray removeAllObjects];
     }
     
-    self.filterDictionary = nil;
-    
     self.pageCounter = 0;
 }
 
@@ -241,7 +228,6 @@
     
     _dowloadSuccess = dowloadSuccess ;
     _downloadFailure = downloadFailure;
-    
     
     [self retrieveOffersByFilter:self.filterDictionary];
     
@@ -252,10 +238,16 @@
 
 -(void)retrieveOffersByFilter:(NSDictionary *)filterDictionary{
     
+    [self clearData];
     
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     
+    if(![[HLSettings sharedInstance]showSoldItems]){
+        
+        [query whereKey:kHLOfferModelKeyOfferStatus notEqualTo:[NSNumber numberWithBool:YES]];
+        
+    }
     
     if(filterDictionary){
         
@@ -289,14 +281,16 @@
             
             
         }
+        else if([[filterDictionary objectForKey:kHLFilterDictionarySearchType] isEqualToString:kHLFilterDictionarySearchKeyUserLikes]){
+            
+            id user = [filterDictionary objectForKey:kHLFilterDictionarySearchKeyUser];
+            query = [PFQuery queryWithClassName:kHLCloudActivityClass];
+            [query includeKey:kHLActivityKeyOffer];
+            [query whereKey:kHLActivityKeyUser equalTo:user];
+
+        }
         
     }
-    
-   // if([[HLSettings sharedInstance]showSoldItems]){
-        
-        [query whereKey:kHLOfferModelKeyOfferStatus notEqualTo:[NSNumber numberWithBool:YES]];
-        
-  //  }
     
     [query orderByDescending:@"createdAt"];
     [query setLimit:kHLOffersNumberShowAtFirstTime];
@@ -344,7 +338,9 @@
         // Dispatch to main thread to update the UI
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            //          [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+           // self.filterDictionary = nil;
+            
+            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
             
             _dowloadSuccess(offersArray);
             
@@ -378,7 +374,7 @@
         
         PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
         [query whereKey:kHLOfferModelKeyOfferId equalTo:offerID];
-        
+        [query includeKey:kHLOfferModelKeyImage];
         // [query orderByAscending:@"createdAt"];
         [query getObjectInBackgroundWithId:offerID block:^(PFObject *object, NSError *error) {
             if (!error) {

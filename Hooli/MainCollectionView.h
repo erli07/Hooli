@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
+
+
 @interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource,MBProgressHUDDelegate,UIScrollViewDelegate>
 -(void)configureView;
 -(void)updateDataFromCloud;
@@ -17,5 +19,6 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *objectDataSource;
 @property (nonatomic) __block BOOL isLoading;
-
+@property (nonatomic) NSString *filterDictionaryType;
+@property (nonatomic) BOOL disableRefreshFlag;
 @end

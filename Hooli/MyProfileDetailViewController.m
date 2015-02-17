@@ -7,14 +7,14 @@
 //
 
 #import "MyProfileDetailViewController.h"
-#import "AccountManager.h"
-#import "HLTheme.h"
-#import "camera.h"
+
+#import "MBProgressHUD.h"
 
 @interface MyProfileDetailViewController ()
 @property (nonatomic) NSArray *titleArray;
-@property (nonatomic) NSArray *subtitleArray;
+@property (nonatomic) NSMutableArray *subtitleArray;
 @property (nonatomic) UIImage *portraitImage;
+@property (nonatomic) ProfileTypeIndex profileTypeIndex;
 @end
 
 @implementation MyProfileDetailViewController
@@ -27,26 +27,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tableView.tintColor = [HLTheme mainColor];
+    
+    self.title = @"Profile";
+    
     _titleArray = @[@"Username",@"Gender", @"Email",@"Phone Number",@"Wechat"];
     
     [[AccountManager sharedInstance]loadAccountDataWithUserId:self.user.objectId Success:^(id object) {
         
         PFFile *imageFile = [object objectForKey:kHLUserModelKeyPortraitImage];
         _portraitImage = [UIImage imageWithData:[imageFile getData]];
-        NSString *email = [object objectForKey:kHLUserModelKeyEmail];
-        NSString *username = [object objectForKey:kHLUserModelKeyUserName];
-        _subtitleArray = @[username, @"Male", email,@"6179557673", @"eric_boston"];
-        [self.tableView reloadData];
+        NSString *email = [object objectForKey:kHLUserModelKeyEmail]?[object objectForKey:kHLUserModelKeyEmail]:@"N/A";
+        NSString *username = [object objectForKey:kHLUserModelKeyUserName]?[object objectForKey:kHLUserModelKeyUserName]:@"N/A";;
+        NSString *gender = [object objectForKey:kHLUserModelKeyGender]?[object objectForKey:kHLUserModelKeyGender]:@"N/A";;
+        NSString *phone_number = [object objectForKey:kHLUserModelKeyPhoneNumber]?[object objectForKey:kHLUserModelKeyPhoneNumber]:@"N/A";;
+        NSString *wechat = [object objectForKey:kHLUserModelKeyWechatNumber]?[object objectForKey:kHLUserModelKeyWechatNumber]:@"N/A";;
         
+        [[FormManager sharedInstance]setProfileDetailArray:[NSMutableArray arrayWithArray:@[username,gender, email,phone_number, wechat]]] ;
+        
+        [self.tableView reloadData];
+
     } Failure:^(id error) {
         
     }];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = YES;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self.tableView reloadData];
+
 }
 
 #pragma mark - Table view data source
@@ -111,7 +124,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [_titleArray objectAtIndex:indexPath.row];
         cell.textLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
-        cell.detailTextLabel.text = [_subtitleArray objectAtIndex:indexPath.row];
+        cell.detailTextLabel.text = [[[FormManager sharedInstance]profileDetailArray] objectAtIndex:indexPath.row];
         cell.detailTextLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:14.0f];
         
     }
@@ -136,18 +149,44 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                               otherButtonTitles:@"Take photo", @"Choose existing photo", nil];
-    [action showInView:self.view];
+        
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+                                                   otherButtonTitles:@"Take photo", @"Choose existing photo", nil];
+        [action showInView:self.view];
         
     }
     else if (indexPath.section == 1){
         
+        if(indexPath.row == 0){
+            
+            [self showEditProfileWithProfileType:PROFILE_INDEX_USERNAME];
+            
+        }
+        else if(indexPath.row == 1){
+            
+            [self showEditProfileWithProfileType:PROFILE_INDEX_GENDER];
+            
+        }
+        else if(indexPath.row == 2){
+            
+            [self showEditProfileWithProfileType:PROFILE_INDEX_EMAIL];
+            
+        }
+        else if(indexPath.row == 3){
+            
+            [self showEditProfileWithProfileType:PROFILE_INDEX_PHONE];
+            
+        }
+        else if(indexPath.row == 4){
+            
+            [self showEditProfileWithProfileType:PROFILE_INDEX_WECHAT];
+            
+        }
+        
         
     }
     
-
+    
 }
 
 
@@ -165,13 +204,83 @@
 }
 
 
+-(void)showEditProfileWithProfileType:(ProfileTypeIndex)profileTypeIndex{
+    
+    EditProfileDetailViewController *editProfileDetailVC = [[EditProfileDetailViewController alloc]init];
+    
+    editProfileDetailVC.profileTypeIndex = profileTypeIndex;
+    
+    editProfileDetailVC.content = [[[FormManager sharedInstance]profileDetailArray] objectAtIndex:profileTypeIndex];
+    
+    editProfileDetailVC.title = [_titleArray objectAtIndex:profileTypeIndex];
+    
+    [self.navigationController pushViewController:editProfileDetailVC animated:YES];
+    
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+    UIImage *picture = info[UIImagePickerControllerEditedImage];
+    
+    _portraitImage = picture;
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    [self.tableView reloadData];
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    
+    [self updateCurrentUserProfile];
+
+}
+
+-(void)updateCurrentUserProfile{
+    
+    
+
+    NSArray *array = [[FormManager sharedInstance]profileDetailArray];
+    UserModel *updatedUserModel = [[UserModel alloc]initUserWithEmail:[array objectAtIndex:PROFILE_INDEX_EMAIL] userName:[array objectAtIndex:PROFILE_INDEX_USERNAME] portraitImage:_portraitImage gender:[array objectAtIndex:PROFILE_INDEX_GENDER] phoneNumber:[array objectAtIndex:PROFILE_INDEX_PHONE] wechat:[array objectAtIndex:PROFILE_INDEX_WECHAT]];
+    
+    NSData *imageData = UIImagePNGRepresentation(_portraitImage);
+    PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:imageData];
+    [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
+    [[PFUser currentUser] setObject:updatedUserModel.email forKey:kHLUserModelKeyEmail];
+    [[PFUser currentUser] setObject:updatedUserModel.username forKey:kHLUserModelKeyUserName];
+    [[PFUser currentUser] setObject:updatedUserModel.gender forKey:kHLUserModelKeyGender];
+    [[PFUser currentUser] setObject:updatedUserModel.wechat forKey:kHLUserModelKeyWechatNumber];
+    [[PFUser currentUser] setObject:updatedUserModel.phoneNumber forKey:kHLUserModelKeyPhoneNumber];
+    [[PFUser currentUser]saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if(succeeded){
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+            
+        }
+        
+    }];
+    
+}
 /*
-  // Override to support conditional editing of the table view.
-  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  // Return NO if you do not want the specified item to be editable.
-  return YES;
-  }
-  */
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
  // Override to support editing the table view.

@@ -443,24 +443,30 @@
     //    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
     //    CGImageRelease(imageRef);
     
+    CGSize newSize = CGSizeMake(320.0f, 320.0f);
+    UIGraphicsBeginImageContext(newSize);
+    [chosenImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* croppedImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    self.imageData = UIImageJPEGRepresentation(croppedImage, 1.0f);
+    NSLog(@"small image size %u kb", [self.imageData length]/1024);
+    UIImage* smallImage = [UIImage imageWithData:self.imageData];
+    UIGraphicsEndImageContext();
+
     int photoIndex = [[ImageCache sharedInstance]photoCount];
     photoIndex = photoIndex + 1;
     [[ImageCache sharedInstance]setPhotoCount:photoIndex ++];
     
+    [self.overlayVC setImage:smallImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
     
-    [self.overlayVC setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
-    [[ImageCache sharedInstance] setImage:chosenImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
-    
-    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
-    [chosenImage drawInRect: CGRectMake(0, 0, 640, 640)];
-    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    self.imageData = UIImageJPEGRepresentation(smallImage, 0.02f);
+    [[ImageCache sharedInstance] setImage:smallImage withImageIndex:[[ImageCache sharedInstance]photoCount]];
     
     //  [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
+
+
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     

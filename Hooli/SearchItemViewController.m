@@ -86,16 +86,13 @@
 
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *cellText = selectedCell.textLabel.text;
-    
-    [[OffersManager sharedInstance]clearData];
-    
     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                         kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
                         cellText,kHLFilterDictionarySearchKeyCategory,nil];
     
     [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
 
-    [self.delegate showSearchResultVC];
+    [self.delegate showSearchResultVCWithCategory:cellText];
     
     
 

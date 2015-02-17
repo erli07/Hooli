@@ -23,7 +23,7 @@ static NSString * const reuseIdentifier = @"Cell";
     MBProgressHUD *HUD;
 }
 
-@synthesize refreshControl, objectDataSource,isLoading;
+@synthesize refreshControl, objectDataSource,isLoading,filterDictionaryType,disableRefreshFlag;
 -(id)init{
     
     if(!self){
@@ -47,10 +47,10 @@ static NSString * const reuseIdentifier = @"Cell";
     //  self.refreshControl.backgroundColor = [UIColor purpleColor];
     self.refreshControl.tintColor = [UIColor whiteColor];
     [self.refreshControl addTarget:self
-                            action:@selector(reloadCollectionViews)
+                            action:@selector(reloadOffersCollectionViews)
                   forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.refreshControl];
-    
+    self.disableRefreshFlag = NO;
     self.scrollEnabled = YES;
     self.alwaysBounceVertical = YES;
 }
@@ -59,78 +59,64 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSLog(@"Start loading" );
     
-    [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
-
-    if(!self.isLoading){
+    if (!self.disableRefreshFlag) {
         
-        self.isLoading = YES;
-        NSLog(@"In loading" );
-
+        [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
         
-        [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
+        if(!self.isLoading){
             
-            self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
+            self.isLoading = YES;
+            NSLog(@"In loading" );
             
-            if(self.objectDataSource){
+            [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
                 
-                [self reloadData];
-            }
-            NSLog(@"Loading over" );
-
-            self.isLoading = NO;
+                self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
+                
+                if(self.objectDataSource){
+                    
+                    [self reloadData];
+                }
+                NSLog(@"Loading over" );
+                
+                self.isLoading = NO;
+                
+                [MBProgressHUD hideHUDForView:self.superview animated:YES];
+                
+            } failure:^(id error) {
+                
+                self.isLoading = NO;
+                
+                [MBProgressHUD hideHUDForView:self.superview animated:YES];
+                
+            }];
             
-            [MBProgressHUD hideHUDForView:self.superview animated:YES];
-            
-            
-        } failure:^(id error) {
-            
-          //  NSLog(@"Retrived Images Error %@",[error description] );
-            
-            self.isLoading = NO;
-            
-            [MBProgressHUD hideHUDForView:self.superview animated:YES];
-            
-        }];
+        }
+        
+        [MBProgressHUD hideHUDForView:self.superview animated:YES];
         
     }
+    
 }
 
--(void)reloadCollectionViews{
+-(void)reloadOffersCollectionViews{
+    
     
     if (self.refreshControl) {
         
-         [MBProgressHUD hideHUDForView:self.superview animated:YES];
         
         [self updateDataFromCloud];
         
+        
+        
         [self.refreshControl endRefreshing];
         
-//        
-//        [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
-//            
-//            self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
-//            
-//            if(self.objectDataSource){
-//                
-//                [self reloadData];
-//            }
-//            
-//            [self.refreshControl endRefreshing];
-//            
-//            
-//        } failure:^(id error) {
-//            
-//            NSLog(@"Retrived Images Error %@",[error description] );
-//            
-//            [self.refreshControl endRefreshing];
-//            
-//        }];
     }
+    
     
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-
+    
     if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height )
     {
         [self updateDataFromCloud];
@@ -165,9 +151,9 @@ static NSString * const reuseIdentifier = @"Cell";
     
     OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
     
-//    NSLog(@"GET DATA SIZE %lu k", sizeof(offer) );
-//    NSLog(@"Size of %@: %zd k", NSSt       ringFromClass([OfferModel class]), malloc_size((__bridge const void *) offer));
-
+    //    NSLog(@"GET DATA SIZE %lu k", sizeof(offer) );
+    //    NSLog(@"Size of %@: %zd k", NSSt       ringFromClass([OfferModel class]), malloc_size((__bridge const void *) offer));
+    
     
     [cell updateCellWithOfferModel:offer];
     

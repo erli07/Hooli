@@ -25,4 +25,12 @@
 @property (nonatomic) NSString *needItemDescription;
 @property (nonatomic) NSString *needItemBudget;
 
+
+@property (nonatomic) NSString *profileUsername;
+@property (nonatomic) NSString *profileEmail;
+@property (nonatomic) NSString *profileGender;
+@property (nonatomic) NSString *profilePhone;
+@property (nonatomic) NSString *profileWechat;
+
+@property (nonatomic) NSMutableArray *profileDetailArray;
 @end

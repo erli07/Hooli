@@ -67,8 +67,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    
+    [[HLSettings sharedInstance]setShowSoldItems:NO];
     [[HLSettings sharedInstance]setCurrentPageIndex:0];
+    [[OffersManager sharedInstance]setFilterDictionary:nil];
+    
     
     if(self.searchController.active){
         
@@ -91,30 +93,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    
-    //    if([[HLSettings sharedInstance]isRefreshNeeded]){
-    //
-    //
-    //
-    //        [self updateCollectionViewData];
-    //        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
-    //        [self getFollowedUserItems];
-    //
-    //    }
-    
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    
-    [[OffersManager sharedInstance]clearData];
-    
-}
-
-
 -(void)updateCollectionViewData{
     
-    [[OffersManager sharedInstance]clearData];
     
     [self.collectionView updateDataFromCloud];
     
@@ -625,7 +605,7 @@ static NSString * const reuseIdentifier = @"Cell";
         
         self.needsViewController.view.hidden = YES;
         
-        //  [self updateCollectionViewData];
+        [self getOffersFormAll];
         
     }
     else if(self.segmentControl.selectedSegmentIndex == 1){
@@ -634,27 +614,9 @@ static NSString * const reuseIdentifier = @"Cell";
         
         self.needsViewController.view.hidden = YES;
         
+        [self getOffersFromFollowedUsers];
         
-        if([PFUser currentUser]){
-            
-            [[OffersManager sharedInstance]clearData];
-            
-            [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
-            
-            if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
-                
-                [self.collectionView updateDataFromCloud];
-                
-            }
-            else{
-                
-                self.collectionView.hidden = YES;
-                
-            }
-            
-        }
     }
-    
     
 }
 
@@ -663,7 +625,9 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if([PFUser currentUser]){
         
-        [[OffersManager sharedInstance]clearData];
+        self.collectionView.refreshControl.enabled = NO;
+        
+     //   [[OffersManager sharedInstance]clearData];
         
         [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
         
@@ -681,11 +645,29 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
+-(void)getOffersFormAll{
+    
+    [[OffersManager sharedInstance]clearData];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:nil];
+    
+    [self updateCollectionViewData];
 
--(void)showSearchResultVC{
+    
+}
+
+
+-(void)showSearchResultVCWithCategory:(NSString *)category{
+    
+    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
+                                      category,kHLFilterDictionarySearchKeyCategory,nil];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
     
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SearchResultViewController *resultVC = [mainSb instantiateViewControllerWithIdentifier:@"searchResult"];
+    resultVC.title = category;
     resultVC.hidesBottomBarWhenPushed = YES;
     [self.searchController.searchBar resignFirstResponder];
     [self.navigationController pushViewController:resultVC animated:YES];

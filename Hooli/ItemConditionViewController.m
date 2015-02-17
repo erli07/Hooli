@@ -1,27 +1,26 @@
 //
-//  SelectCategoryTableViewController.m
+//  ItemConditionViewController.m
 //  Hooli
 //
-//  Created by Er Li on 11/4/14.
-//  Copyright (c) 2014 ErLi. All rights reserved.
+//  Created by Er Li on 2/16/15.
+//  Copyright (c) 2015 ErLi. All rights reserved.
 //
 
-#import "SelectCategoryTableViewController.h"
-#import "OfferCategory.h"
-#import "HLTheme.h"
-#import "HLSettings.h"
+#import "ItemConditionViewController.h"
 #import "FormManager.h"
-@interface SelectCategoryTableViewController ()
+#import "OfferCondition.h"
+#import "HLTheme.h"
+@interface ItemConditionViewController ()
 
 @end
 
-@implementation SelectCategoryTableViewController
+@implementation ItemConditionViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+     self.clearsSelectionOnViewWillAppear = YES;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -41,30 +40,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [[OfferCategory allCategories]count];
+    return [[OfferCondition allConditions]count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categoryCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ConditionCell" forIndexPath:indexPath];
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
-    cell.textLabel.text = [[OfferCategory allCategories]objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[OfferCondition allConditions]objectAtIndex:indexPath.row];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSArray *categoryArray = [NSArray arrayWithObjects:[[OfferCategory allCategories]objectAtIndex:indexPath.row], nil];
-    
-    [[FormManager sharedInstance]setDetailType:HL_ITEM_DETAIL_CATEGORY];
-    [[FormManager sharedInstance]setItemCategory:[[OfferCategory allCategories]objectAtIndex:indexPath.row]];
+    [[FormManager sharedInstance]setDetailType:HL_ITEM_DETAIL_CONDITION];
+    [[FormManager sharedInstance]setItemCondition:[[OfferCondition allConditions]objectAtIndex:indexPath.row]];
     
     [self.navigationController popViewControllerAnimated:YES];
     //[[HLSettings sharedInstance]setCategory:categoryArray];
     
 }
-
-
 
 @end

@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
-@interface MyProfileDetailViewController : UITableViewController<UIActionSheetDelegate>
+#import "EditProfileDetailViewController.h"
+#import "EditProfileViewController.h"
+#import "AccountManager.h"
+#import "HLTheme.h"
+#import "camera.h"
+
+@interface MyProfileDetailViewController : UITableViewController<UIActionSheetDelegate,UIAlertViewDelegate,UIImagePickerControllerDelegate>
 @property (nonatomic) NSString* userId;
 @property (nonatomic) PFUser *user;
 @end
