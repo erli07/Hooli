@@ -37,7 +37,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [[HLSettings sharedInstance]setCurrentPageIndex:1];
     
 }
 

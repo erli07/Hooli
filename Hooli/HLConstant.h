@@ -62,9 +62,9 @@
 #define     ITEM_CONDITION_USED @"USED"
 
 #define     TAB_BAR_INDEX_ITEM_PAGE 0
-#define     TAB_BAR_INDEX_MESSAGES 2
-#define     TAB_BAR_INDEX_NOTIFICATION 3
-#define     TAB_BAR_INDEX_MY_PROFILE 4
+#define     TAB_BAR_INDEX_MESSAGES 1
+#define     TAB_BAR_INDEX_NOTIFICATION 2
+#define     TAB_BAR_INDEX_MY_PROFILE 3
 
 @interface HLConstant : NSObject
 
@@ -82,6 +82,7 @@ extern NSString *const kHLOfferCategorySportingGoods;
 extern NSString *const kHLOfferCategoryCollectiblesArt;
 extern NSString *const kHLOfferCategoryOther;
 
+extern int const KHLInitialCredits;
 extern int const kHLOfferCellHeight;
 extern int const kHLOfferCellWidth;
 extern int const kHLOffersNumberShowAtFirstTime;

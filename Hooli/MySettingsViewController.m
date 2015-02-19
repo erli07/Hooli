@@ -11,6 +11,7 @@
 #import "AboutViewController.h"
 #import "IntroViewController.h"
 #import "AppDelegate.h"
+#import "AccountManager.h"
 @interface MySettingsViewController ()
 @property (nonatomic)  NSArray *sectionArray;
 
@@ -153,11 +154,10 @@
         cell.textLabel.text = @"Log Out";
         cell.textLabel.textColor = [UIColor whiteColor];
         [cell setBackgroundColor:[HLTheme mainColor]];
+        cell.accessoryType = UITableViewCellAccessoryNone;
 
     }
     
-    
-
     
     return cell;
 }
@@ -207,7 +207,15 @@
     }
     else{
         
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] logOut];
+        [[AccountManager sharedInstance]logOut];
+        
+        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+        vc.selectedIndex = 0;
+        [self presentViewController:vc animated:NO completion:^{
+            
+            
+        }];
     }
 }
 @end

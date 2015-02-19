@@ -10,6 +10,7 @@
 #import "OfferModel.h"
 #import "UserModel.h"
 //#import "ChatListCell.h"
+#import "HLCache.h"
 #import "NSString+MD5.h"
 @implementation AccountManager
 @synthesize uploadFailure = _uploadFailure;
@@ -557,6 +558,27 @@
         
     }];
     
+    
+}
+
+-(void)logOut{
+    
+    [[HLCache sharedCache] clear];
+    
+    // clear NSUserDefaults
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kHLUserDefaultsCacheFacebookFriendsKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kHlUserDefaultsActivityFeedViewControllerLastRefreshKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // Unsubscribe from push notifications by removing the user association from the current installation.
+    [[PFInstallation currentInstallation] removeObjectForKey:kHLInstallationUserKey];
+    [[PFInstallation currentInstallation] saveInBackground];
+    
+    // Clear all caches
+    [PFQuery clearAllCachedResults];
+    
+    [PFUser logOut];
+    [FBSession setActiveSession:nil];
     
 }
 

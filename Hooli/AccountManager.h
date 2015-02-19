@@ -75,4 +75,6 @@ typedef void (^DownloadFailureBlock) (id error);
 -(void)fetchUserWithUserId:(NSString *)objectId
                    success:(DownloadSuccessBlock)success
                    failure:(DownloadFailureBlock)failure;
+
+-(void)logOut;
 @end

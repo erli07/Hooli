@@ -20,4 +20,5 @@
 - (PFUser *)getCurrentUser ;
 - (void)saveCurrentUser:(PFUser *)currentUser;
 
+- (NSArray *)getTitlesArray;
 @end

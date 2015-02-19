@@ -17,5 +17,7 @@
 @property (nonatomic) unsigned int photoCount;
 -(void)setImage:(UIImage *)image withImageIndex:(int)imageIndex;
 
+-(void)clearCache;
+
 -(NSArray *)getimagesArray;
 @end

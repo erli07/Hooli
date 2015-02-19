@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "HLConstant.h"
 #import "HLCache.h"
+#import "LoginWelcomeViewController.h"
 
 #define systemSoundID    1104
 @implementation HLUtilities
@@ -22,7 +23,7 @@
     UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     NSData *imageData = UIImageJPEGRepresentation(smallImage, compressionQuality);
-        
+    
     return imageData;
     
 }
@@ -58,7 +59,21 @@
     
 }
 
-
++ (BOOL)checkIfUserLoginWithCurrentVC:(UIViewController *)vc{
+    
+    if(![PFUser currentUser]){
+        
+        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        LoginWelcomeViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginWelcomeViewController"];        
+        [vc.navigationController pushViewController:loginVC animated:NO];
+        
+        return NO;
+        
+    }
+    
+    return YES;
+    
+}
 
 
 

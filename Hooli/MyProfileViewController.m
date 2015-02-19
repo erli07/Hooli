@@ -22,6 +22,8 @@
 #import "NeedDetailViewController.h"
 #import "MyRelationshipViewController.h"
 #import "MyProfileDetailViewController.h"
+#import "LoginWelcomeViewController.h"
+#import "HLUtilities.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -32,15 +34,22 @@
 
 @implementation MyProfileViewController
 @synthesize needsViewController;
+
 - (void)viewDidLoad {
     
-    
-    if([self checkIfUserLogin]){
-        
-        [self addUIElements];
-    
-    }
     [super viewDidLoad];
+
+    
+    [[HLSettings sharedInstance]setCurrentPageIndex:3];
+    
+    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        return;
+        
+    }
+    
+    [self addUIElements];
+    
 
     //    [self loadData];
     // Do any additional setup after loading the view.
@@ -48,10 +57,10 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [[HLSettings sharedInstance]setCurrentPageIndex:4];
-
+    [super viewWillAppear:animated];
     
-    if([self checkIfUserLogin]){
+    
+    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
         
         [self updateProfileData];
         
@@ -257,22 +266,23 @@
 }
 
 
-- (BOOL)checkIfUserLogin{
-    
-    
-    if(![PFUser currentUser]){
-        
-        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        loginVC.navigationController.navigationBarHidden = NO;
-        loginVC.navigationItem.hidesBackButton = YES;
-        [self.navigationController pushViewController:loginVC animated:NO];
-        return NO;
-        
-    }
-    
-    return YES;
-}
+//- (BOOL)checkIfUserLogin{
+//    
+//    
+//    if(![PFUser currentUser]){
+//        
+//        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+//        LoginWelcomeViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginWelcomeViewController"];
+//        self.navigationController.navigationBarHidden = NO;
+//        loginVC.title = self.title;
+//        [self.navigationController pushViewController:loginVC animated:YES];
+//        return NO;
+//        
+//    }
+//
+//    
+//    return YES;
+//}
 
 
 @end

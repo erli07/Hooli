@@ -19,6 +19,7 @@
 #import "FollowListCell.h"
 #import "NeedDetailViewController.h"
 #import "NeedTableViewCell.h"
+#import "HLUtilities.h"
 @interface NotificationFeedViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
 @property (nonatomic, strong) UIView *blankView;
@@ -59,6 +60,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[HLSettings sharedInstance]setCurrentPageIndex:2];
+
+    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        return;
+        
+    }
+    
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     
     self.title = @"Notification";
@@ -68,15 +77,28 @@
     
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankView setBackgroundColor:[UIColor whiteColor]];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setBackgroundImage:[UIImage imageNamed:@"Ariel1"] forState:UIControlStateNormal];
-    [button setFrame:CGRectMake(24.0f, 113.0f, 271.0f, 271.0f)];
-    [self.blankView addSubview:button];
-    
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    noContentLabel.text = @"No content at the moment";
+    noContentLabel.textColor = [UIColor lightGrayColor];
+    noContentLabel.font = [UIFont systemFontOfSize:17.0f];
+    noContentLabel.textAlignment = NSTextAlignmentCenter;
+    [self.blankView addSubview:noContentLabel];
     
     lastRefresh = [[NSUserDefaults standardUserDefaults] objectForKey:kHlUserDefaultsActivityFeedViewControllerLastRefreshKey];
     
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [[HLSettings sharedInstance]setCurrentPageIndex:2];
+    
+    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        return;
+        
+    }
+
 }
 
 - (PFQuery *)queryForTable {
@@ -330,7 +352,6 @@
 }
 
 -(void)seeNeedDetail{
-    
     
     NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
     detailVc.hidesBottomBarWhenPushed = YES;

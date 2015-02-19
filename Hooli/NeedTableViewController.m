@@ -13,6 +13,7 @@
 #import "HLTheme.h"
 #import "LoginViewController.h"
 #import "ActivityDetailViewController.h"
+#import "HLUtilities.h"
 @interface NeedTableViewController ()
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
 
@@ -148,7 +149,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if([self checkIfUserLogin]){
+    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
         
         NeedDetailViewController *detailVc = [[NeedDetailViewController alloc]init];
         NeedTableViewCell *cell = (NeedTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
@@ -182,22 +183,21 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     
 }
 
-- (BOOL)checkIfUserLogin{
-    
-    
-    if(![PFUser currentUser]){
-        
-        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        loginVC.navigationController.navigationBarHidden = NO;
-        loginVC.navigationItem.hidesBackButton = YES;
-        [self.navigationController pushViewController:loginVC animated:NO];
-        return NO;
-        
-    }
-    
-    return YES;
-}
+//- (BOOL)checkIfUserLogin{
+//    
+//    
+//    if(![PFUser currentUser]){
+//        
+//        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+//        UIViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginWelcomeViewController"];
+//        self.navigationController.navigationBarHidden = NO;
+//        [self.navigationController pushViewController:loginVC animated:YES];
+//        return NO;
+//        
+//    }
+//    
+//    return YES;
+//}
 
 
 @end

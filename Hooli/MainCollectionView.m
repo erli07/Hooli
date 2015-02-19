@@ -70,17 +70,29 @@ static NSString * const reuseIdentifier = @"Cell";
             
             [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
                 
+                self.isLoading = NO;
+
+                [MBProgressHUD hideHUDForView:self.superview animated:YES];
+
+                if ([objects count]==0 || !objects) {
+                    
+                    [self addNoContentView];
+                    
+                    return;
+                }
+                
                 self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
                 
                 if(self.objectDataSource){
                     
                     [self reloadData];
                 }
+                
+    
+                
                 NSLog(@"Loading over" );
                 
-                self.isLoading = NO;
                 
-                [MBProgressHUD hideHUDForView:self.superview animated:YES];
                 
             } failure:^(id error) {
                 
@@ -126,13 +138,22 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)reloadDataByOffersArray:(NSArray *)offers{
     
+    
+    if ([offers count]==0 || !offers) {
+        
+        [self addNoContentView];
+        
+        return;
+    }
+    
     self.objectDataSource = [[NSMutableArray alloc]initWithArray:offers];
     
     if(self.objectDataSource){
         
         [self reloadData];
+        
     }
-    
+
     
 }
 
@@ -171,5 +192,13 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
-
+-(void)addNoContentView{
+    
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    noContentLabel.text = @"No offers at the moment";
+    noContentLabel.textColor = [UIColor lightGrayColor];
+    noContentLabel.font = [UIFont systemFontOfSize:17.0f];
+    noContentLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:noContentLabel];
+}
 @end

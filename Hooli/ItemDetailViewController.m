@@ -87,6 +87,7 @@
    // [self refreshOfferDetailsFromCloud];
 }
 
+
 - (void)setNavBarVisible:(BOOL)visible animated:(BOOL)animated {
     
     // bail if the current state matches the desired state
@@ -479,7 +480,31 @@
     self.categoryLabel.font =[UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     
     
+    if(self.isFirstPosted){
+        
+
+        
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
+                                       initWithTitle:@"Cancel"
+                                       style:UIBarButtonItemStyleBordered
+                                       target:self
+                                       action:@selector(goToHomePage)];
+        self.navigationItem.leftBarButtonItem = cancelButton;
     
+    
+    
+    }
+    
+}
+
+-(void)goToHomePage{
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+    [self presentViewController:vc animated:YES completion:^{
+        
+    }];
+
 }
 
 -(void)seeItemOwner{

@@ -53,5 +53,14 @@
     return imagesArray;
 }
 
+-(void)clearCache{
+    
+    self.image1 = nil;
+    self.image2 = nil;
+    self.image3 = nil;
+    self.image4 = nil;
+
+
+}
 
 @end

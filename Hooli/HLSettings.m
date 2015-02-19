@@ -39,4 +39,10 @@
 
 }
 
+- (NSArray *)getTitlesArray{
+    
+    return @[@"Discover", @"Messages",@"Notifications",@"Profile"];
+    
+}
+
 @end

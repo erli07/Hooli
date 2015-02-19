@@ -13,13 +13,14 @@
 #import "OffersManager.h"
 #import "HLSettings.h"
 #import "SearchItemViewController.h"
-#import "LoginViewController.h"
+#import "LoginWelcomeViewController.h"
 #import "MyCameraViewController.h"
 #import "ActivityManager.h"
 #import "HLConstant.h"
 #import "DCPathButton.h"
 #import "PostNeedViewController.h"
 #import "NeedDetailViewController.h"
+#import "HLUtilities.h"
 #import "NeedTableViewCell.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate>{
     
@@ -377,7 +378,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    if([self checkIfUserLogin]){
+    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
         
         ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
         UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
@@ -560,21 +561,22 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
-- (BOOL)checkIfUserLogin{
-    
-    
-    if(![PFUser currentUser]){
-        
-        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        self.navigationController.navigationBarHidden = NO;
-        [self.navigationController pushViewController:loginVC animated:YES];
-        return NO;
-        
-    }
-    
-    return YES;
-}
+//- (BOOL)checkIfUserLogin{
+//    
+//    
+//    if(![PFUser currentUser]){
+//        
+//        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+//        LoginWelcomeViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginWelcomeViewController"];
+//        self.navigationController.navigationBarHidden = NO;
+//        loginVC.title = self.title;
+//        [self.navigationController pushViewController:loginVC animated:YES];
+//        return NO;
+//        
+//    }
+//    
+//    return YES;
+//}
 
 
 -(void)showCamera:(id)sender{

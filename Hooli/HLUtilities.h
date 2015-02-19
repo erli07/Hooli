@@ -22,5 +22,5 @@
 + (void)saveFirstLaunchStatus:(BOOL)status;
 + (BOOL)getFirstLaunchStatus;
 
-+ (BOOL)checkIfUserLogin;
++ (BOOL)checkIfUserLoginWithCurrentVC:(UIViewController *)vc;
 @end

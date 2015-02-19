@@ -144,7 +144,7 @@
     
     for (int i = 0; i <[offer.imageArray count]; i++) {
         
-        NSData *imageData = [self compressImage:[offer.imageArray objectAtIndex:i] WithCompression:0.05f];
+        NSData *imageData = [self compressImage:[offer.imageArray objectAtIndex:i] WithCompression:0.03f];
         PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
         [offerImagesClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
         
@@ -155,7 +155,7 @@
         if(succeeded){
             
             PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
-            NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.01f];
+            NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.001f];
             PFFile *thumbNailFile = [PFFile fileWithName:@"thumbNail.jpg" data:thumbnailData];
             [offerClass setObject:thumbNailFile forKey:kHLOfferModelKeyThumbNail];
             
@@ -195,7 +195,7 @@
   
 }
 
--(NSData *)compressImage:(UIImage *)image WithCompression: (CGFloat) compressionQuality{
+-(NSData *)compressImage:(UIImage *)image WithCompression: (CGFloat)compressionQuality{
     
     UIGraphicsBeginImageContext(CGSizeMake(640, 640));
     [image drawInRect: CGRectMake(0, 0, 640, 640)];

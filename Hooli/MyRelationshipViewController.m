@@ -36,7 +36,7 @@
 //    scroll.showsHorizontalScrollIndicator = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    NSArray *itemArray = [NSArray arrayWithObjects: @"我关注的", @"关注我的", @"互相关注", nil];
+    NSArray *itemArray = [NSArray arrayWithObjects: @"我关注的", @"关注我的", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(35, 70, 250, 30);
     [segmentedControl addTarget:self action:@selector(MySegmentControlAction:) forControlEvents: UIControlEventValueChanged];
@@ -74,14 +74,7 @@
         [_followListVC.view setNeedsDisplay];
 
     }
-    else
-    {
-        
-       // _followListVC.followStatus =  HL_RELATIONSHIP_TYPE_FRIENDS;
 
-        [_followListVC loadObjects];
-
-    }
 }
 
 @end

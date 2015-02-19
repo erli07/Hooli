@@ -14,6 +14,7 @@
 #import "MessagesView.h"
 #import "NotificationFeedViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "HLSettings.h"
 @interface HomeTabBarController ()
 
 @end
@@ -39,21 +40,36 @@
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item  {
     
-    
-    if(item.tag == TAB_BAR_INDEX_NOTIFICATION){
+    if(item.tag == TAB_BAR_INDEX_ITEM_PAGE){
         
-        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_NOTIFICATION] tabBarItem];
+        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_ITEM_PAGE] tabBarItem];
         tabBarItem.badgeValue = 0;
-        
-        // [self.needNavigationController pushViewController:self.needViewController animated:YES];
-        
+        [[HLSettings sharedInstance]setCurrentPageIndex:TAB_BAR_INDEX_ITEM_PAGE];
+
     }
     else if(item.tag == TAB_BAR_INDEX_MESSAGES){
         
         UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_MESSAGES] tabBarItem];
         tabBarItem.badgeValue = 0;
+        [[HLSettings sharedInstance]setCurrentPageIndex:TAB_BAR_INDEX_MESSAGES];
+
     }
-    
+    else if(item.tag == TAB_BAR_INDEX_NOTIFICATION){
+        
+        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_NOTIFICATION] tabBarItem];
+        tabBarItem.badgeValue = 0;
+        [[HLSettings sharedInstance]setCurrentPageIndex:TAB_BAR_INDEX_NOTIFICATION];
+
+    }
+    else if(item.tag== TAB_BAR_INDEX_MY_PROFILE){
+        
+        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_MY_PROFILE] tabBarItem];
+        tabBarItem.badgeValue = 0;
+        [[HLSettings sharedInstance]setCurrentPageIndex:TAB_BAR_INDEX_MY_PROFILE];
+       // [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_MY_PROFILE]setTitle:[[[HLSettings sharedInstance]getTitlesArray]objectAtIndex:TAB_BAR_INDEX_MY_PROFILE]];
+
+    }
+
 
     
 }
@@ -61,22 +77,29 @@
 -(void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     
-//    NSLog(@"selected %d",tabBarController.selectedIndex);
-//    
-//    if(tabBarController.selectedIndex == TAB_BAR_INDEX_NOTIFICATION){
-//        
-//        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_NOTIFICATION] tabBarItem];
-//        tabBarItem.badgeValue = 0;
-//        
-//        // [self.needNavigationController pushViewController:self.needViewController animated:YES];
-//        
-//    }
-//    else if(tabBarController.selectedIndex == TAB_BAR_INDEX_MESSAGES){
-//        
-//        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_MESSAGES] tabBarItem];
-//        tabBarItem.badgeValue = 0;
-//    }
+    NSLog(@"selected %d",tabBarController.selectedIndex);
     
+    if(tabBarController.selectedIndex == TAB_BAR_INDEX_ITEM_PAGE){
+        
+        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_ITEM_PAGE] tabBarItem];
+        tabBarItem.badgeValue = 0;
+        
+    }
+    else if(tabBarController.selectedIndex == TAB_BAR_INDEX_MESSAGES){
+        
+        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_MESSAGES] tabBarItem];
+        tabBarItem.badgeValue = 0;
+    }
+    else if(tabBarController.selectedIndex == TAB_BAR_INDEX_NOTIFICATION){
+        
+        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_NOTIFICATION] tabBarItem];
+        tabBarItem.badgeValue = 0;
+    }
+    else if(tabBarController.selectedIndex == TAB_BAR_INDEX_MY_PROFILE){
+        
+        UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:TAB_BAR_INDEX_MY_PROFILE] tabBarItem];
+        tabBarItem.badgeValue = 0;
+    }
 }
 
 - (void)applicationDidReceiveRemoteNotification:(NSNotification *)note {

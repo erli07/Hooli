@@ -342,6 +342,8 @@
         self.overlayVC = [[CameraOverlayViewController alloc]initWithNibName:@"CameraOverlayViewController" bundle:nil];
         
     }
+    
+    [[ImageCache sharedInstance]clearCache];
     // Create a new image picker instance:
     
     if(!self.picker){

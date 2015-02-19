@@ -13,27 +13,29 @@
 #import "HLTheme.h"
 #import "UserCartViewController.h"
 @interface FollowListViewController ()
+@property (nonatomic, strong) UIView *blankView;
+
 @end
 
 @implementation FollowListViewController
-@synthesize followStatus,fromUser;
+@synthesize followStatus,fromUser,blankView;
 
 //- (id)initWithCoder:(NSCoder *)aCoder {
 //    self = [super initWithCoder:aCoder];
-//    
+//
 //    if (self) {
 //        // The className to query on
 //        self.parseClassName = kHLCloudNotificationClass;
-//        
+//
 //        // Whether the built-in pagination is enabled
 //        self.paginationEnabled = YES;
-//        
+//
 //        // Whether the built-in pull-to-refresh is enabled
 //        self.pullToRefreshEnabled = YES;
-//        
+//
 //        // The number of objects to show per page
 //        self.objectsPerPage = 50;
-//        
+//
 //        // The Loading text clashes with the dark Anypic design
 //        self.loadingViewEnabled = NO;
 //    }
@@ -45,9 +47,9 @@
     if (self) {
         
         
-//        self.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
-//        
-//        self.fromUser = [PFUser currentUser];
+        //        self.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
+        //
+        //        self.fromUser = [PFUser currentUser];
         
         self.parseClassName = kHLCloudNotificationClass;
         
@@ -70,9 +72,20 @@
 
 - (void)viewDidLoad {
     
-   // self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    // self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [super viewDidLoad];
+    
+    self.title = @"My Relations";
+    self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
+    [self.blankView setBackgroundColor:[UIColor whiteColor]];
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    noContentLabel.text = @"No content at the moment";
+    noContentLabel.textColor = [UIColor lightGrayColor];
+    noContentLabel.font = [UIFont systemFontOfSize:17.0f];
+    noContentLabel.textAlignment = NSTextAlignmentCenter;
+    [self.blankView addSubview:noContentLabel];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -124,6 +137,11 @@
         [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
         [query whereKey:kHLNotificationToUserKey equalTo:self.fromUser];
         
+    }else{
+        
+        [query includeKey:kHLNotificationToUserKey];
+        [query includeKey:kHLNotificationFromUserKey];
+        
     }
     
     [query orderByDescending:@"createAt"];
@@ -138,6 +156,25 @@
 
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
+    
+    if (self.objects.count == 0 && ![[self queryForTable] hasCachedResult]) {
+        self.tableView.scrollEnabled = NO;
+        //  self.navigationController.tabBarItem.badgeValue = nil;
+        
+        if (!self.blankView.superview) {
+            self.blankView.alpha = 0.0f;
+            self.tableView.tableHeaderView = self.blankView;
+            [UIView animateWithDuration:0.200f animations:^{
+                self.blankView.alpha = 1.0f;
+            }];
+        }
+    } else {
+        
+        self.tableView.tableHeaderView = nil;
+        self.tableView.scrollEnabled = YES;
+        
+    }
+    
     
     //    PFQuery *isFollowingQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
     //    [isFollowingQuery whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
@@ -184,9 +221,9 @@
         [cell.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
         [cell.followButton setTitle:@"Followed" forState:UIControlStateHighlighted];
         [cell.followButton setBackgroundColor:[HLTheme mainColor]];
-
+        
     }
-    else{
+    else if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWED){
         
         user = [(PFUser*)object objectForKey:kHLNotificationToUserKey];
         [cell.followButton setTitle:@"UnFollow" forState:UIControlStateNormal] ;
@@ -261,7 +298,7 @@
                             [cellView.followButton setTitle:@"Follow" forState:UIControlStateNormal] ;
                             [cellView.followButton setTitle:@"Follow" forState:UIControlStateHighlighted] ;
                             [cellView.followButton setBackgroundColor:[HLTheme mainColor]];
-
+                            
                         }
                         
                     }];
@@ -275,8 +312,8 @@
                             [cellView.followButton setTitle:@"UnFollow" forState:UIControlStateNormal] ;
                             [cellView.followButton setTitle:@"UnFollow" forState:UIControlStateHighlighted] ;
                             [cellView.followButton setBackgroundColor:[HLTheme secondColor]];
-
-
+                            
+                            
                         }
                         
                     }];

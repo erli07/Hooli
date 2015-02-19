@@ -14,6 +14,7 @@
 #import "HLTheme.h"
 #import "LoginViewController.h"
 #import "NeedDetailViewController.h"
+#import "HLUtilities.h"
 @interface NeedsViewController ()
 
 @end
@@ -47,7 +48,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    if([self checkIfUserLogin]){
+    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
 
     NeedsCell *cell = (NeedsCell *)[collectionView cellForItemAtIndexPath:indexPath];
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
@@ -60,21 +61,21 @@
     }
 }
 
-- (BOOL)checkIfUserLogin{
-    
-    
-    if(![PFUser currentUser]){
-        
-        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-        LoginViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        self.navigationController.navigationBarHidden = NO;
-        [self.navigationController pushViewController:loginVC animated:YES];
-        return NO;
-        
-    }
-    
-    return YES;
-}
+//- (BOOL)checkIfUserLogin{
+//    
+//    
+//    if(![PFUser currentUser]){
+//        
+//        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+//        UIViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginWelcomeViewController"];
+//        self.navigationController.navigationBarHidden = NO;
+//        [self.navigationController pushViewController:loginVC animated:YES];
+//        return NO;
+//        
+//    }
+//    
+//    return YES;
+//}
 
 
 @end

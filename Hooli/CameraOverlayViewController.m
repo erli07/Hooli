@@ -54,18 +54,17 @@
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
 
-    CGSize newSize = CGSizeMake(100.0f, 100.0f);
+    CGSize newSize = CGSizeMake(640.0f, 640.0f);
     UIGraphicsBeginImageContext(newSize);
     [chosenImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
     UIImage* croppedImage = UIGraphicsGetImageFromCurrentImageContext();
-
     UIGraphicsEndImageContext();
     
-    CGDataProviderRef provider = CGImageGetDataProvider(croppedImage.CGImage);
-    NSData* data = (id)CFBridgingRelease(CGDataProviderCopyData(provider));
-    const uint8_t* bytes = [data bytes];
-    
-    NSLog(@"image size %s", bytes);
+//    CGDataProviderRef provider = CGImageGetDataProvider(croppedImage.CGImage);
+//    NSData* data = (id)CFBridgingRelease(CGDataProviderCopyData(provider));
+//    const uint8_t* bytes = [data bytes];
+//    
+//    NSLog(@"image size %s", bytes);
     
 //    CGImageRef imageRef = CGImageCreateWithImageInRect([chosenImage CGImage], CGRectMake(0, 0, 150, 150));
 //    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];

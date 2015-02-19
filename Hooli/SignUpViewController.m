@@ -10,6 +10,7 @@
 #import "HLTheme.h"
 #import "AccountManager.h"
 #import "MBProgressHUD.h"
+#import "camera.h"
 @interface SignUpViewController (){
     
     MBProgressHUD *HUD;
@@ -209,4 +210,39 @@ const CGFloat duration = 0.3;
     
     
 }
+- (IBAction)editPhoto:(id)sender {
+    
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+                                               otherButtonTitles:@"Take photo", @"Choose existing photo", nil];
+    [action showInView:self.view];
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+    UIImage *picture = info[UIImagePickerControllerEditedImage];
+    
+    self.portraitImage.image = picture;
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+#pragma mark - UIActionSheetDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+    if (buttonIndex != actionSheet.cancelButtonIndex)
+    {
+        if (buttonIndex == 0)	ShouldStartCamera(self, YES);
+        if (buttonIndex == 1)	ShouldStartPhotoLibrary(self, YES);
+    }
+}
+
 @end

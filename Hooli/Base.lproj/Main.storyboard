@@ -20,7 +20,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AP1-fo-8jH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-274" y="-2031"/>
+            <point key="canvasLocation" x="-131" y="-2046"/>
         </scene>
         <!--Search Item View Controller-->
         <scene sceneID="CUc-zH-5sK">
@@ -125,7 +125,7 @@
         <scene sceneID="i0x-7O-yin">
             <objects>
                 <navigationController id="cXU-HP-P88" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="3" title="Notifications" image="notification-32.png" id="Sey-3f-HLS"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="Notifications" image="notification-32.png" id="Sey-3f-HLS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ahw-m5-PeO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -229,20 +229,16 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" id="XKK-tL-bg5">
-                                <rect key="frame" x="0.0" y="142" width="320" height="199"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No messages at the moment" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ik7-yY-aA3">
-                                        <rect key="frame" x="0.0" y="131" width="320" height="21"/>
+                                        <rect key="frame" x="0.0" y="275" width="320" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NO_Messages-2-512.png" id="ovU-wE-r2u">
-                                        <rect key="frame" x="95" y="8" width="131" height="125"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -680,7 +676,7 @@
         <scene sceneID="3xC-mR-Ygy">
             <objects>
                 <navigationController id="ErL-aS-9xf" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="4" title="Profile" image="tab5.png" id="axg-Hn-Cx9"/>
+                    <tabBarItem key="tabBarItem" tag="3" title="Profile" image="tab5.png" id="axg-Hn-Cx9"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wZ7-Xe-lJV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -775,7 +771,7 @@
         <scene sceneID="sFr-b9-SWd">
             <objects>
                 <navigationController id="1KV-LZ-8Qg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Messages" image="message-32.png" id="PCE-mp-vfB"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="Messages" image="message-32.png" id="PCE-mp-vfB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yu-id-nPd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -790,7 +786,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NO_Messages-2-512.png" width="512" height="512"/>
         <image name="find-32.png" width="32" height="32"/>
         <image name="message-32.png" width="32" height="32"/>
         <image name="notification-32.png" width="32" height="32"/>

@@ -127,6 +127,9 @@
         cell.detailTextLabel.text = [[[FormManager sharedInstance]profileDetailArray] objectAtIndex:indexPath.row];
         cell.detailTextLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:14.0f];
         
+        [cell.textLabel setTextColor:[HLTheme mainColor]];
+        [cell.detailTextLabel setTextColor:[HLTheme mainColor]];
+
     }
     
     

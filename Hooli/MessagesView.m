@@ -19,7 +19,7 @@
 #import "MessagesView.h"
 #import "MessagesCell.h"
 #import "ChatView.h"
-
+#import "HLUtilities.h"
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 @interface MessagesView()
 {
@@ -62,7 +62,17 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	[super viewDidLoad];
+    
+    
+    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        return;
+        
+    }
+    
 	self.title = @"Messages";
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:kHLLoadMessageObjectsNotification object:nil];
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,7 +91,16 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [[HLSettings sharedInstance]setCurrentPageIndex:3];
+    [[HLSettings sharedInstance]setCurrentPageIndex:1];
+    
+    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        return;
+        
+    }
+
+    
+    [self updateEmptyView];
 
 }
 

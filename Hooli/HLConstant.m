@@ -53,6 +53,8 @@ int const kHLOffersNumberShowAtFirstTime = 100;
 int const kHLNeedsNumberShowAtFirstTime = 30;
 int const kHLMaxSearchDistance = 50;
 int const kHLDefaultSearchDistance = 50;
+int const kHLInitialCredits = 200;
+
 
 NSString *const kHLUserModelKeyEmail = @"email";
 NSString *const kHLUserModelKeyUserName = @"username";

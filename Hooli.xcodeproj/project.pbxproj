@@ -114,6 +114,8 @@
 		0E50F1341A1476FB0048FA27 /* shot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E50F1301A1476FB0048FA27 /* shot@2x.png */; };
 		0E50F1361A1476FB0048FA27 /* shot_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E50F1321A1476FB0048FA27 /* shot_h@2x.png */; };
 		0E63A7BD1A2626DF0038B1AE /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E63A7BC1A2626DF0038B1AE /* Chat.storyboard */; };
+		0E6C1D991A9557FD000ECA89 /* Ariel white background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E6C1D981A9557FD000ECA89 /* Ariel white background.png */; };
+		0E6C1D9C1A958311000ECA89 /* LoginWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1D9B1A958311000ECA89 /* LoginWelcomeViewController.m */; };
 		0E86AA5A1A493B45000C71E8 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA571A493B45000C71E8 /* MGSwipeButton.m */; };
 		0E86AA5B1A493B45000C71E8 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA591A493B45000C71E8 /* MGSwipeTableCell.m */; };
 		0E86AA5F1A4B38FD000C71E8 /* NeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA5E1A4B38FD000C71E8 /* NeedsViewController.m */; };
@@ -462,6 +464,9 @@
 		0E50F1301A1476FB0048FA27 /* shot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shot@2x.png"; sourceTree = "<group>"; };
 		0E50F1321A1476FB0048FA27 /* shot_h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shot_h@2x.png"; sourceTree = "<group>"; };
 		0E63A7BC1A2626DF0038B1AE /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		0E6C1D981A9557FD000ECA89 /* Ariel white background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Ariel white background.png"; sourceTree = "<group>"; };
+		0E6C1D9A1A958311000ECA89 /* LoginWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginWelcomeViewController.h; sourceTree = "<group>"; };
+		0E6C1D9B1A958311000ECA89 /* LoginWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginWelcomeViewController.m; sourceTree = "<group>"; };
 		0E86AA561A493B45000C71E8 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		0E86AA571A493B45000C71E8 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
 		0E86AA581A493B45000C71E8 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
@@ -1042,8 +1047,6 @@
 			isa = PBXGroup;
 			children = (
 				0E17BEE019FC8BAE0042C4DD /* LaunchScreen.xib */,
-				0EE499891A101A7D0046B3C7 /* Login.storyboard */,
-				0E17BEDB19FC8BAE0042C4DD /* Main.storyboard */,
 				0ECAC39B1A01B820002866DE /* Detail.storyboard */,
 				0E63A7BC1A2626DF0038B1AE /* Chat.storyboard */,
 				0ECAC38B19FF4412002866DE /* ItemCell.xib */,
@@ -1125,6 +1128,7 @@
 		0E17BF4A19FDCDF70042C4DD /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0E17BEDB19FC8BAE0042C4DD /* Main.storyboard */,
 				0E0019D51A0E91CD0086CD77 /* OfferFilterViewController.h */,
 				0E0019D61A0E91CD0086CD77 /* OfferFilterViewController.m */,
 				0E17BF3D19FCA7FF0042C4DD /* HomeViewViewController.h */,
@@ -1147,6 +1151,9 @@
 		0E17BF6519FDFA850042C4DD /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				0EE499891A101A7D0046B3C7 /* Login.storyboard */,
+				0E6C1D9A1A958311000ECA89 /* LoginWelcomeViewController.h */,
+				0E6C1D9B1A958311000ECA89 /* LoginWelcomeViewController.m */,
 				0E17BF6219FDFA7F0042C4DD /* LoginViewController.h */,
 				0E17BF6319FDFA7F0042C4DD /* LoginViewController.m */,
 				0EE4998B1A1024A50046B3C7 /* EditProfileViewController.h */,
@@ -1233,6 +1240,7 @@
 		0EB888271A3820590054F982 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0E6C1D981A9557FD000ECA89 /* Ariel white background.png */,
 				0E92B90B1A78618400B1FB6C /* heart-64.png */,
 				0EFA0ED21A7217DF00A05ABC /* like-48.png */,
 				0EFA0ECE1A72174500A05ABC /* unlike-48.png */,
@@ -1958,6 +1966,7 @@
 				0E17BEE219FC8BAE0042C4DD /* LaunchScreen.xib in Resources */,
 				0E17BF9019FE04800042C4DD /* collections3.png in Resources */,
 				0E28DD6E1A7FFA170025077C /* map-32.png in Resources */,
+				0E6C1D991A9557FD000ECA89 /* Ariel white background.png in Resources */,
 				0E28DD761A7FFA170025077C /* tag-32.png in Resources */,
 				457AC6F31A5C6AF400BFC619 /* title2@2x.png in Resources */,
 				0E03ACC71A1F195500827B6C /* Profile.storyboard in Resources */,
@@ -2172,6 +2181,7 @@
 				0E9DC00C1A40D3EA00685C5C /* NSString+MD5.m in Sources */,
 				0E50F12E1A1452670048FA27 /* UserCartViewController.m in Sources */,
 				0ECAC36A19FF2983002866DE /* readme.md in Sources */,
+				0E6C1D9C1A958311000ECA89 /* LoginWelcomeViewController.m in Sources */,
 				457DA21E1A5E2FD00099E52E /* JSQMessagesMediaPlaceholderView.m in Sources */,
 				0E3BA9AB1A43BEFF002BE988 /* MyCartViewController.m in Sources */,
 				0E28DD8C1A81BEA70025077C /* FollowListCell.m in Sources */,

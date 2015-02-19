@@ -83,8 +83,6 @@
         UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-
-//        UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
      
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         self.window.rootViewController = vc;
@@ -214,34 +212,4 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
-- (void)logout{
-    
-    [[HLCache sharedCache] clear];
-    
-    // clear NSUserDefaults
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kHLUserDefaultsCacheFacebookFriendsKey];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kHlUserDefaultsActivityFeedViewControllerLastRefreshKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    // Unsubscribe from push notifications by removing the user association from the current installation.
-    [[PFInstallation currentInstallation] removeObjectForKey:kHLInstallationUserKey];
-    [[PFInstallation currentInstallation] saveInBackground];
-    
-    // Clear all caches
-    [PFQuery clearAllCachedResults];
-    
-    [PFUser logOut];
-    [FBSession setActiveSession:nil];
-    // Return to login view controller
-    
-    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *homeNav = [mainSb instantiateViewControllerWithIdentifier:@"HomeNavigationController"];
-    homeNav.navigationBar.hidden = YES;
-    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.rootViewController = homeNav;
-    [self.window makeKeyAndVisible];
-
-
-}
 @end
