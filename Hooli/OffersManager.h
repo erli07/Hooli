@@ -37,6 +37,9 @@ typedef void (^UploadFailureBlock) (id error);
 
 -(void)clearData;
 
+-(void)checkIfOfferExist:(NSString *)offerId
+                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
 - (void)uploadImages:(NSArray *)imageArray
          withSuccess:(UploadSuccessBlock)success
          withFailure:(UploadFailureBlock)failure;

@@ -20,14 +20,19 @@
 #import "NeedDetailViewController.h"
 #import "NeedTableViewCell.h"
 #import "HLUtilities.h"
+#import "ActivityManager.h"
 @interface NotificationFeedViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
 @property (nonatomic, strong) UIView *blankView;
+@property (nonatomic, strong) PFUser *toUser;
+@property (nonatomic, strong) NSString *bidPrice;
 @end
 
 @implementation NotificationFeedViewController
 @synthesize lastRefresh,blankView;
 @synthesize notification = _notification;
+@synthesize bidPrice = _bidPrice;
+@synthesize toUser = _toUser;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -98,6 +103,8 @@
         return;
         
     }
+    
+    //[self.tableView reloadData];
 
 }
 
@@ -115,7 +122,6 @@
     [query whereKeyExists:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationToUserKey];
-    [query includeKey:kHLNotificationNeedKey];
     [query includeKey:kHLNotificationOfferKey];
     [query orderByDescending:@"createdAt"];
     
@@ -232,6 +238,10 @@
                                             @"Contact",
                                             @"See offer detail",
                                             nil];
+                    
+                    _bidPrice = [_notification objectForKey:kHLNotificationContentKey];
+                    _toUser = [_notification objectForKey:kHLNotificationFromUserKey];
+                    
                     popup.tag = 1;
                     [popup showInView:[UIApplication sharedApplication].keyWindow];
                 }
@@ -288,6 +298,10 @@
         return NSLocalizedString(@"bid on your item for", nil);
     }else if ([notificationType isEqualToString:khlNotificationTypOfferItem]){
         return NSLocalizedString(@"offer you an item", nil);
+    }else if ([notificationType isEqualToString:khlNotificationTypAcceptOffer]){
+        return NSLocalizedString(@"has accepted your bid", nil);
+    }else if ([notificationType isEqualToString:khlNotificationTypeOfferSold]){
+        return NSLocalizedString(@"Sorry，item has been sold to others.", nil);
     }
     else  {
         return nil;
@@ -303,6 +317,7 @@
                 case 0:
                 {
                     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to accept this bid?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                    
                     
                     alertView.tag = 0;
                     
@@ -389,27 +404,34 @@
             
             PFObject *offer = [_notification objectForKey:kHLNotificationOfferKey];
             
-            [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:offer.objectId
-                                                                 soldStatus:YES
-                                                                      block:^(BOOL succeeded, NSError *error)
-             {
-                 
-                 if(succeeded){
-                     
-                     NSString *userName = [[_notification objectForKey:kHLNotificationFromUserKey]objectForKey:kHLUserModelKeyUserName];
-                     
-                     NSString *message = [NSString stringWithFormat:@"You decide to sell the item to %@, other can't see the item unless you change the status in your items list.", userName];
-                     
-                     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                     
-                     [alertView show];
-                     
-                     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-                 }
-                 
-             }];
-            
-            
+            [[ActivityManager sharedInstance]acceptingOfferWithOffer:offer price:_bidPrice toUser:_toUser block:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    
+                    [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:offer.objectId
+                                                                         soldStatus:YES
+                                                                              block:^(BOOL succeeded, NSError *error)
+                     {
+                         
+                         if(succeeded){
+                             
+                             NSString *userName = [[_notification objectForKey:kHLNotificationFromUserKey]objectForKey:kHLUserModelKeyUserName];
+                             
+                             NSString *message = [NSString stringWithFormat:@"You decide to sell the item to %@, %@ credits has been added to your account.",userName, _bidPrice];
+                             
+                             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations!" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                             
+                             [alertView show];
+                             
+                             [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+                         }
+                         
+                     }];
+                    
+                }
+
+            }];
+                                    
         }
         
     }

@@ -21,4 +21,5 @@
 @property (nonatomic) __block BOOL isLoading;
 @property (nonatomic) NSString *filterDictionaryType;
 @property (nonatomic) BOOL disableRefreshFlag;
+@property (nonatomic) UILabel *noContentLabel;
 @end

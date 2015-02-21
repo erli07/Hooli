@@ -175,16 +175,17 @@
             NSData *imageData = [theImage getData];
             NSString *_email = [object objectForKey:kHLUserModelKeyEmail];
             NSString *_name = [object objectForKey:kHLUserModelKeyUserName];
-            NSString *_chattingId = [object objectForKey:kHLUserModelKeyUserIdMD5];
+        //    NSString *_chattingId = [object objectForKey:kHLUserModelKeyUserIdMD5];
+            NSString *_credits = [object objectForKey:kHLUserModelKeyCredits];
             
             PFFile *_portraitImage = [PFFile fileWithName:@"portrait.jpg" data:imageData];
             [[PFUser currentUser] setObject:_portraitImage forKey:kHLUserModelKeyPortraitImage];
             [[PFUser currentUser] setObject:_email forKey:kHLUserModelKeyEmail];
             [[PFUser currentUser] setObject:_name forKey:kHLUserModelKeyUserName];
-            [[PFUser currentUser] setObject:_chattingId forKey:kHLUserModelKeyUserIdMD5];
+        //    [[PFUser currentUser] setObject:_chattingId forKey:kHLUserModelKeyUserIdMD5];
+            [[PFUser currentUser] setObject:_credits forKey:kHLUserModelKeyCredits];
             
-            
-            _dowloadSuccess(_portraitImage);
+            _dowloadSuccess(object);
             
         }
     }];

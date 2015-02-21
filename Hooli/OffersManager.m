@@ -223,6 +223,32 @@
     self.pageCounter = 0;
 }
 
+-(void)checkIfOfferExist:(NSString *)offerId
+                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query whereKey:kHLOfferModelKeyOfferId equalTo:offerId];
+    [query getObjectInBackgroundWithId:offerId block:^(PFObject *object, NSError *error) {
+       
+        if(object){
+            
+            if (completionBlock) {
+                completionBlock(YES,error);
+            }
+        }
+        else{
+            
+            if (completionBlock) {
+                completionBlock(NO,error);
+            }
+
+        }
+    }];
+
+}
+
+
 -(void)retrieveOffersWithSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure{
     
     

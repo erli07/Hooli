@@ -175,10 +175,10 @@
                 PFObject *offerOriginal = [activity objectForKey:kHLActivityKeyOffer];
                 
                 if(offerOriginal){
-                
-                OfferModel *offerModel = [[OfferModel alloc]initOfferWithPFObject:offerOriginal];
-                
-                [likedOffers addObject:offerModel];
+                    
+                    OfferModel *offerModel = [[OfferModel alloc]initOfferWithPFObject:offerOriginal];
+                    
+                    [likedOffers addObject:offerModel];
                     
                 }
                 
@@ -286,8 +286,8 @@
 
 - (void)getFollowersByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock{
     
-//    _downloadSuccess = success ;
-//    _downloadFailure = failure;
+    //    _downloadSuccess = success ;
+    //    _downloadFailure = failure;
     
     NSMutableArray *followersArray = [NSMutableArray array];
     
@@ -310,7 +310,7 @@
                 
                 completionBlock(followersArray, nil);
             }
-          
+            
             // [[HLCache sharedCache] setLikedOffersByUser:user likedOffers:likedOffers];
         }
         else{
@@ -319,7 +319,7 @@
                 
                 completionBlock(nil, error);
             }
-
+            
             
         }
         
@@ -371,7 +371,7 @@
 
 - (void)getFriendsByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock{
     
-     NSMutableArray *friendsArray = [NSMutableArray array];
+    NSMutableArray *friendsArray = [NSMutableArray array];
     
     PFQuery *followeeQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
     [followeeQuery whereKey:kHLNotificationFromUserKey equalTo:user];
@@ -399,7 +399,7 @@
                 
                 completionBlock(friendsArray, nil);
             }
-
+            
             
         }
         else{
@@ -408,7 +408,7 @@
                 
                 completionBlock(nil, error);
             }
-
+            
             
         }
         
@@ -474,7 +474,21 @@
         
     }];
     
+    
+}
 
+-(BOOL)checkBalanceStatus:(NSString *)offeredPrice{
+    
+    NSInteger _offeredPrice = [[self strRemovePrefix:offeredPrice] integerValue];
+    
+    NSInteger _currentBalance = [[self strRemovePrefix:[[PFUser currentUser]objectForKey:kHLUserModelKeyCredits]] integerValue];
+    
+    if (_currentBalance - _offeredPrice < 0) {
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 
@@ -488,10 +502,19 @@
     [queryExistingMakeOffer includeKey:kHLNotificationToUserKey];
     [queryExistingMakeOffer setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryExistingMakeOffer findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
-//        
+        //
         if (!error) {
-            for (PFObject *activity in activities) {
-                [activity deleteInBackground];
+            for (PFObject *object in activities) {
+                
+                [self updateCreditsForUser:[object objectForKey:kHLNotificationToUserKey] price:price type:khlNotificationAddValue block:^(BOOL succeeded, NSError *error) {
+                    
+                    if(succeeded){
+                        
+                        [object deleteInBackground];
+                        
+                    }
+                    
+                }];
             }
         }
         
@@ -499,33 +522,319 @@
         
         PFUser *toUser = (PFUser *)offerObject.user;
         
-        PFObject *activity = [PFObject objectWithClassName:kHLCloudNotificationClass];
-        [activity setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.offerId] forKey:kHLNotificationOfferKey];
-        [activity setObject:toUser forKey:kHLNotificationToUserKey];
-        [activity setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
-        [activity setObject:khlNotificationTypMakeOffer forKey:kHLNotificationTypeKey];
-        [activity setObject:price forKey:kHLNotificationContentKey];
+        PFObject *notificationFeedObject = [PFObject objectWithClassName:kHLCloudNotificationClass];
+        [notificationFeedObject setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.offerId] forKey:kHLNotificationOfferKey];
+        [notificationFeedObject setObject:toUser forKey:kHLNotificationToUserKey];
+        [notificationFeedObject setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+        [notificationFeedObject setObject:khlNotificationTypMakeOffer forKey:kHLNotificationTypeKey];
+        [notificationFeedObject setObject:price forKey:kHLNotificationContentKey];
         
         //                [likeActivity setObject:[[PFUser currentUser]objectId ] forKey:kHLActivityKeyUser];
         PFACL *aACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [aACL setPublicReadAccess:YES];
         [aACL setWriteAccess:YES forUser:[PFUser currentUser]];
-        activity.ACL = aACL;
+        notificationFeedObject.ACL = aACL;
         
-        [activity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (completionBlock) {
-                completionBlock(succeeded,error);
-                if(succeeded){
-                    NSLog(@"Make offer success");
-                }
+        [notificationFeedObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            
+            if(succeeded){
                 
+                [self updateCreditsForUser:[PFUser currentUser] price:price type:khlNotificationSubValue block:^(BOOL succeeded, NSError *error) {
+                    
+                    if (completionBlock) {
+                        completionBlock(succeeded,error);
+                        
+                        NSLog(@"Make offer success");
+                    }
+                    
+                }];
             }
             
         }];
         
     }];
-
+    
 }
+
+
+-(void)updateCreditsValueForAllWithOffer:(PFObject *)offerObject
+                                  toUser:(PFUser *)toUser
+                                   price:(NSString *)price
+                                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    
+    PFQuery *query =  [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [query whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.objectId]];
+    //[query whereKey:kHLNotificationFromUserKey equalTo:toUser];
+    [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+    //  [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypAcceptOffer];
+    [query includeKey:kHLNotificationToUserKey];
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *notifications, NSError *error) {
+        //
+        if (!error && [notifications count] != 0) {
+            for (PFObject *notif in notifications) {
+                
+                if([[notif objectForKey:kHLNotificationTypeKey] isEqual:[notif objectForKey:khlNotificationTypMakeOffer]]){
+                    
+                    if(![[notif objectForKey:kHLNotificationFromUserKey] isEqual:toUser]){
+                        
+                        [self updateCreditsForUser:toUser price:[notif objectForKey:kHLNotificationContentKey] type:khlNotificationAddValue block:^(BOOL succeeded, NSError *error) {
+                            
+                            if(succeeded){
+                                
+                                [notif deleteInBackground];
+                                
+                            }
+                            
+                        }];
+                        
+                    }
+                    
+                }
+            }
+            
+            [self updateCreditsForUser:[PFUser currentUser] price:price type:khlNotificationAddValue block:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    
+                    if (completionBlock) {
+                        completionBlock(YES,error);
+                    }
+                }
+                
+                
+            }];
+            
+            
+        }
+        else{
+            
+            if (completionBlock) {
+                completionBlock(NO,error);
+            }
+            
+            
+        }
+    }];
+    
+}
+
+-(void)updateCreditsForUser:(PFUser *)user
+                      price:(NSString *)price
+                       type:(NSString *)type
+                      block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    if([type isEqual:khlNotificationSubValue]){
+        
+        NSString *myCredits = [user objectForKey:kHLUserModelKeyCredits];
+        NSInteger updatedCredits = [[self strRemovePrefix:myCredits] integerValue] - [[self strRemovePrefix:price] integerValue];
+        [user setObject:[NSString stringWithFormat:@"$%@",[NSNumber numberWithInteger:updatedCredits] ]forKey:kHLUserModelKeyCredits];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            
+            if(succeeded){
+                
+                if (completionBlock) {
+                    completionBlock(YES,error);
+                }
+            }
+            
+        }];
+    }
+    else if([type isEqual:khlNotificationAddValue]){
+        
+        NSString *myCredits = [user objectForKey:kHLUserModelKeyCredits];
+        NSInteger updatedCredits = [[self strRemovePrefix:myCredits] integerValue] + [[self strRemovePrefix:price] integerValue];
+        [user setObject:[NSString stringWithFormat:@"$%@",[NSNumber numberWithInteger:updatedCredits] ]forKey:kHLUserModelKeyCredits];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            
+            if(succeeded){
+                
+                if (completionBlock) {
+                    completionBlock(YES,error);
+                }
+            }
+            
+        }];
+        
+    }
+    
+    
+    
+}
+
+
+-(NSString *)strRemovePrefix:(NSString *)originalString{
+    
+    NSString *prefixToRemove = @"$";
+    NSString *newString = [originalString copy];
+    if ([originalString hasPrefix:prefixToRemove])
+        newString = [originalString substringFromIndex:[prefixToRemove length]];
+    return newString;
+    
+}
+
+
+-(void)acceptingOfferWithOffer:(PFObject *)offer
+                         price:(NSString *)price
+                        toUser:(PFUser *) toUser
+                         block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    
+    PFQuery *queryExistingAcceptOffer = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [queryExistingAcceptOffer whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.objectId]];
+    [queryExistingAcceptOffer whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
+    [queryExistingAcceptOffer includeKey:kHLNotificationToUserKey];
+    [queryExistingAcceptOffer setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryExistingAcceptOffer findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+        
+        if (!error) {
+            for (PFObject *object in activities) {
+                
+                [object deleteInBackground];
+                
+            }
+        }
+        
+        PFObject *acceptOfferObject = [PFObject objectWithClassName:kHLCloudNotificationClass];
+        [acceptOfferObject setObject:price forKey:kHLNotificationContentKey];
+        [acceptOfferObject setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+        [acceptOfferObject setObject:toUser forKey:kHLNotificationToUserKey];
+        [acceptOfferObject setObject:khlNotificationTypAcceptOffer forKey:kHLNotificationTypeKey];
+        [acceptOfferObject setObject:offer forKey:kHLNotificationOfferKey];
+        
+        PFACL *aACL = [PFACL ACLWithUser:[PFUser currentUser]];
+        [aACL setPublicReadAccess:YES];
+        [aACL setWriteAccess:YES forUser:[PFUser currentUser]];
+        acceptOfferObject.ACL = aACL;
+        
+        [acceptOfferObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            
+            if(succeeded){
+                
+                [self updateCreditsValueForAllWithOffer:offer toUser:toUser price:price block:^(BOOL succeeded, NSError *error) {
+                    
+                    if(succeeded){
+                        
+                        [self notifyOthersItemHasBeenSoldWithOffer:offer byUser:toUser block:NULL];
+                        
+                        
+                        if (completionBlock) {
+                            completionBlock(YES,error);
+                        }
+                        
+                    }
+                    
+                }];
+            }
+            
+        }];
+        
+    }];
+    
+}
+
+
+-(void)notifyOthersItemHasBeenSoldWithOffer:(PFObject *)offer
+                                     byUser:(PFUser *) toUser
+                                      block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
+    
+    PFQuery *bidQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [bidQuery whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.objectId]];
+    [bidQuery whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+    [bidQuery includeKey:kHLNotificationToUserKey];
+    [bidQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+    [bidQuery findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+        
+        if (!error) {
+            
+            for (PFObject *object in activities) {
+                
+                if(![[object objectForKey:kHLNotificationToUserKey] isEqual:toUser ]){
+                    
+                    PFObject *soldObject = [PFObject objectWithClassName:kHLCloudNotificationClass];
+                    [soldObject setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+                    [soldObject setObject:[object objectForKey:kHLNotificationToUserKey] forKey:kHLNotificationToUserKey];
+                    [soldObject setObject:khlNotificationTypeOfferSold forKey:kHLNotificationTypeKey];
+                    [soldObject setObject:offer forKey:kHLNotificationOfferKey];
+                    
+                    PFACL *aACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                    [aACL setPublicReadAccess:YES];
+                    [aACL setWriteAccess:YES forUser:[PFUser currentUser]];
+                    soldObject.ACL = aACL;
+                    
+                    [soldObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        
+                        if(succeeded){
+                            
+                            [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                
+                                if(succeeded){
+                                    
+                                    if (completionBlock) {
+                                        completionBlock(YES,error);
+                                    }
+                                    
+                                    
+                                }
+                            }];
+                        }
+                    }];
+                }
+            }
+        }
+        
+    }];
+    
+    
+    
+}
+
+-(void)returnCreditsWithOffer:(PFObject *)offer{
+    
+    
+    PFQuery *addQuery =  [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [addQuery whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.objectId]];
+    [addQuery whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+    [addQuery includeKey:kHLNotificationToUserKey];
+    [addQuery includeKey:kHLNotificationFromUserKey];
+    
+    [addQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+    [addQuery findObjectsInBackgroundWithBlock:^(NSArray *notifications, NSError *error) {
+        
+        for (PFObject *notif in notifications) {
+            
+            PFUser *user = [notif objectForKey:kHLNotificationFromUserKey];
+            [self updateCreditsForUser:user price:[notif objectForKey:kHLNotificationContentKey] type:khlNotificationAddValue block:NULL];
+            
+            [notif deleteInBackground];
+        }
+        
+    }];
+    
+    PFQuery *subQuery =  [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [subQuery whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.objectId]];
+    [subQuery whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypAcceptOffer];
+    [subQuery includeKey:kHLNotificationToUserKey];
+    [subQuery includeKey:kHLNotificationFromUserKey];
+    
+    [subQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+    [subQuery findObjectsInBackgroundWithBlock:^(NSArray *notifications, NSError *error) {
+        
+        for (PFObject *notif in notifications) {
+            
+            PFUser *user = [notif objectForKey:kHLNotificationFromUserKey];
+            [self updateCreditsForUser:user price:[notif objectForKey:kHLNotificationContentKey] type:khlNotificationSubValue block:NULL];
+            
+            [notif deleteInBackground];
+        }
+        
+    }];
+    
+    
+}
+
+
 -(void)isOfferAlreadyMadeByCurrentUser:(OfferModel *)offerObject
                                  block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     

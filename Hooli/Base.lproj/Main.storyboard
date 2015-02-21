@@ -94,33 +94,6 @@
             </objects>
             <point key="canvasLocation" x="75" y="-1361"/>
         </scene>
-        <!--Notifications View Controller-->
-        <scene sceneID="p1r-Fd-X4P">
-            <objects>
-                <tableViewController id="6md-Rn-Ihh" customClass="NotificationsViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="JO4-0z-2L2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotificationFeedCell" id="EgB-Pi-HJf" customClass="NotificationTableViewCell">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EgB-Pi-HJf" id="Nw9-Fe-ch4">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="6md-Rn-Ihh" id="PgN-Cn-AoY"/>
-                            <outlet property="delegate" destination="6md-Rn-Ihh" id="ZQ0-DN-Xdb"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="kQi-AS-NEF"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SrX-NF-Ubl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="459" y="-1434"/>
-        </scene>
         <!--Notifications-->
         <scene sceneID="i0x-7O-yin">
             <objects>
@@ -269,6 +242,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cmA-sI-ixX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1262" y="-3085"/>
+        </scene>
+        <!--My Credits History View Controller-->
+        <scene sceneID="6C5-I9-oqP">
+            <objects>
+                <tableViewController id="Fku-Rp-3Kj" customClass="MyCreditsHistoryViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VCl-EC-9gc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="Fku-Rp-3Kj" id="Joo-Ds-nwg"/>
+                            <outlet property="delegate" destination="Fku-Rp-3Kj" id="0Gq-mI-vTn"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="API-jv-9jw"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TPw-aT-ntc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1011" y="-4641"/>
         </scene>
         <!--My Cart View Controller-->
         <scene sceneID="HuB-Dz-i9h">
@@ -723,6 +715,7 @@
                         <outlet property="settingTableView" destination="Pco-0W-OmQ" id="hdi-ao-b1R"/>
                         <segue destination="S6K-hW-maZ" kind="push" id="Plm-Dy-4QV"/>
                         <segue destination="YjB-oi-gJ1" kind="push" identifier="myItems" id="kIG-7t-Ujj"/>
+                        <segue destination="Fku-Rp-3Kj" kind="push" identifier="myCredits" id="Gdb-pD-X1q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wbG-Bk-UZ8" userLabel="First Responder" sceneMemberID="firstResponder"/>

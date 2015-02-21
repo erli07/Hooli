@@ -84,7 +84,7 @@
     
     [self setNavBarVisible:YES animated:NO];
     
-   // [self refreshOfferDetailsFromCloud];
+    // [self refreshOfferDetailsFromCloud];
 }
 
 
@@ -152,11 +152,11 @@
             [[OffersManager sharedInstance]fetchOfferByID:self.offerId
                                               withSuccess:^(id downloadObject) {
                                                   
-                                                      self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
-                                                      
-                                                      [self updateOfferDetailInfo:self.offerObject];
-                                                      
-                                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                  self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
+                                                  
+                                                  [self updateOfferDetailInfo:self.offerObject];
+                                                  
+                                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                                                   
                                               } failure:^(id error) {
                                                   
@@ -216,12 +216,12 @@
             [[OffersManager sharedInstance]fetchOfferByID:self.offerId
                                               withSuccess:^(id downloadObject) {
                                                   
-                                                      self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
-                                                      
-                                                      [self updateOfferDetailInfo:self.offerObject];
-                                                      
-                                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                                      
+                                                  self.offerObject = [[OfferModel alloc]initOfferDetailsWithPFObject:(PFObject *)downloadObject];
+                                                  
+                                                  [self updateOfferDetailInfo:self.offerObject];
+                                                  
+                                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                  
                                                   
                                               } failure:^(id error) {
                                                   
@@ -240,40 +240,40 @@
 - (IBAction)makeOffer:(id)sender {
     
     //---------------------------------------------------------------------------------------------------------------------------------------------
-//    PFUser *user1 = [PFUser currentUser];
-//    
-//    NSString *user2_Id = self.offerObject.user.objectId;
-//    
-//    
-//    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
-//        
-//        
-//        PFUser *user2 = (PFUser *)object;
-//        NSString *roomId = StartPrivateChat(user1, user2);
-//        ChatView *chatView = [[ChatView alloc] initWith:roomId];
-//        chatView.toUser = user2;
-//        chatView.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:chatView animated:YES];
-//        
-//    } failure:^(id error) {
-//        
-//    }];
+    //    PFUser *user1 = [PFUser currentUser];
+    //
+    //    NSString *user2_Id = self.offerObject.user.objectId;
+    //
+    //
+    //    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
+    //
+    //
+    //        PFUser *user2 = (PFUser *)object;
+    //        NSString *roomId = StartPrivateChat(user1, user2);
+    //        ChatView *chatView = [[ChatView alloc] initWith:roomId];
+    //        chatView.toUser = user2;
+    //        chatView.hidesBottomBarWhenPushed = YES;
+    //        [self.navigationController pushViewController:chatView animated:YES];
+    //
+    //    } failure:^(id error) {
+    //
+    //    }];
     
     
     
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
     
-        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     
-        UITextField* tf = [alertView textFieldAtIndex:0];
+    UITextField* tf = [alertView textFieldAtIndex:0];
     
-        tf.text = self.offerObject.offerPrice;
+    tf.text = self.offerObject.offerPrice;
     
-        tf.keyboardType = UIKeyboardTypeNumberPad;
+    tf.keyboardType = UIKeyboardTypeNumberPad;
     
-        alertView.tag = priceIndex;
+    alertView.tag = priceIndex;
     
-        [alertView show];
+    [alertView show];
     
 }
 
@@ -285,12 +285,12 @@
         
         if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
             
-//            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-//                                               initWithTitle:@"Edit"
-//                                               style:UIBarButtonItemStyleDone
-//                                               target:self
-//                                               action:@selector(redirectToEditPage)];
-//            self.navigationItem.rightBarButtonItem = rightBarButton;
+            //            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+            //                                               initWithTitle:@"Edit"
+            //                                               style:UIBarButtonItemStyleDone
+            //                                               target:self
+            //                                               action:@selector(redirectToEditPage)];
+            //            self.navigationItem.rightBarButtonItem = rightBarButton;
             
         }
         
@@ -448,7 +448,7 @@
     self.navigationController.navigationBar.hidden = NO;
     self.title = @"Item Detail";
     
-   // [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
+    // [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
     // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
     self.offerDetailView.bounces = YES;
     [self.offerDetailView setBackgroundColor:[UIColor whiteColor]];
@@ -482,17 +482,17 @@
     
     if(self.isFirstPosted){
         
-
+        
         
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"Cancel"
-                                       style:UIBarButtonItemStyleBordered
-                                       target:self
-                                       action:@selector(goToHomePage)];
+                                         initWithTitle:@"Cancel"
+                                         style:UIBarButtonItemStyleBordered
+                                         target:self
+                                         action:@selector(goToHomePage)];
         self.navigationItem.leftBarButtonItem = cancelButton;
-    
-    
-    
+        
+        
+        
     }
     
 }
@@ -504,7 +504,7 @@
     [self presentViewController:vc animated:YES completion:^{
         
     }];
-
+    
 }
 
 -(void)seeItemOwner{
@@ -555,7 +555,7 @@
     
     CGFloat scrollHeight = self.scrollView.bounds.size.height; // -20;
     CGFloat padding = (self.scrollView.bounds.size.width - scrollHeight) / 2;
-
+    
     for (UIImage *image in imagesArray) {
         
         CGRect frame = CGRectMake(scrollContentWidth + padding  , (self.scrollView.bounds.size.height - scrollHeight)/2, 320, 260);
@@ -609,24 +609,34 @@
             
             NSString *price = [alertView textFieldAtIndex:0].text;
             
-            [[ActivityManager sharedInstance]makeOfferToOffer:self.offerObject withPrice:price block:^(BOOL succeeded, NSError *error) {
+            if(![[ActivityManager sharedInstance]checkBalanceStatus:price]){
                 
-                if (succeeded) {
-                    
-                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations" message:@"Succesfully made offer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    
-                    [alertView show];
-                }
-                else{
-                    
-                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry..." message:@"Some problems occurs. Fail to make offer." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    
-                    [alertView show];
-                }
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"Your balance is not enough." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                
+                [alertView show];
                 
                 
-            }];
-            
+            }
+            else{
+                
+                [[ActivityManager sharedInstance]makeOfferToOffer:self.offerObject withPrice:price block:^(BOOL succeeded, NSError *error) {
+                    
+                    if (succeeded) {
+                        
+                        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations" message:@"Succesfully made offer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        
+                        [alertView show];
+                    }
+                    else{
+                        
+                        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry..." message:@"Some problems occurs. Fail to make offer." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        
+                        [alertView show];
+                    }
+                    
+                    
+                }];
+            }
         }
     }
     
@@ -643,32 +653,32 @@
     NSString *user2_Id = self.offerObject.user.objectId;
     
     
-//    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
-//        
-//        
-//        PFUser *user2 = (PFUser *)object;
-//        
-//        [[ActivityManager sharedInstance]unFollowUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
-//            
-//            //            [[ActivityManager sharedInstance]getFollowersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-//            //
-//            //            } Failure:^(id error) {
-//            //
-//            //            }];
-//            //
-//            //
-//            //            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
-//            //
-//            //            } Failure:^(id error) {
-//            //
-//            //            }];
-//            
-//        }];
-//        
-//        
-//    } failure:^(id error) {
-//        
-//    }];
+    //    [[AccountManager sharedInstance]fetchUserWithUserId:user2_Id success:^(id object) {
+    //
+    //
+    //        PFUser *user2 = (PFUser *)object;
+    //
+    //        [[ActivityManager sharedInstance]unFollowUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
+    //
+    //            //            [[ActivityManager sharedInstance]getFollowersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+    //            //
+    //            //            } Failure:^(id error) {
+    //            //
+    //            //            }];
+    //            //
+    //            //
+    //            //            [[ActivityManager sharedInstance]getFollowedUsersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+    //            //
+    //            //            } Failure:^(id error) {
+    //            //
+    //            //            }];
+    //
+    //        }];
+    //
+    //
+    //    } failure:^(id error) {
+    //
+    //    }];
     
     
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];

@@ -633,16 +633,18 @@ static NSString * const reuseIdentifier = @"Cell";
         
         [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
         
-        if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
-            
-            [self.collectionView updateDataFromCloud];
-            
-        }
-        else{
-            
-            self.collectionView.hidden = YES;
-            
-        }
+        [self.collectionView updateDataFromCloud];
+
+        
+//        if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
+//            
+//            
+//        }
+//        else{
+//            
+//            self.collectionView.hidden = YES;
+//            
+//        }
         
     }
 }

@@ -29,11 +29,12 @@
 @property (nonatomic,strong) UILabel *nameLabel;
 @property (nonatomic,strong) UIButton *logoutButton;
 @property (nonatomic) NeedTableViewController *needsViewController;
+@property (nonatomic,strong) NSString *myCredtis;
 
 @end
 
 @implementation MyProfileViewController
-@synthesize needsViewController;
+@synthesize needsViewController,myCredtis;
 
 - (void)viewDidLoad {
     
@@ -86,15 +87,30 @@
 #pragma mark -
 #pragma mark Data
 
-// Set received values if they are not nil and reload the table
+// Set received values if they are not nil and reload the tabl ta
 - (void)updateProfileData {
     
-    
-    PFUser *user = [PFUser currentUser];
-    PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
-    NSData *imageData = [theImage getData];
-    self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
-    self.profilePictureView.image = [UIImage imageWithData:imageData];
+    [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
+        
+        PFUser *user = [PFUser currentUser];
+        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+        NSData *imageData = [theImage getData];
+        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+        self.profilePictureView.image = [UIImage imageWithData:imageData];
+        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
+        [self.settingTableView reloadData];
+
+    } Failure:^(id error) {
+        
+        PFUser *user = [PFUser currentUser];
+        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+        NSData *imageData = [theImage getData];
+        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+        self.profilePictureView.image = [UIImage imageWithData:imageData];
+        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
+        [self.settingTableView reloadData];
+
+    }];
     
 }
 
@@ -108,21 +124,27 @@
     if(indexPath.section == 0){
         
         if(indexPath.row == 0){
-
-            [self performSegueWithIdentifier:@"myItems" sender:self];
+            
+            [self performSegueWithIdentifier:@"myCredits" sender:self];
             
         }
         else if(indexPath.row == 1){
             
-            self.needsViewController = [[NeedTableViewController alloc]init];
-            
-            self.needsViewController.user = [PFUser currentUser];
-            
-            self.needsViewController.hidesBottomBarWhenPushed = YES;
-            
-            [self.navigationController pushViewController:needsViewController animated:YES];
-
+            [self performSegueWithIdentifier:@"myItems" sender:self];
+       
         }
+
+//        else if(indexPath.row == 1){
+//            
+//            self.needsViewController = [[NeedTableViewController alloc]init];
+//            
+//            self.needsViewController.user = [PFUser currentUser];
+//            
+//            self.needsViewController.hidesBottomBarWhenPushed = YES;
+//            
+//            [self.navigationController pushViewController:needsViewController animated:YES];
+//
+//        }
 
     }
     else if(indexPath.section == 1){
@@ -203,14 +225,13 @@
         
         if(indexPath.row == 0){
             
-            cell.textLabel.text = @"My Items";
-            
+            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
+         
         }
-//        else if(indexPath.row == 1){
-//            
-//            cell.textLabel.text = @"My Needs";
-//            
-//        }
+        else if(indexPath.row == 1){
+            
+               cell.textLabel.text = @"My Items";
+        }
 
 
         
@@ -245,7 +266,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 1;
+        return 2;
     else if(section == 1)
         return 2;
     else

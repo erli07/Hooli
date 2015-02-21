@@ -66,7 +66,7 @@ NSString *const kHLUserModelKeyUserId = @"objectId";
 NSString *const kHLUserModelKeyPassword = @"password";
 NSString *const kHLUserModelKeyUserIdMD5 = @"objectId_MD5";
 NSString *const kHLUserFacebookIDKey = @"facebookId";
-
+NSString *const kHLUserModelKeyCredits = @"credits";
 
 
 NSString *const kHLOfferModelKeyImage = @"image";
@@ -107,10 +107,20 @@ NSString *const kHLCloudNotificationClass = @"Notification";
 NSString *const kHLCloudUserClass = @"_User";
 NSString *const kHLCloudActivityClass = @"Activity";
 NSString *const kHLCloudOfferImagesClass = @"OfferImages";
+NSString *const kHLCloudCreditsClass = @"Credits";
 
 
 NSString *const kHLActivityKeyOffer = @"offer";
 NSString *const kHLActivityKeyUser = @"user";
+
+NSString *const kHLCreditsKeyFromUser = @"fromUser";
+NSString *const kHLCreditsKeyToUser = @"toUser";
+NSString *const kHLCreditsKeyOffer = @"offer";
+NSString *const kHLCreditsKeyType = @"type";
+NSString *const kHLCreditsKeyCreditsValue = @"credits";
+
+NSString *const kHLCreditsKeyTypeEarn = @"earn";
+NSString *const kHLCreditsKeyTypeSpend = @"spend";
 
 NSString *const kHLCommentTypeKey = @"type";
 NSString *const kHLCommentTypeOffer = @"offer";
@@ -142,9 +152,16 @@ NSString *const kHLNotificationTypeOfferComment    = @"offerComment";
 NSString *const kHLNotificationTypeNeedComment    = @"needComment";
 NSString *const kHLNotificationTypeJoined     = @"joined";
 NSString *const khlNotificationTypMakeOffer     = @"make offer";
+NSString *const khlNotificationTypAcceptOffer     = @"accept offer";
+NSString *const khlNotificationTypeOfferSold     = @"offer sold";
+
 NSString *const khlNotificationTypOfferItem     = @"Offer Item";
 
+NSString *const khlNotificationAddValue     = @"add";
+NSString *const khlNotificationSubValue     = @"sub";
+
 NSString *const khlOfferImagesOfferKey     = @"offer";
+
 
 //Cache
 NSString *const kHLUserAttributesIsFollowedByCurrentUserKey    = @"isFollowedByCurrentUser";

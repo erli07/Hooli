@@ -48,12 +48,27 @@ typedef void (^UploadFailureBlock) (id error);
 - (void)getUserRelationshipWithUserOne:(PFUser *)user1
                                UserTwo:(PFUser *)user2
                              WithBlock:(void (^)(RelationshipType relationType, NSError *error))completionBlock;
+
+
+-(BOOL)checkBalanceStatus:(NSString *)offeredPrice;
+
 - (void)makeOfferToOffer:(OfferModel *)offerObject
                withPrice:(NSString *)price
                    block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
+-(void)acceptingOfferWithOffer:(PFObject *)offer
+                         price:(NSString *)price
+                        toUser:(PFUser *) toUser
+                         block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
+-(void)updateCreditsValueForAllWithOffer:(PFObject *)offerObject
+                                  toUser:(PFUser *)toUser
+                                   price:(NSString *)price
+                                   block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
 -(void)isOfferAlreadyMadeByCurrentUser:(OfferModel *)offerObject
                                  block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
+-(void)returnCreditsWithOffer:(PFObject *)offer;
 
 @end

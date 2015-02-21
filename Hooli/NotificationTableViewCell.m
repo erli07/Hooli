@@ -125,6 +125,17 @@ static TTTTimeIntervalFormatter *timeFormatter;
         activityString  = [NSString stringWithFormat:@"%@ %@", activityString,[notification objectForKey:kHLNotificationContentKey]];
         
     }
+    else if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:khlNotificationTypAcceptOffer]){
+        
+        activityString  = [NSString stringWithFormat:@"%@ %@", activityString,[notification objectForKey:kHLNotificationContentKey]];
+
+    }
+    else if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:khlNotificationTypeOfferSold]){
+        
+        
+        activityString  = [NSString stringWithFormat:@"%@", activityString];
+
+    }
     
     self.user = [notification objectForKey:kHLNotificationFromUserKey];
     

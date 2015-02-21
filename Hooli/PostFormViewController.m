@@ -146,7 +146,8 @@
     else if(indexPath.section == 2){
         
         FormDetailViewController* vc = [sb instantiateViewControllerWithIdentifier:@"FormDetailViewController"];
-        vc.itemPrice = [NSString stringWithFormat:@"$%@",[_detailsArray objectAtIndex:indexPath.section]];
+        vc.itemPrice = [NSString stringWithFormat:@"%@",[_detailsArray objectAtIndex:indexPath.section]];
+        
         vc.detailType = HL_ITEM_DETAIL_PRICE;
         vc.title = @"Price";
         [self.navigationController pushViewController:vc animated:YES];

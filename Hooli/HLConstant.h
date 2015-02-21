@@ -103,6 +103,7 @@ extern NSString *const kHLUserModelKeyUserIdMD5;
 extern NSString *const kHLUserModelKeyGender;
 extern NSString *const kHLUserModelKeyPhoneNumber;
 extern NSString *const kHLUserModelKeyWechatNumber;
+extern NSString *const kHLUserModelKeyCredits;
 extern NSString *const kHLUserFacebookIDKey;
 
 extern NSString *const kHLOfferModelKeyImage;
@@ -140,6 +141,7 @@ extern NSString *const kHLCloudItemNeedClass;
 extern NSString *const kHLCloudNeedClass;
 extern NSString *const kHLCloudUserClass;
 extern NSString *const kHLCloudOfferImagesClass;
+extern NSString *const kHLCloudCreditsClass;
 
 extern NSString *const kHLActivityKeyOffer;
 extern NSString *const kHLActivityKeyUser;
@@ -172,6 +174,10 @@ extern NSString *const kHLNotificationTypeNeedComment;
 extern NSString *const kHLNotificationTypeJoined;
 extern NSString *const khlNotificationTypMakeOffer;
 extern NSString *const khlNotificationTypOfferItem;
+extern NSString *const khlNotificationTypAcceptOffer;
+extern NSString *const khlNotificationAddValue;
+extern NSString *const khlNotificationSubValue;
+extern NSString *const khlNotificationTypeOfferSold;
 
 extern NSString *const khlOfferImagesOfferKey;
 
@@ -187,6 +193,16 @@ extern NSString *const kHLUserDefaultsCacheFacebookFriendsKey;
 extern NSString *const kHLLoadFeedObjectsNotification;
 extern NSString *const kHLLoadMessageObjectsNotification;
 extern NSString *const kHLShowCameraViewNotification;
+
+extern NSString *const kHLCreditsKeyFromUser;
+extern NSString *const kHLCreditsKeyToUser;
+extern NSString *const kHLCreditsKeyOffer;
+extern NSString *const kHLCreditsKeyType;
+extern NSString *const kHLCreditsKeyCreditsValue;
+
+extern NSString *const kHLCreditsKeyTypeEarn;
+extern NSString *const kHLCreditsKeyTypeSpend;
+
 #pragma mark - Cached User Attributes
 // keys
 extern NSString *const kHLUserAttributesIsFollowedByCurrentUserKey;

@@ -23,7 +23,7 @@ static NSString * const reuseIdentifier = @"Cell";
     MBProgressHUD *HUD;
 }
 
-@synthesize refreshControl, objectDataSource,isLoading,filterDictionaryType,disableRefreshFlag;
+@synthesize refreshControl, objectDataSource,isLoading,filterDictionaryType,disableRefreshFlag,noContentLabel;
 -(id)init{
     
     if(!self){
@@ -59,6 +59,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSLog(@"Start loading" );
     
+    [self.noContentLabel removeFromSuperview];
+    
     if (!self.disableRefreshFlag) {
         
         [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
@@ -78,7 +80,6 @@ static NSString * const reuseIdentifier = @"Cell";
                     
                     [self addNoContentView];
                     
-                    return;
                 }
                 
                 self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
@@ -118,8 +119,6 @@ static NSString * const reuseIdentifier = @"Cell";
         
         [self updateDataFromCloud];
         
-        
-        
         [self.refreshControl endRefreshing];
         
     }
@@ -143,7 +142,6 @@ static NSString * const reuseIdentifier = @"Cell";
         
         [self addNoContentView];
         
-        return;
     }
     
     self.objectDataSource = [[NSMutableArray alloc]initWithArray:offers];
@@ -194,11 +192,15 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)addNoContentView{
     
-    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
-    noContentLabel.text = @"No offers at the moment";
-    noContentLabel.textColor = [UIColor lightGrayColor];
-    noContentLabel.font = [UIFont systemFontOfSize:17.0f];
-    noContentLabel.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:noContentLabel];
+    self.noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    self.noContentLabel.text = @"No offers at the moment";
+    self.noContentLabel.textColor = [UIColor lightGrayColor];
+    self.noContentLabel.font = [UIFont systemFontOfSize:17.0f];
+    self.noContentLabel.textAlignment = NSTextAlignmentCenter;
+    
+    UIView *contentView = [[UIView alloc]initWithFrame:self.frame];
+    [contentView setBackgroundColor:[UIColor whiteColor]];
+    [contentView addSubview:noContentLabel];
+    [self addSubview:self.noContentLabel];
 }
 @end

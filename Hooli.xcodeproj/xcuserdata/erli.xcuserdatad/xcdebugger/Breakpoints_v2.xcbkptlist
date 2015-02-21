@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "445796056.484907"
+            timestampString = "446158443.941072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333">
+            startingLineNumber = "354"
+            endingLineNumber = "354">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -376,11 +376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "445796056.484907"
+            timestampString = "446158443.941072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337">
+            startingLineNumber = "358"
+            endingLineNumber = "358">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -390,11 +390,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "445796056.484907"
+            timestampString = "446158443.941072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413">
+            startingLineNumber = "434"
+            endingLineNumber = "434">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -435,13 +435,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hooli/OffersManager.m"
-            timestampString = "445938001.493416"
+            filePath = "Hooli/ActivityManager.m"
+            timestampString = "446144125.436872"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
-            landmarkName = "-compressImage:WithCompression:"
+            startingLineNumber = "613"
+            endingLineNumber = "613"
+            landmarkName = "-updateCreditsValueForAllWithOffer:toUser:price:block:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

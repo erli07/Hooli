@@ -91,6 +91,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
     
+    [[HLSettings sharedInstance]setShowSoldItems:YES];
+    
     [self.collectionView updateDataFromCloud];
     
 }
@@ -173,14 +175,10 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if(buttonIndex == 0){
         
-        [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
-            
-            [self getGivingItems];
-            
-            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-            
-        }];
         
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to mark this item as unsold? All the credits you have earned will be returned." delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        
+        [alertView show];
         
         
     }
@@ -196,6 +194,29 @@ static NSString * const reuseIdentifier = @"Cell";
         
     }
     
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    
+  if(buttonIndex== 1){
+      
+      
+      [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
+          
+          //return all credits
+          [[ActivityManager sharedInstance]returnCreditsWithOffer:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_currentOfferId]];
+          
+          [self getGivingItems];
+          
+          [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+          
+      }];
+      
+  }
+    
+  
 }
 
 #pragma scrollview delegate
