@@ -532,8 +532,7 @@
         //                [likeActivity setObject:[[PFUser currentUser]objectId ] forKey:kHLActivityKeyUser];
         PFACL *aACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [aACL setPublicReadAccess:YES];
-        [aACL setWriteAccess:YES forUser:[PFUser currentUser]];
-        notificationFeedObject.ACL = aACL;
+        [aACL setPublicWriteAccess:YES];
         
         [notificationFeedObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
@@ -705,8 +704,7 @@
         
         PFACL *aACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [aACL setPublicReadAccess:YES];
-        [aACL setWriteAccess:YES forUser:[PFUser currentUser]];
-        acceptOfferObject.ACL = aACL;
+        [aACL setPublicWriteAccess:YES];
         
         [acceptOfferObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
@@ -718,6 +716,7 @@
                         
                         [self notifyOthersItemHasBeenSoldWithOffer:offer byUser:toUser block:NULL];
                         
+                        [self deleteMakeOfferWithOffer:offer NoUser:toUser];
                         
                         if (completionBlock) {
                             completionBlock(YES,error);
@@ -750,43 +749,73 @@
             
             for (PFObject *object in activities) {
                 
-                if(![[object objectForKey:kHLNotificationToUserKey] isEqual:toUser ]){
+                if(![[[object objectForKey:kHLNotificationFromUserKey]objectId] isEqual:toUser.objectId ]){
                     
                     PFObject *soldObject = [PFObject objectWithClassName:kHLCloudNotificationClass];
                     [soldObject setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
-                    [soldObject setObject:[object objectForKey:kHLNotificationToUserKey] forKey:kHLNotificationToUserKey];
+                    [soldObject setObject:toUser forKey:kHLNotificationToUserKey];
                     [soldObject setObject:khlNotificationTypeOfferSold forKey:kHLNotificationTypeKey];
                     [soldObject setObject:offer forKey:kHLNotificationOfferKey];
                     
                     PFACL *aACL = [PFACL ACLWithUser:[PFUser currentUser]];
                     [aACL setPublicReadAccess:YES];
-                    [aACL setWriteAccess:YES forUser:[PFUser currentUser]];
-                    soldObject.ACL = aACL;
+                    [aACL setPublicWriteAccess:YES];
                     
                     [soldObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        
-                        if(succeeded){
-                            
-                            [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                
-                                if(succeeded){
-                                    
-                                    if (completionBlock) {
-                                        completionBlock(YES,error);
-                                    }
-                                    
-                                    
-                                }
-                            }];
-                        }
+         
                     }];
-                }
+                     
+               }
+            
             }
+            
         }
         
     }];
     
     
+}
+
+-(void)deleteAllOfferWithOfferId:(NSString *)offerId{
+    
+    PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [deleteQuery whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:@"cqyzpN3hOs"]];
+   // [deleteQuery whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+    [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+    [deleteQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (!error) {
+            
+            for (PFObject *object in objects) {
+                [object deleteInBackground];
+            }
+        }
+        
+    }];
+
+}
+
+-(void)deleteMakeOfferWithOffer:(PFObject *)offer NoUser:(PFUser *)user{
+    
+    PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [deleteQuery whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.objectId]];
+    [deleteQuery whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+    [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+    [deleteQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (!error) {
+            
+            for (PFObject *object in objects) {
+                
+                if (![object.objectId isEqualToString:user.objectId]) {
+                    
+                    [object deleteInBackground];
+                    
+                }
+            }
+        }
+        
+    }];
     
 }
 

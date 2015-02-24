@@ -46,7 +46,7 @@
 @end
 
 @implementation ItemDetailViewController
-@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,userID,soldImageView,chattingId,isFirstPosted,commentVC,offerPrice;
+@synthesize offerId,offerObject,locationLabel,offerDescription,itemNameLabel,categoryLabel,likeButton,offerLocation,updateCollectionViewDelegate,userID,soldImageView,chattingId,isFirstPosted,commentVC,offerPrice,topDetailBar,showBidButton;
 
 -(void)dealloc{
     
@@ -83,10 +83,15 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [self setNavBarVisible:YES animated:NO];
+    //  self.navigationController.navigationBar.hidden = YES;
     
     // [self refreshOfferDetailsFromCloud];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    // self.navigationController.navigationBar.hidden = NO;
+}
 
 - (void)setNavBarVisible:(BOOL)visible animated:(BOOL)animated {
     
@@ -398,7 +403,7 @@
         
         self.commentVC = [[ItemCommentViewController alloc]initWithObject:object];
         
-        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20, 320, self.commentVC.tableView.contentSize.height)];
+        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
         
         [self.offerDetailView addSubview:self.commentVC.view];
         
@@ -436,7 +441,7 @@
     
     [self.offerDetailView setContentSize:CGSizeMake(320, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height - 74)];
     
-    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height + 20, 320, self.commentVC.tableView.contentSize.height)];
+    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
     
     
 }
@@ -445,8 +450,13 @@
 -(void)configureUIElements{
     
     self.tabBarController.tabBar.hidden = YES;
-    self.navigationController.navigationBar.hidden = NO;
+    // self.navigationController.navigationBar.hidden = YES;
     self.title = @"Item Detail";
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.topDetailBar.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor clearColor] CGColor], nil];
+    [self.topDetailBar.layer insertSublayer:gradient atIndex:0];
     
     // [self.makeOfferButton setFrame:CGRectMake(55, 450, 216, 37)];
     // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
@@ -462,14 +472,34 @@
     [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
-    
-    
     [self.likeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     
     [self.likeButton bringSubviewToFront:self.offerDetailView];
     [self.makeOfferButton bringSubviewToFront:self.offerDetailView];
     self.makeOfferButton.layer.cornerRadius = 10.0f;
     self.makeOfferButton.layer.masksToBounds = YES;
+    self.showBidButton.layer.cornerRadius = 10.0f;
+    self.showBidButton.layer.masksToBounds = YES;
+    
+    [[OffersManager sharedInstance]getLastestBillWithOfferId:self.offerId block:^(PFObject *object, NSError *error) {
+        
+        if(object){
+            
+            [self.showBidButton setTitle:[NSString stringWithFormat:@"Lastest Bid: %@", [object objectForKey:kHLNotificationContentKey]] forState:UIControlStateNormal];
+        }
+        else{
+            
+            [self.showBidButton setTitle:@"No Bid yet" forState:UIControlStateNormal];
+            
+        }
+        
+    }];
+    
+    
+    
+    NSString *address = [[LocationManager sharedInstance]convertedAddress];
+    [self.seeMapButton setTitle:address forState:UIControlStateNormal];
+    
     //    self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
     //    [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //    [self.likeButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
@@ -558,7 +588,7 @@
     
     for (UIImage *image in imagesArray) {
         
-        CGRect frame = CGRectMake(scrollContentWidth + padding  , (self.scrollView.bounds.size.height - scrollHeight)/2, 320, 260);
+        CGRect frame = CGRectMake(scrollContentWidth + 0  , (self.scrollView.bounds.size.height - scrollHeight)/2, 320, 320);
         
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         
@@ -622,6 +652,8 @@
                 [[ActivityManager sharedInstance]makeOfferToOffer:self.offerObject withPrice:price block:^(BOOL succeeded, NSError *error) {
                     
                     if (succeeded) {
+                        
+                        [self.navigationController popToRootViewControllerAnimated:YES];
                         
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations" message:@"Succesfully made offer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                         
@@ -926,14 +958,18 @@
     
 }
 
-
 - (void)mailComposeController:(MFMailComposeViewController*)controller
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError*)error;
 {
-    
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+}
+
+- (IBAction)showBidHistory:(id)sender {
+    
+    [self performSegueWithIdentifier:@"showBidHisotory" sender:self];
+    
 }
 @end

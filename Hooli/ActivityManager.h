@@ -48,9 +48,9 @@ typedef void (^UploadFailureBlock) (id error);
 - (void)getUserRelationshipWithUserOne:(PFUser *)user1
                                UserTwo:(PFUser *)user2
                              WithBlock:(void (^)(RelationshipType relationType, NSError *error))completionBlock;
+- (void)deleteAllOfferWithOfferId:(NSString *)offerId;
 
-
--(BOOL)checkBalanceStatus:(NSString *)offeredPrice;
+- (BOOL)checkBalanceStatus:(NSString *)offeredPrice;
 
 - (void)makeOfferToOffer:(OfferModel *)offerObject
                withPrice:(NSString *)price

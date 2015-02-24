@@ -17,5 +17,6 @@
 @property (nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *followButton;
 - (IBAction)followTheUser:(id)sender;
+- (IBAction)contactUser:(id)sender;
 
 @end

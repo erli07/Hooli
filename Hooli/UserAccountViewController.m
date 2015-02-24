@@ -14,6 +14,9 @@
 #import "ActivityManager.h"
 #import "MyProfileDetailViewController.h"
 #import "NeedTableViewController.h"
+#import "messages.h"
+#import "ChatView.h"
+
 @interface UserAccountViewController ()
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic) NSArray *userInfoArray;
@@ -183,6 +186,23 @@
     
 }
 
+- (IBAction)contactUser:(id)sender {
+    
+    [[AccountManager sharedInstance]fetchUserWithUserId:self.user.objectId success:^(id object) {
+        
+        PFUser *user2 = (PFUser *)object;
+        NSString *roomId = StartPrivateChat([PFUser currentUser], user2 );
+        ChatView *chatView = [[ChatView alloc] initWith:roomId];
+        chatView.toUser = user2;
+        chatView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:chatView animated:YES];
+    
+    } failure:^(id error) {
+        
+    }];
+      
+}
+
 -(void)updateRelationship{
     
     if([self.user.objectId isEqual:[[PFUser currentUser]objectId]]){
@@ -254,4 +274,7 @@
     }];
     
 }
+
+
+
 @end

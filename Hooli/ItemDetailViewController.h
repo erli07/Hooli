@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
+@property (weak, nonatomic) IBOutlet UIView *topDetailBar;
 @property (nonatomic, strong) ItemCommentViewController *commentVC;
 @property (weak, nonatomic) IBOutlet SMPageControl *pageControl;
 @property (nonatomic, assign) BOOL isFirstPosted;
@@ -48,6 +49,9 @@
 - (IBAction)seeMapButtonClicked:(id)sender;
 -(void)getOfferDetailsFromCloud;
 -(void)refreshOfferDetailsFromCloud;
+
+@property (weak, nonatomic) IBOutlet UIButton *showBidButton;
+- (IBAction)showBidHistory:(id)sender;
 
 
 @end

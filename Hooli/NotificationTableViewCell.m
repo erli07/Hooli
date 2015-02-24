@@ -18,7 +18,6 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 @property (nonatomic, strong) UIButton *profileImageButton;
 @property (nonatomic) BOOL hasActivityImage;
-@property (nonatomic, strong) ProfileImageView *activityImageView;
 @property (nonatomic) NSString *activityType;
 
 - (void)setActivityImageFile:(PFFile *)image;
@@ -48,7 +47,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.accessoryType = UITableViewCellAccessoryNone;
         self.hasActivityImage = NO; //No until one is set
-
+        
         
         self.activityImageView = [[ProfileImageView alloc] init];
         [self.activityImageView setBackgroundColor:[UIColor clearColor]];
@@ -67,14 +66,14 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
 - (void)layoutSubviews {
     
     [super layoutSubviews];
-
+    
     [self.activityImageView setFrame:CGRectMake( [UIScreen mainScreen].bounds.size.width - 46.0f, avatarY, avatarDim, avatarDim)];
     
     // Add activity image if one was set
@@ -84,19 +83,19 @@ static TTTTimeIntervalFormatter *timeFormatter;
         [self.activityImageView setHidden:YES];
     }
     
-//    // Change frame of the content text so it doesn't go through the right-hand side picture
-//    CGSize contentSize = [self.contentLabel.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 72.0f - 46.0f, CGFLOAT_MAX)
-//                                                              options:NSStringDrawingUsesLineFragmentOrigin // wordwrap?
-//                                                           attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}
-//                                                              context:nil].size;
-//    [self.contentLabel setFrame:CGRectMake( 46.0f, 15.0f, contentSize.width, contentSize.height)];
-//    
-//    // Layout the timestamp label given new vertical
-//    CGSize timeSize = [self.timeLabel.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 72.0f - 46.0f, CGFLOAT_MAX)
-//                                                        options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
-//                                                     attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f]}
-//                                                        context:nil].size;
-//    [self.timeLabel setFrame:CGRectMake( 46.0f, self.contentLabel.frame.origin.y + self.contentLabel.frame.size.height + 7.0f, timeSize.width, timeSize.height)];
+    //    // Change frame of the content text so it doesn't go through the right-hand side picture
+    //    CGSize contentSize = [self.contentLabel.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 72.0f - 46.0f, CGFLOAT_MAX)
+    //                                                              options:NSStringDrawingUsesLineFragmentOrigin // wordwrap?
+    //                                                           attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}
+    //                                                              context:nil].size;
+    //    [self.contentLabel setFrame:CGRectMake( 46.0f, 15.0f, contentSize.width, contentSize.height)];
+    //
+    //    // Layout the timestamp label given new vertical
+    //    CGSize timeSize = [self.timeLabel.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 72.0f - 46.0f, CGFLOAT_MAX)
+    //                                                        options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
+    //                                                     attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f]}
+    //                                                        context:nil].size;
+    //    [self.timeLabel setFrame:CGRectMake( 46.0f, self.contentLabel.frame.origin.y + self.contentLabel.frame.size.height + 7.0f, timeSize.width, timeSize.height)];
 }
 
 - (void)setIsNew:(BOOL)isNew {
@@ -116,7 +115,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
         
         [self setActivityImageFile:activityImageFile];
     }
-
+    
     
     NSString *activityString = [NotificationFeedViewController stringForNotificationType:(NSString*)[notification objectForKey:kHLNotificationTypeKey]];
     
@@ -128,13 +127,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
     else if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:khlNotificationTypAcceptOffer]){
         
         activityString  = [NSString stringWithFormat:@"%@ %@", activityString,[notification objectForKey:kHLNotificationContentKey]];
-
+        
     }
     else if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:khlNotificationTypeOfferSold]){
         
         
         activityString  = [NSString stringWithFormat:@"%@", activityString];
-
+        
     }
     
     self.user = [notification objectForKey:kHLNotificationFromUserKey];
@@ -143,16 +142,16 @@ static TTTTimeIntervalFormatter *timeFormatter;
         [self setContentText:self.contentLabel.text];
     }
     
-        if (self.user) {
-            CGSize nameSize = [self.nameButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                                            options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
-                                                                         attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:13.0f]}
-                                                                            context:nil].size;
-            NSString *paddedString = [BaseTextCell padString:activityString withFont:[UIFont systemFontOfSize:13.0f] toWidth:nameSize.width];
-            [self.contentLabel setText:paddedString];
-        } else { // Otherwise we ignore the padding and we'll add it after we set the user
-            [self.contentLabel setText:activityString];
-        }
+    if (self.user) {
+        CGSize nameSize = [self.nameButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+                                                                        options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
+                                                                     attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:13.0f]}
+                                                                        context:nil].size;
+        NSString *paddedString = [BaseTextCell padString:activityString withFont:[UIFont systemFontOfSize:13.0f] toWidth:nameSize.width];
+        [self.contentLabel setText:paddedString];
+    } else { // Otherwise we ignore the padding and we'll add it after we set the user
+        [self.contentLabel setText:activityString];
+    }
     
     [self.timeLabel setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:[notification createdAt]]];
     

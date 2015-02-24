@@ -70,4 +70,7 @@ typedef void (^UploadFailureBlock) (id error);
 
 -(void)fetchChattingIdByOfferId:(NSString *)offerID withSuccess:(DownloadSuccessBlock)dowloadSuccess failure:(DownloadFailureBlock)downloadFailure;
 
+-(void)getLastestBillWithOfferId:(NSString *)offerId
+                           block:(void (^)(PFObject *object, NSError *error))completionBlock;
+
 @end

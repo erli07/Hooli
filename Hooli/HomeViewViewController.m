@@ -22,6 +22,7 @@
 #import "NeedDetailViewController.h"
 #import "HLUtilities.h"
 #import "NeedTableViewCell.h"
+#import "ActivityManager.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate>{
     
 }
@@ -72,6 +73,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [[HLSettings sharedInstance]setCurrentPageIndex:0];
     [[OffersManager sharedInstance]setFilterDictionary:nil];
     
+    [[ActivityManager sharedInstance]deleteAllOfferWithOfferId:@"cqyzpN3hOs"];
     
     if(self.searchController.active){
         

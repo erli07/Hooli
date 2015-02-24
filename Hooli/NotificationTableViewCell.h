@@ -18,8 +18,13 @@
 /*!Setter for the activity associated with this cell */
 @property (nonatomic, strong) PFObject *notification;
 
+@property (nonatomic, strong) ProfileImageView *activityImageView;
+
 /*!Set the new state. This changes the background of the cell. */
 - (void)setIsNew:(BOOL)isNew;
+
+-(void)setNotification:(PFObject *)notification;
+
 
 @end
 

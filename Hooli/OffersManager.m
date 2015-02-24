@@ -139,8 +139,8 @@
     }
     
     PFObject *offerImagesClass = [PFObject objectWithClassName:kHLCloudOfferImagesClass];
-
-   // [offerImagesClass setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.offerId] forKey:khlOfferImagesOfferKey];
+    
+    // [offerImagesClass setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offer.offerId] forKey:khlOfferImagesOfferKey];
     
     for (int i = 0; i <[offer.imageArray count]; i++) {
         
@@ -192,7 +192,7 @@
         
     }];
     
-  
+    
 }
 
 -(NSData *)compressImage:(UIImage *)image WithCompression: (CGFloat)compressionQuality{
@@ -230,7 +230,7 @@
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query whereKey:kHLOfferModelKeyOfferId equalTo:offerId];
     [query getObjectInBackgroundWithId:offerId block:^(PFObject *object, NSError *error) {
-       
+        
         if(object){
             
             if (completionBlock) {
@@ -242,10 +242,10 @@
             if (completionBlock) {
                 completionBlock(NO,error);
             }
-
+            
         }
     }];
-
+    
 }
 
 
@@ -313,7 +313,7 @@
             query = [PFQuery queryWithClassName:kHLCloudActivityClass];
             [query includeKey:kHLActivityKeyOffer];
             [query whereKey:kHLActivityKeyUser equalTo:user];
-
+            
         }
         
     }
@@ -364,7 +364,7 @@
         // Dispatch to main thread to update the UI
         dispatch_async(dispatch_get_main_queue(), ^{
             
-           // self.filterDictionary = nil;
+            // self.filterDictionary = nil;
             
             [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
             
@@ -627,6 +627,30 @@
             
         }
     }];
+    
+}
+
+-(void)getLastestBillWithOfferId:(NSString *)offerId
+                           block:(void (^)(PFObject *object, NSError *error))completionBlock{
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    
+    [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+    
+    [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerId]];
+    
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
+        
+        if (completionBlock) {
+            
+            completionBlock(object,error);
+        }
+        
+        
+    }];
+    
+    
     
 }
 

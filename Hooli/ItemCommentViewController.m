@@ -244,10 +244,10 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 12)];
     /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 20)];
-    [label setFont:[UIFont boldSystemFontOfSize:15]];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, tableView.frame.size.width, 12)];
+    [label setFont:[UIFont boldSystemFontOfSize:12.0f]];
     NSString *titleForHeader = [NSString stringWithFormat:@"Comment(%d)",[self.objects count]];
     /* Section header is in 0th index... */
     [label setText:titleForHeader];

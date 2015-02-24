@@ -68,6 +68,7 @@
 		0E1B8A141A9155030036963F /* EditProfileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1B8A131A9155030036963F /* EditProfileDetailViewController.m */; };
 		0E1B8A1A1A9290FF0036963F /* ItemConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1B8A191A9290FF0036963F /* ItemConditionViewController.m */; };
 		0E1B8A1D1A92925F0036963F /* OfferCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1B8A1C1A92925F0036963F /* OfferCondition.m */; };
+		0E2544591A9C54CF0097572A /* BidHisoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2544581A9C54CF0097572A /* BidHisoryCell.m */; };
 		0E28DD6D1A7FFA170025077C /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E28DD531A7FFA160025077C /* location.png */; };
 		0E28DD6E1A7FFA170025077C /* map-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E28DD541A7FFA160025077C /* map-32.png */; };
 		0E28DD6F1A7FFA170025077C /* message-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E28DD551A7FFA160025077C /* message-32.png */; };
@@ -119,6 +120,7 @@
 		0E6C1DA41A95C2E3000ECA89 /* Default-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E6C1DA01A95C2E3000ECA89 /* Default-568h.png */; };
 		0E6C1DAA1A96D760000ECA89 /* MyCreditsHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DA91A96D760000ECA89 /* MyCreditsHistoryViewController.m */; };
 		0E6C1DAD1A982508000ECA89 /* CreditHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DAC1A982508000ECA89 /* CreditHistoryCell.m */; };
+		0E6C1DB11A9C4214000ECA89 /* BidHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DB01A9C4214000ECA89 /* BidHistoryViewController.m */; };
 		0E86AA5A1A493B45000C71E8 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA571A493B45000C71E8 /* MGSwipeButton.m */; };
 		0E86AA5B1A493B45000C71E8 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA591A493B45000C71E8 /* MGSwipeTableCell.m */; };
 		0E86AA5F1A4B38FD000C71E8 /* NeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA5E1A4B38FD000C71E8 /* NeedsViewController.m */; };
@@ -414,6 +416,8 @@
 		0E1B8A191A9290FF0036963F /* ItemConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemConditionViewController.m; sourceTree = "<group>"; };
 		0E1B8A1B1A92925F0036963F /* OfferCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferCondition.h; sourceTree = "<group>"; };
 		0E1B8A1C1A92925F0036963F /* OfferCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferCondition.m; sourceTree = "<group>"; };
+		0E2544571A9C54CF0097572A /* BidHisoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidHisoryCell.h; sourceTree = "<group>"; };
+		0E2544581A9C54CF0097572A /* BidHisoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidHisoryCell.m; sourceTree = "<group>"; };
 		0E28DD531A7FFA160025077C /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		0E28DD541A7FFA160025077C /* map-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-32.png"; sourceTree = "<group>"; };
 		0E28DD551A7FFA160025077C /* message-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message-32.png"; sourceTree = "<group>"; };
@@ -475,6 +479,8 @@
 		0E6C1DA91A96D760000ECA89 /* MyCreditsHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCreditsHistoryViewController.m; sourceTree = "<group>"; };
 		0E6C1DAB1A982508000ECA89 /* CreditHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreditHistoryCell.h; path = images/CreditHistoryCell.h; sourceTree = "<group>"; };
 		0E6C1DAC1A982508000ECA89 /* CreditHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreditHistoryCell.m; path = images/CreditHistoryCell.m; sourceTree = "<group>"; };
+		0E6C1DAF1A9C4214000ECA89 /* BidHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidHistoryViewController.h; sourceTree = "<group>"; };
+		0E6C1DB01A9C4214000ECA89 /* BidHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidHistoryViewController.m; sourceTree = "<group>"; };
 		0E86AA561A493B45000C71E8 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		0E86AA571A493B45000C71E8 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
 		0E86AA581A493B45000C71E8 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
@@ -1381,6 +1387,10 @@
 				0E50F12D1A1452670048FA27 /* UserCartViewController.m */,
 				457DA2471A5F22560099E52E /* UpdateOfferDetailsViewController.h */,
 				457DA2481A5F22560099E52E /* UpdateOfferDetailsViewController.m */,
+				0E6C1DAF1A9C4214000ECA89 /* BidHistoryViewController.h */,
+				0E6C1DB01A9C4214000ECA89 /* BidHistoryViewController.m */,
+				0E2544571A9C54CF0097572A /* BidHisoryCell.h */,
+				0E2544581A9C54CF0097572A /* BidHisoryCell.m */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -2063,6 +2073,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E2544591A9C54CF0097572A /* BidHisoryCell.m in Sources */,
 				457DA17F1A5E2FBA0099E52E /* AFURLConnectionOperation.m in Sources */,
 				457DA1861A5E2FBA0099E52E /* UIButton+AFNetworking.m in Sources */,
 				0E17BED719FC8BAE0042C4DD /* AppDelegate.m in Sources */,
@@ -2156,6 +2167,7 @@
 				0E17BED419FC8BAE0042C4DD /* main.m in Sources */,
 				457DA2121A5E2FD00099E52E /* JSQMessagesCellTextView.m in Sources */,
 				457DA23A1A5E30730099E52E /* ProgressHUD.m in Sources */,
+				0E6C1DB11A9C4214000ECA89 /* BidHistoryViewController.m in Sources */,
 				457DA2141A5E2FD00099E52E /* JSQMessagesCollectionViewCell.m in Sources */,
 				457DA21A1A5E2FD00099E52E /* JSQMessagesInputToolbar.m in Sources */,
 				0E86AA761A4CB7AE000C71E8 /* NeedsManager.m in Sources */,

@@ -301,7 +301,7 @@
     }else if ([notificationType isEqualToString:khlNotificationTypAcceptOffer]){
         return NSLocalizedString(@"has accepted your bid", nil);
     }else if ([notificationType isEqualToString:khlNotificationTypeOfferSold]){
-        return NSLocalizedString(@"Sorry，item has been sold to others.", nil);
+        return NSLocalizedString(@"Sorry,item has been sold.", nil);
     }
     else  {
         return nil;

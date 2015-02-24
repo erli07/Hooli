@@ -11,6 +11,7 @@
 #import "ProfileImageView.h"
 #import "NotificationFeedViewController.h"
 #import "HLConstant.h"
+#import "HLTheme.h"
 
 static TTTTimeIntervalFormatter *timeFormatter;
 
@@ -96,12 +97,14 @@ static TTTTimeIntervalFormatter *timeFormatter;
     if([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:khlNotificationTypMakeOffer]){
         
         activityString  = [NSString stringWithFormat:@"You spent %@ for item", [notification objectForKey:kHLNotificationContentKey]];
-        
+
     }
     else if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:khlNotificationTypAcceptOffer]){
         
         activityString  = [NSString stringWithFormat:@"You earned %@ for item", [notification objectForKey:kHLNotificationContentKey]];
-        
+        self.contentLabel.textColor= [HLTheme mainColor];
+        //self.contentLabel.textColor= [UIColor redColor];
+
     }
 
     
@@ -112,6 +115,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     }
     
     [self.contentLabel setText:activityString];
+    
    
     [self.timeLabel setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:[notification createdAt]]];
     
