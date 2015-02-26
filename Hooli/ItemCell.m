@@ -81,22 +81,23 @@
 
 -(void)updateCellWithOfferModel:(OfferModel *)offerModel{
     
-    [offerModel.theImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        
-        if(!error){
+    
+        [offerModel.theImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             
-            self.productImageView.image = [UIImage imageWithData:data];
+            if(!error){
+                
+                self.productImageView.image = [UIImage imageWithData:data];
+                
+            }
+        }];
         
-        }
-    }];
-    
-    self.distanceLabel.text =[[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
-    
-    self.offerId = offerModel.offerId;
+        self.distanceLabel.text =[[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
+        
+        self.offerId = offerModel.offerId;
+        
+        self.priceLabel.text = offerModel.offerPrice;
     
     [[ActivityManager sharedInstance]setOfferLikesCount:self.likesLabel withOffer:offerModel];
-    
-    self.priceLabel.text = offerModel.offerPrice;
     
     [self updateCellWithOfferSoldStatus:offerModel];
     

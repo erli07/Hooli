@@ -21,7 +21,7 @@
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic) NSArray *userInfoArray;
 @property (nonatomic, assign) RelationshipType followStatus;
-
+@property (nonatomic) NSArray* imagesArray;
 @end
 
 @implementation UserAccountViewController
@@ -30,7 +30,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.userInfoArray = @[@"See Items", @"See Profile"];
+    self.userInfoArray = @[@"Items", @"Profile"];
+    
+    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"item"],[UIImage imageNamed:@"user"],nil];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -40,10 +42,16 @@
     
     [self updateProfileData];
     
-    self.tableView.scrollEnabled = NO;
+   // self.tableView.scrollEnabled = NO;
     
 
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+   // [self.tableView setFrame:CGRectMake(0, 200, 320, 200)];
+    
 }
 
 - (void)updateProfileData {
@@ -57,6 +65,8 @@
         self.userNameLabel.text = userModel.username;
         
         self.title = userModel.username;
+        
+        [self.userNameLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:16.0f]];
         
         self.profileImageView.image = userModel.portraitImage;
         
@@ -100,18 +110,20 @@
         
     }
     
+    cell.imageView.image = [self.imagesArray objectAtIndex:indexPath.row];
+    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     cell.textLabel.text =[self.userInfoArray objectAtIndex:indexPath.row];
     
-    cell.textLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:16.0f];
+    cell.textLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:14.0f];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 64;
+    return 44;
     
 }
 

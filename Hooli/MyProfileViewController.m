@@ -30,16 +30,18 @@
 @property (nonatomic,strong) UIButton *logoutButton;
 @property (nonatomic) NeedTableViewController *needsViewController;
 @property (nonatomic,strong) NSString *myCredtis;
+@property (nonatomic) NSArray* imagesArray;
 
 @end
 
 @implementation MyProfileViewController
-@synthesize needsViewController,myCredtis;
+@synthesize needsViewController,myCredtis,imagesArray;
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
+    
+    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"star"], [UIImage imageNamed:@"item"],[UIImage imageNamed:@"user"],[UIImage imageNamed:@"group"],[UIImage imageNamed:@"setting"],nil];
     
     [[HLSettings sharedInstance]setCurrentPageIndex:3];
     
@@ -226,14 +228,15 @@
         if(indexPath.row == 0){
             
             cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
-         
+            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+
         }
         else if(indexPath.row == 1){
             
                cell.textLabel.text = @"My Items";
+            cell.imageView.image = [self.imagesArray objectAtIndex:1];
+
         }
-
-
         
     }
     else if(indexPath.section == 1){
@@ -241,11 +244,13 @@
         if(indexPath.row == 0){
             
             cell.textLabel.text = @"My Profile";
+            cell.imageView.image = [self.imagesArray objectAtIndex:2];
             
         }
         else if(indexPath.row == 1){
             
             cell.textLabel.text = @"My Relations";
+            cell.imageView.image = [self.imagesArray objectAtIndex:3];
             
         }
 
@@ -253,12 +258,13 @@
     else if(indexPath.section == 2){
         
         cell.textLabel.text = @"Settings";
+        cell.imageView.image = [self.imagesArray objectAtIndex:4];
 
     }
 
-    
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
+    
     
     return cell;
 }

@@ -91,7 +91,7 @@
 
 - (void)convertGeopointToAddress
 {
-    __block NSString *returnAddress = @"";
+   // __block NSString *returnAddress = @"";
     
     self.geoCoder = [[CLGeocoder alloc]init];
 
@@ -120,6 +120,38 @@
         
         // call a method to execute the rest of the logic
     }];
+}
+
+-(void)convertGeopointToAddressWithGeoPoint:(CLLocationCoordinate2D)locationCoord
+                                      block:(void (^)(NSString *, NSError *))completionBlock{
+    
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:locationCoord.latitude longitude:locationCoord.longitude];
+    
+    self.geoCoder = [[CLGeocoder alloc]init];
+    
+    [self.geoCoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        if(error){
+            
+            NSLog(@"%@", [error localizedDescription]);
+            
+        }
+        
+        CLPlacemark *placemark = [placemarks lastObject];
+
+        NSString *startAddressString = [NSString stringWithFormat:@"%@ %@",
+                                        placemark.locality, placemark.administrativeArea];
+        
+        if(completionBlock){
+            
+            completionBlock(startAddressString, nil);
+
+        }
+        
+    }];
+
+    
+    
 }
 
 #pragma mark - CLLocationManagerDelegate methods

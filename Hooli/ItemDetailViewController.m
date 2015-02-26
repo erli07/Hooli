@@ -26,7 +26,7 @@
 #import "UpdateOfferDetailsViewController.h"
 #import "HomeTabBarController.h"
 #import "UserAccountViewController.h"
-
+#import "BidHistoryViewController.h"
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
 
@@ -311,8 +311,17 @@
         
     }
     
-    self.itemNameLabel.text =  offerModel.offerName;
+    [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:offerModel.offerLocation block:^(NSString *address, NSError *error) {
+        
+        if(address){
+            
+            [self.seeMapButton setTitle:address forState:UIControlStateNormal];
+            
+        }
+        
+    }];
     
+    self.itemNameLabel.text =  offerModel.offerName;
     NSString *distanceText = [[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
     self.locationLabel.text = [NSString stringWithFormat:@"Location: %@", distanceText];
     self.categoryLabel.text = [NSString stringWithFormat:@"In %@",offerModel.offerCategory];
@@ -407,6 +416,8 @@
         
         [self.offerDetailView addSubview:self.commentVC.view];
         
+        
+        
         //   [self.parentScrollView setFrame:CGRectMake(0, 0, 320, self.parentScrollView.contentSize.height )];
         
         
@@ -480,27 +491,8 @@
     self.makeOfferButton.layer.masksToBounds = YES;
     self.showBidButton.layer.cornerRadius = 10.0f;
     self.showBidButton.layer.masksToBounds = YES;
-    
-    [[OffersManager sharedInstance]getLastestBillWithOfferId:self.offerId block:^(PFObject *object, NSError *error) {
-        
-        if(object){
-            
-            [self.showBidButton setTitle:[NSString stringWithFormat:@"Lastest Bid: %@", [object objectForKey:kHLNotificationContentKey]] forState:UIControlStateNormal];
-        }
-        else{
-            
-            [self.showBidButton setTitle:@"No Bid yet" forState:UIControlStateNormal];
-            
-        }
-        
-    }];
-    
-    
-    
-    NSString *address = [[LocationManager sharedInstance]convertedAddress];
-    [self.seeMapButton setTitle:address forState:UIControlStateNormal];
-    
-    //    self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
+ 
+    //self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
     //    [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //    [self.likeButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
@@ -521,6 +513,31 @@
                                          action:@selector(goToHomePage)];
         self.navigationItem.leftBarButtonItem = cancelButton;
         
+        [self.showBidButton setTitle:@"No bid yet" forState:UIControlStateNormal];
+
+        self.showBidButton.enabled = NO;
+        
+        self.makeOfferButton.enabled = NO;
+        
+        self.likeButton.enabled = NO;
+        
+
+    }
+    else{
+        
+        [[OffersManager sharedInstance]getLastestBillWithOfferId:self.offerId block:^(PFObject *object, NSError *error) {
+            
+            if(object){
+                
+                [self.showBidButton setTitle:[NSString stringWithFormat:@"Lastest Bid: %@", [object objectForKey:kHLNotificationContentKey]] forState:UIControlStateNormal];
+            }
+            else{
+                
+                [self.showBidButton setTitle:@"No bid yet" forState:UIControlStateNormal];
+                
+            }
+            
+        }];
         
         
     }
@@ -928,6 +945,12 @@
     
 }
 
+- (IBAction)showBidHistory:(id)sender {
+    
+    [self performSegueWithIdentifier:@"showBidHisotory" sender:self];
+    
+}
+
 -(void)closeDetailPage{
     
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -955,6 +978,11 @@
         destVC.oldDescription = self.offerObject.offerDescription;
         
     }
+    else if([segue.identifier isEqualToString:@"showBidHisotory"]){
+        
+        BidHistoryViewController *destVC = segue.destinationViewController;
+        destVC.offerId = self.offerObject.offerId;
+    }
     
 }
 
@@ -967,9 +995,5 @@
     }];
 }
 
-- (IBAction)showBidHistory:(id)sender {
-    
-    [self performSegueWithIdentifier:@"showBidHisotory" sender:self];
-    
-}
+
 @end

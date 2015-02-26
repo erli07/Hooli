@@ -35,6 +35,12 @@
     [self.layout configureLayout] ;
     [self.collectionView configureView];
     self.collectionView.delegate = self;
+    
+    
+    [[OffersManager sharedInstance]setFilterDictionary:nil];
+
+    [[OffersManager sharedInstance]clearData];
+    
     [self updateCollectionViewData];
     
     
@@ -43,16 +49,18 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     
+
+    
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    
-    if([[HLSettings sharedInstance]isRefreshNeeded]){
-        
-        [self updateCollectionViewData];
-        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
-    }
-}
+//-(void)viewDidAppear:(BOOL)animated{
+//    
+//    if([[HLSettings sharedInstance]isRefreshNeeded]){
+//        
+//        [self updateCollectionViewData];
+//        [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
+//    }
+//}
 
 #pragma register notification
 
@@ -69,7 +77,6 @@
     PFQuery *query = [PFUser query];
     
     [query whereKey:@"objectId" equalTo:self.userID];
-    
     
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         

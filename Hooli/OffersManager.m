@@ -144,7 +144,7 @@
     
     for (int i = 0; i <[offer.imageArray count]; i++) {
         
-        NSData *imageData = [self compressImage:[offer.imageArray objectAtIndex:i] WithCompression:0.03f];
+        NSData *imageData = [self compressImage:[offer.imageArray objectAtIndex:i] WithCompression:0.6f];
         PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
         [offerImagesClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
         
@@ -155,7 +155,7 @@
         if(succeeded){
             
             PFObject *offerClass = [PFObject objectWithClassName:kHLCloudOfferClass];
-            NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.001f];
+            NSData *thumbnailData = [self compressImage:[offer.imageArray objectAtIndex:0] WithCompression:0.4f];
             PFFile *thumbNailFile = [PFFile fileWithName:@"thumbNail.jpg" data:thumbnailData];
             [offerClass setObject:thumbNailFile forKey:kHLOfferModelKeyThumbNail];
             
@@ -197,13 +197,13 @@
 
 -(NSData *)compressImage:(UIImage *)image WithCompression: (CGFloat)compressionQuality{
     
-    UIGraphicsBeginImageContext(CGSizeMake(640, 640));
-    [image drawInRect: CGRectMake(0, 0, 640, 640)];
+    UIGraphicsBeginImageContext(CGSizeMake(640 * compressionQuality, 640 * compressionQuality));
+    [image drawInRect: CGRectMake(0, 0, 640 * compressionQuality, 640 * compressionQuality)];
     UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     NSData *imageData = UIImageJPEGRepresentation(smallImage, compressionQuality);
     
-    NSLog(@"Get Image Size %u", [imageData length]/1024);
+    NSLog(@"Get Image Size %u kb", [imageData length]/1024);
     
     return imageData;
     
@@ -264,7 +264,7 @@
 
 -(void)retrieveOffersByFilter:(NSDictionary *)filterDictionary{
     
-    [self clearData];
+   // [self clearData];
     
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudOfferClass];
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -320,7 +320,8 @@
     
     [query orderByDescending:@"createdAt"];
     [query setLimit:kHLOffersNumberShowAtFirstTime];
-    [query setSkip:kHLOffersNumberShowAtFirstTime * self.pageCounter];
+    int skipNumber = kHLOffersNumberShowAtFirstTime * self.pageCounter;
+    [query setSkip:skipNumber];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -335,7 +336,7 @@
                 
             }
             // retrivedObjects = [objects copy];
-            [self getAllOffersFromObjects:retrivedObjects];
+            [self getAllOffersFromObjects:[[NSMutableArray alloc]initWithArray:objects]];
             
         } else {
             // Log details of the failure
@@ -347,12 +348,7 @@
 }
 
 
--(void)updateTableByOffersArray:(NSArray *)offers{
-    
-    
-    
-    
-}
+
 
 -(void)getAllOffersFromObjects:(NSMutableArray *)objects{
     
@@ -360,7 +356,7 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         
-        [self parseFethcedObjects:retrivedObjects];
+        [self parseFethcedObjects:objects];
         // Dispatch to main thread to update the UI
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -377,14 +373,18 @@
 
 -(NSArray *)parseFethcedObjects:(NSMutableArray *)objects{
     
+    
+    [offersArray removeAllObjects];
     // Iterate over all images and get the data from the PFFile
-    for (int i = kHLOffersNumberShowAtFirstTime * self.pageCounter; i < objects.count; i++) {
+    for (int i = 0; i < objects.count; i++) {
         
+       
         PFObject *eachObject = [objects objectAtIndex:i];
         OfferModel *newOffer = [[OfferModel alloc]initOfferWithPFObject:eachObject];
         [offersArray addObject:newOffer];
+
     }
-    
+
     self.pageCounter += 1;
     
     return offersArray;

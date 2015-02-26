@@ -27,7 +27,7 @@
   //  self.navigationController.navigationBar.backgroundColor = [HLTheme mainColor];
     self.categories = [OfferCategory allCategories];
     
-    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"books_48x48"], [UIImage imageNamed:@"books_48x48"],[UIImage imageNamed:@"books_48x48"],[UIImage imageNamed:@"books_48x48"],[UIImage imageNamed:@"sports_32x32"],[UIImage imageNamed:@"sports_32x32"],[UIImage imageNamed:@"sports_32x32"],nil];
+    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"furniture"],[UIImage imageNamed:@"homegoods"], [UIImage imageNamed:@"books"],[UIImage imageNamed:@"women_clothes"],[UIImage imageNamed:@"men_clothes"],[UIImage imageNamed:@"computer"],[UIImage imageNamed:@"football"],[UIImage imageNamed:@"baby"],[UIImage imageNamed:@"others"],nil];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -73,7 +73,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
-    //[cell.imageView setImage:[self.imagesArray objectAtIndex:indexPath.row]];
+    [cell.imageView setImage:[self.imagesArray objectAtIndex:indexPath.row]];
      cell.textLabel.text = [self.categories objectAtIndex:indexPath.row];
     return cell;
 }
@@ -85,10 +85,12 @@
 
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *cellText = selectedCell.textLabel.text;
+    
+    [[OffersManager sharedInstance]setPageCounter:0];
+
     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                         kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
                         cellText,kHLFilterDictionarySearchKeyCategory,nil];
-    
     [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
 
     [self.delegate showSearchResultVCWithCategory:cellText];

@@ -217,10 +217,11 @@
     
     if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWING){
         
-        user = [(PFUser*)object objectForKey:kHLNotificationFromUserKey];
-        [cell.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
-        [cell.followButton setTitle:@"Followed" forState:UIControlStateHighlighted];
-        [cell.followButton setBackgroundColor:[HLTheme mainColor]];
+        user = [(PFUser*)object objectForKey:kHLNotificationFromUserKey];        
+        cell.followButton.hidden = YES;
+//        [cell.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
+//        [cell.followButton setTitle:@"Followed" forState:UIControlStateHighlighted];
+//        [cell.followButton setBackgroundColor:[HLTheme mainColor]];
         
     }
     else if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWED){

@@ -85,6 +85,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.collectionView.disableRefreshFlag = NO;
     
+    [[OffersManager sharedInstance]setPageCounter:0];
+    
     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                       kHLFilterDictionarySearchKeyUser, kHLFilterDictionarySearchType,
                                       [PFUser currentUser],kHLFilterDictionarySearchKeyUser,nil];
@@ -100,6 +102,8 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)getLikedItems{
     
     self.collectionView.disableRefreshFlag = YES;
+
+    [[OffersManager sharedInstance]setPageCounter:0];
 
 //    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 //                                      kHLFilterDictionarySearchKeyUserLikes, kHLFilterDictionarySearchType,

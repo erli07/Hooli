@@ -362,21 +362,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "446158443.941072"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hooli/MyCartViewController.m"
-            timestampString = "446158443.941072"
+            timestampString = "446539164.477443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "358"
@@ -390,11 +376,25 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "446158443.941072"
+            timestampString = "446539164.477443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434">
+            startingLineNumber = "362"
+            endingLineNumber = "362">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hooli/MyCartViewController.m"
+            timestampString = "446539164.477443"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "438"
+            endingLineNumber = "438">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -452,12 +452,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/ItemDetailViewController.m"
-            timestampString = "446455683.307589"
+            timestampString = "446627196.257509"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
-            landmarkName = "-configureUIElements"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -468,12 +468,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/ItemDetailViewController.m"
-            timestampString = "446455750.389588"
+            timestampString = "446627254.122156"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "492"
-            endingLineNumber = "492"
-            landmarkName = "-configureUIElements"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "-getOfferDetailsFromCloud"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

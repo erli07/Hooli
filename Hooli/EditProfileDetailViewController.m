@@ -23,11 +23,13 @@
     
     _textField = [[UITextField alloc]initWithFrame:CGRectMake(40, 84, 240, 44)];
     
+    
+    
     _textField.text = _content;
     
     _textField.delegate = self;
     
-    _textField.borderStyle = UITextBorderStyleBezel;
+    _textField.borderStyle = UITextBorderStyleRoundedRect;
     
     _textField.returnKeyType = UIReturnKeyDone;
     

@@ -63,9 +63,10 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (!self.disableRefreshFlag) {
         
-        [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
         
         if(!self.isLoading){
+            
+            [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
             
             self.isLoading = YES;
             NSLog(@"In loading" );
@@ -73,26 +74,50 @@ static NSString * const reuseIdentifier = @"Cell";
             [[OffersManager sharedInstance]retrieveOffersWithSuccess:^(NSArray *objects) {
                 
                 self.isLoading = NO;
-
+                
                 [MBProgressHUD hideHUDForView:self.superview animated:YES];
-
-                if ([objects count]==0 || !objects) {
+                
+                if ([self.objectDataSource count]==0 && [objects count] == 0) {
                     
                     [self addNoContentView];
                     
+                    return ;
                 }
                 
-                self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
-                
-                if(self.objectDataSource){
+                if([[OffersManager sharedInstance]pageCounter] == 1){
+                    
+                    self.objectDataSource = [[NSMutableArray alloc]initWithArray:objects];
                     
                     [self reloadData];
+                    
                 }
-                
-    
-                
+                else{
+                    
+                    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+                    
+                    for (int i = [self.objectDataSource count]; i < [self.objectDataSource count] + [objects count]; i++) {
+                        
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+                        [indexPaths addObject:indexPath];
+                        
+                    }
+                    
+                    [self.objectDataSource addObjectsFromArray:objects];
+                    
+                    if([objects count]!= 0){
+                        
+                        [self reloadData];
+                        
+                    }
+                    //                    [UIView setAnimationsEnabled:NO];
+                    //
+                    //                    [self performBatchUpdates:^{
+                    //                        [self reloadItemsAtIndexPaths:indexPaths];
+                    //                    } completion:^(BOOL finished) {
+                    //                        [UIView setAnimationsEnabled:YES];
+                    //                    }];
+                }
                 NSLog(@"Loading over" );
-                
                 
                 
             } failure:^(id error) {
@@ -128,7 +153,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height )
+    if (scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height )
     {
         [self updateDataFromCloud];
     }
@@ -151,7 +176,7 @@ static NSString * const reuseIdentifier = @"Cell";
         [self reloadData];
         
     }
-
+    
     
 }
 

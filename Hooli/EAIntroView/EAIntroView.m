@@ -264,6 +264,7 @@
         rect1.origin.y = page.titleIconPositionY;
         titleImageView.frame = rect1;
         titleImageView.tag = kTitleImageViewTag;
+      //  titleImageView.center = pageView.center;
         
         [pageView addSubview:titleImageView];
     }

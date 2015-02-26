@@ -98,6 +98,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)updateCollectionViewData{
     
+    [[OffersManager sharedInstance]clearData];
     
     [self.collectionView updateDataFromCloud];
     
@@ -185,19 +186,30 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarResultsListButtonClicked:(UISearchBar *)searchBar {
-
+    
     if(!self.showCategoryVC){
         
         [self.view addSubview:[self getSearchCategoryView]];
-
+        
     }
     else{
-    
+        
         [self removeCategoryView];
-
+        
     }
     
 }
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    
+    if(![self.searchController.searchBar.text isEqualToString:@""]){
+        
+        [self showSearchResultVCWithKeyword:self.searchController.searchBar.text ];
+        
+    }
+    
+}// called when keyboard search button pressed
+
 
 #pragma mark - UISearchControllerDelegate
 
@@ -223,11 +235,11 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     self.showCategoryVC = YES;
-
+    
     self.tabBarController.tabBar.hidden = YES;
     
     return self.searchItemVC.view;
-
+    
 }
 
 -(void)removeCategoryView{
@@ -240,7 +252,7 @@ static NSString * const reuseIdentifier = @"Cell";
         }
     }
     self.showCategoryVC = NO;
-
+    
     self.tabBarController.tabBar.hidden = NO;
 }
 
@@ -460,7 +472,9 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height )
+   // NSLog(@"%f %f",scrollView.contentOffset.y, fabs(scrollView.contentSize.height - scrollView.frame.size.height) );
+    
+    if (scrollView.contentOffset.y == fabs(scrollView.contentSize.height - scrollView.frame.size.height) )
     {
         [self.collectionView updateDataFromCloud];
     }
@@ -498,7 +512,7 @@ static NSString * const reuseIdentifier = @"Cell";
     CGFloat offsetY = (visible)? -height : height;
     
     // zero duration means no animation
-    CGFloat duration = (animated)? 0.6 : 0.0;
+    CGFloat duration = (animated)? 0.3 : 0.0;
     
     [UIView animateWithDuration:duration animations:^{
         self.tabBarController.tabBar.frame = CGRectOffset(frame, 0, offsetY);
@@ -521,7 +535,7 @@ static NSString * const reuseIdentifier = @"Cell";
     CGFloat offsetY = (visible)? height : -height;
     
     // zero duration means no animation
-    CGFloat duration = (animated)? 0.6 : 0.0;
+    CGFloat duration = (animated)? 0.3 : 0.0;
     
     [UIView animateWithDuration:duration animations:^{
         
@@ -564,19 +578,19 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 //- (BOOL)checkIfUserLogin{
-//    
-//    
+//
+//
 //    if(![PFUser currentUser]){
-//        
+//
 //        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
 //        LoginWelcomeViewController *loginVC = [loginSb instantiateViewControllerWithIdentifier:@"LoginWelcomeViewController"];
 //        self.navigationController.navigationBarHidden = NO;
 //        loginVC.title = self.title;
 //        [self.navigationController pushViewController:loginVC animated:YES];
 //        return NO;
-//        
+//
 //    }
-//    
+//
 //    return YES;
 //}
 
@@ -627,26 +641,29 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)getOffersFromFollowedUsers{
     
     
+    
     if([PFUser currentUser]){
+        
+        [[OffersManager sharedInstance]clearData];
         
         self.collectionView.refreshControl.enabled = NO;
         
-     //   [[OffersManager sharedInstance]clearData];
+        //   [[OffersManager sharedInstance]clearData];
         
         [OffersManager sharedInstance].filterDictionary = [[NSDictionary alloc]initWithObjects:[NSArray arrayWithObjects:kHLFilterDictionarySearchKeyFollowedUsers , nil] forKeys:[NSArray arrayWithObjects:kHLFilterDictionarySearchType ,nil]];
         
         [self.collectionView updateDataFromCloud];
-
         
-//        if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
-//            
-//            
-//        }
-//        else{
-//            
-//            self.collectionView.hidden = YES;
-//            
-//        }
+        
+        //        if([[[OffersManager sharedInstance]followedUserArray] count] > 0 && [[[OffersManager sharedInstance]filterDictionary]objectForKey:kHLFilterDictionarySearchType]){
+        //
+        //
+        //        }
+        //        else{
+        //
+        //            self.collectionView.hidden = YES;
+        //
+        //        }
         
     }
 }
@@ -658,12 +675,32 @@ static NSString * const reuseIdentifier = @"Cell";
     [[OffersManager sharedInstance]setFilterDictionary:nil];
     
     [self updateCollectionViewData];
-
     
+    
+}
+
+-(void)showSearchResultVCWithKeyword:(NSString *)keyWord{
+    
+    [[OffersManager sharedInstance]setPageCounter:0];
+    
+    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      kHLFilterDictionarySearchKeyWords, kHLFilterDictionarySearchType,
+                                      keyWord,kHLFilterDictionarySearchKeyWords,nil];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SearchResultViewController *resultVC = [mainSb instantiateViewControllerWithIdentifier:@"searchResult"];
+    resultVC.title = keyWord;
+    resultVC.hidesBottomBarWhenPushed = YES;
+    [self.searchController.searchBar resignFirstResponder];
+    [self.navigationController pushViewController:resultVC animated:YES];
 }
 
 
 -(void)showSearchResultVCWithCategory:(NSString *)category{
+    
+    [[OffersManager sharedInstance]setPageCounter:0];
     
     NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                       kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,

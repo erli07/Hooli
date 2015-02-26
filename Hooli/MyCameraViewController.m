@@ -445,12 +445,26 @@
     //    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
     //    CGImageRelease(imageRef);
     
-    CGSize newSize = CGSizeMake(320.0f, 320.0f);
-    UIGraphicsBeginImageContext(newSize);
-    [chosenImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage* croppedImage = UIGraphicsGetImageFromCurrentImageContext();
+   // CGSize newSize = CGSizeMake(320.0f, 320.0f);
     
-    self.imageData = UIImageJPEGRepresentation(croppedImage, 1.0f);
+    CGSize imageSize = chosenImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat newDimension = MIN(width, height);
+    CGFloat widthOffset = (width - newDimension) / 2;
+    CGFloat heightOffset = (height - newDimension) / 2;
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(newDimension, newDimension), NO, 0.5f);
+    [chosenImage drawAtPoint:CGPointMake(-widthOffset, -heightOffset)
+                   blendMode:kCGBlendModeCopy
+                       alpha:1.];
+    chosenImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+//    UIGraphicsBeginImageContext(newSize);
+//    [chosenImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+//    UIImage* croppedImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    self.imageData = UIImageJPEGRepresentation(chosenImage, 0.1f);
     NSLog(@"small image size %u kb", [self.imageData length]/1024);
     UIImage* smallImage = [UIImage imageWithData:self.imageData];
     UIGraphicsEndImageContext();

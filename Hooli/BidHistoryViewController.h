@@ -9,5 +9,5 @@
 #import <Parse/Parse.h>
 
 @interface BidHistoryViewController : PFQueryTableViewController
-
+@property (nonatomic) NSString *offerId;
 @end

@@ -9,7 +9,7 @@
         <scene sceneID="ehN-oH-HZg">
             <objects>
                 <navigationController id="NaV-6u-kYj" customClass="NeedNavController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="1" title="Search" image="find-32.png" id="yHW-9b-jtK"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="Search" image="discover@2x" id="yHW-9b-jtK"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eKG-97-4Je">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -98,7 +98,7 @@
         <scene sceneID="i0x-7O-yin">
             <objects>
                 <navigationController id="cXU-HP-P88" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Notifications" image="notification-32.png" id="Sey-3f-HLS"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="Notifications" image="notification@2x.png" id="Sey-3f-HLS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ahw-m5-PeO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -613,7 +613,7 @@
         <scene sceneID="DCG-tY-LjD">
             <objects>
                 <navigationController id="KpJ-4a-BBa" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Discover" image="tab1.png" id="YFi-Ey-5TO"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="discover@2x.png" id="YFi-Ey-5TO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eIw-Df-M6T">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -668,7 +668,7 @@
         <scene sceneID="3xC-mR-Ygy">
             <objects>
                 <navigationController id="ErL-aS-9xf" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="3" title="Profile" image="tab5.png" id="axg-Hn-Cx9"/>
+                    <tabBarItem key="tabBarItem" tag="3" title="Profile" image="profile@2x.png" id="axg-Hn-Cx9"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wZ7-Xe-lJV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -764,7 +764,7 @@
         <scene sceneID="sFr-b9-SWd">
             <objects>
                 <navigationController id="1KV-LZ-8Qg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="1" title="Messages" image="message-32.png" id="PCE-mp-vfB"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="Messages" image="messages@2x.png" id="PCE-mp-vfB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yu-id-nPd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -779,12 +779,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="find-32.png" width="32" height="32"/>
-        <image name="message-32.png" width="32" height="32"/>
-        <image name="notification-32.png" width="32" height="32"/>
+        <image name="discover@2x" width="32" height="32"/>
+        <image name="discover@2x.png" width="32" height="32"/>
+        <image name="messages@2x.png" width="32" height="32"/>
+        <image name="notification@2x.png" width="32" height="32"/>
         <image name="pink-heart.png" width="17" height="16"/>
-        <image name="tab1.png" width="30" height="30"/>
-        <image name="tab5.png" width="30" height="30"/>
+        <image name="profile@2x.png" width="32" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

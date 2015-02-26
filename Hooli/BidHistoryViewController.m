@@ -22,6 +22,7 @@
 @synthesize lastRefresh = _lastRefresh;
 @synthesize blankView = _blankView;
 @synthesize toUser = _toUser;
+@synthesize offerId = _offerId;
 
 
 
@@ -72,9 +73,9 @@
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
     [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
-    [query whereKey:kHLNotificationToUserKey notEqualTo:[PFUser currentUser]];
+  //  [query whereKey:kHLNotificationFromUserKey notEqualTo:[PFUser currentUser]];
+    [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_offerId]];
     
-    // [query whereKeyExists:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationToUserKey];
     [query includeKey:kHLNotificationOfferKey];

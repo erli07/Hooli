@@ -9,7 +9,7 @@
 #import "MyProfileDetailViewController.h"
 
 #import "MBProgressHUD.h"
-
+#import "SelectGenderViewController.h"
 @interface MyProfileDetailViewController ()
 @property (nonatomic) NSArray *titleArray;
 @property (nonatomic) NSMutableArray *subtitleArray;
@@ -167,7 +167,10 @@
         }
         else if(indexPath.row == 1){
             
-            [self showEditProfileWithProfileType:PROFILE_INDEX_GENDER];
+           // UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+            SelectGenderViewController *vc = [[SelectGenderViewController alloc]init];
+            vc.title = @"Gender";
+            [self.navigationController pushViewController:vc animated:YES];
             
         }
         else if(indexPath.row == 2){
