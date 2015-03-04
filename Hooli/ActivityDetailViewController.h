@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ActivityDetailViewController : UIViewController
+@interface ActivityDetailViewController : UIViewController<UIAlertViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *activityDetailTableView;
 
 @end

@@ -23,7 +23,8 @@ typedef enum{
 @interface PostFormViewController : UITableViewController<UIPickerViewDataSource,UIPickerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *postFormTableView;
-
+@property (nonatomic) NSMutableArray *detailsArray;
+@property (nonatomic) NSMutableArray *conditionArray;
 @property (nonatomic,assign) CLLocationCoordinate2D itemLocationCoordinate;
 @property (nonatomic) NSString *itemName;
 @property (nonatomic) NSString *itemDescription;

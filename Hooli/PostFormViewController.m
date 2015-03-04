@@ -25,8 +25,7 @@
 @interface PostFormViewController ()<MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
 }
-@property (nonatomic) NSMutableArray *detailsArray;
-@property (nonatomic) NSMutableArray *conditionArray;
+
 
 @end
 

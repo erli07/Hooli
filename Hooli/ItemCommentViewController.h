@@ -17,8 +17,9 @@
 
 @property (nonatomic, strong) PFObject *aObject;
 
+- (id)initWithObject:(PFObject *)_object;
+
 - (id)initWithOffer:(OfferModel*)aOffer;
 
-- (id)initWithObject:(PFObject *)_object;
 
 @end

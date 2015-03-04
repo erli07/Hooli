@@ -159,6 +159,15 @@ extern NSString *const kHLOfferAttributesLikersKey;
 extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
 extern NSString *const kHLOfferAttributesLikerdOffersKey;
 
+extern NSString *const kHLActivityKeyId;
+extern NSString *const kHLActivityKeyName;
+extern NSString *const kHLActivityKeyGeoPoint;
+extern NSString *const kHLActivityKeyDate;
+
+extern NSString *const kHLActivityRelationshipKeyActivity;
+extern NSString *const kHLActivityRelationshipKeyUser;
+extern NSString *const kHLActivityRelationshipKeyIsHost;
+
 extern NSString *const kHLNotificationTypeKey;
 extern NSString *const kHLNotificationFromUserKey;
 extern NSString *const kHLNotificationToUserKey;
@@ -168,10 +177,15 @@ extern NSString *const kHLNotificationNeedKey;
 
 extern NSString *const kHLNotificationTypeLike;
 extern NSString *const kHLNotificationTypeFollow ;
+extern NSString *const kHLNotificationTypeActivityComment;
 //extern NSString *const kHLNotificationTypeComment;
 extern NSString *const kHLNotificationTypeOfferComment;
 extern NSString *const kHLNotificationTypeNeedComment;
 extern NSString *const kHLNotificationTypeJoined;
+extern NSString *const kHLNotificationTypeJoinActivity;
+extern NSString *const kHLNotificationTypeInvitation;
+extern NSString *const kHLNotificationTypeAcceptInvitation;
+
 extern NSString *const khlNotificationTypMakeOffer;
 extern NSString *const khlNotificationTypOfferItem;
 extern NSString *const khlNotificationTypAcceptOffer;

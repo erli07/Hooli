@@ -92,6 +92,14 @@ NSString *const kHLNeedsModelKeyName = @"name";
 NSString *const kHLNeedsModelKeyGeoPoint = @"geoPoint";
 NSString *const kHLNeedsModelKeyStatus = @"status";
 
+//Activity Class
+NSString *const kHLActivityKeyId = @"objectId";
+NSString *const kHLActivityKeyName = @"name";
+NSString *const kHLActivityKeyGeoPoint = @"geoPoint";
+NSString *const kHLActivityKeyDate = @"date";
+
+
+
 //Installation
 
 NSString *const kHLInstallationUserKey = @"user";
@@ -100,6 +108,7 @@ NSString *const kHLInstallationUserKey = @"user";
 NSString *const kHLOfferPhotoKeyOfferID = @"offerID";
 NSString *const kHLOfferPhotKeyPhoto = @"photo";
 
+//Cloud Class
 NSString *const kHLCloudOfferClass = @"Offer";
 NSString *const kHLCloudItemNeedClass = @"ItemNeed";
 NSString *const kHLCloudNeedClass = @"Need";
@@ -108,6 +117,10 @@ NSString *const kHLCloudUserClass = @"_User";
 NSString *const kHLCloudActivityClass = @"Activity";
 NSString *const kHLCloudOfferImagesClass = @"OfferImages";
 NSString *const kHLCloudCreditsClass = @"Credits";
+
+
+//Activity Class
+
 
 
 NSString *const kHLActivityKeyOffer = @"offer";
@@ -150,12 +163,15 @@ NSString *const kHLNotificationTypeLike       = @"like";
 NSString *const kHLNotificationTypeFollow     = @"follow";
 NSString *const kHLNotificationTypeOfferComment    = @"offerComment";
 NSString *const kHLNotificationTypeNeedComment    = @"needComment";
+NSString *const kHLNotificationTypeActivityComment    = @"needComment";
 NSString *const kHLNotificationTypeJoined     = @"joined";
 NSString *const khlNotificationTypMakeOffer     = @"make offer";
 NSString *const khlNotificationTypAcceptOffer     = @"accept offer";
 NSString *const khlNotificationTypeOfferSold     = @"offer sold";
-
 NSString *const khlNotificationTypOfferItem     = @"Offer Item";
+NSString *const kHLNotificationTypeJoinActivity = @"join Activity";
+NSString *const kHLNotificationTypeInvitation = @"invite";
+NSString *const kHLNotificationTypeAcceptInvitation = @"accept invitation";
 
 NSString *const khlNotificationAddValue     = @"add";
 NSString *const khlNotificationSubValue     = @"sub";
