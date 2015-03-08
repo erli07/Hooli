@@ -12,6 +12,7 @@
 #import "ItemCommentViewController.h"
 #import "LocationManager.h"
 #import "HLTheme.h"
+#import "ActivityDetailCell.h"
 @interface ActivityDetailViewController ()
 @property (nonatomic) NSArray *detailArray;
 @property (nonatomic) NSMutableArray *hostArray;
@@ -33,12 +34,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _detailArray = @[@"Title", @"Calender", @"Location", @"Comment" ];
-    _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
-    _participantArray = [[NSMutableArray alloc]initWithObjects:@"Lucy", @"Emily", @"Jack", @"Tom", @"Emily", @"Jack", @"Tom", nil];
+    self.title = @"周末去白山阿拉斯加州!";
+    
+    _detailArray = @[@"周末去白山hiking!", @"March 7th Saturday ", @"White Mountain", @"人数不限",@"讨论区"];
+    // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
+    _participantArray = [[NSMutableArray alloc]initWithObjects:@"Eric", @"Lucy", @"Emily", @"Jack",@"Lucy", @"Emily", @"Jack",@"Lucy", @"Emily", @"Jack", nil];
     
     [self configureBottomButtons];
-     //  _iconsArray = @[ [UIImage imageNamed:@"calender-icon"], [UIImage imageNamed:@"map-icon"],[UIImage imageNamed:@"comment-icon"]];
+    
+    CGRect newFrame = CGRectMake(_activityDetailTableView.frame.origin.x, _activityDetailTableView.frame.origin.y , _activityDetailTableView.frame.size.width, _activityDetailTableView.frame.size.height + 64);
+    
+    [_activityDetailTableView setFrame: newFrame];
+    //    [_activityDetailTableView beginUpdates];
+    //    [_activityDetailTableView endUpdates];
+    //
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
+    
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    
+    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    //    self.navigationController.navigationBar.tintColor = [HLTheme mainColor];
+    //    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    //    [self.navigationController.navigationBar setTranslucent:YES];
+    
+    //  _iconsArray = @[ [UIImage imageNamed:@"calender-icon"], [UIImage imageNamed:@"map-icon"],[UIImage imageNamed:@"comment-icon"]];
     
     // Do any additional setup after loading the view from its nib.
 }
@@ -46,13 +68,13 @@
 
 -(void)configureBottomButtons{
     
-    _inviteButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 513, 145, 44)];
+    _inviteButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 523, 145, 35)];
     
     [_inviteButton setBackgroundColor:[HLTheme mainColor]];
     
     [_inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
     
-    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 513, 145, 44)];
+    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
     
     [_joinButton setBackgroundColor:[HLTheme mainColor]];
     
@@ -65,17 +87,36 @@
     [_inviteButton bringSubviewToFront:_activityDetailTableView];
     
     [_joinButton bringSubviewToFront:_activityDetailTableView];
+    
+}
 
+-(void)shareToFriends{
+    
+    
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 4;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if(indexPath.section == 0 && indexPath.row == 0 ){
+        
+        //return 180;
+        return 88;
+    }
+    else if(indexPath.section == 1){
+        
+        if(indexPath.row == 0){
+            
+            return 88;
+            
+        }
+    }
     
     return 44.0f;
     
@@ -92,11 +133,6 @@
         return 1;
         
     }
-    else if(section == 2){
-        
-        return [_hostArray count];
-        
-    }
     else{
         
         return [_participantArray count];
@@ -107,43 +143,118 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *kCellIdentifier = @"ActivityDetailCell";
+    static NSString *kCellIdentifier = @"ActivityInfoCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    static NSString *kAnnoucementCellIdentifier = @"AnnoucementCell";
     
-    if(cell == nil){
-        
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier];
-        
-    }
-
+    //  static NSString *kDetailCellIdentifier = @"ActivityDetailCell";
+    
+    static NSString *kParticipantCellIdentifier = @"ActivityParticipantCell";
+    
+    
+    
+    //    if(indexPath.section == 0 && indexPath.row == 0){
+    //
+    //        ActivityDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:kDetailCellIdentifier];
+    //
+    //        if(cell == nil){
+    //
+    //            [tableView registerNib:[UINib nibWithNibName:kDetailCellIdentifier bundle:nil] forCellReuseIdentifier:kDetailCellIdentifier];
+    //            cell = [[ActivityDetailCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDetailCellIdentifier];
+    //
+    //        }
+    //
+    //        return cell;
+    //
+    //
+    //    }
+    //    else{
+    
+    
+    
+    
+    
+    
     if(indexPath.section == 0){
         
-        cell.textLabel.text = [_detailArray objectAtIndex:indexPath.row];
+        UITableViewCell *detailCell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
         
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if(detailCell == nil){
+            
+            //  cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier];
+            detailCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kCellIdentifier];
+        }
         
-        //cell.imageView.image = [UIImage imageNamed:@"calender_bw"];
+        
+        detailCell.textLabel.text = [_detailArray objectAtIndex:indexPath.row];
+        
+        [detailCell.textLabel setFont:[UIFont systemFontOfSize:13.0f]];
+        
+        detailCell.imageView.image = [UIImage imageNamed:@"calender_bw"];
+        
+        detailCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        if(indexPath.row == 0){
+            
+            detailCell.accessoryType = UITableViewCellAccessoryNone;
+            detailCell.textLabel.text = @"寻人一起去white mountain郊游 冬天过去了 大家一起出去happy吧 寻人一起去white mountain郊游 冬天过去了 大家一起出去happy吧 ^_^";
+            detailCell.textLabel.numberOfLines = 5;
+            
+        }
+        
+        return detailCell;
+
         
     }
     else if(indexPath.section == 1){
         
-        cell.textLabel.text = @"detail";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAnnoucementCellIdentifier];
         
-    }
-    else if(indexPath.section == 2){
+        if(cell == nil){
+            
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kAnnoucementCellIdentifier];
+            
+        }
         
-        cell.textLabel.text = [_hostArray objectAtIndex:indexPath.row];
+        //   if(indexPath.row == 0){
         
+        [cell.textLabel setFont:[UIFont systemFontOfSize:13.0f]];
+        cell.textLabel.numberOfLines = 5;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.text = @"请加微信群 我们会安排carpool 油费由司机以外的共同承担 初定于周六早上10点到达 地址为 white Mountain 111 NH 谢谢大家支持 ^_^";
+        //    }
+        //        else{
+        //
+        //            cell.imageView.image = [UIImage imageNamed:@"calender_bw"];
+        //            [cell.textLabel setFont:[UIFont systemFontOfSize:13.0f]];
+        //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        //            cell.textLabel.text = @"讨论区";
+        //        }
+        return cell;
+
     }
     else{
         
-        cell.textLabel.text = [_participantArray objectAtIndex:indexPath.row];
+        UITableViewCell *memberCell = [tableView dequeueReusableCellWithIdentifier:kParticipantCellIdentifier];
         
+        if(memberCell == nil){
+            
+            memberCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kParticipantCellIdentifier];
+            
+        }
+        
+        memberCell.textLabel.text = [_participantArray objectAtIndex:indexPath.row];
+        
+        memberCell.imageView.image = [UIImage imageNamed:@"er"];
+        
+        memberCell.imageView.layer.cornerRadius = 22;
+        
+        memberCell.imageView.layer.masksToBounds = YES;
+
+        return memberCell;
+
     }
     
-    
-    return cell;
 }
 
 //-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -162,7 +273,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
-   // NSString *titleForHeader = [NSString stringWithFormat:@"Comment"];
+    // NSString *titleForHeader = [NSString stringWithFormat:@"Comment"];
     
     if(section == 0){
         
@@ -171,19 +282,15 @@
     }
     else if(section == 1){
         
-        return  @"Detail";
-        
-    }
-    else if(section == 2){
-        
-        return @"1 Hosting";
+        return  @"公告栏";
         
     }
     else{
         
-        return @"5 Going";
+        return @"参加者";
         
     }
+    
     
 }
 
@@ -207,7 +314,7 @@
         }
         else if(indexPath.row == 3){
             
-            [self performSegueWithIdentifier:@"seeItemComment" sender:self];
+            //[self performSegueWithIdentifier:@"seeItemComment" sender:self];
             
         }
         
@@ -251,9 +358,9 @@
             [event setCalendar:[store defaultCalendarForNewEvents]];
             NSError *err = nil;
             [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
-           // NSString *savedEventId = event.eventIdentifier;  //this is so you can access this event later
+            // NSString *savedEventId = event.eventIdentifier;  //this is so you can access this event later
         }];
-
+        
         
     }
     
