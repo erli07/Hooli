@@ -23,6 +23,8 @@
 #import "HLUtilities.h"
 #import "NeedTableViewCell.h"
 #import "ActivityManager.h"
+#import "ActivityCategoryViewController.h"
+#import "CreateActivityViewController.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate>{
     
 }
@@ -230,7 +232,6 @@ static NSString * const reuseIdentifier = @"Cell";
         [self.searchItemVC.view setFrame:CGRectMake(0, 64, 320, 568)];
         
         self.searchItemVC.delegate = self;
-        
         
     }
     
@@ -598,18 +599,27 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)showCamera:(id)sender{
     
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
-    MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
     
     
-    [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
-        
-        //  [self presentViewController:cameraVC animated:YES completion:^{
-        //  }];
-        
-        [self.navigationController pushViewController:cameraVC animated:NO];
-        
-        
-    }];
+    CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
+    
+    postVC.hidesBottomBarWhenPushed = YES;
+    
+    [self.navigationController pushViewController:postVC animated:YES];
+
+    
+//    MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
+//    
+//    
+//    [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
+//        
+//        //  [self presentViewController:cameraVC animated:YES completion:^{
+//        //  }];
+//        
+//        [self.navigationController pushViewController:cameraVC animated:NO];
+//        
+//        
+//    }];
     
 }
 

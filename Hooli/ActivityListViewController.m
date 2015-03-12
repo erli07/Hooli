@@ -15,9 +15,12 @@
 #import "LocationManager.h"
 @interface ActivityListViewController ()
 
+@property (nonatomic) ActivityCategoryViewController *activityCategoryVC;
+
 @end
 
 @implementation ActivityListViewController
+@synthesize activityCategoryVC = _activityCategoryVC;
 
 @synthesize aObject;
 
@@ -72,11 +75,18 @@
     [super viewDidLoad];
     
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"Post"
+                                       initWithTitle:@"发布"
                                        style:UIBarButtonItemStyleDone
                                        target:self
                                        action:@selector(postEvent)];
     self.navigationItem.rightBarButtonItem = rightBarButton;
+    
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
+                                       initWithTitle:@"类别"
+                                       style:UIBarButtonItemStyleDone
+                                       target:self
+                                       action:@selector(seeCategories)];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
     
     self.navigationController.navigationBarHidden = NO;
     self.title = @"Activities";
@@ -124,7 +134,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 160.0f;
+    return 145.0f;
     
 }
 

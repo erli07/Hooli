@@ -17,6 +17,20 @@ typedef enum{
     
 } EventDetailType;
 
-@interface CreateActivityViewController : PostFormViewController
+@interface CreateActivityViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *eventTitle;
+@property (weak, nonatomic) IBOutlet UITextView *eventContent;
+@property (weak, nonatomic) IBOutlet UITextField *eventDateField;
+@property (weak, nonatomic) IBOutlet UITextField *eventLocationField;
+@property (weak, nonatomic) IBOutlet UITextField *eventMemberNumberField;
+@property (weak, nonatomic) IBOutlet UITextField *eventCategoryFiled;
+@property (weak, nonatomic) IBOutlet UITextView *eventAnnouncementField;
+
+- (IBAction)submitActivity:(id)sender;
+- (IBAction)inviteFriends:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *inviteButton;
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
 
 @end

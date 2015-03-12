@@ -14,6 +14,8 @@
 + (NSString*)mainFont;
 + (UIColor*)mainColor;
 + (UIColor *)secondColor;
++ (UIColor *)textColor;
++ (UIColor *)buttonColor;
 + (UIColor*)foregroundColor;
 + (UIColor*)viewBackgroundColor;
 

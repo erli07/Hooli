@@ -32,6 +32,19 @@
     return [UIColor colorWithRed:(74.0/255.0) green:(165.0/255.0) blue:(254.0/255.0) alpha:1.0];
 }
 
++(UIColor *)buttonColor{
+    
+    return [UIColor colorWithRed:(255.0/255.0) green:(118.0/255.0) blue:(102.0/255.0) alpha:1.0];
+
+}
+
++(UIColor *)textColor{
+    
+    return [UIColor colorWithRed:(51.0/255.0) green:(51.0/255.0) blue:(51.0/255.0) alpha:1.0];
+    
+}
+
+
 +(UIColor *)emptyBackgroundColor{
     
      return [UIColor colorWithRed:(1.0/255.0) green:(109.0/255.0) blue:(215.0/255.0) alpha:1.0];
