@@ -53,7 +53,11 @@
     
     [self addUIElements];
     
-
+    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        [self updateProfileData];
+        
+    }
     //    [self loadData];
     // Do any additional setup after loading the view.
 }
@@ -61,13 +65,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    
-    
-    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
-        
-        [self updateProfileData];
-        
-    }
+
 }
 
 -(void)addUIElements{

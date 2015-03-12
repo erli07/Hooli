@@ -18,7 +18,7 @@
 @end
 
 @implementation SearchItemViewController
-@synthesize delegate;
+//@synthesize delegate;
 
 //@synthesize searchBar;
 - (void)viewDidLoad {
@@ -93,7 +93,7 @@
                         cellText,kHLFilterDictionarySearchKeyCategory,nil];
     [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
 
-    [self.delegate showSearchResultVCWithCategory:cellText];
+  //  [self.delegate showSearchResultVCWithCategory:cellText];
     
     
 
