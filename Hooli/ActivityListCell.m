@@ -7,7 +7,7 @@
 //
 
 #import "ActivityListCell.h"
-
+#import "HLConstant.h"
 @implementation ActivityListCell
 
 //@property (weak, nonatomic) IBOutlet UILabel *activityContentLabel;
@@ -34,44 +34,33 @@
     // Configure the view for the selected state
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+
+
+-(void)updateCellDetail:(PFObject *)eventObject{
     
-    if (self) {
-        
-        
-            _portraitImageView.layer.cornerRadius = _portraitImageView.frame.size.height/2;
-        
-            _portraitImageView.layer.masksToBounds = YES;
-   
-    }
     
-    return self;
+    _activityContentLabel.text = [eventObject objectForKey:kHLEventKeyDescription];
+    
+    
+    
+    _portraitImageView.image = [UIImage imageNamed:@"er"];
+    
+    _portraitImageView.layer.cornerRadius = _portraitImageView.frame.size.height/2;
+    
+    _portraitImageView.layer.masksToBounds = YES;
+    
+    _extraInfoLabel.text = @"aaaaaaaaaaaaajkdknfjksd";
+    
+    _dateLabel.text = @"今天";
+    
+    _groupNumberLabel.text = @"男女不限";
+
+    
 }
 
-
-
--(void)updateCellDetails{
+-(void)setUser:(PFUser *)aUser{
     
-//    _portraitImageView.layer.cornerRadius = _portraitImageView.frame.size.height/2;
-//    
-//    _portraitImageView.layer.masksToBounds = YES;
     
-//    _activityContentLabel.text = @"寻人一起去white mountain郊游 我可以开车 冬天过去了 大家一起出去happy吧 ^_^";
-//    
-//    _portraitImageView.image = [UIImage imageNamed:@"er"];
-//    
-//    _portraitImageView.layer.cornerRadius = _portraitImageView.frame.size.height/2;
-//    
-//    _portraitImageView.layer.masksToBounds = YES;
-//    
-//    _extraInfoLabel.text = @"aaaaaaaaaaaaajkdknfjksd";
-//    
-//    _dateLabel.text = @"本周五";
-//    
-//    _groupNumberLabel.text = @"5人参加";
-    
-
 }
+
 @end

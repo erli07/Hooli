@@ -10,11 +10,63 @@
 #import "ActivityListCell.h"
 #import "ActivityDetailViewController.h"
 #import "CreateActivityViewController.h"
+#import "EventManager.h"
+#import "HLConstant.h"
+#import "LocationManager.h"
 @interface ActivityListViewController ()
 
 @end
 
 @implementation ActivityListViewController
+
+@synthesize aObject;
+
+
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
+    
+    if (self) {
+        // The className to query on
+        self.parseClassName = kHLCloudEventClass;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 10;
+        
+        // The Loading text clashes with the dark Anypic design
+        self.loadingViewEnabled = NO;
+    }
+    return self;
+}
+
+#pragma mark - PFQueryTableViewController
+
+- (PFQuery *)queryForTable {
+    
+    PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    [query orderByAscending:@"createdAt"];
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    // If there is no network connection, we will hit the cache first.
+    if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
+        [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    }
+    
+    return query;
+}
+
+- (void)objectsDidLoad:(NSError *)error {
+    
+    [super objectsDidLoad:error];
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,9 +83,35 @@
     // Do any additional setup after loading the view.
 }
 
+
 -(void)postEvent{
     
-
+    
+    PFObject *eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
+    
+    [eventObject setObject:@"title" forKey:kHLEventKeyTitle];
+    [eventObject setObject:@"description" forKey:kHLEventKeyDescription];
+    [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyGeoPoint];
+    [eventObject setObject:@"hello" forKey:kHLEventKeyAnnoucement];
+    [eventObject setObject:[NSDate date] forKey:kHLEventKeyDate];
+    [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
+    
+    PFObject *eventImages = [PFObject objectWithClassName:kHLCloudEventImagesClass];
+    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"Ariel white background"]);
+    PFFile *image = [PFFile fileWithName:@"eventImage1.jpg" data:imageData];
+    [eventImages setObject:image forKey:@"event_image"];
+    [eventObject setObject:eventImages forKey:kHLEventKeyImages];
+    
+    [[EventManager sharedInstance] uploadEventToCloud:eventObject withBlock:^(BOOL succeeded, NSError *error) {
+        
+        if(succeeded){
+            
+            UIAlertView *addCalenderAlert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Successfully posted!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            
+            [addCalenderAlert show];
+        }
+        
+    }];
     
 }
 
@@ -49,34 +127,25 @@
     return 160.0f;
     
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return 10;
-}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
     static NSString *kCellIdentifier = @"ActivityListCell";
     
     ActivityListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     
-    //    if(cell == nil){
-    //
-    //        cell = [[ActivityListCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier];
-    //
-    //    }
-    
-    cell.portraitImageView.layer.cornerRadius = cell.portraitImageView.frame.size.height/2;
-    
-    cell.portraitImageView.layer.masksToBounds = YES;
+    [cell updateCellDetail:object];
     
     return cell;
+    
+    
 }
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [self performSegueWithIdentifier:@"seeActivityDetail" sender:self];
-
+    
 }
 
 
@@ -87,7 +156,7 @@
         ActivityDetailViewController *detailVC = segue.destinationViewController;
         detailVC.hidesBottomBarWhenPushed = YES;
     }
-
+    
     
 }
 @end

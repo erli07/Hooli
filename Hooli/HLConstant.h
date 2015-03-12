@@ -141,7 +141,10 @@ extern NSString *const kHLCloudItemNeedClass;
 extern NSString *const kHLCloudNeedClass;
 extern NSString *const kHLCloudUserClass;
 extern NSString *const kHLCloudOfferImagesClass;
+extern NSString *const kHLCloudEventImagesClass;
 extern NSString *const kHLCloudCreditsClass;
+extern NSString *const kHLCloudEventClass;
+extern NSString *const kHLCloudEventMemberClass;
 
 extern NSString *const kHLActivityKeyOffer;
 extern NSString *const kHLActivityKeyUser;
@@ -158,6 +161,14 @@ extern NSString *const kHLOfferAttributesLikeCountKey;
 extern NSString *const kHLOfferAttributesLikersKey;
 extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
 extern NSString *const kHLOfferAttributesLikerdOffersKey;
+
+extern NSString *const kHLEventKeyTitle;
+extern NSString *const kHLEventKeyDescription;
+extern NSString *const kHLEventKeyGeoPoint;
+extern NSString *const kHLEventKeyDate;
+extern NSString *const kHLEventKeyAnnoucement;
+extern NSString *const kHLEventKeyHost;
+extern NSString *const kHLEventKeyImages;
 
 extern NSString *const kHLActivityKeyId;
 extern NSString *const kHLActivityKeyName;

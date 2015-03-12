@@ -69,6 +69,8 @@ typedef void (^UploadFailureBlock) (id error);
 -(void)isOfferAlreadyMadeByCurrentUser:(OfferModel *)offerObject
                                  block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
+
+
 -(void)returnCreditsWithOffer:(PFObject *)offer;
 
 @end

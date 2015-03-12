@@ -116,12 +116,12 @@ NSString *const kHLCloudNotificationClass = @"Notification";
 NSString *const kHLCloudUserClass = @"_User";
 NSString *const kHLCloudActivityClass = @"Activity";
 NSString *const kHLCloudOfferImagesClass = @"OfferImages";
+NSString *const kHLCloudEventImagesClass = @"EventImages";
 NSString *const kHLCloudCreditsClass = @"Credits";
-
+NSString *const kHLCloudEventClass = @"Event";
+NSString *const kHLCloudEventMemberClass = @"Event_Member";
 
 //Activity Class
-
-
 
 NSString *const kHLActivityKeyOffer = @"offer";
 NSString *const kHLActivityKeyUser = @"user";
@@ -151,13 +151,20 @@ NSString *const kHLOfferAttributesLikersKey = @"likers";
 NSString *const kHLOfferAttributesLikerdOffersKey = @"likedOffers";
 NSString *const kHLOfferAttributesIsLikedByCurrentUserKey = @"islikedByCurrentUser";
 
+NSString *const kHLEventKeyTitle = @"title";
+NSString *const kHLEventKeyDescription = @"description";
+NSString *const kHLEventKeyGeoPoint = @"geopoint";
+NSString *const kHLEventKeyDate = @"date";
+NSString *const kHLEventKeyAnnoucement = @"annoucement";
+NSString *const kHLEventKeyImages= @"eventImages";
+NSString *const kHLEventKeyHost = @"host";
+
 NSString *const kHLNotificationTypeKey = @"type";
 NSString *const kHLNotificationFromUserKey = @"fromUser";
 NSString *const kHLNotificationToUserKey = @"toUser";
 NSString *const kHLNotificationContentKey = @"content";
 NSString *const kHLNotificationOfferKey = @"offer";
 NSString *const kHLNotificationNeedKey = @"need";
-
 
 NSString *const kHLNotificationTypeLike       = @"like";
 NSString *const kHLNotificationTypeFollow     = @"follow";

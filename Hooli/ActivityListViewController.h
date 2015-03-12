@@ -8,6 +8,8 @@
 
 #import <Parse/Parse.h>
 
-@interface ActivityListViewController : UITableViewController
+@interface ActivityListViewController : PFQueryTableViewController
+
+@property (nonatomic, strong) PFObject *aObject;
 
 @end

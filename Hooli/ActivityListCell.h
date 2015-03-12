@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <Parse/Parse.h>
 @interface ActivityListCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *activityContentLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImageView;
@@ -16,8 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *groupNumberLabel;
 
-
--(void)updateCellDetail;
-
+-(void)updateCellDetail:(PFObject *)eventObject;
+-(void)setUser:(PFUser *)aUser;
 
 @end
