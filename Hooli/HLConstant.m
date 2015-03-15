@@ -152,12 +152,21 @@ NSString *const kHLOfferAttributesLikerdOffersKey = @"likedOffers";
 NSString *const kHLOfferAttributesIsLikedByCurrentUserKey = @"islikedByCurrentUser";
 
 NSString *const kHLEventKeyTitle = @"title";
+NSString *const kHLEventKeyThumbnail = @"thumbnail";
 NSString *const kHLEventKeyDescription = @"description";
-NSString *const kHLEventKeyGeoPoint = @"geopoint";
+NSString *const kHLEventKeyUserGeoPoint = @"user_geopoint";
+NSString *const kHLEventKeyEventGeoPoint = @"event_geopoint";
+NSString *const kHLEventKeyEventLocation= @"event_location";
 NSString *const kHLEventKeyDate = @"date";
 NSString *const kHLEventKeyAnnoucement = @"annoucement";
+NSString *const kHLEventKeyCategory = @"category";
+NSString *const kHLEventKeyMemberNumber= @"memberNumber";
 NSString *const kHLEventKeyImages= @"eventImages";
 NSString *const kHLEventKeyHost = @"host";
+
+NSString *const kHLEventCategoryEating = @"eating";
+NSString *const kHLEventCategoryShopping = @"shopping";
+NSString *const kHLEventCategoryMovie = @"movie";
 
 NSString *const kHLNotificationTypeKey = @"type";
 NSString *const kHLNotificationFromUserKey = @"fromUser";

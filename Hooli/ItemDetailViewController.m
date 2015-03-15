@@ -146,7 +146,6 @@
     
     if(!self.offerObject){
         
-        //self.bottomButtonsView.hidden = NO;
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
@@ -190,8 +189,6 @@
     if(self.isFirstPosted){
         
         [self updateOfferDetailInfo:self.offerObject];
-        
-        //self.bottomButtonsView.hidden = YES;
         
         //        [self.parentScrollView setContentSize:self.contentView.frame.size];
         
@@ -332,12 +329,10 @@
     if([offerModel.isOfferSold boolValue]){
         
         self.soldImageView.image = [UIImage imageNamed:@"sold"];
-        //   self.bottomButtonsView.hidden = YES;
         
     }
     else{
         
-        // self.bottomButtonsView.hidden = NO;
         self.soldImageView.image = nil;
     }
     
@@ -415,8 +410,6 @@
         [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
         
         [self.offerDetailView addSubview:self.commentVC.view];
-        
-        
         
         //   [self.parentScrollView setFrame:CGRectMake(0, 0, 320, self.parentScrollView.contentSize.height )];
         

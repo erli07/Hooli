@@ -64,7 +64,7 @@
     newRegion.span.longitudeDelta = 0.109863;
     
     MKMapItem *mapItem = [[MKMapItem alloc]initWithPlacemark:[[MKPlacemark alloc]initWithCoordinate:self.offerLocation addressDictionary:nil]];
-    mapItem.name = @"Test";
+    //mapItem.name = @"Test";
     
     self.boundingRegion = newRegion;
     

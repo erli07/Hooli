@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Search-->
@@ -132,12 +132,12 @@
         <scene sceneID="hg0-v2-Xbd">
             <objects>
                 <tableViewController id="ahb-8u-baX" customClass="ActivityListViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="203" sectionHeaderHeight="22" sectionFooterHeight="22" id="clu-JO-5jb">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="226" sectionHeaderHeight="22" sectionFooterHeight="22" id="clu-JO-5jb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActivityListCell" rowHeight="145" id="RxE-v5-Opy" customClass="ActivityListCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActivityListCell" rowHeight="220" id="RxE-v5-Opy" customClass="ActivityListCell">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RxE-v5-Opy" id="Exq-xX-gVf">
@@ -148,48 +148,15 @@
                                             <rect key="frame" x="15" y="10" width="40" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map_icon.png" id="U39-6r-Fah">
-                                            <rect key="frame" x="15" y="150" width="18" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group.png" id="3bX-Yw-bjX">
-                                            <rect key="frame" x="220" y="148" width="20" height="20"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calender.png" id="k8q-cD-PoP">
-                                            <rect key="frame" x="128" y="150" width="18" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Medford,MA" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="02E-gl-tuU">
-                                            <rect key="frame" x="40" y="150" width="85" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本周六" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZwH-YG-iZr">
-                                            <rect key="frame" x="140" y="150" width="70" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3人参加" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cdd-cx-fEt">
-                                            <rect key="frame" x="240" y="150" width="70" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="漫长的冬天过去了 积雪荣华啦 春暖花开啦 小动物们都出来活动了 大家一起出去happy吧 ^_^" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="none" adjustsFontSizeToFit="NO" id="YWl-RH-hE9">
-                                            <rect key="frame" x="15" y="98" width="257" height="35"/>
+                                            <rect key="frame" x="15" y="79" width="257" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="11"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12.52 mi | 刚刚更新" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7W6-IO-YMg">
-                                            <rect key="frame" x="63" y="32" width="117" height="20"/>
+                                            <rect key="frame" x="63" y="32" width="175" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,44 +170,54 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周末去白山hiking!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MjO-bv-7ka">
-                                            <rect key="frame" x="15" y="60" width="147" height="37"/>
+                                            <rect key="frame" x="15" y="50" width="147" height="37"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="female_symbol_32.png" id="3OT-hd-9sF">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="3OT-hd-9sF">
                                             <rect key="frame" x="64" y="20" width="12" height="12"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Medford, MA | 本周六 |  不限" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rxh-gb-78x">
-                                            <rect key="frame" x="140" y="67" width="170" height="25"/>
+                                            <rect key="frame" x="140" y="57" width="170" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="restaurant-64.png" id="oZf-Hb-8CD">
-                                            <rect key="frame" x="238" y="14" width="32" height="32"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="restaurant-48.png" id="4lq-C2-jS5">
+                                            <rect key="frame" x="272" y="20" width="24" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="i76-R6-CpZ">
-                                            <rect key="frame" x="199" y="14" width="32" height="32"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="C0C-Ob-U2e">
+                                            <rect key="frame" x="15" y="119" width="86" height="86"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="movie-64.png" id="4lq-C2-jS5">
-                                            <rect key="frame" x="278" y="14" width="32" height="32"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="tQm-JJ-1Ze">
+                                            <rect key="frame" x="117" y="119" width="86" height="86"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="CLi-2w-Cn1">
+                                            <rect key="frame" x="218" y="119" width="86" height="86"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <outlet property="activityContentLabel" destination="YWl-RH-hE9" id="eyh-Af-M3b"/>
-                                    <outlet property="dateLabel" destination="ZwH-YG-iZr" id="WjJ-2p-48G"/>
-                                    <outlet property="groupNumberLabel" destination="cdd-cx-fEt" id="z0N-Qc-2on"/>
-                                    <outlet property="locationLabel" destination="02E-gl-tuU" id="X9S-p5-8g1"/>
-                                    <outlet property="portraitImageView" destination="SbH-gZ-YiJ" id="ZZK-3T-l7s"/>
+                                    <outlet property="activityCategoryImageView" destination="4lq-C2-jS5" id="efK-9v-UQy"/>
+                                    <outlet property="activityContentLabel" destination="YWl-RH-hE9" id="Jfk-q4-aEf"/>
+                                    <outlet property="activityInfoLabel" destination="Rxh-gb-78x" id="rK7-oE-KuC"/>
+                                    <outlet property="activityTitleLabel" destination="MjO-bv-7ka" id="np5-E3-EmK"/>
+                                    <outlet property="eventImage1" destination="C0C-Ob-U2e" id="XDU-MR-Gsn"/>
+                                    <outlet property="eventImage2" destination="tQm-JJ-1Ze" id="MgE-19-a2l"/>
+                                    <outlet property="eventImage3" destination="CLi-2w-Cn1" id="4wz-gF-HeG"/>
+                                    <outlet property="portraitImageView" destination="SbH-gZ-YiJ" id="GEQ-w2-abI"/>
+                                    <outlet property="userGenderImageView" destination="3OT-hd-9sF" id="QUt-Xe-MSR"/>
+                                    <outlet property="userInfoLabel" destination="7W6-IO-YMg" id="EG5-bD-1cb"/>
+                                    <outlet property="userNameLabel" destination="4MW-zP-fXC" id="eH8-gw-TMz"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -989,19 +966,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="calender.png" width="24" height="24"/>
         <image name="discover@2x.png" width="32" height="32"/>
         <image name="er.png" width="264" height="276"/>
-        <image name="female_symbol_32.png" width="16" height="16"/>
-        <image name="group.png" width="24" height="24"/>
         <image name="group_users_circle.png" width="24" height="24"/>
-        <image name="map_icon.png" width="24" height="24"/>
         <image name="messages@2x.png" width="32" height="32"/>
-        <image name="movie-64.png" width="32" height="32"/>
         <image name="notification@2x.png" width="32" height="32"/>
         <image name="pink-heart.png" width="17" height="16"/>
         <image name="profile@2x.png" width="32" height="32"/>
-        <image name="restaurant-64.png" width="32" height="32"/>
+        <image name="restaurant-48.png" width="24" height="24"/>
         <image name="shopping" width="17" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

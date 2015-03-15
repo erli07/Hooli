@@ -26,11 +26,24 @@ typedef enum{
 @property (weak, nonatomic) IBOutlet UITextField *eventMemberNumberField;
 @property (weak, nonatomic) IBOutlet UITextField *eventCategoryFiled;
 @property (weak, nonatomic) IBOutlet UITextView *eventAnnouncementField;
+@property (weak, nonatomic) IBOutlet UIButton *selectCategoryButton;
+@property (weak, nonatomic) IBOutlet UIButton *locateInMapButton;
+@property (weak, nonatomic) IBOutlet UIButton *showCalenderButton;
+
+- (IBAction)showCalender:(id)sender;
 
 - (IBAction)submitActivity:(id)sender;
 - (IBAction)inviteFriends:(id)sender;
 
+- (IBAction)selectCategory:(id)sender;
+- (IBAction)locateInMap:(id)sender;
+
+
 @property (weak, nonatomic) IBOutlet UIButton *inviteButton;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton1;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton2;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton3;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton4;
 
 @end

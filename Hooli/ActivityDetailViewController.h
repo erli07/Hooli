@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+@interface ActivityDetailViewController : UIViewController<UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic) PFObject *activityDetail;
+@property (nonatomic) UITableView *activityDetailTableView;
+@property (nonatomic) UITableView *memberTableView;
 
-@interface ActivityDetailViewController : UIViewController<UIAlertViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *activityDetailTableView;
 
 @end

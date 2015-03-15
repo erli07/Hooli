@@ -80,6 +80,19 @@
         return @"< 1 mi.";
 }
 
+-(NSString *)getApproximateDistanceInKm:(CLLocationCoordinate2D)offerLocation{
+    
+    CLLocation *locA = [[CLLocation alloc] initWithLatitude:self.currentLocation.latitude longitude:self.currentLocation.longitude];
+    
+    CLLocation *locB = [[CLLocation alloc] initWithLatitude:offerLocation.latitude longitude:offerLocation.longitude];
+    
+    CLLocationDistance distance = [locA distanceFromLocation:locB];
+        
+    NSString *distanceStr = [NSString stringWithFormat:@"%.2f km", distance];
+
+    return distanceStr;
+}
+
 -(PFGeoPoint *)getCurrentLocationGeoPoint{
     
     PFGeoPoint *geoPoint = [[PFGeoPoint alloc]init];

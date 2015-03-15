@@ -163,12 +163,22 @@ extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
 extern NSString *const kHLOfferAttributesLikerdOffersKey;
 
 extern NSString *const kHLEventKeyTitle;
+extern NSString *const kHLEventKeyThumbnail;
 extern NSString *const kHLEventKeyDescription;
-extern NSString *const kHLEventKeyGeoPoint;
+extern NSString *const kHLEventKeyUserGeoPoint;
+extern NSString *const kHLEventKeyEventGeoPoint;
 extern NSString *const kHLEventKeyDate;
 extern NSString *const kHLEventKeyAnnoucement;
 extern NSString *const kHLEventKeyHost;
+extern NSString *const kHLEventKeyCategory ;
+extern NSString *const kHLEventKeyMemberNumber;
 extern NSString *const kHLEventKeyImages;
+extern NSString *const kHLEventKeyEventLocation;
+
+extern NSString *const kHLEventCategoryEating ;
+extern NSString *const kHLEventCategoryShopping ;
+extern NSString *const kHLEventCategoryMovie ;
+
 
 extern NSString *const kHLActivityKeyId;
 extern NSString *const kHLActivityKeyName;

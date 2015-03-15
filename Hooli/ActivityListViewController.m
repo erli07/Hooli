@@ -13,14 +13,11 @@
 #import "EventManager.h"
 #import "HLConstant.h"
 #import "LocationManager.h"
+
 @interface ActivityListViewController ()
-
-@property (nonatomic) ActivityCategoryViewController *activityCategoryVC;
-
 @end
 
 @implementation ActivityListViewController
-@synthesize activityCategoryVC = _activityCategoryVC;
 
 @synthesize aObject;
 
@@ -52,6 +49,8 @@
 - (PFQuery *)queryForTable {
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    [query includeKey:kHLEventKeyHost];
+    [query includeKey:kHLEventKeyImages];
     [query orderByAscending:@"createdAt"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
@@ -96,33 +95,20 @@
 
 -(void)postEvent{
     
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     
-    PFObject *eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
     
-    [eventObject setObject:@"title" forKey:kHLEventKeyTitle];
-    [eventObject setObject:@"description" forKey:kHLEventKeyDescription];
-    [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyGeoPoint];
-    [eventObject setObject:@"hello" forKey:kHLEventKeyAnnoucement];
-    [eventObject setObject:[NSDate date] forKey:kHLEventKeyDate];
-    [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
+    CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
     
-    PFObject *eventImages = [PFObject objectWithClassName:kHLCloudEventImagesClass];
-    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"Ariel white background"]);
-    PFFile *image = [PFFile fileWithName:@"eventImage1.jpg" data:imageData];
-    [eventImages setObject:image forKey:@"event_image"];
-    [eventObject setObject:eventImages forKey:kHLEventKeyImages];
+    postVC.hidesBottomBarWhenPushed = YES;
     
-    [[EventManager sharedInstance] uploadEventToCloud:eventObject withBlock:^(BOOL succeeded, NSError *error) {
-        
-        if(succeeded){
-            
-            UIAlertView *addCalenderAlert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Successfully posted!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            
-            [addCalenderAlert show];
-        }
-        
-    }];
+    [self.navigationController pushViewController:postVC animated:YES];
     
+}
+
+-(void)seeCategories{
+    
+
 }
 
 #pragma mark - Table view data source
@@ -134,8 +120,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 145.0f;
-    
+    //return 125.0f;
+    return 220.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
@@ -154,7 +140,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [self performSegueWithIdentifier:@"seeActivityDetail" sender:self];
+    ActivityDetailViewController *detailVC = [[ActivityDetailViewController alloc]init];
+    detailVC.activityDetail = [self.objects objectAtIndex:indexPath.row];
+    detailVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:detailVC animated:YES];
+   //[self performSegueWithIdentifier:@"seeActivityDetail" sender:self];
     
 }
 
@@ -169,4 +159,87 @@
     
     
 }
+
+
+#pragma mark scrollview delegate
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    
+    CGPoint scrollVelocity = [self.tableView.panGestureRecognizer
+                              velocityInView:self.tableView.superview];
+    
+    if (scrollVelocity.y > 0.0f){
+        
+        [self setTabBarVisible:YES animated:YES];
+        [self setNavBarVisible:YES animated:YES];
+        
+        
+    }
+    else if(scrollVelocity.y < 0.0f){
+        
+        [self setTabBarVisible:NO animated:YES];
+        [self setNavBarVisible:NO animated:YES];
+        
+    }
+    
+}
+
+- (void)setTabBarVisible:(BOOL)visible animated:(BOOL)animated {
+    
+    // bail if the current state matches the desired state
+    if ([self tabBarIsVisible] == visible) return;
+    
+    // get a frame calculation ready
+    CGRect frame = self.tabBarController.tabBar.frame;
+    CGFloat height = frame.size.height;
+    CGFloat offsetY = (visible)? -height : height;
+    
+    // zero duration means no animation
+    CGFloat duration = (animated)? 0.3 : 0.0;
+    
+    [UIView animateWithDuration:duration animations:^{
+        self.tabBarController.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+    }];
+}
+
+// know the current state
+- (BOOL)tabBarIsVisible {
+    return self.tabBarController.tabBar.frame.origin.y < CGRectGetMaxY(self.view.frame);
+}
+
+
+
+- (void)setNavBarVisible:(BOOL)visible animated:(BOOL)animated {
+    
+    // bail if the current state matches the desired state
+    if ([self navBarIsVisible] == visible) return;
+    
+    // get a frame calculation ready
+    CGRect frame = self.navigationController.navigationBar.frame;
+    CGFloat height = frame.size.height + 20;
+    CGFloat offsetY = (visible)? height : -height;
+    
+    // zero duration means no animation
+    CGFloat duration = (animated)? 0.3 : 0.0;
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+
+        CGRect tableViewframe = self.tableView.frame;
+        
+        tableViewframe.origin.y = (visible)? 0 : 0;
+        tableViewframe.size.height = (visible)? 568: [[UIScreen mainScreen]bounds].size.height - tableViewframe.origin.y;
+     
+        self.tableView.frame = tableViewframe;
+        self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
+        
+    }];
+}
+
+- (BOOL)navBarIsVisible {
+    
+    return self.navigationController.navigationBar.frame.origin.y >= 0;
+    
+}
+
 @end

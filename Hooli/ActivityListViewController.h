@@ -8,7 +8,7 @@
 
 #import <Parse/Parse.h>
 
-@interface ActivityListViewController : PFQueryTableViewController
+@interface ActivityListViewController : PFQueryTableViewController<UIScrollViewDelegate>
 
 @property (nonatomic, strong) PFObject *aObject;
 

@@ -17,6 +17,7 @@
 -(void)stopLocationUpdate;
 -(PFGeoPoint *)getCurrentLocationGeoPoint;
 -(NSString *)getApproximateDistance:(CLLocationCoordinate2D)offerLocation;
+-(NSString *)getApproximateDistanceInKm:(CLLocationCoordinate2D)offerLocation;
 -(void)convertGeopointToAddress;
 -(void)convertGeopointToAddressWithGeoPoint:(CLLocationCoordinate2D)locationCoord
                                       block:(void (^)(NSString* address, NSError *error))completionBlock;
