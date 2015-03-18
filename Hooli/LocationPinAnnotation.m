@@ -23,6 +23,20 @@
     return self;
 }
 
+- (NSString *)subtitle{
+    return subtitletext;
+}
+- (NSString *)title{
+    return titletext;
+}
+
+-(void)setTitle:(NSString*)strTitle {
+    self.titletext = strTitle;
+}
+
+-(void)setSubTitle:(NSString*)strSubTitle {
+    self.subtitletext = strSubTitle;
+}
 
 
 @end

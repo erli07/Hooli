@@ -2,12 +2,21 @@
 //  ActivityCategoryViewController.h
 //  Hooli
 //
-//  Created by Er Li on 3/9/15.
+//  Created by Er Li on 3/15/15.
 //  Copyright (c) 2015 ErLi. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
+@protocol HLActivityCategoryDelegate <NSObject>
+
+- (void)didSelectEventCategory:(NSString *)eventCategory;
+
+@end
+
 @interface ActivityCategoryViewController : UITableViewController
+
+@property (nonatomic, weak) id<HLActivityCategoryDelegate> delegate;
+
 
 @end

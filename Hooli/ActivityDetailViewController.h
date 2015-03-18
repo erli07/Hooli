@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "ActivityMemberViewController.h"
 @interface ActivityDetailViewController : UIViewController<UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic) PFObject *activityDetail;
 @property (nonatomic) UITableView *activityDetailTableView;
-@property (nonatomic) UITableView *memberTableView;
+@property (nonatomic) ActivityMemberViewController *memberTableView;
 
 
 @end

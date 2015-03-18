@@ -162,6 +162,14 @@ extern NSString *const kHLOfferAttributesLikersKey;
 extern NSString *const kHLOfferAttributesIsLikedByCurrentUserKey;
 extern NSString *const kHLOfferAttributesLikerdOffersKey;
 
+//Event Member Class
+extern NSString *const kHLEventMemberKeyEvent;
+extern NSString *const kHLEventMemberKeyMember;
+extern NSString *const kHLEventMemberKeyMemberRole;
+
+//Event Class
+
+
 extern NSString *const kHLEventKeyTitle;
 extern NSString *const kHLEventKeyThumbnail;
 extern NSString *const kHLEventKeyDescription;
@@ -174,6 +182,7 @@ extern NSString *const kHLEventKeyCategory ;
 extern NSString *const kHLEventKeyMemberNumber;
 extern NSString *const kHLEventKeyImages;
 extern NSString *const kHLEventKeyEventLocation;
+extern NSString *const kHLEventKeyDateText;
 
 extern NSString *const kHLEventCategoryEating ;
 extern NSString *const kHLEventCategoryShopping ;
@@ -184,6 +193,7 @@ extern NSString *const kHLActivityKeyId;
 extern NSString *const kHLActivityKeyName;
 extern NSString *const kHLActivityKeyGeoPoint;
 extern NSString *const kHLActivityKeyDate;
+extern NSString *const kHLActivityKeyThumbnail;
 
 extern NSString *const kHLActivityRelationshipKeyActivity;
 extern NSString *const kHLActivityRelationshipKeyUser;
@@ -195,6 +205,7 @@ extern NSString *const kHLNotificationToUserKey;
 extern NSString *const kHLNotificationContentKey;
 extern NSString *const kHLNotificationOfferKey;
 extern NSString *const kHLNotificationNeedKey;
+extern NSString *const kHLNotificationEventKey;
 
 extern NSString *const kHLNotificationTypeLike;
 extern NSString *const kHLNotificationTypeFollow ;
@@ -203,7 +214,7 @@ extern NSString *const kHLNotificationTypeActivityComment;
 extern NSString *const kHLNotificationTypeOfferComment;
 extern NSString *const kHLNotificationTypeNeedComment;
 extern NSString *const kHLNotificationTypeJoined;
-extern NSString *const kHLNotificationTypeJoinActivity;
+extern NSString *const kHLNotificationTypeJoinEvent;
 extern NSString *const kHLNotificationTypeInvitation;
 extern NSString *const kHLNotificationTypeAcceptInvitation;
 

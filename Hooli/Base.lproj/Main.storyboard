@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Search-->
@@ -187,22 +186,40 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="restaurant-48.png" id="4lq-C2-jS5">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="4lq-C2-jS5">
                                             <rect key="frame" x="272" y="20" width="24" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="C0C-Ob-U2e">
-                                            <rect key="frame" x="15" y="119" width="86" height="86"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KqQ-ff-7l0">
+                                            <rect key="frame" x="15" y="120" width="86" height="86"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="tQm-JJ-1Ze">
-                                            <rect key="frame" x="117" y="119" width="86" height="86"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="eventImageButtonPressed:" destination="RxE-v5-Opy" eventType="touchUpInside" id="Myb-Yz-34M"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5W2-jC-Z2Q">
+                                            <rect key="frame" x="218" y="120" width="86" height="86"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="CLi-2w-Cn1">
-                                            <rect key="frame" x="218" y="119" width="86" height="86"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="eventImageButtonPressed:" destination="RxE-v5-Opy" eventType="touchUpInside" id="deo-Ir-S8u"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rw8-Pb-e0K">
+                                            <rect key="frame" x="117" y="120" width="86" height="86"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="eventImageButtonPressed:" destination="RxE-v5-Opy" eventType="touchUpInside" id="T2v-B1-qAv"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
@@ -211,9 +228,9 @@
                                     <outlet property="activityContentLabel" destination="YWl-RH-hE9" id="Jfk-q4-aEf"/>
                                     <outlet property="activityInfoLabel" destination="Rxh-gb-78x" id="rK7-oE-KuC"/>
                                     <outlet property="activityTitleLabel" destination="MjO-bv-7ka" id="np5-E3-EmK"/>
-                                    <outlet property="eventImage1" destination="C0C-Ob-U2e" id="XDU-MR-Gsn"/>
-                                    <outlet property="eventImage2" destination="tQm-JJ-1Ze" id="MgE-19-a2l"/>
-                                    <outlet property="eventImage3" destination="CLi-2w-Cn1" id="4wz-gF-HeG"/>
+                                    <outlet property="eventImageButton1" destination="KqQ-ff-7l0" id="iZ6-L6-4Pd"/>
+                                    <outlet property="eventImageButton2" destination="Rw8-Pb-e0K" id="aga-0E-v1W"/>
+                                    <outlet property="eventImageButton3" destination="5W2-jC-Z2Q" id="6bv-hb-dd2"/>
                                     <outlet property="portraitImageView" destination="SbH-gZ-YiJ" id="GEQ-w2-abI"/>
                                     <outlet property="userGenderImageView" destination="3OT-hd-9sF" id="QUt-Xe-MSR"/>
                                     <outlet property="userInfoLabel" destination="7W6-IO-YMg" id="EG5-bD-1cb"/>
@@ -973,7 +990,6 @@
         <image name="notification@2x.png" width="32" height="32"/>
         <image name="pink-heart.png" width="17" height="16"/>
         <image name="profile@2x.png" width="32" height="32"/>
-        <image name="restaurant-48.png" width="24" height="24"/>
         <image name="shopping" width="17" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

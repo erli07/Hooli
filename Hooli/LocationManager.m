@@ -88,7 +88,7 @@
     
     CLLocationDistance distance = [locA distanceFromLocation:locB];
         
-    NSString *distanceStr = [NSString stringWithFormat:@"%.2f km", distance];
+    NSString *distanceStr = [NSString stringWithFormat:@"%.2f km", distance/1000];
 
     return distanceStr;
 }

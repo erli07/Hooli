@@ -22,6 +22,12 @@
 @property (nonatomic) NSArray *titlesArray;
 @property (nonatomic) NSInteger currentButtonIndex;
 @property (nonatomic) NSMutableArray *imagesArray;
+@property (nonatomic) NSDate *eventDate;
+@property (nonatomic) NSString *eventDateText;
+@property (nonatomic) CLLocation *eventLocation;
+@property (nonatomic) PFGeoPoint *eventGeopoint;
+
+
 @end
 
 @implementation CreateActivityViewController
@@ -29,6 +35,10 @@
 @synthesize inviteButton = _inviteButton;
 @synthesize imagesArray = _imagesArray;
 @synthesize currentButtonIndex = _currentButtonIndex;
+@synthesize eventDate = _eventDate;
+@synthesize eventLocation = _eventLocation;
+@synthesize eventGeopoint = _eventGeopoint;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -147,11 +157,24 @@
                 [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
                 [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
                 [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
-                [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyEventGeoPoint];
+            
                 [eventObject setObject:self.eventLocationField.text forKey:kHLEventKeyEventLocation];
                 [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
                 [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
-                [eventObject setObject:[NSDate date] forKey:kHLEventKeyDate];
+                [eventObject setObject:self.eventDateField.text forKey:kHLEventKeyDateText];
+
+                if(_eventDate){
+                    
+                    [eventObject setObject:_eventDate forKey:kHLEventKeyDate];
+                    
+                }
+                
+                if(_eventGeopoint){
+                    
+                    [eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
+                }
+                
+                
                 [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
                 [eventObject setObject:kHLEventCategoryEating forKey:kHLEventKeyCategory];
                 
@@ -204,11 +227,22 @@
                         [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
                         [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
                         [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
-                        [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyEventGeoPoint];
                         [eventObject setObject:self.eventLocationField.text forKey:kHLEventKeyEventLocation];
                         [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
                         [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
-                        [eventObject setObject:[NSDate date] forKey:kHLEventKeyDate];
+                        [eventObject setObject:self.eventDateField.text forKey:kHLEventKeyDateText];
+                        
+                        if(_eventDate){
+                            
+                            [eventObject setObject:_eventDate forKey:kHLEventKeyDate];
+                            
+                        }
+                        
+                        if(_eventGeopoint){
+                            
+                            [eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
+                        }
+                        
                         [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
                         [eventObject setObject:[PFObject objectWithoutDataWithClassName:
                                                 kHLCloudEventImagesClass objectId:eventImages.objectId] forKey:kHLEventKeyImages];
@@ -247,6 +281,27 @@
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
+    
+    if(textField == self.eventMemberNumberField){
+        
+        [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        
+        [textField setKeyboardAppearance:UIKeyboardAppearanceLight];
+        
+        UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+        
+        [keyboardDoneButtonView sizeToFit];
+        
+        UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"人数不限"
+                                                                       style:UIBarButtonItemStylePlain target:self
+                                                                      action:@selector(setEventNoLimited)];
+        [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
+        
+        textField.inputAccessoryView = keyboardDoneButtonView;
+
+        
+    }
+    
     if(textField == self.eventTitle){
         
         [UIView animateWithDuration:.5
@@ -261,6 +316,7 @@
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
         
     }
+    
     
 }
 
@@ -299,6 +355,12 @@
     
     
 }
+
+-(void)setEventNoLimited{
+    
+    self.eventMemberNumberField.text = @"人数不限";
+    
+}
 - (IBAction)inviteFriends:(id)sender {
     
     
@@ -324,6 +386,24 @@
 
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.identifier isEqualToString:@"map"])
+    {
+        ActivityLocationViewController *locationVC = segue.destinationViewController;
+        locationVC.showSearchBar = YES;
+        locationVC.eventGeopoint = _eventGeopoint;
+        locationVC.delegate = self;
+    
+    }
+    else if([segue.identifier isEqualToString:@"category"])
+    {
+        ActivityCategoryViewController *categoryVC = segue.destinationViewController;
+        categoryVC.delegate = self;
+        
+    }
+    
+}
 
 - (IBAction)firstImagePressed:(id)sender {
     
@@ -372,14 +452,52 @@
     }
 }
 
+#pragma mark - Category delegate
+
+-(void)didSelectEventCategory:(NSString *)eventCategory{
+    
+    if(eventCategory){
+        
+        self.eventCategoryLabel.text = eventCategory;
+        
+    }
+    
+}
+
+#pragma mark - HLLocation delegate
+
+-(void)didSelectEventLocation:(CLLocation *)eventLocation locationString:(NSString *)eventLocationText{
+    
+//    self.eventLocationLabel.text = [NSString stringWithFormat:@"(%.2f, %.2f)", eventLocation.coordinate.latitude, eventLocation.coordinate.longitude];
+    if(eventLocationText){
+    
+    self.eventLocationLabel.text = eventLocationText;
+  
+        
+    }
+    
+    if (eventLocation) {
+        
+        _eventGeopoint = [[PFGeoPoint alloc]init];
+        
+        _eventGeopoint.longitude = eventLocation.coordinate.longitude;
+        
+        _eventGeopoint.latitude = eventLocation.coordinate.latitude;
+    }
+    
+
+ 
+}
 
 #pragma mark - HSDatePickerViewControllerDelegate
 - (void)hsDatePickerPickedDate:(NSDate *)date {
     
-    NSLog(@"Date picked %@", date);
     NSDateFormatter *dateFormater = [NSDateFormatter new];
-    dateFormater.dateFormat = @"yyyy.MM.dd HH:mm";
-    self.eventDateField.text = [dateFormater stringFromDate:date];
+    dateFormater.dateFormat = @"MM.dd HH:mm";
+//    self.eventDateField.text =[NSString stringWithFormat:@"%@ %@", self.eventDateField.text, [dateFormater stringFromDate:date]];
+    self.eventDateLabel.text = [dateFormater stringFromDate:date];
+    
+    _eventDate = date;
 //    
 //    self.dateLabel.text = [dateFormater stringFromDate:date];
 //    self.selectedDate = date;
@@ -412,6 +530,7 @@
         [_imagesArray addObject:compressedImage];
         [self.imageButton1 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton1 setTitle:@"" forState:UIControlStateNormal];
+        [self.imageButton1 setImage:nil forState:UIControlStateNormal];
         
     }
     else if(_currentButtonIndex == 1){
@@ -419,6 +538,8 @@
         [_imagesArray addObject:compressedImage];
         [self.imageButton2 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton2 setTitle:@"" forState:UIControlStateNormal];
+        [self.imageButton2 setImage:nil forState:UIControlStateNormal];
+
         
     }
     else if(_currentButtonIndex == 2){
@@ -426,6 +547,7 @@
         [_imagesArray addObject:compressedImage];
         [self.imageButton3 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton3 setTitle:@"" forState:UIControlStateNormal];
+        [self.imageButton3 setImage:nil forState:UIControlStateNormal];
         
     }
     else if(_currentButtonIndex == 3){
@@ -433,7 +555,8 @@
         [_imagesArray addObject:compressedImage];
         [self.imageButton4 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton4 setTitle:@"" forState:UIControlStateNormal];
-        
+        [self.imageButton4 setImage:nil forState:UIControlStateNormal];
+
     }
     
     

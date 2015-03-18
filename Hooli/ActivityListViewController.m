@@ -51,7 +51,7 @@
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
     [query includeKey:kHLEventKeyHost];
     [query includeKey:kHLEventKeyImages];
-    [query orderByAscending:@"createdAt"];
+    [query orderByDescending:@"createdAt"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
@@ -139,6 +139,8 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self setNavBarVisible:YES animated:NO];
     
     ActivityDetailViewController *detailVC = [[ActivityDetailViewController alloc]init];
     detailVC.activityDetail = [self.objects objectAtIndex:indexPath.row];

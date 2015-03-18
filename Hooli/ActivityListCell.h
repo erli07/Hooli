@@ -20,6 +20,16 @@
 @property (weak, nonatomic) IBOutlet UIImageView *eventImage1;
 @property (weak, nonatomic) IBOutlet UIImageView *eventImage2;
 @property (weak, nonatomic) IBOutlet UIImageView *eventImage3;
+@property (nonatomic) NSMutableArray *imagesArray;
+
+@property (weak, nonatomic) IBOutlet UIButton *eventImageButton1;
+@property (weak, nonatomic) IBOutlet UIButton *eventImageButton2;
+@property (weak, nonatomic) IBOutlet UIButton *eventImageButton3;
+
+
+- (IBAction)eventImageButtonPressed:(id)sender;
+
+
 
 -(void)updateCellDetail:(PFObject *)eventObject;
 -(void)setUser:(PFUser *)aUser;

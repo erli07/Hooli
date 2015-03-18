@@ -7,6 +7,8 @@
 //
 #import "PostFormViewController.h"
 #import <UIKit/UIKit.h>
+#import "ActivityLocationViewController.h"
+#import "ActivityCategoryViewController.h"
 typedef enum{
     
     HL_EVENT_DETAIL_NAME = 1,
@@ -17,7 +19,7 @@ typedef enum{
     
 } EventDetailType;
 
-@interface CreateActivityViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
+@interface CreateActivityViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate,HLActivityLocationDelegate, HLActivityCategoryDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *eventTitle;
 @property (weak, nonatomic) IBOutlet UITextView *eventContent;
@@ -29,6 +31,10 @@ typedef enum{
 @property (weak, nonatomic) IBOutlet UIButton *selectCategoryButton;
 @property (weak, nonatomic) IBOutlet UIButton *locateInMapButton;
 @property (weak, nonatomic) IBOutlet UIButton *showCalenderButton;
+@property (weak, nonatomic) IBOutlet UILabel *eventCategoryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *eventLocationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *eventDateLabel;
+
 
 - (IBAction)showCalender:(id)sender;
 

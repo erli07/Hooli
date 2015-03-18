@@ -92,13 +92,19 @@ NSString *const kHLNeedsModelKeyName = @"name";
 NSString *const kHLNeedsModelKeyGeoPoint = @"geoPoint";
 NSString *const kHLNeedsModelKeyStatus = @"status";
 
-//Activity Class
+//Event Class will fix the name later
 NSString *const kHLActivityKeyId = @"objectId";
 NSString *const kHLActivityKeyName = @"name";
 NSString *const kHLActivityKeyGeoPoint = @"geoPoint";
 NSString *const kHLActivityKeyDate = @"date";
+NSString *const kHLActivityKeyThumbnail = @"thumbnail";
 
 
+//Event Member Class
+
+NSString *const kHLEventMemberKeyEvent = @"event";
+NSString *const kHLEventMemberKeyMember = @"member";
+NSString *const kHLEventMemberKeyMemberRole = @"memberRole";
 
 //Installation
 
@@ -158,11 +164,14 @@ NSString *const kHLEventKeyUserGeoPoint = @"user_geopoint";
 NSString *const kHLEventKeyEventGeoPoint = @"event_geopoint";
 NSString *const kHLEventKeyEventLocation= @"event_location";
 NSString *const kHLEventKeyDate = @"date";
+NSString *const kHLEventKeyDateText = @"dateText";
 NSString *const kHLEventKeyAnnoucement = @"annoucement";
 NSString *const kHLEventKeyCategory = @"category";
 NSString *const kHLEventKeyMemberNumber= @"memberNumber";
 NSString *const kHLEventKeyImages= @"eventImages";
 NSString *const kHLEventKeyHost = @"host";
+
+
 
 NSString *const kHLEventCategoryEating = @"eating";
 NSString *const kHLEventCategoryShopping = @"shopping";
@@ -174,6 +183,8 @@ NSString *const kHLNotificationToUserKey = @"toUser";
 NSString *const kHLNotificationContentKey = @"content";
 NSString *const kHLNotificationOfferKey = @"offer";
 NSString *const kHLNotificationNeedKey = @"need";
+NSString *const kHLNotificationEventKey = @"event";
+
 
 NSString *const kHLNotificationTypeLike       = @"like";
 NSString *const kHLNotificationTypeFollow     = @"follow";
@@ -185,7 +196,7 @@ NSString *const khlNotificationTypMakeOffer     = @"make offer";
 NSString *const khlNotificationTypAcceptOffer     = @"accept offer";
 NSString *const khlNotificationTypeOfferSold     = @"offer sold";
 NSString *const khlNotificationTypOfferItem     = @"Offer Item";
-NSString *const kHLNotificationTypeJoinActivity = @"join Activity";
+NSString *const kHLNotificationTypeJoinEvent = @"join event";
 NSString *const kHLNotificationTypeInvitation = @"invite";
 NSString *const kHLNotificationTypeAcceptInvitation = @"accept invitation";
 

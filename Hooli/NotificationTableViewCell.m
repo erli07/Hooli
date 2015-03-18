@@ -109,11 +109,21 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeFollow] || [[notification objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeJoined]) {
         [self setActivityImageFile:nil];
-    } else {
+    } else if([notification objectForKey:kHLNotificationOfferKey]) {
         
         PFFile *activityImageFile = (PFFile*)[[notification objectForKey:kHLNotificationOfferKey] objectForKey:kHLOfferModelKeyThumbNail];
         
         [self setActivityImageFile:activityImageFile];
+        
+    }else if([notification objectForKey:kHLNotificationEventKey]) {
+        
+        PFFile *activityImageFile = (PFFile*)[[notification objectForKey:kHLNotificationEventKey] objectForKey:kHLEventKeyThumbnail];
+        
+        [self setActivityImageFile:activityImageFile];
+        
+    }
+    else{
+        
     }
     
     
@@ -133,6 +143,12 @@ static TTTTimeIntervalFormatter *timeFormatter;
         
         
         activityString  = [NSString stringWithFormat:@"%@", activityString];
+        
+    }
+    else if ([[notification objectForKey:kHLNotificationTypeKey]isEqualToString:kHLNotificationTypeJoinEvent]){
+        
+        activityString  = [NSString stringWithFormat:@"%@", activityString];
+
         
     }
     

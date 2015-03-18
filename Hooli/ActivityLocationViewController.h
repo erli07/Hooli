@@ -9,12 +9,24 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import <Parse/Parse.h>
 
+@protocol HLActivityLocationDelegate <NSObject>
+
+//- (void)didSelectEventLocation:(CLLocation *)eventLocation;
+- (void)didSelectEventLocation:(CLLocation *)eventLocation locationString:(NSString *)eventLocationText;
+
+@end
 
 @interface ActivityLocationViewController : UIViewController<UISearchBarDelegate>
 
 @property (nonatomic) IBOutlet  MKMapItem *mapItem;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, weak) id<HLActivityLocationDelegate> delegate;
+@property (nonatomic, assign) BOOL showSearchBar;
+@property (nonatomic) NSString *eventLocationText;
+@property (nonatomic) PFGeoPoint *eventGeopoint;
 
 @end
+

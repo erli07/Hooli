@@ -11,12 +11,18 @@
 @interface LocationPinAnnotation : MKPinAnnotationView<MKAnnotation>
 {
     CLLocationCoordinate2D coordinate;
-    NSString *subtitle;
-    NSString *title;
+    NSString *subtitletext;
+    NSString *titletext;
     
 }
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+@property (nonatomic) NSString *titletext;
+@property (nonatomic) NSString *subtitletext;
 
 - (id) initWithCoords:(CLLocationCoordinate2D) coords;
+- (NSString *)subtitle;
+- (NSString *)title;
+-(void)setTitle:(NSString*)strTitle;
+-(void)setSubTitle:(NSString*)strSubTitle;
 
 @end

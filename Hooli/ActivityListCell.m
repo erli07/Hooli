@@ -10,12 +10,19 @@
 #import "HLConstant.h"
 #import "LocationManager.h"
 #import "TTTTimeIntervalFormatter.h"
+#import "KZImageViewer.h"
+#import "KZImage.h"
+#import "KZPhotoBrowser.h"
+
+#define kScreenHeight         [UIScreen mainScreen].bounds.size.height
+#define kScreenWidth          [UIScreen mainScreen].bounds.size.width
 
 static TTTTimeIntervalFormatter *timeFormatter;
 
 @implementation ActivityListCell
 
-@synthesize eventImage1,eventImage2,eventImage3;
+@synthesize eventImage1,eventImage2,eventImage3,imagesArray;
+
 //@property (weak, nonatomic) IBOutlet UILabel *activityContentLabel;
 //@property (weak, nonatomic) IBOutlet UIImageView *portraitImageView;
 //@property (weak, nonatomic) IBOutlet UILabel *extraInfoLabel;
@@ -55,9 +62,19 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     self.userGenderImageView.image = [UIImage imageNamed:@"male_symbol"];
     
-    self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", [eventObject objectForKey:kHLEventKeyEventLocation], @"今天",  [eventObject objectForKey:kHLEventKeyMemberNumber]];
-    
 
+    
+    if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
+        
+         self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", [eventObject objectForKey:kHLEventKeyEventLocation],[eventObject objectForKey:kHLEventKeyDateText],  [eventObject objectForKey:kHLEventKeyMemberNumber]];
+    }
+    else{
+   
+        self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@", [eventObject objectForKey:kHLEventKeyEventLocation],[eventObject objectForKey:kHLEventKeyDateText],  [eventObject objectForKey:kHLEventKeyMemberNumber]];
+    }
+    
+    self.activityCategoryImageView.image = [self getActivityCategoryImageFromString:[eventObject objectForKey:kHLEventKeyCategory]];
+    
     PFGeoPoint *userGeoPoint = [eventObject objectForKey:kHLEventKeyUserGeoPoint];
     
     CLLocationCoordinate2D userLocation = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude);
@@ -69,7 +86,9 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@ | %@",[[LocationManager sharedInstance]getApproximateDistanceInKm:userLocation], [timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:[eventObject createdAt]]];
     
-    PFObject *eventImages = [eventObject objectForKey:kHLEventKeyImages];
+    self.imagesArray = [NSMutableArray new];
+    
+   PFObject *eventImages = [eventObject objectForKey:kHLEventKeyImages];
     
    PFFile *imageFile0 = [eventImages objectForKey:@"imageFile0"];
     
@@ -78,15 +97,20 @@ static TTTTimeIntervalFormatter *timeFormatter;
         [imageFile0 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             
             if(!error){
+
+                UIImage *image1 = [UIImage imageWithData:data];
                 
-                self.eventImage1.image = [UIImage imageWithData:data];
+                [self.imagesArray addObject:image1];
+                
+                [self.eventImageButton1 setBackgroundImage:image1 forState:UIControlStateNormal];
                 
             }
         }];
     }
     else{
         
-        self.eventImage1.image = [UIImage imageNamed:@"hotpot_3.png"];
+        [self.eventImageButton1 removeFromSuperview];
+        
     }
     
     PFFile *imageFile1 = [eventImages objectForKey:@"imageFile1"];
@@ -97,14 +121,18 @@ static TTTTimeIntervalFormatter *timeFormatter;
             
             if(!error){
                 
-                self.eventImage2.image = [UIImage imageWithData:data];
+                UIImage *image2 = [UIImage imageWithData:data];
                 
+                [self.imagesArray addObject:image2];
+                
+                [self.eventImageButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
+
             }
         }];
     }
     else{
         
-        self.eventImage2.image = nil;
+        [self.eventImageButton2 removeFromSuperview];
         
     }
     
@@ -116,33 +144,20 @@ static TTTTimeIntervalFormatter *timeFormatter;
             
             if(!error){
                 
-                self.eventImage3.image = [UIImage imageWithData:data];
+                UIImage *image3 = [UIImage imageWithData:data];
                 
+                [self.imagesArray addObject:image3];
+                
+                [self.eventImageButton3 setBackgroundImage:image3 forState:UIControlStateNormal];
+
             }
         }];
     }
     else{
         
-        self.eventImage3.image = nil;
+        [self.eventImageButton3 removeFromSuperview];
         
     }
-
-    
-//    _activityContentLabel.text = [eventObject objectForKey:kHLEventKeyDescription];
-//    
-//    
-//    _portraitImageView.image = [UIImage imageNamed:@"er"];
-//    
-//    _portraitImageView.layer.cornerRadius = _portraitImageView.frame.size.height/2;
-//    
-//    _portraitImageView.layer.masksToBounds = YES;
-//    
-//    _extraInfoLabel.text = @"aaaaaaaaaaaaajkdknfjksd";
-//    
-//    _dateLabel.text = @"今天";
-//    
-//    _groupNumberLabel.text = @"男女不限";
-
     
 }
 
@@ -151,4 +166,73 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
 }
 
+
+-(UIImage *)getActivityCategoryImageFromString:(NSString *)category{
+    
+    if([category isEqualToString:@"eating"]){
+        
+        return [UIImage imageNamed:@"restaurant-48"];
+    }
+    else if([category isEqualToString:@"sports"]){
+        
+        return [UIImage imageNamed:@"basketball-48"];
+        
+    }
+    else if([category isEqualToString:@"study"]){
+        
+        return [UIImage imageNamed:@"study-48"];
+
+    }
+    else if([category isEqualToString:@"movie"]){
+        
+        return [UIImage imageNamed:@"movie-48"];
+        
+    }
+    else if([category isEqualToString:@"hiking"]){
+        
+        return [UIImage imageNamed:@"backpack-48"];
+        
+    }
+    else if([category isEqualToString:@"tour"]){
+        
+        return [UIImage imageNamed:@"camera-48"];
+        
+    }
+    else if([category isEqualToString:@"shopping"]){
+        
+        return [UIImage imageNamed:@"shopping_bag-48"];
+        
+    }
+    else{
+        
+        return nil;
+    }
+    
+}
+
+
+
+
+
+- (IBAction)eventImageButtonPressed:(id)sender {
+    
+    UIButton *button = (UIButton *)sender;
+    NSLog(@"event image %ld pressed", (long)button.tag);
+    
+    NSMutableArray  *kzImageArray = [NSMutableArray array];
+
+    for (int i = 0; i < [self.imagesArray count]; i++)
+    {
+        UIImageView *imageView =  [[UIImageView alloc]init];
+        imageView.image = [self.imagesArray objectAtIndex:i];
+        KZImage *kzImage = [[KZImage alloc] initWithImage:[self.imagesArray objectAtIndex:i]];
+        kzImage.thumbnailImage = [self.imagesArray objectAtIndex:i];
+        
+        kzImage.srcImageView = imageView;
+        [kzImageArray addObject:kzImage];
+    }
+    KZImageViewer *imageViewer = [[KZImageViewer alloc] init];
+    [imageViewer showImages:kzImageArray atIndex:button.tag];
+    
+}
 @end

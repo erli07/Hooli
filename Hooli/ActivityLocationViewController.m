@@ -13,6 +13,8 @@
 @property (nonatomic, assign) MKCoordinateRegion boundingRegion;
 @property (nonatomic) CLLocationCoordinate2D userLocation;
 @property (nonatomic) LocationPinAnnotation *annotation;
+@property (nonatomic) CLLocation *eventLocation;
+
 
 
 @end
@@ -23,6 +25,10 @@
 @synthesize userLocation = _userLocation;
 @synthesize searchBar = _searchBar;
 @synthesize annotation = _annotation;
+@synthesize eventLocation = _eventLocation;
+@synthesize eventLocationText = _eventLocationText;
+@synthesize showSearchBar = _showSearchBar;
+@synthesize eventGeopoint = _eventGeopoint;
 
 - (void)viewDidLoad {
     
@@ -44,7 +50,31 @@
     tapGestureRecognizer.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
+    if(!_showSearchBar){
+        
+        _searchBar.hidden = YES;
+    }
+    else{
+        
+        _searchBar.hidden = NO;
+        
+    }
     
+    if(_eventGeopoint){
+                
+        [self dropPinOnMap: CLLocationCoordinate2DMake(_eventGeopoint.latitude, _eventGeopoint.longitude)];
+        
+    }
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    if(_eventLocation){
+    
+    [self.delegate didSelectEventLocation:_eventLocation locationString:_eventLocationText];
+        
+    }
 }
 
 -(void)tapEventOccured:(id)sender{
@@ -67,15 +97,15 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
-    //    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(42.25142,-71.000931);
-    //
-    //    [self dropPinOnMap:coordinate];
-    
     [self convertAddressToCoordinate:searchBar.text block:^(CLLocationCoordinate2D coordinate, NSError *error) {
         
         if(!error){
             
+            _eventLocationText = searchBar.text;
+            
             [self dropPinOnMap:coordinate];
+            
+            _eventLocation = [[CLLocation alloc]initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
             
         }
         
@@ -94,6 +124,7 @@
         
         [self.mapView addAnnotations:@[_annotation]];
         
+        [self.mapView selectAnnotation:_annotation animated:YES];
         
     });
     
@@ -118,6 +149,7 @@
                                            initWithAnnotation:annotation reuseIdentifier:kAnnotationIdentifier];
         cPinView.pinColor = MKPinAnnotationColorRed;
         cPinView.animatesDrop = YES;
+        [cPinView setTitle:_searchBar.text];
         
         return cPinView;
     }
@@ -127,7 +159,8 @@
                                            initWithAnnotation:annotation reuseIdentifier:kAnnotationIdentifier];
         cPinView.pinColor = MKPinAnnotationColorRed;
         cPinView.animatesDrop = YES;
-        
+        [cPinView setTitle:_searchBar.text];
+
         return cPinView;
     }
     
