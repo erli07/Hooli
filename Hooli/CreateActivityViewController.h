@@ -19,7 +19,16 @@ typedef enum{
     
 } EventDetailType;
 
+@protocol HLCreateActivityDelegate <NSObject>
+
+//- (void)didSelectEventLocation:(CLLocation *)eventLocation;
+- (void)didCreateActivity:(PFObject *)object;
+
+@end
+
 @interface CreateActivityViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate,HLActivityLocationDelegate, HLActivityCategoryDelegate>
+
+
 
 @property (weak, nonatomic) IBOutlet UITextField *eventTitle;
 @property (weak, nonatomic) IBOutlet UITextView *eventContent;
@@ -34,6 +43,9 @@ typedef enum{
 @property (weak, nonatomic) IBOutlet UILabel *eventCategoryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *eventLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *eventDateLabel;
+
+@property (nonatomic, weak) id<HLCreateActivityDelegate> delegate;
+
 
 
 - (IBAction)showCalender:(id)sender;

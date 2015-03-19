@@ -368,26 +368,80 @@
                     
                     if(_eventObject && _toUser){
                         
-                        PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
-                        [eventMember setObject:_toUser forKey:kHLEventMemberKeyMember];
-                        [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId] forKey:kHLEventMemberKeyEvent];
-                        [eventMember setObject:@"member" forKey:kHLEventMemberKeyMemberRole];
-
-                        PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];
-                        [eventMemberACL setPublicReadAccess:YES];
-                        eventMember.ACL = eventMemberACL;
-                        
-                        [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        PFQuery *existQuery = [PFQuery queryWithClassName:kHLCloudEventMemberClass];
+                        [existQuery whereKey:kHLEventMemberKeyMember equalTo:_toUser];
+                        [existQuery whereKey:kHLEventMemberKeyEvent equalTo:_eventObject];
+                        [existQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                             
-                            if(succeeded){
+                            if(object){
                                 
-                                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"You have accepted the request" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+                                [deleteQuery whereKey:kHLNotificationFromUserKey equalTo:_toUser];
+                                [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+                                [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                                    
+                                    if(object){
+                                        
+                                        [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                            
+                                            if(succeeded){
+                                                
+                                                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"You have accepted the request" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                                
+                                                [alertView show];
+                                                
+                                                [self loadObjects];
+                                            }
+                                        }];
+                                    }
+                                    
+                                }];
                                 
-                                [alertView show];
                                 
                             }
-                            
+                            else{
+                                
+                                PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
+                                [eventMember setObject:_toUser forKey:kHLEventMemberKeyMember];
+                                [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId] forKey:kHLEventMemberKeyEvent];
+                                [eventMember setObject:@"member" forKey:kHLEventMemberKeyMemberRole];
+                                
+                                PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                                [eventMemberACL setPublicReadAccess:YES];
+                                eventMember.ACL = eventMemberACL;
+                                
+                                [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                    
+                                    if(succeeded){
+                                        
+                                        PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+                                        [deleteQuery whereKey:kHLNotificationFromUserKey equalTo:_toUser];
+                                        [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+                                        [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                                            
+                                            if(object){
+                                                
+                                                [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                                    
+                                                    if(succeeded){
+                                                        
+                                                        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"You have accepted the request" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                                        
+                                                        [alertView show];
+                                                        
+                                                        [self loadObjects];
+                                                    }
+                                                }];
+                                            }
+                                            
+                                        }];
+                                    }
+                                    
+                                    
+                                }];
+                            }
                         }];
+                        
                     }
                     
                 }
@@ -410,6 +464,8 @@
                                     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"You have declined the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                     
                                     [alertView show];
+                                    
+                                    [self loadObjects];
                                 }
                             }];
                         }

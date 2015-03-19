@@ -8,8 +8,16 @@
 
 #import <Parse/Parse.h>
 
+@protocol HLActivitySelectMemberDelegate <NSObject>
+
+//- (void)didSelectEventLocation:(CLLocation *)eventLocation;
+- (void)didSelectMember:(PFUser *) member;
+
+@end
+
 @interface ActivityMemberViewController : PFQueryTableViewController
 @property (nonatomic, strong) PFObject *aObject;
+@property (nonatomic, weak) id<HLActivitySelectMemberDelegate> delegate;
 
 - (id)initWithObject:(PFObject *)_object;
 @end

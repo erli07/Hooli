@@ -256,7 +256,36 @@
                             
                             if(succeeded){
                                 
-                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
+                                [eventMember setObject:[PFUser currentUser] forKey:kHLEventMemberKeyMember];
+                                [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:eventObject.objectId] forKey:kHLEventMemberKeyEvent];
+                                [eventMember setObject:@"host" forKey:kHLEventMemberKeyMemberRole];
+                                
+                                PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                                [eventMemberACL setPublicReadAccess:YES];
+                                eventMember.ACL = eventMemberACL;
+                                
+                                [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                    
+                                    if(succeeded){
+                                        
+                                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                        
+                                        [alert show];
+                                        
+                                        [self.delegate didCreateActivity:eventObject];
+                                        
+                                        [self.navigationController popViewControllerAnimated:YES];
+                                        
+                                        
+                                    }
+                                    
+                                }];
+                                
+                            }
+                            else{
+                                
+                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布失败..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                 
                                 [alert show];
                                 

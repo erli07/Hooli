@@ -9,6 +9,7 @@
 #import "ActivityMemberViewController.h"
 #import "HLConstant.h"
 #import "HLTheme.h"
+#import "UserCartViewController.h"
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
 
 @interface ActivityMemberViewController ()
@@ -109,6 +110,21 @@
     return memberCell;
     
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+  
+    PFObject *eventMemberObject = [self.objects objectAtIndex:indexPath.row];
+    PFUser *member = [eventMemberObject objectForKey:kHLEventMemberKeyMember];
+  
+    if(member){
+        
+        [self.delegate didSelectMember:member];
+        
+    }
+    
+}
+
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] init];

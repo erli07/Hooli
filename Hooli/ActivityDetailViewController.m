@@ -15,11 +15,14 @@
 #import "ActivityDetailCell.h"
 #import "ActivityLocationViewController.h"
 #import "HLConstant.h"
+#import "UserCartViewController.h"
+#import "CreateActivityViewController.h"
+#import "FollowListViewController.h"
 #define text_color [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
 
 
-@interface ActivityDetailViewController ()
+@interface ActivityDetailViewController ()<HLCreateActivityDelegate>
 @property (nonatomic) NSArray *detailArray;
 @property (nonatomic) NSMutableArray *hostArray;
 @property (nonatomic) NSMutableArray *participantArray;
@@ -83,6 +86,8 @@
     
     _memberTableView.tableView.scrollEnabled = NO;
     
+    _memberTableView.delegate = self;
+    
     [_parentScrollView addSubview:_memberTableView.view];
     
     [self reloadContentsize];
@@ -121,7 +126,7 @@
     
     _inviteButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 523, 145, 35)];
     
-    [_inviteButton addTarget:self action:@selector(joinEvent) forControlEvents:UIControlEventTouchUpInside];
+    [_inviteButton addTarget:self action:@selector(inviteFriends) forControlEvents:UIControlEventTouchUpInside];
     
     [_inviteButton setBackgroundColor:[HLTheme buttonColor]];
     
@@ -129,11 +134,22 @@
     
     _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
     
-    [_joinButton addTarget:self action:@selector(joinEvent) forControlEvents:UIControlEventTouchUpInside];
-    
     [_joinButton setBackgroundColor:[HLTheme buttonColor]];
     
-    [_joinButton setTitle:@"我要参加" forState:UIControlStateNormal];
+    
+    if([[[PFUser currentUser]objectId] isEqual:[[_activityDetail objectForKey:kHLEventKeyHost]objectId]]){
+        
+        [_joinButton addTarget:self action:@selector(editEvent) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_joinButton setTitle:@"修改" forState:UIControlStateNormal];
+    }
+    else{
+        
+        [_joinButton addTarget:self action:@selector(joinEvent) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_joinButton setTitle:@"我要参加" forState:UIControlStateNormal];
+        
+    }
     
     _joinButton.layer.cornerRadius = 10.0f;
     _joinButton.layer.masksToBounds = YES;
@@ -151,21 +167,40 @@
     
 }
 
--(void)shareToFriends{
+-(void)inviteFriends{
     
+    FollowListViewController*  followListVC = [[FollowListViewController alloc]init];
+    
+    followListVC.fromUser = [PFUser currentUser];
+    
+    followListVC.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
+
+    [self.navigationController pushViewController:followListVC animated:YES];
+
+}
+
+-(void)editEvent{
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    
+    CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
+    
+    postVC.delegate = self;
+    
+    postVC.hidesBottomBarWhenPushed = YES;
+    
+    [self.navigationController pushViewController:postVC animated:YES];
     
 }
 
 -(void)joinEvent{
     
-    PFQuery *queryExistingJoining = [PFQuery queryWithClassName:kHLCloudNotificationClass];
-    [queryExistingJoining whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeJoinEvent];
-    [queryExistingJoining whereKey:kHLNotificationToUserKey equalTo: [_activityDetail objectForKey:kHLEventKeyHost]];
-    [queryExistingJoining whereKey:kHLNotificationEventKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId]];
-    [queryExistingJoining whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
+    PFQuery *queryExistingJoining = [PFQuery queryWithClassName:kHLCloudEventMemberClass];
+    [queryExistingJoining whereKey:kHLEventMemberKeyMember equalTo: [_activityDetail objectForKey:kHLEventKeyHost]];
+    [queryExistingJoining whereKey:kHLEventMemberKeyEvent equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId]];
     [queryExistingJoining setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryExistingJoining getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-   
+        
         if (object) {
             
             
@@ -183,11 +218,18 @@
             joinAlert.tag = 1;
             
             [joinAlert show];
-
+            
         }
         
     }];
- 
+    
+}
+
+-(void)didCreateActivity:(PFObject *)object{
+    
+    _activityDetail = object;
+    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"微信群二维码"];
+
 }
 
 #pragma mark - Table view data source
@@ -330,33 +372,33 @@
     
     else{
         
-//        static NSString *kParticipantCellIdentifier = @"ActivityMembertCell";
-//        
-//        UITableViewCell *memberCell = [tableView dequeueReusableCellWithIdentifier:kParticipantCellIdentifier];
-//        
-//        if(memberCell == nil){
-//            
-//            memberCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kParticipantCellIdentifier];
-//            
-//        }
-//        
-//        memberCell.textLabel.textColor = text_color;
-//        
-//        memberCell.detailTextLabel.textColor = [UIColor lightGrayColor];
-//        
-//        memberCell.textLabel.text = [_participantArray objectAtIndex:indexPath.row];
-//        
-//        [memberCell.textLabel setFont:[UIFont systemFontOfSize:14.0f]];
-//        
-//        [memberCell.detailTextLabel setFont:[UIFont systemFontOfSize:10.0f]];
-//        
-//        memberCell.detailTextLabel.text = @"iOS developer";
-//        
-//        memberCell.imageView.image = [UIImage imageNamed:@"rsz_1er"];
-//        
-//        memberCell.imageView.layer.cornerRadius = 16.0f;
-//        
-//        memberCell.imageView.layer.masksToBounds = YES;
+        //        static NSString *kParticipantCellIdentifier = @"ActivityMembertCell";
+        //
+        //        UITableViewCell *memberCell = [tableView dequeueReusableCellWithIdentifier:kParticipantCellIdentifier];
+        //
+        //        if(memberCell == nil){
+        //
+        //            memberCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kParticipantCellIdentifier];
+        //
+        //        }
+        //
+        //        memberCell.textLabel.textColor = text_color;
+        //
+        //        memberCell.detailTextLabel.textColor = [UIColor lightGrayColor];
+        //
+        //        memberCell.textLabel.text = [_participantArray objectAtIndex:indexPath.row];
+        //
+        //        [memberCell.textLabel setFont:[UIFont systemFontOfSize:14.0f]];
+        //
+        //        [memberCell.detailTextLabel setFont:[UIFont systemFontOfSize:10.0f]];
+        //
+        //        memberCell.detailTextLabel.text = @"iOS developer";
+        //
+        //        memberCell.imageView.image = [UIImage imageNamed:@"rsz_1er"];
+        //
+        //        memberCell.imageView.layer.cornerRadius = 16.0f;
+        //
+        //        memberCell.imageView.layer.masksToBounds = YES;
         
         return nil;
         
@@ -431,39 +473,58 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if(indexPath.section == 0){
+    
+    if(tableView == _activityDetailTableView){
         
-        if(indexPath.row == 1){
+        if(indexPath.section == 0){
             
-            NSDateFormatter *dateFormater = [NSDateFormatter new];
-            dateFormater.dateFormat = @"MM.dd HH:mm";
-            NSString *msg = [dateFormater stringFromDate:[_activityDetail objectForKey:kHLEventKeyDate]];
-            
-            UIAlertView *addCalenderAlert =  [[UIAlertView alloc]initWithTitle:@"Add to calender?" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
-            
-            addCalenderAlert.tag = 0;
-            
-            [addCalenderAlert show];
-            
+            if(indexPath.row == 1){
+                
+                if([_activityDetail objectForKey:kHLEventKeyDate]){
+                
+                NSDateFormatter *dateFormater = [NSDateFormatter new];
+                dateFormater.dateFormat = @"MM.dd HH:mm";
+                NSString *msg = [dateFormater stringFromDate:[_activityDetail objectForKey:kHLEventKeyDate]];
+                
+                UIAlertView *addCalenderAlert =  [[UIAlertView alloc]initWithTitle:@"Add to calender?" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
+                
+                addCalenderAlert.tag = 0;
+                
+                [addCalenderAlert show];
+                    
+                }
+                
+                
+            }
+            else if(indexPath.row == 2){
+                
+                UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+                ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
+                vc.showSearchBar = NO;
+                vc.eventGeopoint = [_activityDetail objectForKey:kHLEventKeyEventGeoPoint];
+                [self.navigationController pushViewController:vc animated:YES];
+                
+                
+            }
+            else if(indexPath.row == 3){
+                
+                //[self performSegueWithIdentifier:@"seeItemComment" sender:self];
+                
+            }
             
         }
-        else if(indexPath.row == 2){
-            
-            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
-            ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
-            vc.showSearchBar = NO;
-            vc.eventGeopoint = [_activityDetail objectForKey:kHLEventKeyEventGeoPoint];
-            [self.navigationController pushViewController:vc animated:YES];
-            
-            
-        }
-        else if(indexPath.row == 3){
-            
-            //[self performSegueWithIdentifier:@"seeItemComment" sender:self];
-            
-        }
-        
     }
+    
+}
+
+-(void)didSelectMember:(PFUser *)member{
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
+    vc.userID = member.objectId;
+    
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
@@ -537,17 +598,16 @@
                     
                     [alert show];
                     
-                    
                 }
                 
                 
             }];
-
+            
         }
         
     }
     
 }
-    
+
 
 @end

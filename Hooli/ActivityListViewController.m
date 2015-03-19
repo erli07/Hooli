@@ -14,7 +14,7 @@
 #import "HLConstant.h"
 #import "LocationManager.h"
 
-@interface ActivityListViewController ()
+@interface ActivityListViewController ()<HLCreateActivityDelegate>
 @end
 
 @implementation ActivityListViewController
@@ -97,8 +97,9 @@
     
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     
-    
     CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
+    
+    postVC.delegate = self;
     
     postVC.hidesBottomBarWhenPushed = YES;
     
@@ -106,9 +107,16 @@
     
 }
 
+
 -(void)seeCategories{
     
 
+}
+
+-(void)didCreateActivity:(PFObject *)object{
+    
+    [self loadObjects];
+    
 }
 
 #pragma mark - Table view data source
