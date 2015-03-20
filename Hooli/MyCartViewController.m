@@ -210,7 +210,7 @@ static NSString * const reuseIdentifier = @"Cell";
       [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
           
           //return all credits
-          [[ActivityManager sharedInstance]returnCreditsWithOffer:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_currentOfferId]];
+//          [[ActivityManager sharedInstance]returnCreditsWithOffer:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_currentOfferId]];
           
           [self getGivingItems];
           

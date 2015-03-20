@@ -649,16 +649,16 @@
             
             NSString *price = [alertView textFieldAtIndex:0].text;
             
-            if(![[ActivityManager sharedInstance]checkBalanceStatus:price]){
-                
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"Your balance is not enough." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                
-                [alertView show];
-                
-                
-            }
-            else{
-                
+//            if(![[ActivityManager sharedInstance]checkBalanceStatus:price]){
+//                
+//                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"Your balance is not enough." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                
+//                [alertView show];
+//                
+//                
+//            }
+//            else{
+            
                 [[ActivityManager sharedInstance]makeOfferToOffer:self.offerObject withPrice:price block:^(BOOL succeeded, NSError *error) {
                     
                     if (succeeded) {
@@ -679,7 +679,7 @@
                     
                 }];
             }
-        }
+  //      }
     }
     
 }

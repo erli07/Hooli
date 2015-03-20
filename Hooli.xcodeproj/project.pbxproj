@@ -233,6 +233,7 @@
 		0EFF7D5B1A895DDB0087D464 /* MyRelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */; };
 		0EFF7D611A89659D0087D464 /* MyProfileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D601A89659D0087D464 /* MyProfileDetailViewController.m */; };
 		0EFF7D641A89E2F80087D464 /* UserAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D631A89E2F80087D464 /* UserAccountViewController.m */; };
+		450B5D0F1ABBB14800EA9F59 /* GCPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 450B5D0E1ABBB14800EA9F59 /* GCPlaceholderTextView.m */; };
 		4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADE81A15577C00486C43 /* HLUtilities.m */; };
 		4510ADEC1A15C6CC00486C43 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510ADEB1A15C6CC00486C43 /* ActivityManager.m */; };
 		452338F91AB2062000A3F85A /* heart-64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 452338F81AB2062000A3F85A /* heart-64@2x.png */; };
@@ -736,6 +737,8 @@
 		0EFF7D601A89659D0087D464 /* MyProfileDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileDetailViewController.m; sourceTree = "<group>"; };
 		0EFF7D621A89E2F80087D464 /* UserAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAccountViewController.h; sourceTree = "<group>"; };
 		0EFF7D631A89E2F80087D464 /* UserAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAccountViewController.m; sourceTree = "<group>"; };
+		450B5D0D1ABBB14800EA9F59 /* GCPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPlaceholderTextView.h; sourceTree = "<group>"; };
+		450B5D0E1ABBB14800EA9F59 /* GCPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPlaceholderTextView.m; sourceTree = "<group>"; };
 		4510ADE71A15577C00486C43 /* HLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLUtilities.h; sourceTree = "<group>"; };
 		4510ADE81A15577C00486C43 /* HLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLUtilities.m; sourceTree = "<group>"; };
 		4510ADEA1A15C6CC00486C43 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityManager.h; sourceTree = "<group>"; };
@@ -1731,6 +1734,8 @@
 		4530733C1A1550AE0010B5A1 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				450B5D0D1ABBB14800EA9F59 /* GCPlaceholderTextView.h */,
+				450B5D0E1ABBB14800EA9F59 /* GCPlaceholderTextView.m */,
 				0EB82A9B1AB7C69400EA15ED /* SDWebImage */,
 				0EB82A691AB7C29200EA15ED /* KZPhotoBrowser */,
 				0EB82A561AB7C26200EA15ED /* KZImageViewer */,
@@ -2493,6 +2498,7 @@
 				0EB5E7471A50B897009A1186 /* HomeTabBarController.m in Sources */,
 				457DA2151A5E2FD00099E52E /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				457DA2331A5E30170099E52E /* utilities.m in Sources */,
+				450B5D0F1ABBB14800EA9F59 /* GCPlaceholderTextView.m in Sources */,
 				0EB888361A3AE6C90054F982 /* AboutViewController.m in Sources */,
 				45D2C4401A642CFA006ADB53 /* LocationDetailViewController.m in Sources */,
 				0E0019C81A09E5A00086CD77 /* HLSettings.m in Sources */,
@@ -2775,7 +2781,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56be8e0c-5854-468d-9f3e-205317210175";
+				PROVISIONING_PROFILE = "70083b3b-be5a-4f74-9acb-cd7c119bbd41";
 			};
 			name = Debug;
 		};
@@ -2801,7 +2807,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56be8e0c-5854-468d-9f3e-205317210175";
+				PROVISIONING_PROFILE = "70083b3b-be5a-4f74-9acb-cd7c119bbd41";
 			};
 			name = Release;
 		};

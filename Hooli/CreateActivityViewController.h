@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ActivityLocationViewController.h"
 #import "ActivityCategoryViewController.h"
+#import "GCPlaceholderTextView.h"
 typedef enum{
     
     HL_EVENT_DETAIL_NAME = 1,
@@ -31,12 +32,12 @@ typedef enum{
 
 
 @property (weak, nonatomic) IBOutlet UITextField *eventTitle;
-@property (weak, nonatomic) IBOutlet UITextView *eventContent;
+@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *eventContent;
 @property (weak, nonatomic) IBOutlet UITextField *eventDateField;
 @property (weak, nonatomic) IBOutlet UITextField *eventLocationField;
 @property (weak, nonatomic) IBOutlet UITextField *eventMemberNumberField;
 @property (weak, nonatomic) IBOutlet UITextField *eventCategoryFiled;
-@property (weak, nonatomic) IBOutlet UITextView *eventAnnouncementField;
+@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *eventAnnouncementField;
 @property (weak, nonatomic) IBOutlet UIButton *selectCategoryButton;
 @property (weak, nonatomic) IBOutlet UIButton *locateInMapButton;
 @property (weak, nonatomic) IBOutlet UIButton *showCalenderButton;
@@ -46,6 +47,7 @@ typedef enum{
 
 @property (nonatomic, weak) id<HLCreateActivityDelegate> delegate;
 
+@property (nonatomic) PFObject *eventObject;
 
 
 - (IBAction)showCalender:(id)sender;

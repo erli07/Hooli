@@ -60,6 +60,13 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [[HLSettings sharedInstance]setShowSoldItems:NO];
     
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                       initWithTitle:@"My Items"
+                                       style:UIBarButtonItemStyleDone
+                                       target:self
+                                       action:@selector(seeMyItems)];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    
     [self initViewELements];
     
     [self updateCollectionViewData];
@@ -74,17 +81,16 @@ static NSString * const reuseIdentifier = @"Cell";
     [[HLSettings sharedInstance]setCurrentPageIndex:0];
     [[OffersManager sharedInstance]setFilterDictionary:nil];
     
-    [[ActivityManager sharedInstance]deleteAllOfferWithOfferId:@"cqyzpN3hOs"];
     
-    if(self.searchController.active){
-        
-        self.tabBarController.tabBar.hidden = YES;
-    }
-    else{
-        
-        self.tabBarController.tabBar.hidden = NO;
-        
-    }
+//    if(self.searchController.active){
+//        
+//        self.tabBarController.tabBar.hidden = YES;
+//    }
+//    else{
+//        
+//        self.tabBarController.tabBar.hidden = NO;
+//        
+//    }
     
     //  [self resetNavBar];
     
@@ -103,6 +109,16 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self.collectionView updateDataFromCloud];
     
+}
+
+
+-(void)seeMyItems{
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyCart"];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 -(void)getFollowedUserItems{
@@ -177,7 +193,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.searchController.searchBar.tintColor = [HLTheme mainColor];
     //  self.searchController.searchResultsUpdater = self;
     self.searchController.active = NO;
-    self.searchController.searchBar.placeholder =  @"Search Items...";
+    self.searchController.searchBar.placeholder =  @"Search...";
     self.searchController.searchBar.showsSearchResultsButton = YES;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.searchController.dimsBackgroundDuringPresentation = NO;
@@ -253,7 +269,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     self.showCategoryVC = NO;
     
-    self.tabBarController.tabBar.hidden = NO;
+   // self.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)willPresentSearchController:(UISearchController *)searchController {
@@ -487,14 +503,14 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (scrollVelocity.y > 0.0f){
         
-        [self setTabBarVisible:YES animated:YES];
-        [self setNavBarVisible:YES animated:YES];
+   //     [self setTabBarVisible:YES animated:YES];
+    [self setNavBarVisible:YES animated:YES];
         
         
     }
     else if(scrollVelocity.y < 0.0f){
         
-        [self setTabBarVisible:NO animated:YES];
+    //    [self setTabBarVisible:NO animated:YES];
         [self setNavBarVisible:NO animated:YES];
         
     }
@@ -544,8 +560,8 @@ static NSString * const reuseIdentifier = @"Cell";
         self.segmentControl.frame = segmentControlFrame;
         CGRect collectionView = self.collectionView.frame;
         
-        collectionView.origin.y = (visible)? 107 : 55;
-        collectionView.size.height = (visible)? 431 : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
+        collectionView.origin.y = (visible)? 10 : 20;
+        collectionView.size.height = (visible)? 558 : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
         self.addItemButton.alpha =(visible)?1:0;
         
         self.addItemButton.center = (visible)?CGPointMake(160, 452):CGPointMake(160,568);

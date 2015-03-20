@@ -477,19 +477,19 @@
     
 }
 
--(BOOL)checkBalanceStatus:(NSString *)offeredPrice{
-    
-    NSInteger _offeredPrice = [[self strRemovePrefix:offeredPrice] integerValue];
-    
-    NSInteger _currentBalance = [[self strRemovePrefix:[[PFUser currentUser]objectForKey:kHLUserModelKeyCredits]] integerValue];
-    
-    if (_currentBalance - _offeredPrice < 0) {
-        
-        return NO;
-    }
-    
-    return YES;
-}
+//-(BOOL)checkBalanceStatus:(NSString *)offeredPrice{
+//    
+//    NSInteger _offeredPrice = [[self strRemovePrefix:offeredPrice] integerValue];
+//    
+//    NSInteger _currentBalance = [[self strRemovePrefix:[[PFUser currentUser]objectForKey:kHLUserModelKeyCredits]] integerValue];
+//    
+//    if (_currentBalance - _offeredPrice < 0) {
+//        
+//        return NO;
+//    }
+//    
+//    return YES;
+//}
 
 
 - (void)makeOfferToOffer:(OfferModel *)offerObject
@@ -562,60 +562,65 @@
                                    block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     
     
-    PFQuery *query =  [PFQuery queryWithClassName:kHLCloudNotificationClass];
-    [query whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.objectId]];
-    //[query whereKey:kHLNotificationFromUserKey equalTo:toUser];
-    [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
-    //  [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypAcceptOffer];
-    [query includeKey:kHLNotificationToUserKey];
-    [query setCachePolicy:kPFCachePolicyNetworkOnly];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *notifications, NSError *error) {
-        //
-        if (!error && [notifications count] != 0) {
-            for (PFObject *notif in notifications) {
-                
-                if([[notif objectForKey:kHLNotificationTypeKey] isEqual:[notif objectForKey:khlNotificationTypMakeOffer]]){
-                    
-                    if(![[notif objectForKey:kHLNotificationFromUserKey] isEqual:toUser]){
-                        
-                        [self updateCreditsForUser:toUser price:[notif objectForKey:kHLNotificationContentKey] type:khlNotificationAddValue block:^(BOOL succeeded, NSError *error) {
-                            
-                            if(succeeded){
-                                
-                                [notif deleteInBackground];
-                                
-                            }
-                            
-                        }];
-                        
-                    }
-                    
-                }
-            }
-            
-            [self updateCreditsForUser:[PFUser currentUser] price:price type:khlNotificationAddValue block:^(BOOL succeeded, NSError *error) {
-                
-                if(succeeded){
-                    
-                    if (completionBlock) {
-                        completionBlock(YES,error);
-                    }
-                }
-                
-                
-            }];
-            
-            
-        }
-        else{
-            
-            if (completionBlock) {
-                completionBlock(NO,error);
-            }
-            
-            
-        }
-    }];
+//    PFQuery *query =  [PFQuery queryWithClassName:kHLCloudNotificationClass];
+//    [query whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.objectId]];
+//    //[query whereKey:kHLNotificationFromUserKey equalTo:toUser];
+//    [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+//    //  [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypAcceptOffer];
+//    [query includeKey:kHLNotificationToUserKey];
+//    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *notifications, NSError *error) {
+//        //
+//        if (!error && [notifications count] != 0) {
+//            for (PFObject *notif in notifications) {
+//                
+//                if([[notif objectForKey:kHLNotificationTypeKey] isEqual:[notif objectForKey:khlNotificationTypMakeOffer]]){
+//                    
+//                    if(![[notif objectForKey:kHLNotificationFromUserKey] isEqual:toUser]){
+//                        
+//                        [self updateCreditsForUser:toUser price:[notif objectForKey:kHLNotificationContentKey] type:khlNotificationAddValue block:^(BOOL succeeded, NSError *error) {
+//                            
+//                            if(succeeded){
+//                                
+//                                [notif deleteInBackground];
+//                                
+//                            }
+//                            
+//                        }];
+//                        
+//                    }
+//                    
+//                }
+//            }
+//            
+//            [self updateCreditsForUser:[PFUser currentUser] price:price type:khlNotificationAddValue block:^(BOOL succeeded, NSError *error) {
+//                
+//                if(succeeded){
+//                    
+//                    if (completionBlock) {
+//                        completionBlock(YES,error);
+//                    }
+//                }
+//                
+//                
+//            }];
+//            
+//            
+//        }
+//        else{
+//            
+//            if (completionBlock) {
+//                completionBlock(NO,error);
+//            }
+//            
+//            
+//        }
+//    }];
+    
+    if (completionBlock) {
+        completionBlock(NO,nil);
+    }
+
     
 }
 
@@ -624,40 +629,43 @@
                        type:(NSString *)type
                       block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     
-    if([type isEqual:khlNotificationSubValue]){
-        
-        NSString *myCredits = [user objectForKey:kHLUserModelKeyCredits];
-        NSInteger updatedCredits = [[self strRemovePrefix:myCredits] integerValue] - [[self strRemovePrefix:price] integerValue];
-        [user setObject:[NSString stringWithFormat:@"$%@",[NSNumber numberWithInteger:updatedCredits] ]forKey:kHLUserModelKeyCredits];
-        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
-            if(succeeded){
-                
-                if (completionBlock) {
-                    completionBlock(YES,error);
-                }
-            }
-            
-        }];
+//    if([type isEqual:khlNotificationSubValue]){
+//        
+//        NSString *myCredits = [user objectForKey:kHLUserModelKeyCredits];
+//        NSInteger updatedCredits = [[self strRemovePrefix:myCredits] integerValue] - [[self strRemovePrefix:price] integerValue];
+//        [user setObject:[NSString stringWithFormat:@"$%@",[NSNumber numberWithInteger:updatedCredits] ]forKey:kHLUserModelKeyCredits];
+//        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//            
+//            if(succeeded){
+//                
+//                if (completionBlock) {
+//                    completionBlock(YES,error);
+//                }
+//            }
+//            
+//        }];
+//    }
+//    else if([type isEqual:khlNotificationAddValue]){
+//        
+//        NSString *myCredits = [user objectForKey:kHLUserModelKeyCredits];
+//        NSInteger updatedCredits = [[self strRemovePrefix:myCredits] integerValue] + [[self strRemovePrefix:price] integerValue];
+//        [user setObject:[NSString stringWithFormat:@"$%@",[NSNumber numberWithInteger:updatedCredits] ]forKey:kHLUserModelKeyCredits];
+//        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//            
+//            if(succeeded){
+//                
+//                if (completionBlock) {
+//                    completionBlock(YES,error);
+//                }
+//            }
+//            
+//        }];
+//        
+//    }
+    if (completionBlock) {
+        completionBlock(YES,nil);
     }
-    else if([type isEqual:khlNotificationAddValue]){
-        
-        NSString *myCredits = [user objectForKey:kHLUserModelKeyCredits];
-        NSInteger updatedCredits = [[self strRemovePrefix:myCredits] integerValue] + [[self strRemovePrefix:price] integerValue];
-        [user setObject:[NSString stringWithFormat:@"$%@",[NSNumber numberWithInteger:updatedCredits] ]forKey:kHLUserModelKeyCredits];
-        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
-            if(succeeded){
-                
-                if (completionBlock) {
-                    completionBlock(YES,error);
-                }
-            }
-            
-        }];
-        
-    }
-    
+
     
     
 }
@@ -819,6 +827,7 @@
     
 }
 
+/*
 -(void)returnCreditsWithOffer:(PFObject *)offer{
     
     
@@ -862,7 +871,7 @@
     
     
 }
-
+*/
 
 -(void)isOfferAlreadyMadeByCurrentUser:(OfferModel *)offerObject
                                  block:(void (^)(BOOL succeeded, NSError *error))completionBlock{

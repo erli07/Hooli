@@ -72,12 +72,12 @@
     
     self.navigationController.navigationBarHidden = NO;
     self.title = @"Profile";
-    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(110, 80, 100, 100)];
+    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(120, 80, 80, 80)];
     self.profilePictureView.layer.cornerRadius = self.profilePictureView.frame.size.height/2;
     self.profilePictureView.layer.masksToBounds = YES;
-    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 180, 200, 50)];
+    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 160, 200, 30)];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
-    [self.nameLabel setFont: [UIFont fontWithName:[HLTheme mainFont] size:17.0f]];
+    [self.nameLabel setFont: [UIFont fontWithName:[HLTheme mainFont] size:14.0f]];
     [self.view addSubview:self.profilePictureView];
     [self.view addSubview:self.nameLabel];
     
@@ -123,14 +123,20 @@
     
     if(indexPath.section == 0){
         
-        if(indexPath.row == 0){
+//        if(indexPath.row == 0){
+//            
+//            [self performSegueWithIdentifier:@"myCredits" sender:self];
+//            
+//        }
+//        else
+            if(indexPath.row == 0){
             
-            [self performSegueWithIdentifier:@"myCredits" sender:self];
-            
-        }
-        else if(indexPath.row == 1){
-            
-            [self performSegueWithIdentifier:@"myItems" sender:self];
+                UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeVC"];
+                vc.hidesBottomBarWhenPushed = YES;
+                // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                [self.navigationController pushViewController:vc animated:YES];
+       //     [self performSegueWithIdentifier:@"myItems" sender:self];
        
         }
 
@@ -223,15 +229,20 @@
     
     if(indexPath.section == 0){
         
+//        if(indexPath.row == 0){
+//            
+//            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
+//            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+//
+//        }
+//        else
+        
         if(indexPath.row == 0){
             
-            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
-            cell.imageView.image = [self.imagesArray objectAtIndex:0];
-
-        }
-        else if(indexPath.row == 1){
+          //     cell.textLabel.text = @"My Items";
             
-               cell.textLabel.text = @"My Items";
+            cell.textLabel.text = @"二手市场";
+
             cell.imageView.image = [self.imagesArray objectAtIndex:1];
 
         }
@@ -241,13 +252,17 @@
         
         if(indexPath.row == 0){
             
-            cell.textLabel.text = @"My Profile";
+           // cell.textLabel.text = @"My Profile";
+            cell.textLabel.text = @"个人资料";
+
             cell.imageView.image = [self.imagesArray objectAtIndex:2];
             
         }
         else if(indexPath.row == 1){
             
-            cell.textLabel.text = @"My Relations";
+          //  cell.textLabel.text = @"My Relations";
+
+            cell.textLabel.text = @"我的朋友";
             cell.imageView.image = [self.imagesArray objectAtIndex:3];
             
         }
@@ -255,7 +270,10 @@
     }
     else if(indexPath.section == 2){
         
-        cell.textLabel.text = @"Settings";
+        cell.textLabel.text = @"设置";
+        
+       // cell.textLabel.text = @"Settings";
+
         cell.imageView.image = [self.imagesArray objectAtIndex:4];
 
     }
@@ -270,7 +288,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 2;
+        return 1;
     else if(section == 1)
         return 2;
     else

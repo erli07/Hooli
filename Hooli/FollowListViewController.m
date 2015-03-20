@@ -14,6 +14,7 @@
 #import "UserCartViewController.h"
 @interface FollowListViewController ()
 @property (nonatomic, strong) UIView *blankView;
+@property (nonatomic) NSIndexPath *lastSelected;
 
 @end
 
@@ -199,6 +200,18 @@
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+  //  if (self.lastSelected==indexPath) return; // nothing to do
+
+    // select new
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    [cell setSelected:TRUE animated:TRUE];
+    
+   // self.lastSelected = indexPath;
+    
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Search-->
@@ -97,7 +97,7 @@
         <scene sceneID="i0x-7O-yin">
             <objects>
                 <navigationController id="cXU-HP-P88" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Notifications" image="notification@2x.png" id="Sey-3f-HLS"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="Notifications" image="notification.png" id="Sey-3f-HLS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ahw-m5-PeO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -114,7 +114,7 @@
         <scene sceneID="70z-Qd-pUx">
             <objects>
                 <navigationController id="nOb-nQ-HmQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Activities" image="group_users_circle.png" id="H0S-Ee-Tbb"/>
+                    <tabBarItem key="tabBarItem" title="Activities" image="discover.png" id="H0S-Ee-Tbb"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KRK-0t-Bpz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -407,7 +407,7 @@
         <!--My Cart View Controller-->
         <scene sceneID="HuB-Dz-i9h">
             <objects>
-                <viewController id="YjB-oi-gJ1" customClass="MyCartViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyCart" useStoryboardIdentifierAsRestorationIdentifier="YES" id="YjB-oi-gJ1" customClass="MyCartViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qRB-o6-WzR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -467,19 +467,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="pJk-RA-bXm">
-                                <rect key="frame" x="26" y="71" width="269" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="Discover"/>
-                                    <segment title="Followed"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentChange:" destination="acJ-lg-N4Q" eventType="valueChanged" id="mc9-XN-n2A"/>
-                                </connections>
-                            </segmentedControl>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="saZ-Q2-T5Q" customClass="MainCollectionView">
-                                <rect key="frame" x="0.0" y="107" width="320" height="431"/>
+                                <rect key="frame" x="0.0" y="10" width="320" height="558"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8h7-u5-Zl2" customClass="MainCollectionViewFlowLayout">
@@ -513,13 +502,12 @@
                     <connections>
                         <outlet property="collectionView" destination="saZ-Q2-T5Q" id="DAM-cX-PQY"/>
                         <outlet property="layout" destination="8h7-u5-Zl2" id="XCR-qS-g7b"/>
-                        <outlet property="segmentControl" destination="pJk-RA-bXm" id="1x7-iE-Xa2"/>
                         <segue destination="tEq-4M-AHx" kind="push" identifier="showMore" id="xeX-SV-4Mz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JbU-1N-pYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="585" y="-226"/>
+            <point key="canvasLocation" x="935" y="-390"/>
         </scene>
         <!--Need Table View Controller-->
         <scene sceneID="pO7-0C-Swf">
@@ -857,11 +845,10 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="KpJ-4a-BBa" kind="relationship" relationship="viewControllers" id="i8r-dE-XbK"/>
+                        <segue destination="nOb-nQ-HmQ" kind="relationship" relationship="viewControllers" id="NlD-Vk-gDr"/>
                         <segue destination="1KV-LZ-8Qg" kind="relationship" relationship="viewControllers" id="qGb-vK-9zk"/>
                         <segue destination="cXU-HP-P88" kind="relationship" relationship="viewControllers" id="0cl-Ne-pa8"/>
                         <segue destination="ErL-aS-9xf" kind="relationship" relationship="viewControllers" id="FIZ-4C-qZt"/>
-                        <segue destination="nOb-nQ-HmQ" kind="relationship" relationship="viewControllers" id="NlD-Vk-gDr"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36M-LB-2zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -872,7 +859,7 @@
         <scene sceneID="3xC-mR-Ygy">
             <objects>
                 <navigationController id="ErL-aS-9xf" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="3" title="Profile" image="profile@2x.png" id="axg-Hn-Cx9"/>
+                    <tabBarItem key="tabBarItem" tag="3" title="Profile" image="profile.png" id="axg-Hn-Cx9"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wZ7-Xe-lJV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -894,7 +881,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Pco-0W-OmQ">
-                                <rect key="frame" x="0.0" y="140" width="320" height="377"/>
+                                <rect key="frame" x="0.0" y="120" width="320" height="377"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -968,7 +955,7 @@
         <scene sceneID="sFr-b9-SWd">
             <objects>
                 <navigationController id="1KV-LZ-8Qg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="1" title="Messages" image="messages@2x.png" id="PCE-mp-vfB"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="Messages" image="messages.png" id="PCE-mp-vfB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yu-id-nPd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -983,13 +970,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="discover.png" width="30" height="30"/>
         <image name="discover@2x.png" width="32" height="32"/>
         <image name="er.png" width="264" height="276"/>
-        <image name="group_users_circle.png" width="24" height="24"/>
-        <image name="messages@2x.png" width="32" height="32"/>
-        <image name="notification@2x.png" width="32" height="32"/>
+        <image name="messages.png" width="30" height="30"/>
+        <image name="notification.png" width="30" height="30"/>
         <image name="pink-heart.png" width="17" height="16"/>
-        <image name="profile@2x.png" width="32" height="32"/>
+        <image name="profile.png" width="30" height="30"/>
         <image name="shopping" width="17" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

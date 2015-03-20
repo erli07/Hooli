@@ -61,6 +61,13 @@
 	messages = [[NSMutableArray alloc] init];
 	avatars = [[NSMutableDictionary alloc] init];
 
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                       initWithTitle:@"Load more"
+                                       style:UIBarButtonItemStyleDone
+                                       target:self
+                                       action:@selector(loadMoreMessages)];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    
 	PFUser *user = [PFUser currentUser];
 	self.senderId = user.objectId;
 	self.senderDisplayName = user[PF_USER_USERNAME];
@@ -75,6 +82,39 @@
 	[self loadMessages];
 
 	ClearMessageCounter(roomId);
+}
+
+-(void)loadMoreMessages{
+    
+    if (isLoading == NO)
+    {
+        isLoading = YES;
+        JSQMessage *message_last = [messages firstObject];
+        
+        PFQuery *query = [PFQuery queryWithClassName:PF_CHAT_CLASS_NAME];
+        [query whereKey:PF_CHAT_ROOMID equalTo:roomId];
+        if (message_last != nil) [query whereKey:PF_CHAT_CREATEDAT lessThan:message_last.date];
+        [query includeKey:PF_CHAT_FROM_USER];
+        [query setLimit:20];
+        [query orderByDescending:PF_CHAT_CREATEDAT];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+         {
+             if (error == nil)
+             {
+                 for (PFObject *object in [objects reverseObjectEnumerator])
+                 {
+                     [self addMessage:object];
+                 }
+                 if ([objects count] != 0) [self finishReceivingMessage];
+                 
+             }
+             else [ProgressHUD showError:@"Network error."];
+             isLoading = NO;
+             
+             [self.collectionView reloadData];
+
+         }];
+    }
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -110,7 +150,7 @@
 		if (message_last != nil) [query whereKey:PF_CHAT_CREATEDAT greaterThan:message_last.date];
 		[query includeKey:PF_CHAT_FROM_USER];
 		[query orderByDescending:PF_CHAT_CREATEDAT];
-		[query setLimit:50];
+		[query setLimit:20];
 		[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 		{
 			if (error == nil)

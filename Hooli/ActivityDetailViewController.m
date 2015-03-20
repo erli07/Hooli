@@ -187,6 +187,8 @@
     
     postVC.delegate = self;
     
+    postVC.eventObject = _activityDetail;
+    
     postVC.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:postVC animated:YES];
@@ -321,7 +323,6 @@
             
             if(detailCell == nil){
                 
-                //  cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier];
                 detailCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kCellIdentifier];
             }
             
