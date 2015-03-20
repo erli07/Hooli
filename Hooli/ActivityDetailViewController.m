@@ -18,6 +18,7 @@
 #import "UserCartViewController.h"
 #import "CreateActivityViewController.h"
 #import "FollowListViewController.h"
+#import "ActivityCommentViewController.h"
 #define text_color [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
 
@@ -59,9 +60,9 @@
     
     self.title = @"详细";
     
-    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"微信群二维码"];
+    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
     // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
-    _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"wechat-48"]];
+    _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"discussion"]];
     _participantArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
     
     _parentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, 568)];
@@ -95,25 +96,20 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
-    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
+//    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
     
-    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(shareToFriends)];
+    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookMarkEvent)];
     
-    NSArray *buttonsArray = @[rightBarButton1, rightBarButton2];
+  //  NSArray *buttonsArray = @[rightBarButton1, rightBarButton2];
     
-    self.navigationItem.rightBarButtonItems = buttonsArray;
+   // self.navigationItem.rightBarButtonItems = buttonsArray;
+    
+    self.navigationItem.rightBarButtonItem = rightBarButton2;
     
     [self configureBottomButtons];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
     
-    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    //    self.navigationController.navigationBar.tintColor = [HLTheme mainColor];
-    //    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    //    [self.navigationController.navigationBar setTranslucent:YES];
-    
-    //  _iconsArray = @[ [UIImage imageNamed:@"calender-icon"], [UIImage imageNamed:@"map-icon"],[UIImage imageNamed:@"comment-icon"]];
-    
-    // Do any additional setup after loading the view from its nib.
 }
 
 -(void)reloadContentsize{
@@ -173,10 +169,16 @@
     
     followListVC.fromUser = [PFUser currentUser];
     
-    followListVC.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
+    followListVC.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
 
     [self.navigationController pushViewController:followListVC animated:YES];
 
+}
+
+-(void)bookMarkEvent{
+    
+    
+    
 }
 
 -(void)editEvent{
@@ -198,7 +200,7 @@
 -(void)joinEvent{
     
     PFQuery *queryExistingJoining = [PFQuery queryWithClassName:kHLCloudEventMemberClass];
-    [queryExistingJoining whereKey:kHLEventMemberKeyMember equalTo: [_activityDetail objectForKey:kHLEventKeyHost]];
+    [queryExistingJoining whereKey:kHLEventMemberKeyMember equalTo: [PFUser currentUser]];
     [queryExistingJoining whereKey:kHLEventMemberKeyEvent equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId]];
     [queryExistingJoining setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryExistingJoining getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -509,6 +511,10 @@
             }
             else if(indexPath.row == 3){
                 
+                ActivityCommentViewController *acVC = [[ActivityCommentViewController alloc]initWithObject:_activityDetail];
+                
+                [self.navigationController pushViewController:acVC animated:YES];
+                
                 //[self performSegueWithIdentifier:@"seeItemComment" sender:self];
                 
             }
@@ -598,6 +604,8 @@
                                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alert show];
+                    
+                    [_memberTableView loadObjects];
                     
                 }
                 

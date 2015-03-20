@@ -322,6 +322,9 @@
     else if ([notificationType isEqualToString:kHLNotificationTypeJoinEvent]){
         return NSLocalizedString(@"request to join event", nil);
     }
+    else if ([notificationType isEqualToString:kHLNotificationTypeActivityComment]){
+        return NSLocalizedString(@"comment on your event", nil);
+    }
     else  {
         return nil;
     }
@@ -378,11 +381,11 @@
                                 PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
                                 [deleteQuery whereKey:kHLNotificationFromUserKey equalTo:_toUser];
                                 [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
-                                [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                                [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *aObject, NSError *error) {
                                     
-                                    if(object){
+                                    if(aObject){
                                         
-                                        [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                        [aObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                             
                                             if(succeeded){
                                                 

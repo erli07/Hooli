@@ -90,27 +90,34 @@
 // Set received values if they are not nil and reload the tabl ta
 - (void)updateProfileData {
     
-    [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
-        
-        PFUser *user = [PFUser currentUser];
-        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
-        NSData *imageData = [theImage getData];
-        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
-        self.profilePictureView.image = [UIImage imageWithData:imageData];
-        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
-        [self.settingTableView reloadData];
-
-    } Failure:^(id error) {
-        
-        PFUser *user = [PFUser currentUser];
-        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
-        NSData *imageData = [theImage getData];
-        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
-        self.profilePictureView.image = [UIImage imageWithData:imageData];
-        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
-        [self.settingTableView reloadData];
-
-    }];
+    PFUser *user = [PFUser currentUser];
+    PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+    NSData *imageData = [theImage getData];
+    self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+    self.profilePictureView.image = [UIImage imageWithData:imageData];
+    [self.settingTableView reloadData];
+    
+//    [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
+//        
+//        PFUser *user = [PFUser currentUser];
+//        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+//        NSData *imageData = [theImage getData];
+//        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+//        self.profilePictureView.image = [UIImage imageWithData:imageData];
+//        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
+//        [self.settingTableView reloadData];
+//
+//    } Failure:^(id error) {
+//        
+//        PFUser *user = [PFUser currentUser];
+//        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+//        NSData *imageData = [theImage getData];
+//        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+//        self.profilePictureView.image = [UIImage imageWithData:imageData];
+//        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
+//        [self.settingTableView reloadData];
+//
+//    }];
     
 }
 

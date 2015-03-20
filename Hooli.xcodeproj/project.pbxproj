@@ -1418,8 +1418,6 @@
 				0E96055C1A6DF8DE00791E4E /* ItemCommentFooterView.m */,
 				0E9605611A6E1D9000791E4E /* itemCommentView.h */,
 				0E9605621A6E1D9000791E4E /* itemCommentView.m */,
-				0ED460791AA698C200EDDBB6 /* ActivityCommentViewController.h */,
-				0ED4607A1AA698C200EDDBB6 /* ActivityCommentViewController.m */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -1817,6 +1815,8 @@
 				4523393F1AB3C33C00A3F85A /* ActivityLocationViewController.m */,
 				0EDBB67C1AB945DB00DD4688 /* ActivityMemberViewController.h */,
 				0EDBB67D1AB945DB00DD4688 /* ActivityMemberViewController.m */,
+				0ED460791AA698C200EDDBB6 /* ActivityCommentViewController.h */,
+				0ED4607A1AA698C200EDDBB6 /* ActivityCommentViewController.m */,
 				452339461AB4C62800A3F85A /* LocationPinAnnotation.h */,
 				452339471AB4C62800A3F85A /* LocationPinAnnotation.m */,
 				452CEB081AB4E80A00EEC2C6 /* HSDatePicker */,
@@ -2781,7 +2781,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "70083b3b-be5a-4f74-9acb-cd7c119bbd41";
+				PROVISIONING_PROFILE = "56be8e0c-5854-468d-9f3e-205317210175";
 			};
 			name = Debug;
 		};
@@ -2807,7 +2807,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "70083b3b-be5a-4f74-9acb-cd7c119bbd41";
+				PROVISIONING_PROFILE = "56be8e0c-5854-468d-9f3e-205317210175";
 			};
 			name = Release;
 		};
