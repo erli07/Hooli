@@ -58,10 +58,10 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     [super viewDidLoad];
     
     // Set table footer
-    ItemCommentFooterView *footerView = [[ItemCommentFooterView alloc] initWithFrame:[ItemCommentFooterView rectForView]];
-    commentTextField = footerView.commentField;
+    ItemCommentFooterView *headerView = [[ItemCommentFooterView alloc] initWithFrame:[ItemCommentFooterView rectForView]];
+    commentTextField = headerView.commentField;
     commentTextField.delegate = self;
-    self.tableView.tableFooterView = footerView;
+    self.tableView.tableHeaderView = headerView;
     
     // Register to be notified when the keyboard will be shown to scroll the view
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];

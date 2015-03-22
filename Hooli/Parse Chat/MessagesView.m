@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,14 +12,18 @@
 #import <Parse/Parse.h>
 #import "ProgressHUD.h"
 
-#import "HLConstant.h"
+#import "ChatConstant.h"
 #import "messages.h"
 #import "utilities.h"
-#import "HLSettings.h"
+
 #import "MessagesView.h"
 #import "MessagesCell.h"
 #import "ChatView.h"
-#import "HLUtilities.h"
+#import "SelectSingleView.h"
+#import "SelectMultipleView.h"
+#import "AddressBookView.h"
+#import "FacebookFriendsView.h"
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 @interface MessagesView()
 {
@@ -36,12 +40,6 @@
 @implementation MessagesView
 
 @synthesize tableMessages, viewEmpty;
-
--(void)dealloc{
-    
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kHLLoadMessageObjectsNotification object:nil];
-
-}
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -62,19 +60,10 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	[super viewDidLoad];
-    
-    
-    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
-        
-        return;
-        
-    }
-    
 	self.title = @"Messages";
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:kHLLoadMessageObjectsNotification object:nil];
-
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"messages_compose"]
+																	  style:UIBarButtonItemStylePlain target:self action:@selector(actionCompose)];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	[tableMessages registerNib:[UINib nibWithNibName:@"MessagesCell" bundle:nil] forCellReuseIdentifier:@"MessagesCell"];
 	tableMessages.tableFooterView = [[UIView alloc] init];
@@ -88,22 +77,6 @@
 	viewEmpty.hidden = YES;
 }
 
-
--(void)viewWillAppear:(BOOL)animated{
-    
-    [[HLSettings sharedInstance]setCurrentPageIndex:1];
-    
-    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
-        
-        return;
-        
-    }
-
-    
-    [self updateEmptyView];
-
-}
-
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (void)viewDidAppear:(BOOL)animated
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -114,7 +87,6 @@
 	{
 		[self loadMessages];
 	}
-	
 }
 
 #pragma mark - Backend methods
@@ -123,26 +95,25 @@
 - (void)loadMessages
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	if ([PFUser currentUser] != nil)
+	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
+	[query whereKey:PF_MESSAGES_USER equalTo:[PFUser currentUser]];
+	[query includeKey:PF_MESSAGES_LASTUSER];
+    [query includeKey:PF_MESSAGES_TOUSER];
+    [query includeKey:PF_MESSAGES_EVENT];
+	[query orderByDescending:PF_MESSAGES_UPDATEDACTION];
+	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 	{
-		PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
-		[query whereKey:PF_MESSAGES_FROM_USER equalTo:[PFUser currentUser]];
-		[query includeKey:PF_MESSAGES_TO_USER];
-		[query orderByDescending:PF_MESSAGES_UPDATEDACTION];
-		[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+		if (error == nil)
 		{
-			if (error == nil)
-			{
-				[messages removeAllObjects];
-				[messages addObjectsFromArray:objects];
-				[tableMessages reloadData];
-				[self updateEmptyView];
-				//[self updateTabCounter];
-			}
-			else [ProgressHUD showError:@"Network error."];
-			[refreshControl endRefreshing];
-		}];
-	}
+			[messages removeAllObjects];
+			[messages addObjectsFromArray:objects];
+			[tableMessages reloadData];
+			[self updateEmptyView];
+			[self updateTabCounter];
+		}
+		else [ProgressHUD showError:@"Network error."];
+		[refreshControl endRefreshing];
+	}];
 }
 
 #pragma mark - Helper methods
@@ -163,11 +134,20 @@
 	{
 		total += [message[PF_MESSAGES_COUNTER] intValue];
 	}
-	UITabBarItem *item = self.tabBarController.tabBar.items[3];
+	UITabBarItem *item = self.tabBarController.tabBar.items[1];
 	item.badgeValue = (total == 0) ? nil : [NSString stringWithFormat:@"%d", total];
 }
 
 #pragma mark - User actions
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)actionChat:(NSString *)groupId
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+	ChatView *chatView = [[ChatView alloc] initWith:groupId];
+	chatView.hidesBottomBarWhenPushed = YES;
+	[self.navigationController pushViewController:chatView animated:YES];
+}
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (void)actionCleanup
@@ -176,8 +156,65 @@
 	[messages removeAllObjects];
 	[tableMessages reloadData];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	UITabBarItem *item = self.tabBarController.tabBar.items[2];
+	UITabBarItem *item = self.tabBarController.tabBar.items[1];
 	item.badgeValue = nil;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)actionCompose
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+			   otherButtonTitles:@"Single recipient", @"Multiple recipients", @"Address Book", @"Facebook Friends", nil];
+	[action showFromTabBar:[[self tabBarController] tabBar]];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+#pragma mark - SelectSingleDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)didSelectSingleUser:(PFUser *)user2
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+	PFUser *user1 = [PFUser currentUser];
+	NSString *groupId = StartPrivateChat(user1, user2);
+	[self actionChat:groupId];
+}
+
+#pragma mark - SelectMultipleDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)didSelectMultipleUsers:(NSMutableArray *)users
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+	NSString *groupId = StartMultipleChat(users);
+	[self actionChat:groupId];
+}
+
+#pragma mark - AddressBookDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)didSelectAddressBookUser:(PFUser *)user2
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+	PFUser *user1 = [PFUser currentUser];
+	NSString *groupId = StartPrivateChat(user1, user2);
+	[self actionChat:groupId];
+}
+
+#pragma mark - FacebookFriendsDelegate
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+- (void)didSelectFacebookUser:(PFUser *)user2
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+	PFUser *user1 = [PFUser currentUser];
+	NSString *groupId = StartPrivateChat(user1, user2);
+	[self actionChat:groupId];
 }
 
 #pragma mark - Table view data source
@@ -220,7 +257,7 @@
 	[messages removeObjectAtIndex:indexPath.row];
 	[tableMessages deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 	[self updateEmptyView];
-	//[self updateTabCounter];
+	[self updateTabCounter];
 }
 
 #pragma mark - Table view delegate
@@ -232,10 +269,7 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	PFObject *message = messages[indexPath.row];
-	ChatView *chatView = [[ChatView alloc] initWith:message[PF_MESSAGES_ROOMID]];
-    chatView.toUser = message[PF_MESSAGES_TO_USER];
-	chatView.hidesBottomBarWhenPushed = YES;
-	[self.navigationController pushViewController:chatView animated:YES];
+	[self actionChat:message[PF_MESSAGES_GROUPID]];
 }
 
 @end

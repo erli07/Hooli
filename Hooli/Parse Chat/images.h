@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,11 +12,6 @@
 #import <UIKit/UIKit.h>
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-void			LoginUser					(id target);
-
+UIImage*		SquareImage					(UIImage *image, CGFloat size);
 UIImage*		ResizeImage					(UIImage *image, CGFloat width, CGFloat height);
-
-void			PostNotification			(NSString *notification);
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-NSString*		TimeElapsed					(NSTimeInterval seconds);
+UIImage*		CropImage					(UIImage *image, CGFloat x, CGFloat y, CGFloat width, CGFloat height);

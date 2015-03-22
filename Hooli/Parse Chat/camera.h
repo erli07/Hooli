@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -9,12 +9,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Parse/Parse.h>
+#import <UIKit/UIKit.h>
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-@interface MessagesCell : UITableViewCell
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-
-- (void)bindData:(PFObject *)message_;
-
-@end
+BOOL	ShouldStartCamera			(id target, BOOL canEdit);
+BOOL	ShouldStartPhotoLibrary		(id target, BOOL canEdit);
+BOOL	ShouldStartVideoLibrary		(id target, BOOL canEdit);

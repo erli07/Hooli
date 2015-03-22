@@ -202,10 +202,10 @@
     
     [[AccountManager sharedInstance]fetchUserWithUserId:self.user.objectId success:^(id object) {
         
+        PFUser *user1 = [PFUser currentUser];
         PFUser *user2 = (PFUser *)object;
-        NSString *roomId = StartPrivateChat([PFUser currentUser], user2 );
-        ChatView *chatView = [[ChatView alloc] initWith:roomId];
-        chatView.toUser = user2;
+        NSString *groupId = StartPrivateChat(user1, user2);
+        ChatView *chatView = [[ChatView alloc] initWith:groupId];
         chatView.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:chatView animated:YES];
     

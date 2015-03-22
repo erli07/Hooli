@@ -113,6 +113,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     PFObject *eventMemberObject = [self.objects objectAtIndex:indexPath.row];
     PFUser *member = [eventMemberObject objectForKey:kHLEventMemberKeyMember];
   

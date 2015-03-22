@@ -19,6 +19,13 @@
 #import "CreateActivityViewController.h"
 #import "FollowListViewController.h"
 #import "ActivityCommentViewController.h"
+#import "ActivityAnnoucementViewController.h"
+#import "ActivityPicturesViewController.h"
+#import "ProgressHUD.h"
+#import "ChatView.h"
+#import "ChatConstant.h"
+#import "messages.h"
+
 #define text_color [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
 
@@ -60,9 +67,9 @@
     
     self.title = @"详细";
     
-    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
+    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区", @"活动图片"];
     // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
-    _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"discussion"]];
+    _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"discussion"],[UIImage imageNamed:@"camera"]];
     _participantArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
     
     _parentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, 568)];
@@ -71,7 +78,7 @@
     
     [self.view addSubview:_parentScrollView];
     
-    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 352) style:UITableViewStylePlain];
+    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 384) style:UITableViewStylePlain];
     
     _activityDetailTableView.scrollEnabled = NO;
     
@@ -269,7 +276,7 @@
         if(indexPath.section == 0 && indexPath.row == 0 ){
             
             //return 180;
-            return 76;
+            return 64;
         }
         else if(indexPath.section == 1){
             
@@ -363,7 +370,7 @@
             cell.textLabel.numberOfLines = 5;
             cell.textLabel.textColor = text_color;
             cell.imageView.image = [UIImage imageNamed:@"content"];
-            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.text = [_activityDetail objectForKey:kHLEventKeyAnnoucement];
             
             return cell;
@@ -413,7 +420,7 @@
 {
     UIView *view = [[UIView alloc] init];
     /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, tableView.frame.size.width, 10)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, tableView.frame.size.width, 15)];
     [label setFont:[UIFont boldSystemFontOfSize:11.0f]];
     
     [label setTextColor:[HLTheme textColor]];
@@ -476,7 +483,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if(tableView == _activityDetailTableView){
         
         if(indexPath.section == 0){
@@ -510,12 +518,41 @@
                 
             }
             else if(indexPath.row == 3){
+                //---------------------------------------------------------------------------------------------------------------------------------------------
+                NSString *groupId = _activityDetail.objectId;
+                //---------------------------------------------------------------------------------------------------------------------------------------------
+                NSString *groupName = [_activityDetail objectForKey:kHLEventKeyTitle];
                 
-                ActivityCommentViewController *acVC = [[ActivityCommentViewController alloc]initWithObject:_activityDetail];
+                CreateMessageItem([PFUser currentUser], groupId, groupName, _activityDetail);
+                //---------------------------------------------------------------------------------------------------------------------------------------------
+                ChatView *chatView = [[ChatView alloc] initWith:groupId];
+                chatView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:chatView animated:YES];
                 
-                [self.navigationController pushViewController:acVC animated:YES];
+            }
+            else{
                 
-                //[self performSegueWithIdentifier:@"seeItemComment" sender:self];
+                MainCollectionViewFlowLayout *mainFlowLayout = [[MainCollectionViewFlowLayout alloc]init];
+                
+                ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]initWithCollectionViewLayout:mainFlowLayout];
+                
+                apVC.aObject = _activityDetail;
+                
+                [self.navigationController pushViewController:apVC animated:YES];
+            }
+            
+        }
+        else{
+            
+            if(indexPath.row == 0){
+                
+                ActivityAnnoucementViewController *aaVC = [[ActivityAnnoucementViewController alloc]init];
+                
+                aaVC.content = [_activityDetail objectForKey:kHLEventKeyAnnoucement];
+                
+                aaVC.aObject = _activityDetail;
+                
+                [self.navigationController pushViewController:aaVC animated:YES];
                 
             }
             
@@ -523,6 +560,8 @@
     }
     
 }
+
+
 
 -(void)didSelectMember:(PFUser *)member{
     

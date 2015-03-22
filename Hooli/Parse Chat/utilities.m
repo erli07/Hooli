@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -11,19 +11,8 @@
 
 #import "utilities.h"
 
-
-
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-UIImage* ResizeImage(UIImage *image, CGFloat width, CGFloat height)
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-{
-	CGSize size = CGSizeMake(width, height);
-	UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-	[image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-	image = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-	return image;
-}
+
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 void PostNotification(NSString *notification)
@@ -37,7 +26,11 @@ NSString* TimeElapsed(NSTimeInterval seconds)
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	NSString *elapsed;
-	if (seconds < 60 * 60)
+	if (seconds < 60)
+	{
+		elapsed = @"Just now";
+	}
+	else if (seconds < 60 * 60)
 	{
 		int minutes = (int) (seconds / 60);
 		elapsed = [NSString stringWithFormat:@"%d %@", minutes, (minutes > 1) ? @"mins" : @"min"];

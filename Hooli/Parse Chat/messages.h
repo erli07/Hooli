@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -13,11 +13,14 @@
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 NSString*	StartPrivateChat			(PFUser *user1, PFUser *user2);
+NSString*	StartMultipleChat			(NSMutableArray *users);
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-void        CreateMessageItem           (PFUser *user, PFUser *chatter, NSString *roomId, NSString *description);
+void        CreateMessageItem           (PFUser *user, NSString *groupId, NSString *description, PFObject *event);
+void		CreatePrivateMessageItem	(PFUser *user1, PFUser *user2, NSString *groupId, NSString *description);
+
 void		DeleteMessageItem			(PFObject *message);
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-void		UpdateMessageCounter		(NSString *roomId, NSString *lastMessage);
-void		ClearMessageCounter			(NSString *roomId);
+void		UpdateMessageCounter		(NSString *groupId, NSString *lastMessage);
+void		ClearMessageCounter			(NSString *groupId);

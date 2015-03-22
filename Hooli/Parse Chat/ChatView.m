@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -9,10 +9,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import <MediaPlayer/MediaPlayer.h>
+
 #import <Parse/Parse.h>
 #import "ProgressHUD.h"
-#import "UserCartViewController.h"
-#import "HLConstant.h"
+
+#import "ChatConstant.h"
 #import "camera.h"
 #import "messages.h"
 #import "pushnotification.h"
@@ -25,28 +27,27 @@
 	NSTimer *timer;
 	BOOL isLoading;
 
-	NSString *roomId;
+	NSString *groupId;
 
 	NSMutableArray *users;
 	NSMutableArray *messages;
 	NSMutableDictionary *avatars;
 
-	JSQMessagesBubbleImage *outgoingBubbleImageData;
-	JSQMessagesBubbleImage *incomingBubbleImageData;
-	
-	JSQMessagesAvatarImage *placeholderImageData;
+	JSQMessagesBubbleImage *bubbleImageOutgoing;
+	JSQMessagesBubbleImage *bubbleImageIncoming;
+	JSQMessagesAvatarImage *avatarImageBlank;
 }
 @end
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 @implementation ChatView
-@synthesize toUser;
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-- (id)initWith:(NSString *)roomId_
+- (id)initWith:(NSString *)groupId_
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	self = [super init];
-	roomId = roomId_;
+	groupId = groupId_;
 	return self;
 }
 
@@ -56,65 +57,25 @@
 {
 	[super viewDidLoad];
 	self.title = @"Chat";
-
+	//---------------------------------------------------------------------------------------------------------------------------------------------
 	users = [[NSMutableArray alloc] init];
 	messages = [[NSMutableArray alloc] init];
 	avatars = [[NSMutableDictionary alloc] init];
-
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"Load more"
-                                       style:UIBarButtonItemStyleDone
-                                       target:self
-                                       action:@selector(loadMoreMessages)];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
-    
+	//---------------------------------------------------------------------------------------------------------------------------------------------
 	PFUser *user = [PFUser currentUser];
 	self.senderId = user.objectId;
 	self.senderDisplayName = user[PF_USER_USERNAME];
-
+	//---------------------------------------------------------------------------------------------------------------------------------------------
 	JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-	outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
-	incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleGreenColor]];
-
-	placeholderImageData = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"chat_blank"] diameter:30.0];
-
+	bubbleImageOutgoing = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
+	bubbleImageIncoming = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleGreenColor]];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	avatarImageBlank = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"chat_blank"] diameter:30.0];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
 	isLoading = NO;
 	[self loadMessages];
-
-	ClearMessageCounter(roomId);
-}
-
--(void)loadMoreMessages{
-    
-    if (isLoading == NO)
-    {
-        isLoading = YES;
-        JSQMessage *message_last = [messages firstObject];
-        
-        PFQuery *query = [PFQuery queryWithClassName:PF_CHAT_CLASS_NAME];
-        [query whereKey:PF_CHAT_ROOMID equalTo:roomId];
-        if (message_last != nil) [query whereKey:PF_CHAT_CREATEDAT lessThan:message_last.date];
-        [query includeKey:PF_CHAT_FROM_USER];
-        [query setLimit:20];
-        [query orderByDescending:PF_CHAT_CREATEDAT];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-         {
-             if (error == nil)
-             {
-                 for (PFObject *object in [objects reverseObjectEnumerator])
-                 {
-                     [self addMessage:object];
-                 }
-                 if ([objects count] != 0) [self finishReceivingMessage];
-                 
-             }
-             else [ProgressHUD showError:@"Network error."];
-             isLoading = NO;
-             
-             [self.collectionView reloadData];
-
-         }];
-    }
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	ClearMessageCounter(groupId);
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -122,8 +83,8 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	[super viewDidAppear:animated];
-	timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(loadMessages) userInfo:nil repeats:YES];
 	self.collectionView.collectionViewLayout.springinessEnabled = YES;
+	timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadMessages) userInfo:nil repeats:YES];
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -146,20 +107,26 @@
 		JSQMessage *message_last = [messages lastObject];
 
 		PFQuery *query = [PFQuery queryWithClassName:PF_CHAT_CLASS_NAME];
-		[query whereKey:PF_CHAT_ROOMID equalTo:roomId];
+		[query whereKey:PF_CHAT_GROUPID equalTo:groupId];
 		if (message_last != nil) [query whereKey:PF_CHAT_CREATEDAT greaterThan:message_last.date];
-		[query includeKey:PF_CHAT_FROM_USER];
+		[query includeKey:PF_CHAT_USER];
 		[query orderByDescending:PF_CHAT_CREATEDAT];
-		[query setLimit:20];
+		[query setLimit:50];
 		[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 		{
 			if (error == nil)
 			{
+				self.automaticallyScrollsToMostRecentMessage = NO;
 				for (PFObject *object in [objects reverseObjectEnumerator])
 				{
 					[self addMessage:object];
 				}
-				if ([objects count] != 0) [self finishReceivingMessage];
+				if ([objects count] != 0)
+				{
+					[self finishReceivingMessage];
+					[self scrollToBottomAnimated:NO];
+				}
+				self.automaticallyScrollsToMostRecentMessage = YES;
 			}
 			else [ProgressHUD showError:@"Network error."];
 			isLoading = NO;
@@ -171,25 +138,32 @@
 - (void)addMessage:(PFObject *)object
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	PFUser *user = object[PF_CHAT_FROM_USER];
-	[users addObject:user];
+	JSQMessage *message;
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	if (object[PF_CHAT_PICTURE] == nil)
+	PFUser *user = object[PF_CHAT_USER];
+	NSString *name = user[PF_USER_USERNAME];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	PFFile *fileVideo = object[PF_CHAT_VIDEO];
+	PFFile *filePicture = object[PF_CHAT_PICTURE];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	if ((filePicture == nil) && (fileVideo == nil))
 	{
-		JSQMessage *message = [[JSQMessage alloc] initWithSenderId:user.objectId senderDisplayName:user[PF_USER_USERNAME]
-																	  date:object.createdAt text:object[PF_CHAT_TEXT]];
-		[messages addObject:message];
+		message = [[JSQMessage alloc] initWithSenderId:user.objectId senderDisplayName:name date:object.createdAt text:object[PF_CHAT_TEXT]];
 	}
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	if (object[PF_CHAT_PICTURE] != nil)
+	if (fileVideo != nil)
+	{
+		JSQVideoMediaItem *mediaItem = [[JSQVideoMediaItem alloc] initWithFileURL:[NSURL URLWithString:fileVideo.url] isReadyToPlay:YES];
+		mediaItem.appliesMediaViewMaskAsOutgoing = [user.objectId isEqualToString:self.senderId];
+		message = [[JSQMessage alloc] initWithSenderId:user.objectId senderDisplayName:name date:object.createdAt media:mediaItem];
+	}
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	if (filePicture != nil)
 	{
 		JSQPhotoMediaItem *mediaItem = [[JSQPhotoMediaItem alloc] initWithImage:nil];
 		mediaItem.appliesMediaViewMaskAsOutgoing = [user.objectId isEqualToString:self.senderId];
-		JSQMessage *message = [[JSQMessage alloc] initWithSenderId:user.objectId senderDisplayName:user[PF_USER_USERNAME]
-																		date:object.createdAt media:mediaItem];
-		[messages addObject:message];
-		//-----------------------------------------------------------------------------------------------------------------------------------------
-		PFFile *filePicture = object[PF_CHAT_PICTURE];
+		message = [[JSQMessage alloc] initWithSenderId:user.objectId senderDisplayName:name date:object.createdAt media:mediaItem];
+
 		[filePicture getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error)
 		{
 			if (error == nil)
@@ -199,28 +173,43 @@
 			}
 		}];
 	}
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	[users addObject:user];
+	[messages addObject:message];
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-- (void)sendMessage:(NSString *)text Picture:(UIImage *)picture
+- (void)sendMessage:(NSString *)text Video:(NSURL *)video Picture:(UIImage *)picture
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
+	PFFile *fileVideo = nil;
 	PFFile *filePicture = nil;
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	if (video != nil)
+	{
+		text = @"[Video message]";
+		fileVideo = [PFFile fileWithName:@"video.mp4" data:[[NSFileManager defaultManager] contentsAtPath:video.path]];
+		[fileVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+		{
+			if (error != nil) [ProgressHUD showError:@"Network error."];
+		}];
+	}
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	if (picture != nil)
 	{
+		text = @"[Picture message]";
 		filePicture = [PFFile fileWithName:@"picture.jpg" data:UIImageJPEGRepresentation(picture, 0.6)];
 		[filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 		{
-			if (error != nil) NSLog(@"sendMessage picture save error.");
+			if (error != nil) [ProgressHUD showError:@"Picture save error."];
 		}];
 	}
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	PFObject *object = [PFObject objectWithClassName:PF_CHAT_CLASS_NAME];
-	object[PF_CHAT_FROM_USER] = [PFUser currentUser];
-    object[PF_MESSAGES_TO_USER] = toUser;
-	object[PF_CHAT_ROOMID] = roomId;
+	object[PF_CHAT_USER] = [PFUser currentUser];
+	object[PF_CHAT_GROUPID] = groupId;
 	object[PF_CHAT_TEXT] = text;
+	if (fileVideo != nil) object[PF_CHAT_VIDEO] = fileVideo;
 	if (filePicture != nil) object[PF_CHAT_PICTURE] = filePicture;
 	[object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 	{
@@ -232,8 +221,8 @@
 		else [ProgressHUD showError:@"Network error."];;
 	}];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	SendPushNotification(roomId, text);
-	UpdateMessageCounter(roomId, text);
+	SendPushNotification(groupId, text);
+	UpdateMessageCounter(groupId, text);
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	[self finishSendingMessage];
 }
@@ -244,7 +233,7 @@
 - (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	[self sendMessage:text Picture:nil];
+	[self sendMessage:text Video:nil Picture:nil];
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -252,7 +241,7 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-											   otherButtonTitles:@"Take photo", @"Choose existing photo", nil];
+											   otherButtonTitles:@"Take photo", @"Choose existing photo", @"Choose existing video", nil];
 	[action showInView:self.view];
 }
 
@@ -272,9 +261,9 @@
 	JSQMessage *message = messages[indexPath.item];
 	if ([message.senderId isEqualToString:self.senderId])
 	{
-		return outgoingBubbleImageData;
+		return bubbleImageOutgoing;
 	}
-	return incomingBubbleImageData;
+	return bubbleImageIncoming;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -294,7 +283,7 @@
 				[self.collectionView reloadData];
 			}
 		}];
-		return placeholderImageData;
+		return avatarImageBlank;
 	}
 	else return avatars[user.objectId];
 }
@@ -377,7 +366,7 @@
 	{
 		return kJSQMessagesCollectionViewCellLabelHeightDefault;
 	}
-	return 0.0f;
+	return 0;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -388,7 +377,7 @@
 	JSQMessage *message = messages[indexPath.item];
 	if ([message.senderId isEqualToString:self.senderId])
 	{
-		return 0.0f;
+		return 0;
 	}
 	
 	if (indexPath.item - 1 > 0)
@@ -396,7 +385,7 @@
 		JSQMessage *previousMessage = messages[indexPath.item-1];
 		if ([previousMessage.senderId isEqualToString:message.senderId])
 		{
-			return 0.0f;
+			return 0;
 		}
 	}
 	return kJSQMessagesCollectionViewCellLabelHeightDefault;
@@ -407,7 +396,7 @@
 				   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	return 0.0f;
+	return 0;
 }
 
 #pragma mark - Responding to collection view tap events
@@ -425,21 +414,24 @@
 		   atIndexPath:(NSIndexPath *)indexPath
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-    JSQMessage *message = [messages objectAtIndex:indexPath.row];
-    
-    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
-    vc.userID =  message.senderId;
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
-    
+	NSLog(@"didTapAvatarImageView");
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	NSLog(@"didTapMessageBubbleAtIndexPath");
+	JSQMessage *message = messages[indexPath.item];
+	if (message.isMediaMessage)
+	{
+		if ([message.media isKindOfClass:[JSQVideoMediaItem class]])
+		{
+			JSQVideoMediaItem *mediaItem = (JSQVideoMediaItem *)message.media;
+			MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
+			[self presentMoviePlayerViewControllerAnimated:moviePlayer];
+			[moviePlayer.moviePlayer play];
+		}
+	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -459,6 +451,7 @@
 	{
 		if (buttonIndex == 0)	ShouldStartCamera(self, YES);
 		if (buttonIndex == 1)	ShouldStartPhotoLibrary(self, YES);
+		if (buttonIndex == 2)	ShouldStartVideoLibrary(self, YES);
 	}
 }
 
@@ -468,8 +461,11 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
+	NSURL *video = info[UIImagePickerControllerMediaURL];
 	UIImage *picture = info[UIImagePickerControllerEditedImage];
-	[self sendMessage:@"[Picture message]" Picture:picture];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	[self sendMessage:nil Video:video Picture:picture];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
 	[picker dismissViewControllerAnimated:YES completion:nil];
 }
 

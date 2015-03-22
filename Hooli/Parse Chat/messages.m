@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -11,7 +11,7 @@
 
 #import <Parse/Parse.h>
 
-#import "HLConstant.h"
+#import "ChatConstant.h"
 
 #import "messages.h"
 
@@ -22,30 +22,90 @@ NSString* StartPrivateChat(PFUser *user1, PFUser *user2)
 	NSString *id1 = user1.objectId;
 	NSString *id2 = user2.objectId;
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	NSString *roomId = ([id1 compare:id2] < 0) ? [NSString stringWithFormat:@"%@%@", id1, id2] : [NSString stringWithFormat:@"%@%@", id2, id1];
+	NSString *groupId = ([id1 compare:id2] < 0) ? [NSString stringWithFormat:@"%@%@", id1, id2] : [NSString stringWithFormat:@"%@%@", id2, id1];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-    if(user1 == user2){
-        
-        CreateMessageItem(user1, user2, roomId, user2[PF_USER_USERNAME]);
+    CreatePrivateMessageItem(user1, user2, groupId, user2[PF_USER_USERNAME]);
+    CreatePrivateMessageItem(user2, user1, groupId, user1[PF_USER_USERNAME]);
 
-    }
-    else{
-        
-        CreateMessageItem(user1, user2, roomId, user2[PF_USER_USERNAME]);
-        CreateMessageItem(user2, user1, roomId, user1[PF_USER_USERNAME]);
-
-    }
+//	CreateMessageItem(user1, groupId, user2[PF_USER_USERNAME]);
+//	CreateMessageItem(user2, groupId, user1[PF_USER_USERNAME]);
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	return roomId;
+	return groupId;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-void CreateMessageItem(PFUser *user,PFUser *chatter, NSString *roomId, NSString *description)
+NSString* StartMultipleChat(NSMutableArray *users)
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+	NSString *groupId = @"";
+	NSString *description = @"";
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	NSMutableArray *userIds = [[NSMutableArray alloc] init];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	for (PFUser *user in users)
+	{
+		[userIds addObject:user.objectId];
+	}
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	NSArray *sorted = [userIds sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	for (NSString *userId in sorted)
+	{
+		groupId = [groupId stringByAppendingString:userId];
+	}
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	for (PFUser *user in users)
+	{
+		if ([description length] != 0) description = [description stringByAppendingString:@" & "];
+		description = [description stringByAppendingString:user[PF_USER_USERNAME]];
+	}
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	for (PFUser *user in users)
+	{
+		CreateMessageItem(user, groupId, description , nil);
+	}
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	return groupId;
+}
+
+void CreatePrivateMessageItem(PFUser *user1, PFUser *user2, NSString *groupId, NSString *description){
+    
+    PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
+    [query whereKey:PF_MESSAGES_USER equalTo:user1];
+    [query whereKey:PF_MESSAGES_GROUPID equalTo:groupId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+     {
+         if (error == nil)
+         {
+             if ([objects count] == 0)
+             {
+                 PFObject *message = [PFObject objectWithClassName:PF_MESSAGES_CLASS_NAME];
+                 message[PF_MESSAGES_USER] = user1;
+                 message[PF_MESSAGES_TOUSER] = user2;
+                 message[PF_MESSAGES_GROUPID] = groupId;
+                 message[PF_MESSAGES_DESCRIPTION] = description;
+                 message[PF_MESSAGES_LASTUSER] = [PFUser currentUser];
+                 message[PF_MESSAGES_LASTMESSAGE] = @"";
+                 message[PF_MESSAGES_COUNTER] = @0;
+                 message[PF_MESSAGES_UPDATEDACTION] = [NSDate date];
+                 [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+                  {
+                      if (error != nil) NSLog(@"CreateMessageItem save error.");
+                  }];
+             }
+         }
+         else NSLog(@"CreateMessageItem query error.");
+     }];
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+void CreateMessageItem(PFUser *user, NSString *groupId, NSString *description, PFObject *event)
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
-	[query whereKey:PF_MESSAGES_FROM_USER equalTo:user];
-	[query whereKey:PF_MESSAGES_ROOMID equalTo:roomId];
+	[query whereKey:PF_MESSAGES_USER equalTo:user];
+	[query whereKey:PF_MESSAGES_GROUPID equalTo:groupId];
 	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 	{
 		if (error == nil)
@@ -53,20 +113,16 @@ void CreateMessageItem(PFUser *user,PFUser *chatter, NSString *roomId, NSString 
 			if ([objects count] == 0)
 			{
 				PFObject *message = [PFObject objectWithClassName:PF_MESSAGES_CLASS_NAME];
-				message[PF_MESSAGES_FROM_USER] = user;
-				message[PF_MESSAGES_ROOMID] = roomId;
+				message[PF_MESSAGES_USER] = user;
+				message[PF_MESSAGES_GROUPID] = groupId;
 				message[PF_MESSAGES_DESCRIPTION] = description;
-				message[PF_MESSAGES_TO_USER] = chatter;
+				message[PF_MESSAGES_LASTUSER] = [PFUser currentUser];
 				message[PF_MESSAGES_LASTMESSAGE] = @"";
 				message[PF_MESSAGES_COUNTER] = @0;
 				message[PF_MESSAGES_UPDATEDACTION] = [NSDate date];
+                message[PF_MESSAGES_EVENT] = event;
 				[message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 				{
-                    
-                    if(succeeded){
-                        
-                        
-                    }
 					if (error != nil) NSLog(@"CreateMessageItem save error.");
 				}];
 			}
@@ -86,11 +142,11 @@ void DeleteMessageItem(PFObject *message)
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-void UpdateMessageCounter(NSString *roomId, NSString *lastMessage)
+void UpdateMessageCounter(NSString *groupId, NSString *lastMessage)
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
-	[query whereKey:PF_MESSAGES_ROOMID equalTo:roomId];
+	[query whereKey:PF_MESSAGES_GROUPID equalTo:groupId];
 	[query setLimit:1000];
 	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 	{
@@ -98,11 +154,11 @@ void UpdateMessageCounter(NSString *roomId, NSString *lastMessage)
 		{
 			for (PFObject *message in objects)
 			{
-				PFUser *user = message[PF_MESSAGES_FROM_USER];
+				PFUser *user = message[PF_MESSAGES_USER];
 				if ([user.objectId isEqualToString:[PFUser currentUser].objectId] == NO)
 					[message incrementKey:PF_MESSAGES_COUNTER byAmount:@1];
 				//---------------------------------------------------------------------------------------------------------------------------------
-				//message[PF_MESSAGES_CHATTER] = [PFUser currentUser];
+				message[PF_MESSAGES_LASTUSER] = [PFUser currentUser];
 				message[PF_MESSAGES_LASTMESSAGE] = lastMessage;
 				message[PF_MESSAGES_UPDATEDACTION] = [NSDate date];
 				[message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
@@ -116,12 +172,12 @@ void UpdateMessageCounter(NSString *roomId, NSString *lastMessage)
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-void ClearMessageCounter(NSString *roomId)
+void ClearMessageCounter(NSString *groupId)
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
-	[query whereKey:PF_MESSAGES_ROOMID equalTo:roomId];
-	[query whereKey:PF_MESSAGES_FROM_USER equalTo:[PFUser currentUser]];
+	[query whereKey:PF_MESSAGES_GROUPID equalTo:groupId];
+	[query whereKey:PF_MESSAGES_USER equalTo:[PFUser currentUser]];
 	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 	{
 		if (error == nil)

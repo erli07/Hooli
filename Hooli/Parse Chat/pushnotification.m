@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2014 Related Code - http://relatedcode.com
+// Copyright (c) 2015 Related Code - http://relatedcode.com
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -11,6 +11,7 @@
 
 #import <Parse/Parse.h>
 
+#import "ChatConstant.h"
 #import "HLConstant.h"
 
 #import "pushnotification.h"
@@ -35,7 +36,7 @@ void ParsePushUserResign(void)
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	PFInstallation *installation = [PFInstallation currentInstallation];
-	installation[PF_INSTALLATION_USER] = [NSNull null];
+	[installation removeObjectForKey:PF_INSTALLATION_USER];
 	[installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 	{
 		if (error != nil)
@@ -46,23 +47,23 @@ void ParsePushUserResign(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-void SendPushNotification(NSString *roomId, NSString *text)
+void SendPushNotification(NSString *groupId, NSString *text)
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
-	[query whereKey:PF_MESSAGES_ROOMID equalTo:roomId];
-	[query whereKey:PF_MESSAGES_FROM_USER notEqualTo:[PFUser currentUser]];
-	[query includeKey:PF_MESSAGES_FROM_USER];
+	[query whereKey:PF_MESSAGES_GROUPID equalTo:groupId];
+	[query whereKey:PF_MESSAGES_USER notEqualTo:[PFUser currentUser]];
+	[query includeKey:PF_MESSAGES_USER];
 	[query setLimit:1000];
 
 	PFQuery *queryInstallation = [PFInstallation query];
-	[queryInstallation whereKey:PF_INSTALLATION_USER matchesKey:PF_MESSAGES_FROM_USER inQuery:query];
+	[queryInstallation whereKey:PF_INSTALLATION_USER matchesKey:PF_MESSAGES_USER inQuery:query];
 
 	PFPush *push = [[PFPush alloc] init];
 	[push setQuery:queryInstallation];
 	[push setMessage:text];
     NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        kHLPushPayloadPayloadTypeMessagesKey,kHLPushPayloadPayloadTypeKey, @"default",kAPNSSoundKey,@"increment",kAPNSBadgeKey,text,kAPNSAlertKey,nil];
+                          kHLPushPayloadPayloadTypeMessagesKey,kHLPushPayloadPayloadTypeKey, @"default",kAPNSSoundKey,@"increment",kAPNSBadgeKey,text,kAPNSAlertKey,nil];
     [push setData:data];
 	[push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 	{
