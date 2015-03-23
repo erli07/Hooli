@@ -19,4 +19,8 @@
 
 -(void)uploadEventToCloud:(PFObject *)event withBlock:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
+-(void)joinEvent:(PFObject *)eventObject
+            user:(PFUser *)user
+       withBlock:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
 @end

@@ -23,11 +23,31 @@
 
 static NSString * const reuseIdentifier = @"PhotoCell";
 
-- (void)viewDidLoad {
-    
+
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
+    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    
+    [layout setItemSize:CGSizeMake(100, 100)];
+    
+    _collectionView=[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
+    [_collectionView setDataSource:self];
+    [_collectionView setDelegate:self];
+    
+    [_collectionView registerClass:[PhotoCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    
+    [self.view addSubview:_collectionView];
+    
+    self.title = @"活动图片";
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [_collectionView setBackgroundColor:[UIColor whiteColor]];
     
     _photosArray = [NSMutableArray new];
     
@@ -55,75 +75,48 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             }
         }
         
+        [_collectionView reloadData];
+        
     }];
     
-    self.clearsSelectionOnViewWillAppear = NO;
     
-    // Register cell classes
-    [self.collectionView registerClass:[PhotoCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-
-#pragma mark <UICollectionViewDataSource>
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
     return [_photosArray count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     PhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-
+    
     PFFile *imageFile = [_photosArray objectAtIndex:indexPath.row];
     
+    cell.photoImageView = [[UIImageView alloc]initWithFrame:cell.frame];
+    
+    [cell addSubview:cell.photoImageView];
+        
     [cell updateCellWithImageFile:imageFile];
     
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return CGSizeMake(100, 100);
+//}
+//
+//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+//    
+//    return UIEdgeInsetsMake(0,5,5,5);
+//    
+//}
+//
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
+//    
+//    return 10.0f;
+//}
 
 @end

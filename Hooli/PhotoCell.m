@@ -12,7 +12,7 @@
 @synthesize photoImageView = _photoImageView;
 
 -(void)updateCellWithImageFile:(PFFile *)imageFile{
-    
+        
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         
         if(!error){
@@ -27,7 +27,7 @@
 }
 
 - (void)awakeFromNib {
-    // Initialization code
+    
 }
 
 @end

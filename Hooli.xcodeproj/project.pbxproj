@@ -198,7 +198,6 @@
 		0EDBB6831ABDC83200DD4688 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBB6821ABDC83200DD4688 /* camera@2x.png */; };
 		0EDBB6891ABE14F800DD4688 /* ActivityPicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDBB6881ABE14F800DD4688 /* ActivityPicturesViewController.m */; };
 		0EDBB6901ABE247500DD4688 /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDBB68E1ABE247500DD4688 /* PhotoCell.m */; };
-		0EDBB6911ABE247500DD4688 /* PhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBB68F1ABE247500DD4688 /* PhotoCell.xib */; };
 		0EDBB6A41ABE8B4800DD4688 /* pushnotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDBB6921ABE8B4800DD4688 /* pushnotification.m */; };
 		0EDBB6A51ABE8B4800DD4688 /* camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDBB6941ABE8B4800DD4688 /* camera.m */; };
 		0EDBB6A61ABE8B4800DD4688 /* ChatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDBB6961ABE8B4800DD4688 /* ChatView.m */; };
@@ -316,6 +315,8 @@
 		0EFA0ECF1A72174500A05ABC /* unlike-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ECE1A72174500A05ABC /* unlike-48.png */; };
 		0EFA0ED31A7217DF00A05ABC /* like-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ED21A7217DF00A05ABC /* like-48.png */; };
 		0EFA0F0A1A77637200A05ABC /* NotificationFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */; };
+		0EFEBAAC1AC0062600430B60 /* ActivityPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFEBAAA1AC0062600430B60 /* ActivityPhotoCell.m */; };
+		0EFEBAAD1AC0062600430B60 /* ActivityPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EFEBAAB1AC0062600430B60 /* ActivityPhotoCell.xib */; };
 		0EFF7D5B1A895DDB0087D464 /* MyRelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */; };
 		0EFF7D611A89659D0087D464 /* MyProfileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D601A89659D0087D464 /* MyProfileDetailViewController.m */; };
 		0EFF7D641A89E2F80087D464 /* UserAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D631A89E2F80087D464 /* UserAccountViewController.m */; };
@@ -708,7 +709,6 @@
 		0EDBB6881ABE14F800DD4688 /* ActivityPicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityPicturesViewController.m; sourceTree = "<group>"; };
 		0EDBB68D1ABE247500DD4688 /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
 		0EDBB68E1ABE247500DD4688 /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
-		0EDBB68F1ABE247500DD4688 /* PhotoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoCell.xib; sourceTree = "<group>"; };
 		0EDBB6921ABE8B4800DD4688 /* pushnotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = pushnotification.m; path = "Parse Chat/pushnotification.m"; sourceTree = "<group>"; };
 		0EDBB6931ABE8B4800DD4688 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = camera.h; path = "Parse Chat/camera.h"; sourceTree = "<group>"; };
 		0EDBB6941ABE8B4800DD4688 /* camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = camera.m; path = "Parse Chat/camera.m"; sourceTree = "<group>"; };
@@ -924,6 +924,9 @@
 		0EFA0ED21A7217DF00A05ABC /* like-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like-48.png"; sourceTree = "<group>"; };
 		0EFA0F081A77637200A05ABC /* NotificationFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationFeedViewController.h; sourceTree = "<group>"; };
 		0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationFeedViewController.m; sourceTree = "<group>"; };
+		0EFEBAA91AC0062600430B60 /* ActivityPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityPhotoCell.h; sourceTree = "<group>"; };
+		0EFEBAAA1AC0062600430B60 /* ActivityPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityPhotoCell.m; sourceTree = "<group>"; };
+		0EFEBAAB1AC0062600430B60 /* ActivityPhotoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityPhotoCell.xib; sourceTree = "<group>"; };
 		0EFF7D591A895DDB0087D464 /* MyRelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRelationshipViewController.h; sourceTree = "<group>"; };
 		0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRelationshipViewController.m; sourceTree = "<group>"; };
 		0EFF7D5F1A89659D0087D464 /* MyProfileDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileDetailViewController.h; sourceTree = "<group>"; };
@@ -2157,9 +2160,11 @@
 				0EB82A401AB53CEA00EA15ED /* ActivityCategoryViewController.h */,
 				0EB82A411AB53CEA00EA15ED /* ActivityCategoryViewController.m */,
 				0EB82A421AB53CEA00EA15ED /* ActivityListCell.xib */,
+				0EFEBAA91AC0062600430B60 /* ActivityPhotoCell.h */,
+				0EFEBAAA1AC0062600430B60 /* ActivityPhotoCell.m */,
+				0EFEBAAB1AC0062600430B60 /* ActivityPhotoCell.xib */,
 				0EDBB68D1ABE247500DD4688 /* PhotoCell.h */,
 				0EDBB68E1ABE247500DD4688 /* PhotoCell.m */,
-				0EDBB68F1ABE247500DD4688 /* PhotoCell.xib */,
 				0ED460841AA6D8E800EDDBB6 /* CreateActivityViewController.h */,
 				0ED460851AA6D8E800EDDBB6 /* CreateActivityViewController.m */,
 				4523393E1AB3C33C00A3F85A /* ActivityLocationViewController.h */,
@@ -2404,6 +2409,7 @@
 				0E17BF9719FE04800042C4DD /* pink-heart@2x.png in Resources */,
 				45A94F7B1A84010200C8A217 /* fold.caf in Resources */,
 				45B247E31AAA46F300986272 /* ski@2x.png in Resources */,
+				0EFEBAAD1AC0062600430B60 /* ActivityPhotoCell.xib in Resources */,
 				4523391D1AB206FA00A3F85A /* calender@2x.png in Resources */,
 				0E28DD781A7FFA170025077C /* user-group-32.png in Resources */,
 				0E405D3B1A67896E0044B60A /* addItem.png in Resources */,
@@ -2434,7 +2440,6 @@
 				0E9605661A6E236500791E4E /* IconAddComment.png in Resources */,
 				0EDBB6C71ABE8E2E00DD4688 /* FacebookFriendsView.xib in Resources */,
 				0EDBB7761ABE90DA00DD4688 /* JSQMessages.strings in Resources */,
-				0EDBB6911ABE247500DD4688 /* PhotoCell.xib in Resources */,
 				0E0019E11A0E948F0086CD77 /* sliderMinTrack@2x.png in Resources */,
 				0EA8837D1AA54D6700FFAD1F /* map_location@2x.png in Resources */,
 				457AC6F21A5C6AF400BFC619 /* title1@2x.png in Resources */,
@@ -2568,6 +2573,7 @@
 				0ED460831AA6D54900EDDBB6 /* Event.m in Sources */,
 				0EDBB77A1ABE90DA00DD4688 /* UIDevice+JSQMessages.m in Sources */,
 				0EDBB76A1ABE90DA00DD4688 /* AFURLRequestSerialization.m in Sources */,
+				0EFEBAAC1AC0062600430B60 /* ActivityPhotoCell.m in Sources */,
 				0EDBB6901ABE247500DD4688 /* PhotoCell.m in Sources */,
 				0E0019D71A0E91CD0086CD77 /* OfferFilterViewController.m in Sources */,
 				0EF509431AA5434B008097DD /* ActivityListCell.m in Sources */,

@@ -15,7 +15,7 @@
 #import "ChatConstant.h"
 #import "messages.h"
 #import "utilities.h"
-
+#import "HLUtilities.h"
 #import "MessagesView.h"
 #import "MessagesCell.h"
 #import "ChatView.h"
@@ -29,7 +29,9 @@
 {
 	NSMutableArray *messages;
 	UIRefreshControl *refreshControl;
+    
 }
+@property (nonatomic, strong) UIView *blankView;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableMessages;
 @property (strong, nonatomic) IBOutlet UIView *viewEmpty;
@@ -39,7 +41,7 @@
 
 @implementation MessagesView
 
-@synthesize tableMessages, viewEmpty;
+@synthesize tableMessages, viewEmpty, blankView;
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -83,10 +85,36 @@
 {
 	[super viewDidAppear:animated];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	if ([PFUser currentUser] != nil)
-	{
-		[self loadMessages];
-	}
+    
+    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        [self loadMessages];
+    }
+    
+    
+//	if ([PFUser currentUser] != nil)
+//	{
+//		[self loadMessages];
+//	}
+//    else{
+//        
+//    
+//        
+//    }
+}
+
+-(void)showEmptyPage{
+    
+    viewEmpty.hidden = NO;
+    
+//    self.blankView = [[UIView alloc] initWithFrame:self.view.frame];
+//    [self.blankView setBackgroundColor:[UIColor whiteColor]];
+//    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+//    noContentLabel.text = @"No content at the moment";
+//    noContentLabel.textColor = [UIColor lightGrayColor];
+//    noContentLabel.font = [UIFont systemFontOfSize:17.0f];
+//    noContentLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.blankView addSubview:noContentLabel];
 }
 
 #pragma mark - Backend methods

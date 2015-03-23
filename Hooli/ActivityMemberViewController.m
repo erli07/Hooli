@@ -69,6 +69,8 @@
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     
+    [self.delegate didUpdateMembers];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsReloadContentSizeNotification object:self];
     
     

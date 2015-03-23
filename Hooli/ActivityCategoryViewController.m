@@ -14,6 +14,7 @@
 
 @property (nonatomic) NSArray *eventNameArray;
 @property (nonatomic) NSArray *eventSymbolsArray;
+@property (nonatomic) NSMutableArray *selectionArray;
 
 @end
 
@@ -21,13 +22,18 @@
 
 @synthesize eventNameArray = _eventNameArray;
 @synthesize eventSymbolsArray = _eventSymbolsArray;
+@synthesize selectionArray = _selectionArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _selectionArray = [NSMutableArray new];
+    
     _eventNameArray = @[@"聚餐吃饭",@"体育娱乐", @"我爱学习"];
     
     _eventSymbolsArray = @[[UIImage imageNamed:@"restaurant-48"], [UIImage imageNamed:@"triathlone-48"], [UIImage imageNamed:@"study-48"]];
+    
+    self.tableView.allowsMultipleSelection = YES;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -60,8 +66,29 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     [self.delegate didSelectEventCategory:[_eventNameArray objectAtIndex:indexPath.row]];
-    
     [self.navigationController popViewControllerAnimated:YES];
+    
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    
+//    if([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark){
+//        
+//        [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
+//        
+//        [_selectionArray removeObject:[_eventNameArray objectAtIndex:indexPath.row]];
+//
+//    }
+//    else{
+//        
+//        [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
+//        
+//        [_selectionArray addObject:[_eventNameArray objectAtIndex:indexPath.row]];
+//
+//
+//    }
+    
+
+    
+
     
 }
 

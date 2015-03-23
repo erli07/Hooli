@@ -67,7 +67,7 @@
 - (void)objectsDidLoad:(NSError *)error {
     
     [super objectsDidLoad:error];
-
+    
 }
 
 - (void)viewDidLoad {
@@ -81,10 +81,10 @@
     self.navigationItem.rightBarButtonItem = rightBarButton;
     
     UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"类别"
-                                       style:UIBarButtonItemStyleDone
-                                       target:self
-                                       action:@selector(seeCategories)];
+                                      initWithTitle:@"类别"
+                                      style:UIBarButtonItemStyleDone
+                                      target:self
+                                      action:@selector(seeCategories)];
     self.navigationItem.leftBarButtonItem = leftBarButton;
     
     self.navigationController.navigationBarHidden = NO;
@@ -95,22 +95,32 @@
 
 -(void)postEvent{
     
-    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
-    
-    CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
-    
-    postVC.delegate = self;
-    
-    postVC.hidesBottomBarWhenPushed = YES;
-    
-    [self.navigationController pushViewController:postVC animated:YES];
+    if([PFUser currentUser]){
+        
+        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+        
+        CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
+        
+        postVC.delegate = self;
+        
+        postVC.hidesBottomBarWhenPushed = YES;
+        
+        [self.navigationController pushViewController:postVC animated:YES];
+        
+    }
+    else{
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"Please sign up or login first", @"") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
+    }
     
 }
 
 
 -(void)seeCategories{
     
-
+    
 }
 
 -(void)didCreateActivity:(PFObject *)object{
@@ -149,14 +159,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
     [self setNavBarVisible:YES animated:NO];
     
-    ActivityDetailViewController *detailVC = [[ActivityDetailViewController alloc]init];
-    detailVC.activityDetail = [self.objects objectAtIndex:indexPath.row];
-    detailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detailVC animated:YES];
-   //[self performSegueWithIdentifier:@"seeActivityDetail" sender:self];
+    if([PFUser currentUser]){
+        ActivityDetailViewController *detailVC = [[ActivityDetailViewController alloc]init];
+        detailVC.activityDetail = [self.objects objectAtIndex:indexPath.row];
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
+    else{
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"Please sign up or login first", @"") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
+        
+    }
+    //[self performSegueWithIdentifier:@"seeActivityDetail" sender:self];
     
 }
 
@@ -236,12 +254,12 @@
     
     [UIView animateWithDuration:duration animations:^{
         
-
+        
         CGRect tableViewframe = self.tableView.frame;
         
         tableViewframe.origin.y = (visible)? 0 : 0;
         tableViewframe.size.height = (visible)? 568: [[UIScreen mainScreen]bounds].size.height - tableViewframe.origin.y;
-     
+        
         self.tableView.frame = tableViewframe;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         

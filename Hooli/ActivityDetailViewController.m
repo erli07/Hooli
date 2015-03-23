@@ -25,6 +25,7 @@
 #import "ChatView.h"
 #import "ChatConstant.h"
 #import "messages.h"
+#import "EventManager.h"
 
 #define text_color [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
@@ -103,13 +104,13 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
-//    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
+    //    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
     
     UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookMarkEvent)];
     
-  //  NSArray *buttonsArray = @[rightBarButton1, rightBarButton2];
+    //  NSArray *buttonsArray = @[rightBarButton1, rightBarButton2];
     
-   // self.navigationItem.rightBarButtonItems = buttonsArray;
+    // self.navigationItem.rightBarButtonItems = buttonsArray;
     
     self.navigationItem.rightBarButtonItem = rightBarButton2;
     
@@ -139,21 +140,6 @@
     
     [_joinButton setBackgroundColor:[HLTheme buttonColor]];
     
-    
-    if([[[PFUser currentUser]objectId] isEqual:[[_activityDetail objectForKey:kHLEventKeyHost]objectId]]){
-        
-        [_joinButton addTarget:self action:@selector(editEvent) forControlEvents:UIControlEventTouchUpInside];
-        
-        [_joinButton setTitle:@"修改" forState:UIControlStateNormal];
-    }
-    else{
-        
-        [_joinButton addTarget:self action:@selector(joinEvent) forControlEvents:UIControlEventTouchUpInside];
-        
-        [_joinButton setTitle:@"我要参加" forState:UIControlStateNormal];
-        
-    }
-    
     _joinButton.layer.cornerRadius = 10.0f;
     _joinButton.layer.masksToBounds = YES;
     
@@ -170,6 +156,68 @@
     
 }
 
+-(void)didUpdateMembers{
+    
+    if([[[PFUser currentUser]objectId] isEqual:[[_activityDetail objectForKey:kHLEventKeyHost]objectId]]){
+        
+        [_joinButton addTarget:self action:@selector(editEvent) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_joinButton setTitle:@"修改" forState:UIControlStateNormal];
+    }
+    else{
+        
+        if([self checkIfCurrentUserInTheEvent]){
+            
+            [_joinButton removeTarget:self action:@selector(joinEvent) forControlEvents:UIControlEventTouchUpInside];
+            
+            [_joinButton addTarget:self action:@selector(quitEvent) forControlEvents:UIControlEventTouchUpInside];
+            
+            [_joinButton setTitle:@"退出该群" forState:UIControlStateNormal];
+            
+        }
+        else{
+            
+            [_joinButton removeTarget:self action:@selector(quitEvent) forControlEvents:UIControlEventTouchUpInside];
+            
+            [_joinButton addTarget:self action:@selector(joinEvent) forControlEvents:UIControlEventTouchUpInside];
+            
+            [_joinButton setTitle:@"我要参加" forState:UIControlStateNormal];
+            
+        }
+        
+    }
+}
+
+-(BOOL)checkIfCurrentUserInTheEvent{
+    
+    for (PFObject *object in _memberTableView.objects) {
+        
+        PFUser *member = [object objectForKey:kHLEventMemberKeyMember];
+        
+        if(object){
+            
+            if([member.objectId isEqualToString:[PFUser currentUser].objectId]){
+                
+                return  YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+-(void)quitEvent{
+    
+    
+    UIAlertView *quitAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"确定退出？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    
+    quitAlert.tag = 2;
+    
+    [quitAlert show];
+    
+    
+}
+
 -(void)inviteFriends{
     
     FollowListViewController*  followListVC = [[FollowListViewController alloc]init];
@@ -177,9 +225,9 @@
     followListVC.fromUser = [PFUser currentUser];
     
     followListVC.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
-
+    
     [self.navigationController pushViewController:followListVC animated:YES];
-
+    
 }
 
 -(void)bookMarkEvent{
@@ -240,7 +288,7 @@
     
     _activityDetail = object;
     _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"微信群二维码"];
-
+    
 }
 
 #pragma mark - Table view data source
@@ -484,7 +532,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     if(tableView == _activityDetailTableView){
         
         if(indexPath.section == 0){
@@ -492,16 +540,16 @@
             if(indexPath.row == 1){
                 
                 if([_activityDetail objectForKey:kHLEventKeyDate]){
-                
-                NSDateFormatter *dateFormater = [NSDateFormatter new];
-                dateFormater.dateFormat = @"MM.dd HH:mm";
-                NSString *msg = [dateFormater stringFromDate:[_activityDetail objectForKey:kHLEventKeyDate]];
-                
-                UIAlertView *addCalenderAlert =  [[UIAlertView alloc]initWithTitle:@"Add to calender?" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
-                
-                addCalenderAlert.tag = 0;
-                
-                [addCalenderAlert show];
+                    
+                    NSDateFormatter *dateFormater = [NSDateFormatter new];
+                    dateFormater.dateFormat = @"MM.dd HH:mm";
+                    NSString *msg = [dateFormater stringFromDate:[_activityDetail objectForKey:kHLEventKeyDate]];
+                    
+                    UIAlertView *addCalenderAlert =  [[UIAlertView alloc]initWithTitle:@"Add to calender?" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
+                    
+                    addCalenderAlert.tag = 0;
+                    
+                    [addCalenderAlert show];
                     
                 }
                 
@@ -532,9 +580,9 @@
             }
             else{
                 
-                MainCollectionViewFlowLayout *mainFlowLayout = [[MainCollectionViewFlowLayout alloc]init];
+               
                 
-                ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]initWithCollectionViewLayout:mainFlowLayout];
+                ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]init];
                 
                 apVC.aObject = _activityDetail;
                 
@@ -624,35 +672,84 @@
         }
         else{
             
-            PFObject *joinEvent = [PFObject objectWithClassName:kHLCloudNotificationClass];
-            [joinEvent setObject:[_activityDetail objectForKey:kHLEventKeyHost] forKey:kHLNotificationToUserKey];
-            [joinEvent setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
-            [joinEvent setObject:kHLNotificationTypeJoinEvent forKey:kHLNotificationTypeKey];
-            [joinEvent setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId] forKey:kHLNotificationEventKey];
-            PFACL *joinEventACL = [PFACL ACLWithUser:[PFUser currentUser]];
-            [joinEventACL setPublicReadAccess:YES];
-            [joinEventACL setWriteAccess:YES forUser:[_activityDetail objectForKey:kHLEventKeyHost]];
-            joinEvent.ACL = joinEventACL;
-            
-            [joinEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [[EventManager sharedInstance]joinEvent:_activityDetail user:[PFUser currentUser] withBlock:^(BOOL succeeded, NSError *error) {
                 
                 if(succeeded){
                     
-                    
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"申请成功!" message:nil
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"参加成功!" message:nil
                                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alert show];
                     
                     [_memberTableView loadObjects];
-                    
                 }
-                
                 
             }];
             
+            //            PFObject *joinEvent = [PFObject objectWithClassName:kHLCloudNotificationClass];
+            //            [joinEvent setObject:[_activityDetail objectForKey:kHLEventKeyHost] forKey:kHLNotificationToUserKey];
+            //            [joinEvent setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+            //            [joinEvent setObject:kHLNotificationTypeJoinEvent forKey:kHLNotificationTypeKey];
+            //            [joinEvent setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId] forKey:kHLNotificationEventKey];
+            //            PFACL *joinEventACL = [PFACL ACLWithUser:[PFUser currentUser]];
+            //            [joinEventACL setPublicReadAccess:YES];
+            //            [joinEventACL setWriteAccess:YES forUser:[_activityDetail objectForKey:kHLEventKeyHost]];
+            //            joinEvent.ACL = joinEventACL;
+            //
+            //            [joinEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            //
+            //                if(succeeded){
+            //
+            //
+            //                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"申请成功!" message:nil
+            //                                                                  delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            //
+            //                    [alert show];
+            //
+            //                    [_memberTableView loadObjects];
+            //
+            //                }
+            //
+            //
+            //            }];
+            
         }
         
+    }
+    else if(alertView.tag == 2){
+        
+        if(buttonIndex == 0){
+            
+            
+        }
+        else{
+            
+            PFQuery *queryExistingJoining = [PFQuery queryWithClassName:kHLCloudEventMemberClass];
+            [queryExistingJoining whereKey:kHLEventMemberKeyMember equalTo: [PFUser currentUser]];
+            [queryExistingJoining whereKey:kHLEventMemberKeyEvent equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId]];
+            [queryExistingJoining setCachePolicy:kPFCachePolicyNetworkOnly];
+            [queryExistingJoining getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                
+                if (object) {
+                    
+                    [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        
+                        if(succeeded){
+                            
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"退出成功" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                            
+                            [alert show];
+                            
+                            [_memberTableView loadObjects];
+                        }
+                        
+                    }];
+                }
+                
+            }];
+
+        }
+
     }
     
 }

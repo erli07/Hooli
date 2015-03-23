@@ -10,7 +10,7 @@
 
 @interface PhotoCell : UICollectionViewCell
 
-@property (nonatomic) IBOutlet UIImageView *photoImageView;
+@property (nonatomic) UIImageView *photoImageView;
 
 -(void)updateCellWithImageFile:(PFFile *)imageFile;
 

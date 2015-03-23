@@ -13,6 +13,8 @@
 //- (void)didSelectEventLocation:(CLLocation *)eventLocation;
 - (void)didSelectMember:(PFUser *) member;
 
+-(void)didUpdateMembers;
+
 @end
 
 @interface ActivityMemberViewController : PFQueryTableViewController

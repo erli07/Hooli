@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
-@interface ActivityPicturesViewController : UICollectionViewController
+@interface ActivityPicturesViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+{
+    UICollectionView *_collectionView;
+}
 
 @property (nonatomic) PFObject *aObject;
+@property (nonatomic) UICollectionView *_collectionView;
 
 @end

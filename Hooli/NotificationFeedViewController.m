@@ -165,19 +165,6 @@
     } else {
         self.tableView.tableHeaderView = nil;
         self.tableView.scrollEnabled = YES;
-        
-        //        NSUInteger unreadCount = 0;
-        //        for (PFObject *activity in self.objects) {
-        //            if ([lastRefresh compare:[activity createdAt]] == NSOrderedAscending && ![[activity objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeJoined]) {
-        //                unreadCount++;
-        //            }
-        //        }
-        //
-        //        if (unreadCount > 0) {
-        //            self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu",(unsigned long)unreadCount];
-        //        } else {
-        //            self.navigationController.tabBarItem.badgeValue = nil;
-        //        }
     }
 }
 
@@ -371,80 +358,7 @@
                     
                     if(_eventObject && _toUser){
                         
-                        PFQuery *existQuery = [PFQuery queryWithClassName:kHLCloudEventMemberClass];
-                        [existQuery whereKey:kHLEventMemberKeyMember equalTo:_toUser];
-                        [existQuery whereKey:kHLEventMemberKeyEvent equalTo:_eventObject];
-                        [existQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                            
-                            if(object){
-                                
-                                PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
-                                [deleteQuery whereKey:kHLNotificationFromUserKey equalTo:_toUser];
-                                [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
-                                [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *aObject, NSError *error) {
-                                    
-                                    if(aObject){
-                                        
-                                        [aObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                            
-                                            if(succeeded){
-                                                
-                                                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"You have accepted the request" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                                
-                                                [alertView show];
-                                                
-                                                [self loadObjects];
-                                            }
-                                        }];
-                                    }
-                                    
-                                }];
-                                
-                                
-                            }
-                            else{
-                                
-                                PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
-                                [eventMember setObject:_toUser forKey:kHLEventMemberKeyMember];
-                                [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId] forKey:kHLEventMemberKeyEvent];
-                                [eventMember setObject:@"member" forKey:kHLEventMemberKeyMemberRole];
-                                
-                                PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];
-                                [eventMemberACL setPublicReadAccess:YES];
-                                eventMember.ACL = eventMemberACL;
-                                
-                                [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                    
-                                    if(succeeded){
-                                        
-                                        PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
-                                        [deleteQuery whereKey:kHLNotificationFromUserKey equalTo:_toUser];
-                                        [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
-                                        [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                                            
-                                            if(object){
-                                                
-                                                [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                                    
-                                                    if(succeeded){
-                                                        
-                                                        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"You have accepted the request" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                                        
-                                                        [alertView show];
-                                                        
-                                                        [self loadObjects];
-                                                    }
-                                                }];
-                                            }
-                                            
-                                        }];
-                                    }
-                                    
-                                    
-                                }];
-                            }
-                        }];
-                        
+                                               
                     }
                     
                 }
