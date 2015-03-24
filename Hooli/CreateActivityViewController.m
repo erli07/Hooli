@@ -15,6 +15,7 @@
 #import "camera.h"
 #import "HLUtilities.h"
 #import "MBProgressHUD.h"
+#import "ActivityListViewController.h"
 #import "HSDatePickerViewController.h"
 
 @interface CreateActivityViewController ()<UIActionSheetDelegate,UIAlertViewDelegate, HSDatePickerViewControllerDelegate>
@@ -101,14 +102,18 @@
         
         PFFile *imageFile0 =[imagesObject objectForKey:@"imageFile0"];
         if(imageFile0){
+            
+            [_imagesArray addObject:[UIImage imageWithData:[imageFile0 getData]]];
             [self.imageButton1 setImage:[UIImage imageWithData:[imageFile0 getData]] forState:UIControlStateNormal];
         }
         PFFile *imageFile1 =[imagesObject objectForKey:@"imageFile1"];
         if(imageFile1){
+            [_imagesArray addObject:[UIImage imageWithData:[imageFile1 getData]]];
             [self.imageButton2 setImage:[UIImage imageWithData:[imageFile1 getData]] forState:UIControlStateNormal];
         }
         PFFile *imageFile2 =[imagesObject objectForKey:@"imageFile2"];
-        if(imageFile1){
+        if(imageFile2){
+            [_imagesArray addObject:[UIImage imageWithData:[imageFile2 getData]]];
             [self.imageButton3 setImage:[UIImage imageWithData:[imageFile2 getData]] forState:UIControlStateNormal];
         }
         
@@ -180,8 +185,18 @@
             if([_imagesArray count] == 0){
                 
                 //no images
+                PFObject *eventObject;
                 
-                PFObject *eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
+                if(_eventObject){
+                    
+                   eventObject = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
+
+                }
+                else{
+                
+                   eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
+                    
+                }
                 
                 [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
                 [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
@@ -252,7 +267,19 @@
                     
                     if(succeeded){
                         
-                        PFObject *eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
+                        PFObject *eventObject;
+                        
+                        if(_eventObject){
+                            
+                            eventObject = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
+                            
+                        }
+                        else{
+                            
+                            eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
+                            
+                        }
+                        
                         [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
                         [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
                         [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
@@ -285,6 +312,8 @@
                             
                             if(succeeded){
                                 
+                                if(!_eventObject){
+                                
                                 PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
                                 [eventMember setObject:[PFUser currentUser] forKey:kHLEventMemberKeyMember];
                                 [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:eventObject.objectId] forKey:kHLEventMemberKeyEvent];
@@ -310,6 +339,23 @@
                                     }
                                     
                                 }];
+                                    
+                                }
+                                else{
+                                    
+                                    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"更新成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                    
+                                    [alert show];
+                                    
+                                    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                    
+                                    ActivityListViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"ActivityListViewController"];
+                                    
+                                    [self.delegate didCreateActivity:eventObject];
+                                    
+                                    [self.navigationController pushViewController:postVC animated:YES];
+
+                                }
                                 
                             }
                             else{

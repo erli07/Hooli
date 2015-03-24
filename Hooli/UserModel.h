@@ -22,6 +22,12 @@
 @property (nonatomic, strong) NSString *gender;
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *wechat;
+@property (nonatomic, strong) NSString *signature;
+@property (nonatomic, strong) NSString *work;
+@property (nonatomic, strong) NSString *hobby;
+@property (nonatomic, strong) NSString *age;
+
+
 
 -(id)initUserWithEmail:(NSString *)_email
               userName:(NSString *)_username
@@ -40,6 +46,22 @@
                 gender:(NSString *)_gender
            phoneNumber:(NSString *)_phoneNumber
                 wechat:(NSString *)_wechat;
+
+-(id)initUserWithEmail:(NSString *)_email
+              userName:(NSString *)_username
+         portraitImage:(UIImage *)_portraitImage
+                gender:(NSString *)_gender
+                  work:(NSString *)_work
+                 hobby:(NSString *)_hobby
+             signature:(NSString *)_signature;
+
+-(id)initUserWithUserName:(NSString *)_username
+                      age:(NSString *)_age
+            portraitImage:(UIImage *)_portraitImage
+                   gender:(NSString *)_gender
+                     work:(NSString *)_work
+                    hobby:(NSString *)_hobby
+                signature:(NSString *)_signature;
 
 -(id)initUserWithPFObject:(PFObject *)object;
 @end

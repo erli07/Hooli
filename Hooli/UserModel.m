@@ -10,7 +10,7 @@
 #import "NSString+MD5.h"
 
 @implementation UserModel
-@synthesize email,username,portraitImage,userID,password,chattingId,gender,phoneNumber,wechat;
+@synthesize email,username,portraitImage,userID,password,chattingId,gender,phoneNumber,wechat,hobby,signature,work,age;
 
 
 
@@ -73,6 +73,29 @@
         self.wechat = _wechat;
         self.gender = _gender;
         self.phoneNumber = _phoneNumber;
+    }
+    return self;
+    
+}
+
+-(id)initUserWithUserName:(NSString *)_username
+                      age:(NSString *)_age
+            portraitImage:(UIImage *)_portraitImage
+                   gender:(NSString *)_gender
+                     work:(NSString *)_work
+                    hobby:(NSString *)_hobby
+                signature:(NSString *)_signature{
+    
+    self = [super init];
+    if(self)
+    {
+        self.age = _age;
+        self.username = _username;
+        self.portraitImage = _portraitImage;
+        self.hobby = _hobby;
+        self.gender = _gender;
+        self.signature = _signature;
+        self.work = _work;
     }
     return self;
     

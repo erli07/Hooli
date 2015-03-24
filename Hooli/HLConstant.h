@@ -59,6 +59,10 @@ extern NSString *const kHLUserModelKeyUserIdMD5;
 extern NSString *const kHLUserModelKeyGender;
 extern NSString *const kHLUserModelKeyPhoneNumber;
 extern NSString *const kHLUserModelKeyWechatNumber;
+extern NSString *const kHLUserModelKeySignature;
+extern NSString *const kHLUserModelKeyHobby;
+extern NSString *const kHLUserModelKeyAge;
+extern NSString *const kHLUserModelKeyWork;
 extern NSString *const kHLUserModelKeyCredits;
 extern NSString *const kHLUserFacebookIDKey;
 
@@ -92,6 +96,8 @@ extern NSString *const kHLOfferPhotKeyPhoto;
 
 extern NSString *const kHLCloudOfferClass;
 extern NSString *const kHLCloudActivityClass;
+extern NSString *const kHLCloudMessagesClass;
+extern NSString *const kHLCloudChatClass;
 extern NSString *const kHLCloudNotificationClass;
 extern NSString *const kHLCloudItemNeedClass;
 extern NSString *const kHLCloudNeedClass;

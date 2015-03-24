@@ -31,19 +31,23 @@
     
     self.title = @"Profile";
     
-    _titleArray = @[@"Username",@"Gender", @"Email",@"Phone Number",@"Wechat"];
+    //_titleArray = @[@"Username",@"Gender", @"Email",@"Phone Number",@"Wechat"];
+    _titleArray = @[@"用户名",@"性别", @"年龄",@"职业",@"兴趣爱好", @"个性签名",];
+
     
     [[AccountManager sharedInstance]loadAccountDataWithUserId:self.user.objectId Success:^(id object) {
         
         PFFile *imageFile = [object objectForKey:kHLUserModelKeyPortraitImage];
         _portraitImage = [UIImage imageWithData:[imageFile getData]];
-        NSString *email = [object objectForKey:kHLUserModelKeyEmail]?[object objectForKey:kHLUserModelKeyEmail]:@"N/A";
+       // NSString *email = [object objectForKey:kHLUserModelKeyEmail]?[object objectForKey:kHLUserModelKeyEmail]:@"N/A";
+        NSString *age = [object objectForKey:kHLUserModelKeyAge]?[object objectForKey:kHLUserModelKeyAge]:@"N/A";
         NSString *username = [object objectForKey:kHLUserModelKeyUserName]?[object objectForKey:kHLUserModelKeyUserName]:@"N/A";;
         NSString *gender = [object objectForKey:kHLUserModelKeyGender]?[object objectForKey:kHLUserModelKeyGender]:@"N/A";;
-        NSString *phone_number = [object objectForKey:kHLUserModelKeyPhoneNumber]?[object objectForKey:kHLUserModelKeyPhoneNumber]:@"N/A";;
-        NSString *wechat = [object objectForKey:kHLUserModelKeyWechatNumber]?[object objectForKey:kHLUserModelKeyWechatNumber]:@"N/A";;
-        
-        [[FormManager sharedInstance]setProfileDetailArray:[NSMutableArray arrayWithArray:@[username,gender, email,phone_number, wechat]]] ;
+        NSString *hobby = [object objectForKey:kHLUserModelKeyHobby]?[object objectForKey:kHLUserModelKeyHobby]:@"N/A";;
+        NSString *signature = [object objectForKey:kHLUserModelKeySignature]?[object objectForKey:kHLUserModelKeySignature]:@"N/A";;
+        NSString *work = [object objectForKey:kHLUserModelKeyWork]?[object objectForKey:kHLUserModelKeyWork]:@"N/A";;
+
+        [[FormManager sharedInstance]setProfileDetailArray:[NSMutableArray arrayWithArray:@[username,gender, age,work, hobby, signature]]] ;
         
         [self.tableView reloadData];
 
@@ -78,7 +82,7 @@
     }
     else{
         
-        return 5;
+        return 6;
         
     }
     
@@ -144,7 +148,15 @@
         return 88;
     }
     else{
-        return 64;
+        if(indexPath.row == 5){
+            
+            return 64;
+        }
+        else{
+            
+            return 44;
+
+        }
     }
 }
 
@@ -175,17 +187,22 @@
         }
         else if(indexPath.row == 2){
             
-            [self showEditProfileWithProfileType:PROFILE_INDEX_EMAIL];
+            [self showEditProfileWithProfileType:PROFILE_INDEX_AGE];
             
         }
         else if(indexPath.row == 3){
             
-            [self showEditProfileWithProfileType:PROFILE_INDEX_PHONE];
+            [self showEditProfileWithProfileType:PROFILE_INDEX_WORK];
             
         }
         else if(indexPath.row == 4){
             
-            [self showEditProfileWithProfileType:PROFILE_INDEX_WECHAT];
+            [self showEditProfileWithProfileType:PROFILE_INDEX_HOBBY];
+            
+        }
+        else{
+            
+            [self showEditProfileWithProfileType:PROFILE_INDEX_SIGNATURE];
             
         }
         
@@ -255,19 +272,24 @@
 
 -(void)updateCurrentUserProfile{
     
-    
-
     NSArray *array = [[FormManager sharedInstance]profileDetailArray];
-    UserModel *updatedUserModel = [[UserModel alloc]initUserWithEmail:[array objectAtIndex:PROFILE_INDEX_EMAIL] userName:[array objectAtIndex:PROFILE_INDEX_USERNAME] portraitImage:_portraitImage gender:[array objectAtIndex:PROFILE_INDEX_GENDER] phoneNumber:[array objectAtIndex:PROFILE_INDEX_PHONE] wechat:[array objectAtIndex:PROFILE_INDEX_WECHAT]];
+    
+//    UserModel *updatedUserModel = [[UserModel alloc]initUserWithEmail:[array objectAtIndex:PROFILE_INDEX_EMAIL] userName:[array objectAtIndex:PROFILE_INDEX_USERNAME] portraitImage:_portraitImage gender:[array objectAtIndex:PROFILE_INDEX_GENDER] phoneNumber:[array objectAtIndex:PROFILE_INDEX_PHONE] wechat:[array objectAtIndex:PROFILE_INDEX_WECHAT]];
+    
+    UserModel *updatedUserModel = [[UserModel alloc]initUserWithUserName:[array objectAtIndex:PROFILE_INDEX_USERNAME] age:[array objectAtIndex:PROFILE_INDEX_AGE] portraitImage:_portraitImage gender:[array objectAtIndex:PROFILE_INDEX_GENDER] work:[array objectAtIndex:PROFILE_INDEX_WORK] hobby:[array objectAtIndex:PROFILE_INDEX_HOBBY] signature:[array objectAtIndex:PROFILE_INDEX_SIGNATURE]];
     
     NSData *imageData = UIImagePNGRepresentation(_portraitImage);
     PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:imageData];
     [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
-    [[PFUser currentUser] setObject:updatedUserModel.email forKey:kHLUserModelKeyEmail];
+   // [[PFUser currentUser] setObject:updatedUserModel.email forKey:kHLUserModelKeyEmail];
     [[PFUser currentUser] setObject:updatedUserModel.username forKey:kHLUserModelKeyUserName];
     [[PFUser currentUser] setObject:updatedUserModel.gender forKey:kHLUserModelKeyGender];
-    [[PFUser currentUser] setObject:updatedUserModel.wechat forKey:kHLUserModelKeyWechatNumber];
-    [[PFUser currentUser] setObject:updatedUserModel.phoneNumber forKey:kHLUserModelKeyPhoneNumber];
+    [[PFUser currentUser] setObject:updatedUserModel.work forKey:kHLUserModelKeyWork];
+    [[PFUser currentUser] setObject:updatedUserModel.hobby forKey:kHLUserModelKeyHobby];
+    [[PFUser currentUser] setObject:updatedUserModel.signature forKey:kHLUserModelKeySignature];
+    [[PFUser currentUser] setObject:updatedUserModel.age forKey:kHLUserModelKeyAge];
+
+
     [[PFUser currentUser]saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if(succeeded){

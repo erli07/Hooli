@@ -557,30 +557,40 @@
             }
             else if(indexPath.row == 2){
                 
+                if([_activityDetail objectForKey:kHLEventKeyEventGeoPoint]){
+                
                 UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
                 ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
                 vc.showSearchBar = NO;
                 vc.eventGeopoint = [_activityDetail objectForKey:kHLEventKeyEventGeoPoint];
                 [self.navigationController pushViewController:vc animated:YES];
-                
+                    
+                }
                 
             }
             else if(indexPath.row == 3){
-                //---------------------------------------------------------------------------------------------------------------------------------------------
-                NSString *groupId = _activityDetail.objectId;
-                //---------------------------------------------------------------------------------------------------------------------------------------------
-                NSString *groupName = [_activityDetail objectForKey:kHLEventKeyTitle];
                 
-                CreateMessageItem([PFUser currentUser], groupId, groupName, _activityDetail);
-                //---------------------------------------------------------------------------------------------------------------------------------------------
-                ChatView *chatView = [[ChatView alloc] initWith:groupId];
-                chatView.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:chatView animated:YES];
-                
+                if([self checkIfCurrentUserInTheEvent]){
+                    //---------------------------------------------------------------------------------------------------------------------------------------------
+                    NSString *groupId = _activityDetail.objectId;
+                    //---------------------------------------------------------------------------------------------------------------------------------------------
+                    NSString *groupName = [_activityDetail objectForKey:kHLEventKeyTitle];
+                    
+                    CreateMessageItem([PFUser currentUser], groupId, groupName, _activityDetail);
+                    //---------------------------------------------------------------------------------------------------------------------------------------------
+                    ChatView *chatView = [[ChatView alloc] initWith:groupId];
+                    chatView.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:chatView animated:YES];
+                }
+                else{
+                    
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry，参加活动才能参与讨论" message:nil
+                                                                  delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                }
             }
             else{
-                
-               
                 
                 ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]init];
                 
@@ -747,9 +757,9 @@
                 }
                 
             }];
-
+            
         }
-
+        
     }
     
 }

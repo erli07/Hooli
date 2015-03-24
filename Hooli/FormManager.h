@@ -34,6 +34,11 @@
 @property (nonatomic) NSString *profileGender;
 @property (nonatomic) NSString *profilePhone;
 @property (nonatomic) NSString *profileWechat;
+@property (nonatomic) NSString *profileSignature;
+@property (nonatomic) NSString *profileHobbies;
+@property (nonatomic) NSString *profileWorkingStatus;
+
+
 
 @property (nonatomic) NSString *eventTitle;
 @property (nonatomic) NSString *eventDescription;

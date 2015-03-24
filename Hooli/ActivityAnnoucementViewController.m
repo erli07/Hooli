@@ -37,12 +37,12 @@
         
     }
     
-    ActivityCommentViewController *acCommentVC =[[ActivityCommentViewController alloc]initWithObject:_aObject];
-    
-    [acCommentVC.view setFrame:CGRectMake(0, 100, 320, 568)];
-    
-    [_textView addSubview:acCommentVC.view];
-    
+//    ActivityCommentViewController *acCommentVC =[[ActivityCommentViewController alloc]initWithObject:_aObject];
+//    
+//    [acCommentVC.view setFrame:CGRectMake(0, 100, 320, 568)];
+//    
+//    [_textView addSubview:acCommentVC.view];
+//    
     [self.view addSubview:_textView];
 
     

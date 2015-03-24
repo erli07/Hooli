@@ -21,15 +21,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _textField = [[UITextField alloc]initWithFrame:CGRectMake(40, 84, 240, 44)];
-    
-    
+    _textField = [[UITextField alloc]initWithFrame:CGRectMake(0, 64, 320, 44)];
     
     _textField.text = _content;
     
     _textField.delegate = self;
     
-    _textField.borderStyle = UITextBorderStyleRoundedRect;
+    _textField.borderStyle = UITextBorderStyleNone;
     
     _textField.returnKeyType = UIReturnKeyDone;
     

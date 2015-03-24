@@ -123,6 +123,7 @@
 - (void)loadMessages
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
+    
 	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
 	[query whereKey:PF_MESSAGES_USER equalTo:[PFUser currentUser]];
 	[query includeKey:PF_MESSAGES_LASTUSER];
