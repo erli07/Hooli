@@ -26,12 +26,13 @@
 #import "ChatConstant.h"
 #import "messages.h"
 #import "EventManager.h"
+#import "ActivityListViewController.h"
 
 #define text_color [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
 
 
-@interface ActivityDetailViewController ()<HLCreateActivityDelegate>
+@interface ActivityDetailViewController ()
 @property (nonatomic) NSArray *detailArray;
 @property (nonatomic) NSMutableArray *hostArray;
 @property (nonatomic) NSMutableArray *participantArray;
@@ -68,10 +69,11 @@
     
     self.title = @"详细";
     
-    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区", @"活动图片"];
+    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
     // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
-    _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"discussion"],[UIImage imageNamed:@"camera"]];
-    _participantArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
+    _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"discussion"]];
+    
+    _participantArray = [[NSMutableArray alloc]init];
     
     _parentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, 568)];
     
@@ -79,7 +81,7 @@
     
     [self.view addSubview:_parentScrollView];
     
-    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 384) style:UITableViewStylePlain];
+    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 340) style:UITableViewStylePlain];
     
     _activityDetailTableView.scrollEnabled = NO;
     
@@ -104,15 +106,15 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
-    //    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
+        UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
     
-    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookMarkEvent)];
+//    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookMarkEvent)];
     
     //  NSArray *buttonsArray = @[rightBarButton1, rightBarButton2];
     
     // self.navigationItem.rightBarButtonItems = buttonsArray;
     
-    self.navigationItem.rightBarButtonItem = rightBarButton2;
+    self.navigationItem.rightBarButtonItem = rightBarButton1;
     
     [self configureBottomButtons];
     
@@ -136,7 +138,8 @@
     
     [_inviteButton setTitle:@"邀请" forState:UIControlStateNormal];
     
-    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
+   // _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
+    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(30, 520, 260, 40)];
     
     [_joinButton setBackgroundColor:[HLTheme buttonColor]];
     
@@ -146,11 +149,11 @@
     _inviteButton.layer.cornerRadius = 10.0f;
     _inviteButton.layer.masksToBounds = YES;
     
-    [self.view addSubview:_inviteButton];
+   // [self.view addSubview:_inviteButton];
     
     [self.view addSubview:_joinButton];
     
-    [_inviteButton bringSubviewToFront:_activityDetailTableView];
+ //   [_inviteButton bringSubviewToFront:_activityDetailTableView];
     
     [_joinButton bringSubviewToFront:_activityDetailTableView];
     
@@ -224,10 +227,31 @@
     
     followListVC.fromUser = [PFUser currentUser];
     
-    followListVC.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
+    followListVC.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
     
     [self.navigationController pushViewController:followListVC animated:YES];
     
+}
+
+-(void)shareToFriends{
+    
+    NSString *textToShare = [_activityDetail objectForKey:kHLEventKeyTitle];
+    
+    NSArray *objectsToShare = @[textToShare];
+    
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+    
+    NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                   UIActivityTypePrint,
+                                   UIActivityTypeAssignToContact,
+                                   UIActivityTypeSaveToCameraRoll,
+                                   UIActivityTypeAddToReadingList,
+                                   UIActivityTypePostToFlickr,
+                                   UIActivityTypePostToVimeo];
+    
+    activityVC.excludedActivityTypes = excludeActivities;
+    
+    [self presentViewController:activityVC animated:YES completion:nil];
 }
 
 -(void)bookMarkEvent{
@@ -238,11 +262,12 @@
 
 -(void)editEvent{
     
-    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    UIStoryboard *postSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     
-    CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
+    CreateActivityViewController *postVC = [postSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
     
-    postVC.delegate = self;
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ActivityListViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
     
     postVC.eventObject = _activityDetail;
     
@@ -284,7 +309,7 @@
     
 }
 
--(void)didCreateActivity:(PFObject *)object{
+-(void)didUpdateActivity:(PFObject *)object{
     
     _activityDetail = object;
     _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"微信群二维码"];
@@ -542,7 +567,7 @@
                 if([_activityDetail objectForKey:kHLEventKeyDate]){
                     
                     NSDateFormatter *dateFormater = [NSDateFormatter new];
-                    dateFormater.dateFormat = @"MM.dd HH:mm";
+                    dateFormater.dateFormat = @"EEEE yyyy-MM-dd hh:mm a";
                     NSString *msg = [dateFormater stringFromDate:[_activityDetail objectForKey:kHLEventKeyDate]];
                     
                     UIAlertView *addCalenderAlert =  [[UIAlertView alloc]initWithTitle:@"Add to calender?" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];

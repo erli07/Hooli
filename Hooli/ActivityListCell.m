@@ -37,7 +37,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -45,9 +45,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 -(void)updateCellDetail:(PFObject *)eventObject{
     
-
     PFUser *eventHost = [eventObject objectForKey:kHLEventKeyHost];
-        
+    
     PFFile *portraitImageFile = [eventHost objectForKey:kHLUserModelKeyPortraitImage];
     
     NSData *imageData = [portraitImageFile getData];
@@ -62,23 +61,34 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     self.userGenderImageView.image = [UIImage imageNamed:@"male_symbol"];
     
-
     
-    if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
-        
-         self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", [eventObject objectForKey:kHLEventKeyEventLocation],[eventObject objectForKey:kHLEventKeyDateText],  [eventObject objectForKey:kHLEventKeyMemberNumber]];
-    }
-    else{
-   
-        self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@", [eventObject objectForKey:kHLEventKeyEventLocation],[eventObject objectForKey:kHLEventKeyDateText],  [eventObject objectForKey:kHLEventKeyMemberNumber]];
-    }
+    PFGeoPoint *geoPoint = [eventObject objectForKey:kHLEventKeyEventGeoPoint];
+    
+    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
+    [dateFormatter setDateFormat:@"ccc d MMM"];
+    NSString *week = [dateFormatter stringFromDate:[eventObject objectForKey:kHLEventKeyDate]];
+    
+    [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:coord
+                                                                    block:^(NSString *address, NSError *error) {
+                                                                        
+                                                                        if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
+                                                                            
+                                                                            self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", address,week,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
+                                                                            
+                                                                        }
+                                                                        else{
+                                                                            self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@", address,week,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
+                                                                            
+                                                                        }
+                                                                    }];
     
     self.activityCategoryImageView.image = [self getActivityCategoryImageFromString:[eventObject objectForKey:kHLEventKeyCategory]];
     
     PFGeoPoint *userGeoPoint = [eventObject objectForKey:kHLEventKeyUserGeoPoint];
     
     CLLocationCoordinate2D userLocation = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude);
-    
     
     if (!timeFormatter) {
         timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
@@ -88,16 +98,16 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     self.imagesArray = [NSMutableArray new];
     
-   PFObject *eventImages = [eventObject objectForKey:kHLEventKeyImages];
+    PFObject *eventImages = [eventObject objectForKey:kHLEventKeyImages];
     
-   PFFile *imageFile0 = [eventImages objectForKey:@"imageFile0"];
+    PFFile *imageFile0 = [eventImages objectForKey:@"imageFile0"];
     
     if (imageFile0 ) {
         
         [imageFile0 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             
             if(!error){
-
+                
                 UIImage *image1 = [UIImage imageWithData:data];
                 
                 [self.imagesArray addObject:image1];
@@ -126,7 +136,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
                 [self.imagesArray addObject:image2];
                 
                 [self.eventImageButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
-
+                
             }
         }];
     }
@@ -149,7 +159,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
                 [self.imagesArray addObject:image3];
                 
                 [self.eventImageButton3 setBackgroundImage:image3 forState:UIControlStateNormal];
-
+                
             }
         }];
     }
@@ -181,7 +191,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     else if([category isEqualToString:@"study"]){
         
         return [UIImage imageNamed:@"study-48"];
-
+        
     }
     else if([category isEqualToString:@"movie"]){
         
@@ -220,7 +230,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     NSLog(@"event image %ld pressed", (long)button.tag);
     
     NSMutableArray  *kzImageArray = [NSMutableArray array];
-
+    
     for (int i = 0; i < [self.imagesArray count]; i++)
     {
         UIImageView *imageView =  [[UIImageView alloc]init];

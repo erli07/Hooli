@@ -11,7 +11,7 @@
 
 #import <Parse/Parse.h>
 #import "ProgressHUD.h"
-
+#import "HLConstant.h"
 #import "ChatConstant.h"
 #import "messages.h"
 #import "utilities.h"
@@ -123,8 +123,18 @@
 - (void)loadMessages
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
+    PFQuery *queryMember = [PFQuery queryWithClassName:kHLCloudEventMemberClass];
+    [queryMember whereKey:kHLEventMemberKeyMember equalTo:[PFUser currentUser]];
     
-	PFQuery *query = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
+	PFQuery *queryOne = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
+    [queryOne whereKey:PF_MESSAGES_USER equalTo:[PFUser currentUser]];
+    [queryOne whereKeyDoesNotExist:@"event"];
+
+    PFQuery *queryTwo = [PFQuery queryWithClassName:PF_MESSAGES_CLASS_NAME];
+    [queryTwo whereKey:@"groupId" matchesKey:@"eventId" inQuery:queryMember];
+
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[queryOne,queryTwo]];
+    
 	[query whereKey:PF_MESSAGES_USER equalTo:[PFUser currentUser]];
 	[query includeKey:PF_MESSAGES_LASTUSER];
     [query includeKey:PF_MESSAGES_TOUSER];
@@ -275,7 +285,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	return YES;
+	return NO;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------

@@ -23,15 +23,18 @@
 @synthesize eventNameArray = _eventNameArray;
 @synthesize eventSymbolsArray = _eventSymbolsArray;
 @synthesize selectionArray = _selectionArray;
-
+@synthesize isMultipleSelection = _isMultipleSelection;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     _selectionArray = [NSMutableArray new];
     
-    _eventNameArray = @[@"聚餐吃饭",@"体育娱乐", @"我爱学习"];
+    self.title = @"活动类别";
     
-    _eventSymbolsArray = @[[UIImage imageNamed:@"restaurant-48"], [UIImage imageNamed:@"triathlone-48"], [UIImage imageNamed:@"study-48"]];
+  //  _eventNameArray = @[@"全部类别",@"聚餐吃饭",@"体育娱乐",@"爬梯聚会", @"我爱学习", @"户外旅行",@"桌游棋牌",@"电子游戏"];
+    _eventNameArray = @[@"all",@"eating",@"sports",@"tour", @"shopping", @"movie"];
+    
+    _eventSymbolsArray = @[[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"]];
     
     self.tableView.allowsMultipleSelection = YES;
     // Uncomment the following line to preserve selection between presentations.
@@ -39,6 +42,16 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    if(_isMultipleSelection){
+    
+        [self.delegate didSelectEventCategories:_selectionArray];
+
+    }
+
 }
 
 #pragma mark - Table view data source
@@ -64,31 +77,42 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    [self.delegate didSelectEventCategory:[_eventNameArray objectAtIndex:indexPath.row]];
-    [self.navigationController popViewControllerAnimated:YES];
     
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    
-//    if([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark){
-//        
-//        [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
-//        
-//        [_selectionArray removeObject:[_eventNameArray objectAtIndex:indexPath.row]];
-//
-//    }
-//    else{
-//        
-//        [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
-//        
-//        [_selectionArray addObject:[_eventNameArray objectAtIndex:indexPath.row]];
-//
-//
-//    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-
-    
-
+    if(_isMultipleSelection){
+        
+        if(indexPath.row == 0){
+            
+            _selectionArray = nil;
+            
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            return;
+        }
+        
+        if([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark){
+            
+            [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
+            
+            [_selectionArray removeObject:[_eventNameArray objectAtIndex:indexPath.row]];
+            
+        }
+        else{
+            
+            [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
+            
+            [_selectionArray addObject:[_eventNameArray objectAtIndex:indexPath.row]];
+            
+        }
+    }
+    else{
+        
+        [self.delegate didSelectEventCategory:[_eventNameArray objectAtIndex:indexPath.row]];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }
     
 }
 

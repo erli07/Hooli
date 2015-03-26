@@ -17,7 +17,7 @@
 #import "MBProgressHUD.h"
 #import "ActivityListViewController.h"
 #import "HSDatePickerViewController.h"
-
+#import "HomeViewViewController.h"
 @interface CreateActivityViewController ()<UIActionSheetDelegate,UIAlertViewDelegate, HSDatePickerViewControllerDelegate>
 //@property (nonatomic) NSMutableArray *detailsArray;
 @property (nonatomic) NSArray *titlesArray;
@@ -88,6 +88,13 @@
     
     if(_eventObject){
         
+        UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                           initWithTitle:@"删除"
+                                           style:UIBarButtonItemStyleDone
+                                           target:self
+                                           action:@selector(deleteEvent)];
+        self.navigationItem.rightBarButtonItem = rightBarButton;
+        
         _eventTitle.text = [eventObject objectForKey:kHLEventKeyTitle];
         _eventContent.text = [eventObject objectForKey:kHLEventKeyDescription];
         _eventLocationField.text = [eventObject objectForKey:kHLEventKeyEventLocation];
@@ -144,11 +151,30 @@
         return NO;
         
     }
+    else if([_imagesArray count] == 0){
+        
+        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Image missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        
+        return NO;
+    }
     else {
         
         return  YES;
     }
     
+    
+}
+
+-(void)deleteEvent{
+    
+    
+    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"确定删除？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    
+    alert.tag = 2;
+    
+    [alert show];
     
 }
 
@@ -181,142 +207,74 @@
             
             [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
             
+            PFObject *eventImages = [PFObject objectWithClassName:kHLCloudEventImagesClass];
             
-            if([_imagesArray count] == 0){
+            for (int i = 0; i <[_imagesArray count]; i++) {
                 
-                //no images
-                PFObject *eventObject;
-                
-                if(_eventObject){
+                if ([_imagesArray objectAtIndex:i]) {
                     
-                   eventObject = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
-
-                }
-                else{
-                
-                   eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
-                    
+                    NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:i] WithCompression:0.1f];
+                    PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
+                    [eventImages setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
                 }
                 
-                [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
-                [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
-                [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
+            }
+            
+            [eventImages saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
-                [eventObject setObject:self.eventLocationField.text forKey:kHLEventKeyEventLocation];
-                [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
-                [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
-                [eventObject setObject:self.eventDateField.text forKey:kHLEventKeyDateText];
-                
-                if(_eventDate){
+                if(succeeded){
                     
-                    [eventObject setObject:_eventDate forKey:kHLEventKeyDate];
+                    PFObject *eventObject;
                     
-                }
-                
-                if(_eventGeopoint){
-                    
-                    [eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
-                }
-                
-                
-                [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
-                [eventObject setObject:kHLEventCategoryEating forKey:kHLEventKeyCategory];
-                
-                [eventObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    
-                    if(succeeded){
+                    if(_eventObject){
                         
-                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        
-                        [alert show];
+                        eventObject = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
                         
                     }
                     else{
                         
-                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布失败..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                        
-                        [alert show];
+                        eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
                         
                     }
                     
-                    [self tapEventOccured:nil];
+                    [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
+                    [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
+                    [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
+                    [eventObject setObject:self.eventLocationField.text forKey:kHLEventKeyEventLocation];
+                    [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
+                    [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
+                    [eventObject setObject:self.eventDateField.text forKey:kHLEventKeyDateText];
                     
-                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-                    
-                    
-                }];
-                
-            }
-            else{
-                //has images
-                
-                PFObject *eventImages = [PFObject objectWithClassName:kHLCloudEventImagesClass];
-                
-                for (int i = 0; i <[_imagesArray count]; i++) {
-                    
-                    if ([_imagesArray objectAtIndex:i]) {
+                    if(_eventDate){
                         
-                        NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:i] WithCompression:0.1f];
-                        PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
-                        [eventImages setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
+                        [eventObject setObject:_eventDate forKey:kHLEventKeyDate];
+                        
                     }
                     
-                }
-                
-                [eventImages saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if(_eventGeopoint){
+                        
+                        [eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
+                    }
                     
-                    if(succeeded){
+                    [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
+                    [eventObject setObject:[PFObject objectWithoutDataWithClassName:
+                                            kHLCloudEventImagesClass objectId:eventImages.objectId] forKey:kHLEventKeyImages];
+                    
+                    NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:0]WithCompression:0.1f];
+                    PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:imageData];
+                    [eventObject setObject:thumbnailFile forKey:kHLEventKeyThumbnail];
+                    [eventObject setObject:kHLEventCategoryEating forKey:kHLEventKeyCategory];
+                    
+                    [eventObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                         
-                        PFObject *eventObject;
-                        
-                        if(_eventObject){
+                        if(succeeded){
                             
-                            eventObject = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
-                            
-                        }
-                        else{
-                            
-                            eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
-                            
-                        }
-                        
-                        [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
-                        [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
-                        [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
-                        [eventObject setObject:self.eventLocationField.text forKey:kHLEventKeyEventLocation];
-                        [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
-                        [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
-                        [eventObject setObject:self.eventDateField.text forKey:kHLEventKeyDateText];
-                        
-                        if(_eventDate){
-                            
-                            [eventObject setObject:_eventDate forKey:kHLEventKeyDate];
-                            
-                        }
-                        
-                        if(_eventGeopoint){
-                            
-                            [eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
-                        }
-                        
-                        [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
-                        [eventObject setObject:[PFObject objectWithoutDataWithClassName:
-                                                kHLCloudEventImagesClass objectId:eventImages.objectId] forKey:kHLEventKeyImages];
-                        
-                        NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:0]WithCompression:0.1f];
-                        PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:imageData];
-                        [eventObject setObject:thumbnailFile forKey:kHLEventKeyThumbnail];
-                        [eventObject setObject:kHLEventCategoryEating forKey:kHLEventKeyCategory];
-                        
-                        [eventObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                            
-                            if(succeeded){
-                                
-                                if(!_eventObject){
+                            if(!_eventObject){
                                 
                                 PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
                                 [eventMember setObject:[PFUser currentUser] forKey:kHLEventMemberKeyMember];
                                 [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:eventObject.objectId] forKey:kHLEventMemberKeyEvent];
+                                [eventMember setObject:eventObject.objectId forKey:kHLEventMemberKeyEventId];
                                 [eventMember setObject:@"host" forKey:kHLEventMemberKeyMemberRole];
                                 
                                 PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];
@@ -339,46 +297,47 @@
                                     }
                                     
                                 }];
-                                    
-                                }
-                                else{
-                                    
-                                    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"更新成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                    
-                                    [alert show];
-                                    
-                                    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                    
-                                    ActivityListViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"ActivityListViewController"];
-                                    
-                                    [self.delegate didCreateActivity:eventObject];
-                                    
-                                    [self.navigationController pushViewController:postVC animated:YES];
-
-                                }
                                 
                             }
                             else{
                                 
-                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布失败..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"更新成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                 
                                 [alert show];
                                 
+                                UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+                                
+                                [self presentViewController:vc animated:YES completion:^{
+                                    
+                                    [self.delegate didCreateActivity:_eventObject];
+                                    
+                                }];
+                                
                             }
                             
-                            [self tapEventOccured:nil];
+                        }
+                        else{
                             
-                            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                            UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布失败..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                             
+                            [alert show];
                             
-                        }];
+                        }
                         
-                    }
+                        [self tapEventOccured:nil];
+                        
+                        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                        
+                        
+                    }];
                     
-                }];
+                }
                 
-            }
+            }];
+            
         }
+        
     }
     else if(alertView.tag == 1){
         
@@ -399,6 +358,36 @@
                 [self.imageButton3 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
                 
             }
+        }
+    }
+    else if(alertView.tag == 2){
+        
+        if(buttonIndex == 1){
+            
+            PFObject *object = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
+            
+            [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    
+                    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"删除成功" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                    
+                    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+                    
+                    [self presentViewController:vc animated:YES completion:^{
+                        
+                        [self.delegate didCreateActivity:_eventObject];
+                        
+                    }];
+                    
+                    
+                }
+                
+            }];
+            
         }
     }
     
@@ -434,6 +423,23 @@
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
         
     }
+    else if(textField == self.eventLocationField){
+        
+        [textField resignFirstResponder];
+
+        [self performSegueWithIdentifier:@"map" sender:self];
+
+    }
+    else if(textField == self.eventDateField){
+        
+        [textField resignFirstResponder];
+        
+        HSDatePickerViewController *hsdpvc = [HSDatePickerViewController new];
+        hsdpvc.delegate = self;
+        
+        [self presentViewController:hsdpvc animated:YES completion:nil];
+        
+    }
     else{
         
         [UIView animateWithDuration:.5
@@ -441,6 +447,7 @@
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
         
     }
+   
     
     
 }
@@ -499,15 +506,11 @@
 
 - (IBAction)locateInMap:(id)sender {
     
-    [self performSegueWithIdentifier:@"map" sender:self];
 }
 
 - (IBAction)showCalender:(id)sender {
     
-    HSDatePickerViewController *hsdpvc = [HSDatePickerViewController new];
-    hsdpvc.delegate = self;
-    
-    [self presentViewController:hsdpvc animated:YES completion:nil];
+
     
 }
 
@@ -524,6 +527,7 @@
     else if([segue.identifier isEqualToString:@"category"])
     {
         ActivityCategoryViewController *categoryVC = segue.destinationViewController;
+        categoryVC.isMultipleSelection = NO;
         categoryVC.delegate = self;
         
     }
@@ -544,7 +548,7 @@
         _currentButtonIndex = 0;
         
         [self showActionSheetWithCameraOptions];
-
+        
     }
     
 }
@@ -589,20 +593,20 @@
     _currentButtonIndex = 3;
     [self showActionSheetWithCameraOptions];
     
-//    if(_imageButton4.imageView.frame.size.width == _imageButton4.frame.size.width){
-//        
-//        _currentButtonIndex = 3;
-//        
-//        [self showAlertViewWithDeleteOptions];
-//        
-//    }
-//    else{
-//        
-//        _currentButtonIndex = 3;
-//        
-//        [self showActionSheetWithCameraOptions];
-//        
-//    }
+    //    if(_imageButton4.imageView.frame.size.width == _imageButton4.frame.size.width){
+    //
+    //        _currentButtonIndex = 3;
+    //
+    //        [self showAlertViewWithDeleteOptions];
+    //
+    //    }
+    //    else{
+    //
+    //        _currentButtonIndex = 3;
+    //
+    //        [self showActionSheetWithCameraOptions];
+    //
+    //    }
     
 }
 
@@ -656,7 +660,7 @@
     //    self.eventLocationLabel.text = [NSString stringWithFormat:@"(%.2f, %.2f)", eventLocation.coordinate.latitude, eventLocation.coordinate.longitude];
     if(eventLocationText){
         
-        self.eventLocationLabel.text = eventLocationText;
+        self.eventLocationField.text = eventLocationText;
         
         
     }
@@ -678,9 +682,9 @@
 - (void)hsDatePickerPickedDate:(NSDate *)date {
     
     NSDateFormatter *dateFormater = [NSDateFormatter new];
-    dateFormater.dateFormat = @"MM.dd HH:mm";
+    dateFormater.dateFormat = @"EEEE yyyy-MM-dd hh:mm a";
     //    self.eventDateField.text =[NSString stringWithFormat:@"%@ %@", self.eventDateField.text, [dateFormater stringFromDate:date]];
-    self.eventDateLabel.text = [dateFormater stringFromDate:date];
+    self.eventDateField.text = [dateFormater stringFromDate:date];
     
     _eventDate = date;
     //

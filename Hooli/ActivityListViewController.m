@@ -13,13 +13,15 @@
 #import "EventManager.h"
 #import "HLConstant.h"
 #import "LocationManager.h"
-
-@interface ActivityListViewController ()<HLCreateActivityDelegate>
+#import "ActivityCategoryViewController.h"
+#import "HomeViewViewController.h"
+@interface ActivityListViewController ()<HLCreateActivityDelegate,HLActivityCategoryDelegate>
+@property (nonatomic) NSArray *eventCategories;
 @end
 
 @implementation ActivityListViewController
-
 @synthesize aObject;
+@synthesize eventCategories = _eventCategories;
 
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -49,6 +51,13 @@
 - (PFQuery *)queryForTable {
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    
+    if(_eventCategories && [_eventCategories count] > 0){
+        
+        [query whereKey:kHLEventKeyCategory containedIn:_eventCategories];
+        
+    }
+    
     [query includeKey:kHLEventKeyHost];
     [query includeKey:kHLEventKeyImages];
     [query orderByDescending:@"createdAt"];
@@ -89,17 +98,51 @@
     
     self.navigationController.navigationBarHidden = NO;
     self.title = @"Activities";
+    
+    [self getdate];
     // Do any additional setup after loading the view.
 }
 
+-(void)getdate {
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MMM dd, yyyy HH:mm"];
+    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+    [timeFormat setDateFormat:@"HH:mm:ss"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
+    [dateFormatter setDateFormat:@"EEEE"];
+    
+    NSDate *now = [[NSDate alloc] init];
+    NSString *dateString = [format stringFromDate:now];
+    NSString *theDate = [dateFormat stringFromDate:now];
+    NSString *theTime = [timeFormat stringFromDate:now];
+    
+    NSString *week = [dateFormatter stringFromDate:now];
+    NSLog(@"\n"
+          "theDate: |%@| \n"
+          "theTime: |%@| \n"
+          "Now: |%@| \n"
+          "Week: |%@| \n"
+          , theDate, theTime,dateString,week);
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self setNavBarVisible:YES animated:NO];
+    [self setTabBarVisible:YES animated:NO];
+    
+}
 
 -(void)postEvent{
     
     if([PFUser currentUser]){
         
-        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+        UIStoryboard *postSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
         
-        CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
+        CreateActivityViewController *postVC = [postSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
         
         postVC.delegate = self;
         
@@ -120,13 +163,29 @@
 
 -(void)seeCategories{
     
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    ActivityCategoryViewController *categoryVC = [detailSb instantiateViewControllerWithIdentifier:@"ActivityCategoryViewController"];
+    categoryVC.isMultipleSelection = YES;
+    categoryVC.hidesBottomBarWhenPushed = YES;
+    categoryVC.delegate = self;
+    [self.navigationController pushViewController:categoryVC animated:YES];
     
 }
 
 -(void)didCreateActivity:(PFObject *)object{
     
+    [self setNavBarVisible:YES animated:NO];
+    [self setTabBarVisible:YES animated:NO];
+    
     [self loadObjects];
     
+}
+
+-(void)didSelectEventCategories:(NSArray *)eventCategories{
+    
+    _eventCategories = eventCategories;
+    
+    [self loadObjects];
 }
 
 #pragma mark - Table view data source

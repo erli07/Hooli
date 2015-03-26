@@ -24,6 +24,7 @@
 #import "MyProfileDetailViewController.h"
 #import "LoginWelcomeViewController.h"
 #import "HLUtilities.h"
+#import "MyActivitiesViewController.h"
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -147,17 +148,21 @@
        
         }
 
-//        else if(indexPath.row == 1){
+        else if(indexPath.row == 1){
+            
+            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
+            vc.aUser = [PFUser currentUser];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+//            MyActivitiesViewController *myAc = [[MyActivitiesViewController alloc]initWithUser:[PFUser currentUser]];
 //            
-//            self.needsViewController = [[NeedTableViewController alloc]init];
+//            myAc.hidesBottomBarWhenPushed = YES;
 //            
-//            self.needsViewController.user = [PFUser currentUser];
-//            
-//            self.needsViewController.hidesBottomBarWhenPushed = YES;
-//            
-//            [self.navigationController pushViewController:needsViewController animated:YES];
-//
-//        }
+//            [self.navigationController pushViewController:myAc animated:YES];
+
+        }
 
     }
     else if(indexPath.section == 1){
@@ -253,6 +258,15 @@
             cell.imageView.image = [self.imagesArray objectAtIndex:1];
 
         }
+        else if(indexPath.row == 1){
+            
+            //     cell.textLabel.text = @"My Items";
+            
+            cell.textLabel.text = @"我的活动";
+            
+            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+            
+        }
         
     }
     else if(indexPath.section == 1){
@@ -295,7 +309,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 1;
+        return 2;
     else if(section == 1)
         return 2;
     else

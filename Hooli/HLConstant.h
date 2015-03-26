@@ -126,6 +126,7 @@ extern NSString *const kHLOfferAttributesLikerdOffersKey;
 
 //Event Member Class
 extern NSString *const kHLEventMemberKeyEvent;
+extern NSString *const kHLEventMemberKeyEventId;
 extern NSString *const kHLEventMemberKeyMember;
 extern NSString *const kHLEventMemberKeyMemberRole;
 

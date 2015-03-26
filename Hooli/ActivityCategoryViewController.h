@@ -10,13 +10,17 @@
 
 @protocol HLActivityCategoryDelegate <NSObject>
 
+@optional
 - (void)didSelectEventCategory:(NSString *)eventCategory;
+- (void)didSelectEventCategories:(NSArray *)eventCategories;
+
 
 @end
 
 @interface ActivityCategoryViewController : UITableViewController
 
 @property (nonatomic, weak) id<HLActivityCategoryDelegate> delegate;
+@property (nonatomic, assign) BOOL isMultipleSelection;
 
 
 @end

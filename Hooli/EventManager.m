@@ -69,6 +69,7 @@
             PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
             [eventMember setObject:user forKey:kHLEventMemberKeyMember];
             [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:eventObject.objectId] forKey:kHLEventMemberKeyEvent];
+            [eventMember setObject:eventObject.objectId forKey:kHLEventMemberKeyEventId];
             [eventMember setObject:@"member" forKey:kHLEventMemberKeyMemberRole];
             
             PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];

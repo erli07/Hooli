@@ -22,8 +22,12 @@ typedef enum{
 
 @protocol HLCreateActivityDelegate <NSObject>
 
+@optional
 //- (void)didSelectEventLocation:(CLLocation *)eventLocation;
 - (void)didCreateActivity:(PFObject *)object;
+
+- (void)didUpdateActivity:(PFObject *)object;
+
 
 @end
 

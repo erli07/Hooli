@@ -96,6 +96,7 @@
 		0E6C1DAA1A96D760000ECA89 /* MyCreditsHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DA91A96D760000ECA89 /* MyCreditsHistoryViewController.m */; };
 		0E6C1DAD1A982508000ECA89 /* CreditHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DAC1A982508000ECA89 /* CreditHistoryCell.m */; };
 		0E6C1DB11A9C4214000ECA89 /* BidHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DB01A9C4214000ECA89 /* BidHistoryViewController.m */; };
+		0E7DB7ED1AC24EB200DEFC29 /* MyActivitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7DB7EC1AC24EB200DEFC29 /* MyActivitiesViewController.m */; };
 		0E86AA5A1A493B45000C71E8 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA571A493B45000C71E8 /* MGSwipeButton.m */; };
 		0E86AA5B1A493B45000C71E8 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA591A493B45000C71E8 /* MGSwipeTableCell.m */; };
 		0E86AA5F1A4B38FD000C71E8 /* NeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA5E1A4B38FD000C71E8 /* NeedsViewController.m */; };
@@ -540,6 +541,8 @@
 		0E6C1DAC1A982508000ECA89 /* CreditHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreditHistoryCell.m; path = images/CreditHistoryCell.m; sourceTree = "<group>"; };
 		0E6C1DAF1A9C4214000ECA89 /* BidHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidHistoryViewController.h; sourceTree = "<group>"; };
 		0E6C1DB01A9C4214000ECA89 /* BidHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidHistoryViewController.m; sourceTree = "<group>"; };
+		0E7DB7EB1AC24EB200DEFC29 /* MyActivitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyActivitiesViewController.h; sourceTree = "<group>"; };
+		0E7DB7EC1AC24EB200DEFC29 /* MyActivitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyActivitiesViewController.m; sourceTree = "<group>"; };
 		0E86AA561A493B45000C71E8 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		0E86AA571A493B45000C71E8 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
 		0E86AA581A493B45000C71E8 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
@@ -2148,6 +2151,8 @@
 			children = (
 				0EF5093A1AA43124008097DD /* ActivityListViewController.h */,
 				0EF5093B1AA43124008097DD /* ActivityListViewController.m */,
+				0E7DB7EB1AC24EB200DEFC29 /* MyActivitiesViewController.h */,
+				0E7DB7EC1AC24EB200DEFC29 /* MyActivitiesViewController.m */,
 				0EF509401AA5434B008097DD /* ActivityListCell.h */,
 				0EF509411AA5434B008097DD /* ActivityListCell.m */,
 				45F2EBFB1AAA40C700BEB6FF /* ActivityDetailCell.h */,
@@ -2713,6 +2718,7 @@
 				0E9DC00C1A40D3EA00685C5C /* NSString+MD5.m in Sources */,
 				0EB82A611AB7C28100EA15ED /* KZPhoto.m in Sources */,
 				0E6C1DAD1A982508000ECA89 /* CreditHistoryCell.m in Sources */,
+				0E7DB7ED1AC24EB200DEFC29 /* MyActivitiesViewController.m in Sources */,
 				0E50F12E1A1452670048FA27 /* UserCartViewController.m in Sources */,
 				0EDBB7821ABE90DA00DD4688 /* JSQMessagesMediaViewBubbleImageMasker.m in Sources */,
 				0EDBB7841ABE90DA00DD4688 /* JSQMessagesToolbarButtonFactory.m in Sources */,

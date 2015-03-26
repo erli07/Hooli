@@ -22,29 +22,15 @@ NSString *const kHLOfferCategoryCollectiblesArt = @"Collectibles & Art";
 NSString *const kHLOfferCategoryOther = @"Other";
 NSString *const kHLOfferCategorySportingGoods = @"Sporting Goods";
 
-NSString *const kHLNeedCategory1 = @"聚餐吃饭";
-NSString *const kHLNeedCategory2 = @"生活服务";
-NSString *const kHLNeedCategory3 = @"拼车搭伙";
-NSString *const kHLNeedCategory4 = @"户外活动";
-NSString *const kHLNeedCategory5 = @"娱乐休闲";
-NSString *const kHLNeedCategory6=  @"找工作";
-NSString *const kHLNeedCategory7 = @"找室友";
-NSString *const kHLNeedCategory8 = @"情感咨询";
-NSString *const kHLNeedCategory9 = @"其他";
-
-
-/*
- 
- 活动种类：
- 
- 结伴旅行
- 户外活动
- 娱乐休闲
- 
- 
- 
- */
-
+//NSString *const kHLNeedCategory1 = @"聚餐吃饭";
+//NSString *const kHLNeedCategory2 = @"生活服务";
+//NSString *const kHLNeedCategory3 = @"拼车搭伙";
+//NSString *const kHLNeedCategory4 = @"户外活动";
+//NSString *const kHLNeedCategory5 = @"娱乐休闲";
+//NSString *const kHLNeedCategory6=  @"找工作";
+//NSString *const kHLNeedCategory7 = @"找室友";
+//NSString *const kHLNeedCategory8 = @"情感咨询";
+//NSString *const kHLNeedCategory9 = @"其他";
 
 
 int const kHLOfferCellHeight = 151.0;
@@ -107,6 +93,7 @@ NSString *const kHLActivityKeyThumbnail = @"thumbnail";
 //Event Member Class
 
 NSString *const kHLEventMemberKeyEvent = @"event";
+NSString *const kHLEventMemberKeyEventId = @"eventId";
 NSString *const kHLEventMemberKeyMember = @"member";
 NSString *const kHLEventMemberKeyMemberRole = @"memberRole";
 
