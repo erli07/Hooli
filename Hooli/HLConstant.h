@@ -194,6 +194,7 @@ extern NSString *const kHLAppDelegateApplicationDidReceiveRemoteNotification;
 extern NSString *const kHlUserDefaultsActivityFeedViewControllerLastRefreshKey;
 extern NSString *const kHLUtilityUserLikedUnlikedPhotoCallbackFinishedNotification;
 extern NSString *const kHLUtilityDidFinishProcessingProfilePictureNotification;
+extern NSString *const kHLEventDetailsReloadMemberContentSizeNotification;
 extern NSString *const kHLItemDetailsUserCommentedNotification;
 extern NSString *const kHLItemDetailsReloadContentSizeNotification;
 extern NSString *const kHLItemDetailsLiftCommentViewNotification;
@@ -202,6 +203,7 @@ extern NSString *const kHLUserDefaultsCacheFacebookFriendsKey;
 extern NSString *const kHLLoadFeedObjectsNotification;
 extern NSString *const kHLLoadMessageObjectsNotification;
 extern NSString *const kHLShowCameraViewNotification;
+extern NSString *const kHLSeeUserProfileNotification;
 
 extern NSString *const kHLCreditsKeyFromUser;
 extern NSString *const kHLCreditsKeyToUser;

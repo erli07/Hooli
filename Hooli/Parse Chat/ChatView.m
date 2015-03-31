@@ -18,7 +18,7 @@
 #import "camera.h"
 #import "messages.h"
 #import "pushnotification.h"
-
+#import "UserCartViewController.h"
 #import "ChatView.h"
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -220,6 +220,7 @@
 		}
 		else [ProgressHUD showError:@"Network error."];;
 	}];
+    
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	SendPushNotification(groupId, text);
 	UpdateMessageCounter(groupId, text);
@@ -414,6 +415,16 @@
 		   atIndexPath:(NSIndexPath *)indexPath
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
+    
+    JSQMessage *message = messages[indexPath.item];
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
+    vc.userID = message.senderId;
+    
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.navigationController pushViewController:vc animated:YES];
+    
 	NSLog(@"didTapAvatarImageView");
 }
 

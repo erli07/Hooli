@@ -21,6 +21,7 @@
 #import "NeedTableViewCell.h"
 #import "HLUtilities.h"
 #import "ActivityManager.h"
+#import "ActivityDetailViewController.h"
 @interface NotificationFeedViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
 @property (nonatomic, strong) UIView *blankView;
@@ -120,7 +121,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
     [query whereKey:kHLNotificationToUserKey equalTo:[PFUser currentUser]];
-    //  [query whereKey:kHLNotificationFromUserKey notEqualTo:[PFUser currentUser]];
+    [query whereKey:kHLNotificationFromUserKey notEqualTo:[PFUser currentUser]];
     [query whereKeyExists:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationToUserKey];
@@ -247,12 +248,14 @@
         }
         else if ([[_notification objectForKey:kHLNotificationTypeKey]isEqualToString:kHLNotificationTypeJoinEvent]) {
             
-            UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-                                    @"Accept",
-                                    @"Decline",
-                                    nil];
-            popup.tag = 2;
-            [popup showInView:[UIApplication sharedApplication].keyWindow];
+            [self seeEventDetail];
+
+//            UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+//                                    @"Accept",
+//                                    @"Decline",
+//                                    nil];
+//            popup.tag = 2;
+//            [popup showInView:[UIApplication sharedApplication].keyWindow];
             
             _toUser = [_notification objectForKey:kHLNotificationFromUserKey];
             _eventObject = [_notification objectForKey:kHLNotificationEventKey];
@@ -306,11 +309,11 @@
     }else if ([notificationType isEqualToString:khlNotificationTypeOfferSold]){
         return NSLocalizedString(@"Sorry,item has been sold.", nil);
     }
-    else if ([notificationType isEqualToString:kHLNotificationTypeJoinEvent]){
-        return NSLocalizedString(@"request to join event", nil);
-    }
     else if ([notificationType isEqualToString:kHLNotificationTypeActivityComment]){
         return NSLocalizedString(@"comment on your event", nil);
+    }
+    else if ([notificationType isEqualToString:kHLNotificationTypeJoinEvent]){
+        return NSLocalizedString(@"has joined your event", nil);
     }
     else  {
         return nil;
@@ -421,6 +424,15 @@
     vc.offerId = [[_notification objectForKey:kHLNotificationOfferKey]objectId];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)seeEventDetail{
+    
+    ActivityDetailViewController *detailVC = [[ActivityDetailViewController alloc]init];
+    detailVC.activityDetail = [_notification objectForKey:kHLNotificationEventKey];
+    detailVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:detailVC animated:YES];
     
 }
 

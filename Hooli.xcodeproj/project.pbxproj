@@ -97,6 +97,8 @@
 		0E6C1DAD1A982508000ECA89 /* CreditHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DAC1A982508000ECA89 /* CreditHistoryCell.m */; };
 		0E6C1DB11A9C4214000ECA89 /* BidHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C1DB01A9C4214000ECA89 /* BidHistoryViewController.m */; };
 		0E7DB7ED1AC24EB200DEFC29 /* MyActivitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7DB7EC1AC24EB200DEFC29 /* MyActivitiesViewController.m */; };
+		0E7DB7F01AC7594D00DEFC29 /* CreateItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7DB7EF1AC7594D00DEFC29 /* CreateItemViewController.m */; };
+		0E7DB7F31AC75ABF00DEFC29 /* imageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7DB7F21AC75ABF00DEFC29 /* imageButton.m */; };
 		0E86AA5A1A493B45000C71E8 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA571A493B45000C71E8 /* MGSwipeButton.m */; };
 		0E86AA5B1A493B45000C71E8 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA591A493B45000C71E8 /* MGSwipeTableCell.m */; };
 		0E86AA5F1A4B38FD000C71E8 /* NeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E86AA5E1A4B38FD000C71E8 /* NeedsViewController.m */; };
@@ -543,6 +545,10 @@
 		0E6C1DB01A9C4214000ECA89 /* BidHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidHistoryViewController.m; sourceTree = "<group>"; };
 		0E7DB7EB1AC24EB200DEFC29 /* MyActivitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyActivitiesViewController.h; sourceTree = "<group>"; };
 		0E7DB7EC1AC24EB200DEFC29 /* MyActivitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyActivitiesViewController.m; sourceTree = "<group>"; };
+		0E7DB7EE1AC7594D00DEFC29 /* CreateItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateItemViewController.h; sourceTree = "<group>"; };
+		0E7DB7EF1AC7594D00DEFC29 /* CreateItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateItemViewController.m; sourceTree = "<group>"; };
+		0E7DB7F11AC75ABF00DEFC29 /* imageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageButton.h; sourceTree = "<group>"; };
+		0E7DB7F21AC75ABF00DEFC29 /* imageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageButton.m; sourceTree = "<group>"; };
 		0E86AA561A493B45000C71E8 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		0E86AA571A493B45000C71E8 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
 		0E86AA581A493B45000C71E8 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
@@ -1337,11 +1343,15 @@
 				457DA1431A5E28400099E52E /* Post.storyboard */,
 				0E17BF4F19FDD1250042C4DD /* MyCameraViewController.h */,
 				0E17BF5019FDD1250042C4DD /* MyCameraViewController.m */,
+				0E7DB7F11AC75ABF00DEFC29 /* imageButton.h */,
+				0E7DB7F21AC75ABF00DEFC29 /* imageButton.m */,
 				0ECAC3B71A01D4AA002866DE /* CameraOverlayViewController.h */,
 				0ECAC3B81A01D4AA002866DE /* CameraOverlayViewController.m */,
 				0ECAC3B91A01D4AA002866DE /* CameraOverlayViewController.xib */,
 				45D2C4301A63345C006ADB53 /* PostFormViewController.h */,
 				45D2C4311A63345C006ADB53 /* PostFormViewController.m */,
+				0E7DB7EE1AC7594D00DEFC29 /* CreateItemViewController.h */,
+				0E7DB7EF1AC7594D00DEFC29 /* CreateItemViewController.m */,
 				0E1B8A181A9290FF0036963F /* ItemConditionViewController.h */,
 				0E1B8A191A9290FF0036963F /* ItemConditionViewController.m */,
 				0EF508CB1A9D8E9B008097DD /* SelectGenderViewController.h */,
@@ -2545,6 +2555,7 @@
 				0EDBB7691ABE90DA00DD4688 /* AFURLConnectionOperation.m in Sources */,
 				452CEB061AB4E7F800EEC2C6 /* HSDatePickerViewController.m in Sources */,
 				0EDBB7851ABE90DA00DD4688 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
+				0E7DB7F31AC75ABF00DEFC29 /* imageButton.m in Sources */,
 				0EB82A681AB7C28C00EA15ED /* DACircularProgressView.m in Sources */,
 				0E17BED719FC8BAE0042C4DD /* AppDelegate.m in Sources */,
 				0EDBB7671ABE90DA00DD4688 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2586,6 +2597,7 @@
 				45F2C0701A51DA3E0004D476 /* NeedTableViewCell.m in Sources */,
 				4510ADE91A15577C00486C43 /* HLUtilities.m in Sources */,
 				0EDBB7741ABE90DA00DD4688 /* UIWebView+AFNetworking.m in Sources */,
+				0E7DB7F01AC7594D00DEFC29 /* CreateItemViewController.m in Sources */,
 				0EDBB7661ABE90DA00DD4688 /* AFHTTPSessionManager.m in Sources */,
 				0E28DD891A81BC8F0025077C /* FollowListViewController.m in Sources */,
 				0EB82A641AB7C28100EA15ED /* KZTapDetectingView.m in Sources */,

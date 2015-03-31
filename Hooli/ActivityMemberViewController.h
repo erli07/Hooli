@@ -11,9 +11,9 @@
 @protocol HLActivitySelectMemberDelegate <NSObject>
 
 //- (void)didSelectEventLocation:(CLLocation *)eventLocation;
-- (void)didSelectMember:(PFUser *) member;
+-(void)didSelectMember:(PFUser *) member;
 
--(void)didUpdateMembers;
+-(void)didUpdateMembers:(NSArray *)membersArray;
 
 @end
 

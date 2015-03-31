@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
 @property (weak, nonatomic) IBOutlet UILabel *rePasswordLabel;
 @property (weak, nonatomic) IBOutlet UITextField *rePasswordText;
+@property (weak, nonatomic) IBOutlet UITextField *genderTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 - (IBAction)submit:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;

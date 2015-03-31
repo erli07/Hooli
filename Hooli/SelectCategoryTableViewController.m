@@ -55,10 +55,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSArray *categoryArray = [NSArray arrayWithObjects:[[OfferCategory allCategories]objectAtIndex:indexPath.row], nil];
+    NSString *category= [[OfferCategory allCategories]objectAtIndex:indexPath.row];
     
-    [[FormManager sharedInstance]setDetailType:HL_ITEM_DETAIL_CATEGORY];
-    [[FormManager sharedInstance]setItemCategory:[[OfferCategory allCategories]objectAtIndex:indexPath.row]];
+    [self.delegate didSelectEventCategory:category];
     
     [self.navigationController popViewControllerAnimated:YES];
     //[[HLSettings sharedInstance]setCategory:categoryArray];

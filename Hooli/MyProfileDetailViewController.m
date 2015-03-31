@@ -40,12 +40,12 @@
         PFFile *imageFile = [object objectForKey:kHLUserModelKeyPortraitImage];
         _portraitImage = [UIImage imageWithData:[imageFile getData]];
        // NSString *email = [object objectForKey:kHLUserModelKeyEmail]?[object objectForKey:kHLUserModelKeyEmail]:@"N/A";
-        NSString *age = [object objectForKey:kHLUserModelKeyAge]?[object objectForKey:kHLUserModelKeyAge]:@"N/A";
-        NSString *username = [object objectForKey:kHLUserModelKeyUserName]?[object objectForKey:kHLUserModelKeyUserName]:@"N/A";;
-        NSString *gender = [object objectForKey:kHLUserModelKeyGender]?[object objectForKey:kHLUserModelKeyGender]:@"N/A";;
-        NSString *hobby = [object objectForKey:kHLUserModelKeyHobby]?[object objectForKey:kHLUserModelKeyHobby]:@"N/A";;
-        NSString *signature = [object objectForKey:kHLUserModelKeySignature]?[object objectForKey:kHLUserModelKeySignature]:@"N/A";;
-        NSString *work = [object objectForKey:kHLUserModelKeyWork]?[object objectForKey:kHLUserModelKeyWork]:@"N/A";;
+        NSString *age = [object objectForKey:kHLUserModelKeyAge]?[object objectForKey:kHLUserModelKeyAge]:@"";
+        NSString *username = [object objectForKey:kHLUserModelKeyUserName]?[object objectForKey:kHLUserModelKeyUserName]:@"";;
+        NSString *gender = [object objectForKey:kHLUserModelKeyGender]?[object objectForKey:kHLUserModelKeyGender]:@"";;
+        NSString *hobby = [object objectForKey:kHLUserModelKeyHobby]?[object objectForKey:kHLUserModelKeyHobby]:@"";;
+        NSString *signature = [object objectForKey:kHLUserModelKeySignature]?[object objectForKey:kHLUserModelKeySignature]:@"";;
+        NSString *work = [object objectForKey:kHLUserModelKeyWork]?[object objectForKey:kHLUserModelKeyWork]:@"";;
 
         [[FormManager sharedInstance]setProfileDetailArray:[NSMutableArray arrayWithArray:@[username,gender, age,work, hobby, signature]]] ;
         
@@ -180,8 +180,7 @@
         else if(indexPath.row == 1){
             
            // UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-            SelectGenderViewController *vc = [[SelectGenderViewController alloc]init];
-            vc.title = @"Gender";
+            SelectGenderViewController *vc = [[SelectGenderViewController alloc]initWithStyle:UITableViewStyleGrouped];
             [self.navigationController pushViewController:vc animated:YES];
             
         }

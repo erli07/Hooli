@@ -19,7 +19,8 @@
 -(id)initUserWithEmail:(NSString *)_email
               userName:(NSString *)_username
               password:(NSString *)_password
-         portraitImage:(UIImage *)_portraitImage{
+         portraitImage:(UIImage *)_portraitImage
+                gender:(NSString *)_gender{
     
     
     self = [super init];

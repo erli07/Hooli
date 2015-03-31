@@ -22,7 +22,7 @@
     
     // Uncomment the following line to preserve selection between presentations.
     self.clearsSelectionOnViewWillAppear = YES;
-    
+    self.title = @"Gender";
     self.array = @[@"Male", @"Female"];
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -62,6 +62,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 //    [[FormManager sharedInstance]setProfileGender:[self.array objectAtIndex:indexPath.row]];
+    if(self.delegate){
+    
+        [self.delegate didSelectGender:[self.array objectAtIndex:indexPath.row]];
+        
+    }
     
     [[[FormManager sharedInstance]profileDetailArray]replaceObjectAtIndex: PROFILE_INDEX_GENDER withObject:[self.array objectAtIndex:indexPath.row]];
     

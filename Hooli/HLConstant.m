@@ -210,11 +210,16 @@ NSString *const kHLItemDetailsUserCommentedNotification = @"com.Hooli.itemDetail
 NSString *const kHLItemDetailsReloadContentSizeNotification = @"com.Hooli.itemDetailsReloadContentSizeNotification";
 NSString *const kHLItemDetailsLiftCommentViewNotification = @"com.Hooli.itemDetailsLiftCommentViewNotification";
 NSString *const kHLItemDetailsPutDownCommentViewNotification = @"com.Hooli.itemDetailsPutDownCommentViewNotification";
+
+NSString *const kHLEventDetailsReloadMemberContentSizeNotification = @"com.Hooli.eventDetailsReloadMemberContentSizeNotification";
+
+
 NSString *const kHLUserDefaultsCacheFacebookFriendsKey = @"com.Hooli.userDefaultsCacheFacebookFriendsKey";
 NSString *const kHLLoadFeedObjectsNotification = @"com.Hooli.loadFeedObjects";
 NSString *const kHLLoadMessageObjectsNotification = @"com.Hooli.loadMessageObjects";
 NSString *const kHLShowCameraViewNotification = @"com.Hooli.showCameraView";
 
+NSString *const kHLSeeUserProfileNotification = @"com.Hooli.itemDetailsReloadContentSizeNotification";
 
 #pragma mark - Push Notification Payload Keys
 

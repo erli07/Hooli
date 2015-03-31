@@ -24,6 +24,7 @@
 #import "NeedTableViewCell.h"
 #import "ActivityManager.h"
 #import "CreateActivityViewController.h"
+#import "CreateItemViewController.h"
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate>{
     
 }
@@ -616,7 +617,7 @@ static NSString * const reuseIdentifier = @"Cell";
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     
     
-    CreateActivityViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateActivityViewController"];
+    CreateItemViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateItemViewController"];
     
     postVC.hidesBottomBarWhenPushed = YES;
     

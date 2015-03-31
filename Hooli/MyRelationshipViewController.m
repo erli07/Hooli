@@ -8,7 +8,9 @@
 
 #import "MyRelationshipViewController.h"
 #import "FollowListViewController.h"
-@interface MyRelationshipViewController ()
+#import "MyProfileDetailViewController.h"
+#import "UserCartViewController.h"
+@interface MyRelationshipViewController ()<HLSelectUserProfileDelegate>
 @property (nonatomic) FollowListViewController *followListVC;
 
 @end
@@ -38,7 +40,7 @@
     
     self.title = @"我的朋友";
     
-    NSArray *itemArray = [NSArray arrayWithObjects: @"我关注的", @"关注我的", nil];
+    NSArray *itemArray = [NSArray arrayWithObjects: @"我关注的", @"我的粉丝", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(35, 70, 250, 30);
     [segmentedControl addTarget:self action:@selector(MySegmentControlAction:) forControlEvents: UIControlEventValueChanged];
@@ -48,11 +50,25 @@
     _followListVC = [[FollowListViewController alloc]init];
     _followListVC.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
     _followListVC.fromUser = [PFUser currentUser];
+    _followListVC.delegate = self;
     _followListVC.view.frame = CGRectMake(0, 108, 320, self.view.frame.size.height - segmentedControl.frame.origin.y - segmentedControl.frame.size.height);
     
     [self.view addSubview:_followListVC.view];
     
     
+}
+
+-(void)didSelectUser:(NSString *)userId{
+    
+    if(userId){
+        
+        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+        UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
+        vc.userID = userId;
+        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+
 }
 
 - (void)MySegmentControlAction:(UISegmentedControl *)segment

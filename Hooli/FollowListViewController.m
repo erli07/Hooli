@@ -12,6 +12,7 @@
 #import "FollowListCell.h"
 #import "HLTheme.h"
 #import "UserCartViewController.h"
+#import "MyProfileDetailViewController.h"
 @interface FollowListViewController ()
 @property (nonatomic, strong) UIView *blankView;
 @property (nonatomic) NSIndexPath *lastSelected;
@@ -21,36 +22,9 @@
 @implementation FollowListViewController
 @synthesize followStatus,fromUser,blankView;
 
-//- (id)initWithCoder:(NSCoder *)aCoder {
-//    self = [super initWithCoder:aCoder];
-//
-//    if (self) {
-//        // The className to query on
-//        self.parseClassName = kHLCloudNotificationClass;
-//
-//        // Whether the built-in pagination is enabled
-//        self.paginationEnabled = YES;
-//
-//        // Whether the built-in pull-to-refresh is enabled
-//        self.pullToRefreshEnabled = YES;
-//
-//        // The number of objects to show per page
-//        self.objectsPerPage = 50;
-//
-//        // The Loading text clashes with the dark Anypic design
-//        self.loadingViewEnabled = NO;
-//    }
-//    return self;
-//}
-
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
-        
-        
-        //        self.followStatus = HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
-        //
-        //        self.fromUser = [PFUser currentUser];
         
         self.parseClassName = kHLCloudNotificationClass;
         
@@ -73,7 +47,7 @@
 
 - (void)viewDidLoad {
     
-    // self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [super viewDidLoad];
     
@@ -202,15 +176,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-  //  if (self.lastSelected==indexPath) return; // nothing to do
+    PFUser  *user;
+    
+    if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWED){
 
-    // select new
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    [cell setSelected:TRUE animated:TRUE];
+    user = [[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationToUserKey];
+
+    }
+    else{
+        
+    user = [[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationFromUserKey];
+
+    }
     
-   // self.lastSelected = indexPath;
-    
+    [self.delegate didSelectUser:user.objectId];
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
@@ -223,6 +203,8 @@
         cell = [[FollowListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FriendCellIdentifier];
         [cell setDelegate:self];
     }
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     //cell.textLabel.text = @"test";
     
@@ -240,8 +222,10 @@
     else if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWED){
         
         user = [(PFUser*)object objectForKey:kHLNotificationToUserKey];
-        [cell.followButton setTitle:@"UnFollow" forState:UIControlStateNormal] ;
-        [cell.followButton setTitle:@"UnFollow" forState:UIControlStateHighlighted] ;
+        cell.followButton.hidden = YES;
+
+//        [cell.followButton setTitle:@"UnFollow" forState:UIControlStateNormal] ;
+//        [cell.followButton setTitle:@"UnFollow" forState:UIControlStateHighlighted] ;
         
     }
     
@@ -289,11 +273,8 @@
 
 - (void)cell:(FollowListCell *)cellView didTapUserButton:(PFUser *)aUser {
     // Push account view controller
-    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
-    vc.userID =  aUser.objectId;
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
+
+    
 }
 
 - (void)cell:(FollowListCell *)cellView didTapFollowButton:(PFUser *)aUser {

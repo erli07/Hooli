@@ -348,7 +348,7 @@ numberOfRowsInComponent:(NSInteger)component
     
     [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
 
-    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:self.itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] toUser:[[FormManager sharedInstance]toUser]];
+    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:self.itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] condition:itemCondtion];
 
     [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
         

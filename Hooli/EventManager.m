@@ -79,6 +79,7 @@
             [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
                 if(succeeded){
+    
                     
                     completionBlock(YES,nil);
                     

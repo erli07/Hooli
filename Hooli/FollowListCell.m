@@ -128,7 +128,7 @@
 #pragma mark - ()
 
 + (CGFloat)heightForCell {
-    return 67.0f;
+    return 44.0f;
 }
 
 /* Inform delegate that a user image or name was tapped */

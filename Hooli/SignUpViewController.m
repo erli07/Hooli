@@ -11,7 +11,8 @@
 #import "AccountManager.h"
 #import "MBProgressHUD.h"
 #import "camera.h"
-@interface SignUpViewController (){
+#import "SelectGenderViewController.h"
+@interface SignUpViewController ()<HLSelectGenderDelegate>{
     
     MBProgressHUD *HUD;
 }
@@ -21,7 +22,7 @@
 const CGFloat duration = 0.3;
 
 @implementation SignUpViewController
-@synthesize nameLabel,nameText,emailLabel,emailText,passwordLabel,passwordText,rePasswordLabel,rePasswordText,portraitImage;
+@synthesize nameLabel,nameText,emailLabel,emailText,passwordLabel,passwordText,rePasswordLabel,rePasswordText,portraitImage,genderTextField;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,11 +38,11 @@ const CGFloat duration = 0.3;
     self.nameLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     
     self.emailLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
-
+    
     self.passwordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
-
+    
     self.rePasswordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
-
+    
     // Do any additional setup after loading the view.
 }
 
@@ -60,17 +61,33 @@ const CGFloat duration = 0.3;
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     
+    if(textField == self.genderTextField){
+        
+        SelectGenderViewController *vc = [[SelectGenderViewController alloc]initWithStyle:UITableViewStyleGrouped];
+        vc.delegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+    else{
+        
+        
+        [UIView animateWithDuration:duration animations:^{
+            
+            CGRect viewFrame = self.view.frame;
+            viewFrame.origin.y = -150;
+            self.view.frame = viewFrame;
+            
+            
+        }];
+        
+    }
     
-    
-    [UIView animateWithDuration:duration animations:^{
-        
-        CGRect viewFrame = self.view.frame;
-        viewFrame.origin.y = -135;
-        self.view.frame = viewFrame;
-        
-        
-    }];
+}
 
+-(void)didSelectGender:(NSString *)gender{
+    
+    self.genderTextField.text = gender;
+    
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
@@ -110,28 +127,28 @@ const CGFloat duration = 0.3;
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (IBAction)submit:(id)sender {
     
-
     
     
-    if ([self.emailText.text isEqualToString: @""] || [self.nameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""]) {
+    
+    if ([self.emailText.text isEqualToString: @""] || [self.nameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""] || [self.genderTextField.text isEqualToString:@""]) {
         
         UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"User info is missing." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [pwNotMatchedAlert show];
         
         return;
-
+        
     }
     
     if(![self NSStringIsValidEmail:self.emailText.text]){
@@ -144,7 +161,7 @@ const CGFloat duration = 0.3;
         
     }
     
-
+    
     
     if(![self checkPassword]){
         
@@ -156,10 +173,10 @@ const CGFloat duration = 0.3;
     }
     
     
-    UserModel *userModel = [[UserModel alloc]initUserWithEmail:self.emailText.text userName:self.nameText.text password:self.passwordText.text portraitImage:self.portraitImage.image];
+    UserModel *userModel = [[UserModel alloc]initUserWithEmail:self.emailText.text userName:self.nameText.text password:self.passwordText.text portraitImage:self.portraitImage.image gender:self.genderTextField.text];
     
-
-   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];    
+    
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
     
     [[AccountManager sharedInstance]checkIfUserExistedWithUser:userModel block:^(BOOL succeeded, NSError *error) {
         
@@ -168,32 +185,32 @@ const CGFloat duration = 0.3;
             
             [[AccountManager sharedInstance]submitUserProfileWithUser:userModel Success:^{
                 
-                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                 
                 UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
                 [self presentViewController:vc animated:YES completion:^{
                     
                     NSLog(@"Submit success");
-
+                    
                 }];
-              //  [self.navigationController pushViewController:vc animated:YES];
+                //  [self.navigationController pushViewController:vc animated:YES];
                 
                 
             } Failure:^(id error) {
                 
-                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                 
                 NSLog(@"Submit failure");
                 
             }];
             
-
+            
         }
         else{
             
-             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            
             NSString *alertMsg = [NSString stringWithFormat:@"User with email:%@ already registered", emailText.text];
             
             UIAlertView *userExistsAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:alertMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -203,10 +220,10 @@ const CGFloat duration = 0.3;
             
         }
     }];
-        
     
     
-
+    
+    
     
     
 }

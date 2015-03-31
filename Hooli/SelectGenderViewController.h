@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol HLSelectGenderDelegate <NSObject>
+
+@optional
+- (void)didSelectGender:(NSString *)gender;
+
+@end
+
 @interface SelectGenderViewController : UITableViewController
+
+@property (nonatomic, weak) id<HLSelectGenderDelegate> delegate;
 
 @end

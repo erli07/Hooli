@@ -184,6 +184,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
+    
  //   [[EaseMob sharedInstance] applicationWillEnterForeground:application];
     
     
@@ -193,6 +194,12 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
  //   [[EaseMob sharedInstance] applicationDidBecomeActive:application];
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        currentInstallation.badge = 0;
+        [currentInstallation saveEventually];
+    }
     
     [FBAppEvents activateApp];
     

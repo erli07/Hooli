@@ -31,12 +31,15 @@
     
     self.title = @"活动类别";
     
-  //  _eventNameArray = @[@"全部类别",@"聚餐吃饭",@"体育娱乐",@"爬梯聚会", @"我爱学习", @"户外旅行",@"桌游棋牌",@"电子游戏"];
-    _eventNameArray = @[@"all",@"eating",@"sports",@"tour", @"shopping", @"movie"];
+    _eventNameArray = @[@"全部类别", @"吃货小分队", @"体育健身", @"娱乐活动", @"逛街购物", @"户外旅行", @"电子游戏", @"学术会议"];
+   // _eventNameArray = @[@"all",@"eating",@"sports",@"tour", @"shopping", @"movie"];
     
-    _eventSymbolsArray = @[[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"restaurant-48"]];
+    _eventSymbolsArray = @[[UIImage imageNamed:@"others"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"basketball-48"],[UIImage imageNamed:@"movie-48"],[UIImage imageNamed:@"shopping_bag-48"],[UIImage imageNamed:@"backpack-48"],[UIImage imageNamed:@"controller-48"],[UIImage imageNamed:@"study-48"]];
     
     self.tableView.allowsMultipleSelection = YES;
+    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

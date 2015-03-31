@@ -61,6 +61,7 @@ void SendPushNotification(NSString *groupId, NSString *text)
 
 	PFPush *push = [[PFPush alloc] init];
 	[push setQuery:queryInstallation];
+    text = [NSString stringWithFormat:@"%@: %@", [[PFUser currentUser]objectForKey:kHLUserModelKeyUserName],text];
 	[push setMessage:text];
     NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
                           kHLPushPayloadPayloadTypeMessagesKey,kHLPushPayloadPayloadTypeKey, @"default",kAPNSSoundKey,@"increment",kAPNSBadgeKey,text,kAPNSAlertKey,nil];

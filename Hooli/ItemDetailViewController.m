@@ -383,10 +383,14 @@
             if(toggleIsOn){
                 
                 self.likeCountLabel.text = @"Liked";
+                self.likeButton.alpha = 1.0;
+                
             }
             else{
                 
                 self.likeCountLabel.text = @"Like";
+                self.likeButton.alpha = 0.5;
+
                 
             }
             // [self updateLikeButtonImage:!succeeded];
@@ -777,15 +781,18 @@
         [UIView animateWithDuration:0.3 animations:^{
             
             self.likeCountLabel.alpha = 1.0;
-            self.likeButton.alpha = 1.0;
             
             if(!flag){
                 
                 self.likeCountLabel.text = @"Liked";
+                self.likeButton.alpha = 1.0;
+
             }
             else{
                 
                 self.likeCountLabel.text = @"Like";
+                self.likeButton.alpha = 0.5;
+
                 
             }
             

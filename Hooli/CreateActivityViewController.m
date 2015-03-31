@@ -370,6 +370,12 @@
                 
                 if(succeeded){
                     
+                    PFObject *imagesObject = [_eventObject objectForKey:kHLEventKeyImages];
+                    
+                    [imagesObject deleteInBackground];
+                    
+                    [self deleteRelatedMessages];
+                    
                     UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"删除成功" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alert show];
@@ -413,6 +419,10 @@
         
         textField.inputAccessoryView = keyboardDoneButtonView;
         
+        [UIView animateWithDuration:.5
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, -120 ,
+                                                                   self.view.frame.size.width, self.view.frame.size.height); } ];
+        
         
     }
     
@@ -425,15 +435,42 @@
     }
     else if(textField == self.eventLocationField){
         
-        [textField resignFirstResponder];
-
+        for (UIView *subView in self.view.subviews) {
+            
+            if ([subView isFirstResponder]) {
+                
+                [subView resignFirstResponder];
+                
+            }
+        }
+        
+        [self.eventAnnouncementField resignFirstResponder];
+        [self.eventContent resignFirstResponder];
+        [self.eventTitle resignFirstResponder];
+        [self.eventMemberNumberField resignFirstResponder];
+        [self.eventDateField resignFirstResponder];
+        [self.eventLocationField resignFirstResponder];
+        
         [self performSegueWithIdentifier:@"map" sender:self];
 
     }
     else if(textField == self.eventDateField){
         
+        for (UIView *subView in self.view.subviews) {
+            
+            if ([subView isFirstResponder]) {
+                
+                [subView resignFirstResponder];
+                
+            }
+        }
+        [self.eventAnnouncementField resignFirstResponder];
+        [self.eventContent resignFirstResponder];
+        [self.eventTitle resignFirstResponder];
+        [self.eventMemberNumberField resignFirstResponder];
         [textField resignFirstResponder];
-        
+        [self.eventLocationField resignFirstResponder];
+
         HSDatePickerViewController *hsdpvc = [HSDatePickerViewController new];
         hsdpvc.delegate = self;
         
@@ -443,7 +480,7 @@
     else{
         
         [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - 40,
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, -120,
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
         
     }
@@ -639,6 +676,25 @@
     }
 }
 
+-(void)deleteRelatedMessages{
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudMessagesClass];
+    [query whereKey:@"event" equalTo:_eventObject];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
+        if(!error){
+            
+            [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                
+                NSLog(@"Delete messages succeed");
+                
+            }];
+            
+        }
+        
+    }];
+    
+}
 
 
 #pragma mark - Category delegate
@@ -709,8 +765,6 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
     UIImage *picture = info[UIImagePickerControllerEditedImage];
-    
-    
     
     UIImage *compressedImage = [UIImage imageWithData:UIImageJPEGRepresentation(picture, 0.2)];
     

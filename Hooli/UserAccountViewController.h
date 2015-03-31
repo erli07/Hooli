@@ -16,6 +16,9 @@
 
 @property (nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet UILabel *joinDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *selfIntroLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *genderImage;
 - (IBAction)followTheUser:(id)sender;
 - (IBAction)contactUser:(id)sender;
 

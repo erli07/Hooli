@@ -22,7 +22,7 @@
 @synthesize isOfferSold = _isOfferSold;
 @synthesize theImageFile = _theImageFile;
 @synthesize toUser = _toUser;
-
+@synthesize offerCondition = _offerCondition;
 -(id)initOfferModelWithUser:(PFObject *)user
                       image:(UIImage *)image
                       price:(NSString *)offerPrice
@@ -92,7 +92,7 @@
                 description:(NSString *)offerDescription
                    location:(CLLocationCoordinate2D) offerLocation
                 isOfferSold:(NSNumber *)isOfferSold
-                     toUser:(PFUser *)toUser{
+                  condition:(NSString *)offerCondition{
     
     self = [super init];
     if(self)
@@ -109,7 +109,7 @@
         _geoPoint.longitude = offerLocation.longitude;
         _isOfferSold = isOfferSold;
         _image = [imageArray objectAtIndex:0];
-        _toUser = toUser;
+        _offerCondition = offerCondition;
         
     }
     return self;

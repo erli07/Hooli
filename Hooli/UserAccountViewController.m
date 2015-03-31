@@ -16,6 +16,7 @@
 #import "NeedTableViewController.h"
 #import "messages.h"
 #import "ChatView.h"
+#import "MyActivitiesViewController.h"
 
 @interface UserAccountViewController ()
 @property (nonatomic, strong) PFUser *user;
@@ -25,14 +26,17 @@
 @end
 
 @implementation UserAccountViewController
-@synthesize user, userNameLabel, userID, tableView, userInfoArray,followButton,contactButton,followStatus;
+@synthesize user, userNameLabel, userID, tableView, userInfoArray,followButton,contactButton,genderImage,followStatus;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.userInfoArray = @[@"Items", @"Profile"];
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
     
-    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"item"],[UIImage imageNamed:@"user"],nil];
+    self.userInfoArray = @[@"活动", @"物品"];
+    
+    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"star"],[UIImage imageNamed:@"item"],nil];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -42,15 +46,16 @@
     
     [self updateProfileData];
     
-   // self.tableView.scrollEnabled = NO;
     
-
+    // self.tableView.scrollEnabled = NO;
+    
+    
     // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
-   // [self.tableView setFrame:CGRectMake(0, 200, 320, 200)];
+    // [self.tableView setFrame:CGRectMake(0, 200, 320, 200)];
     
 }
 
@@ -60,11 +65,47 @@
         
         self.user = (PFUser *)object;
         
+        if([self.user.objectId isEqualToString:[[PFUser currentUser]objectId]]){
+            
+            self.followButton.hidden = YES;
+            
+            self.contactButton.hidden = YES;
+            
+        }
+        
         UserModel *userModel =  [[UserModel alloc]initUserWithPFObject:object];
         
-        self.userNameLabel.text = userModel.username;
+        if([[object objectForKey:kHLUserModelKeyGender] isEqualToString:@"Male"]){
+            
+            self.genderImage.image = [UIImage imageNamed:@"male_symbol"];
+            
+        }
+        else{
+            
+            self.genderImage.image = [UIImage imageNamed:@"female_symbol"];
+            
+        }
         
-        self.title = userModel.username;
+        NSDate *jointDate = [object createdAt];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
+        [dateFormatter setDateFormat:@"MMM yyyy"];
+        NSString *joinDateStr = [dateFormatter stringFromDate:jointDate];
+        
+        self.joinDateLabel.text = [NSString stringWithFormat:@"Joined at %@", joinDateStr];
+        
+        NSString *signature = [object objectForKey:kHLUserModelKeySignature];
+        
+        if(signature){
+            
+            self.selfIntroLabel.text = signature;
+
+        }
+        else{
+            
+            self.selfIntroLabel.text = @"这家伙很懒，什么也没有留下";
+        }
+        
+        self.userNameLabel.text = userModel.username;
         
         [self.userNameLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:16.0f]];
         
@@ -73,7 +114,7 @@
         [self.view addSubview:self.profileImageView];
         
         [self updateRelationship];
-
+        
         
     } Failure:^(id error) {
         
@@ -88,12 +129,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [self.userInfoArray count];
+    if(section == 0)
+        return 1;
+    else
+        return 2;
     
 }
 
@@ -110,11 +154,22 @@
         
     }
     
-    cell.imageView.image = [self.imagesArray objectAtIndex:indexPath.row];
+    if(indexPath.section == 0){
+        
+        cell.textLabel.text = @"个人资料";
+        
+        cell.imageView.image = [UIImage imageNamed:@"user"];
+        
+    }
+    else{
+        
+        cell.textLabel.text =[self.userInfoArray objectAtIndex:indexPath.row];
+        
+        cell.imageView.image = [self.imagesArray objectAtIndex:indexPath.row];
+        
+    }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    cell.textLabel.text =[self.userInfoArray objectAtIndex:indexPath.row];
     
     cell.textLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:14.0f];
     
@@ -130,31 +185,41 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if(indexPath.row == 0){
-        
-        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-        UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
-        vc.userID = self.userID;
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    }
-    else if(indexPath.row == 2){
-        
-        NeedTableViewController *needsViewController = [[NeedTableViewController alloc]init];
-        needsViewController.user = self.user;
-        needsViewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:needsViewController animated:YES];
-        
-    }
-    else if(indexPath.row == 1){
-        
-        MyProfileDetailViewController *profileDetailVC = [[MyProfileDetailViewController alloc]initWithStyle:UITableViewStyleGrouped];
-        profileDetailVC.user = self.user;
-        profileDetailVC.tableView.allowsSelection = NO;
-        profileDetailVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:profileDetailVC animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+    if(indexPath.section == 0){
+        
+        if(indexPath.row == 0){
+            
+            MyProfileDetailViewController *profileDetailVC = [[MyProfileDetailViewController alloc]initWithStyle:UITableViewStyleGrouped];
+            profileDetailVC.user = self.user;
+            profileDetailVC.tableView.allowsSelection = NO;
+            profileDetailVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:profileDetailVC animated:YES];
+            
+        }
+        
+        
+    }
+    else if(indexPath.section == 1){
+        
+        if(indexPath.row == 1){
+            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+            UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
+            vc.userID = self.userID;
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else{
+            
+            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
+            vc.aUser = self.user;
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+        
     }
     
 }
@@ -168,8 +233,8 @@
             
             if(succeeded){
                 
-                
-                NSLog(@"Follow success!!!");
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关注成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alert show];
                 
                 [self updateRelationship];
                 
@@ -186,7 +251,8 @@
             if(succeeded){
                 
                 
-                NSLog(@"UnFollow success!!!");
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"取消关注" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alert show];
                 
                 [self updateRelationship];
                 
@@ -208,25 +274,25 @@
         ChatView *chatView = [[ChatView alloc] initWith:groupId];
         chatView.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:chatView animated:YES];
-    
+        
     } failure:^(id error) {
         
     }];
-      
+    
 }
 
 -(void)updateRelationship{
     
-    if([self.user.objectId isEqual:[[PFUser currentUser]objectId]]){
-        
-        self.followButton.hidden = YES;
-    }
-    else{
-        
-        self.followButton.hidden = NO;
-        
-    }
-    
+    //    if([self.user.objectId isEqual:[[PFUser currentUser]objectId]]){
+    //
+    //        self.followButton.hidden = YES;
+    //    }
+    //    else{
+    //
+    //        self.followButton.hidden = NO;
+    //
+    //    }
+    //
     
     [[ActivityManager sharedInstance]getUserRelationshipWithUserOne:[PFUser currentUser] UserTwo:self.user WithBlock:^(RelationshipType relationType, NSError *error) {
         
@@ -237,14 +303,14 @@
         if(self.followStatus == HL_RELATIONSHIP_TYPE_FRIENDS || self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWING ){
             
             [self.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
-            [self.followButton setBackgroundColor:[HLTheme mainColor]];
+          //  [self.followButton setBackgroundColor:[HLTheme mainColor]];
             [self.followButton setTintColor:[UIColor whiteColor]];
             
         }
         else{
             
             [self.followButton setTitle:@"Follow" forState:UIControlStateNormal] ;
-            [self.followButton setBackgroundColor:[HLTheme mainColor]];
+          //  [self.followButton setBackgroundColor:[HLTheme mainColor]];
             [self.followButton setTintColor:[UIColor whiteColor]];
             
         }
@@ -273,7 +339,7 @@
         
         if(array){
             
-           // self.followingCount.text = [NSString stringWithFormat:@"%d", [array count]];
+            // self.followingCount.text = [NSString stringWithFormat:@"%d", [array count]];
         }
     }];
     

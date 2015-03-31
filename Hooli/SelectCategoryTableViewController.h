@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol HLItemCategoryDelegate <NSObject>
+
+@optional
+- (void)didSelectEventCategory:(NSString *)eventCategory;
+- (void)didSelectEventCategories:(NSArray *)eventCategories;
+
+@end
+
 @interface SelectCategoryTableViewController : UITableViewController
+
+@property (nonatomic, weak) id<HLItemCategoryDelegate> delegate;
+@property (nonatomic, assign) BOOL isMultipleSelection;
 
 @end

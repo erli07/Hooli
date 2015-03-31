@@ -58,16 +58,17 @@
 
 -(void)dealloc{
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLItemDetailsReloadContentSizeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHLEventDetailsReloadMemberContentSizeNotification object:nil];
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
-    
     self.title = @"详细";
+    
+   // [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     
     _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
     // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
@@ -118,13 +119,9 @@
     
     [self configureBottomButtons];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
-    
 }
 
 -(void)reloadContentsize{
-    
-    [self.parentScrollView setContentSize:CGSizeMake(320, 760)];
     
 }
 
@@ -159,7 +156,7 @@
     
 }
 
--(void)didUpdateMembers{
+-(void)didUpdateMembers:(NSArray *)membersArray{
     
     if([[[PFUser currentUser]objectId] isEqual:[[_activityDetail objectForKey:kHLEventKeyHost]objectId]]){
         
@@ -189,6 +186,14 @@
         }
         
     }
+    
+     _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, 320, _memberTableView.tableView.contentSize.height);
+    
+    [self.parentScrollView setContentSize:CGSizeMake(320, 568 - 64 - 72 + _memberTableView.tableView.contentSize.height)];
+    
+  //  [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+
 }
 
 -(BOOL)checkIfCurrentUserInTheEvent{
@@ -617,11 +622,11 @@
             }
             else{
                 
-                ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]init];
-                
-                apVC.aObject = _activityDetail;
-                
-                [self.navigationController pushViewController:apVC animated:YES];
+//                ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]init];
+//                
+//                apVC.aObject = _activityDetail;
+//                
+//                [self.navigationController pushViewController:apVC animated:YES];
             }
             
         }
@@ -711,12 +716,25 @@
                 
                 if(succeeded){
                     
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"参加成功!" message:nil
-                                                                  delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
-                    [alert show];
+                    PFObject *joinEventActivity = [PFObject objectWithClassName:kHLCloudNotificationClass];
+                    [joinEventActivity setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+                    [joinEventActivity setObject:[_activityDetail objectForKey:kHLEventKeyHost] forKey:kHLNotificationToUserKey];
+                    [joinEventActivity setObject:kHLNotificationTypeJoinEvent forKey:kHLNotificationTypeKey];
+                    [joinEventActivity setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId] forKey:kHLNotificationEventKey];
+                    [joinEventActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        
+                        if(succeeded){
+                            
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"参加成功!" message:nil
+                                                                          delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                            
+                            [alert show];
+                        }
+                    }];
                     
                     [_memberTableView loadObjects];
+                    
                 }
                 
             }];

@@ -59,8 +59,16 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     self.activityTitleLabel.text = [eventObject objectForKey:kHLEventKeyTitle];
     
-    self.userGenderImageView.image = [UIImage imageNamed:@"male_symbol"];
-    
+    if([[eventHost objectForKey:kHLUserModelKeyGender] isEqualToString:@"Male"]){
+        
+        self.userGenderImageView.image = [UIImage imageNamed:@"male_symbol"];
+        
+    }
+    else{
+        
+        self.userGenderImageView.image = [UIImage imageNamed:@"female_symbol"];
+        
+    }
     
     PFGeoPoint *geoPoint = [eventObject objectForKey:kHLEventKeyEventGeoPoint];
     
@@ -114,14 +122,19 @@ static TTTTimeIntervalFormatter *timeFormatter;
                 
                 [self.eventImageButton1 setBackgroundImage:image1 forState:UIControlStateNormal];
                 
+                self.eventImageButton1.hidden = NO;
+                
             }
         }];
     }
     else{
         
-        [self.eventImageButton1 removeFromSuperview];
+        self.eventImageButton1.hidden = YES;
+        
+        [self.eventImageButton1 setBackgroundImage:nil forState:UIControlStateNormal];
         
     }
+    
     
     PFFile *imageFile1 = [eventImages objectForKey:@"imageFile1"];
     
@@ -135,6 +148,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
                 
                 [self.imagesArray addObject:image2];
                 
+                self.eventImageButton2.hidden = NO;
+                
                 [self.eventImageButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
                 
             }
@@ -142,7 +157,9 @@ static TTTTimeIntervalFormatter *timeFormatter;
     }
     else{
         
-        [self.eventImageButton2 removeFromSuperview];
+        self.eventImageButton2.hidden = YES;
+        
+        [self.eventImageButton2 setBackgroundImage:nil forState:UIControlStateNormal];
         
     }
     
@@ -158,6 +175,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
                 
                 [self.imagesArray addObject:image3];
                 
+                self.eventImageButton3.hidden = NO;
+                
                 [self.eventImageButton3 setBackgroundImage:image3 forState:UIControlStateNormal];
                 
             }
@@ -165,9 +184,12 @@ static TTTTimeIntervalFormatter *timeFormatter;
     }
     else{
         
-        [self.eventImageButton3 removeFromSuperview];
+        self.eventImageButton3.hidden = YES;
+        
+        [self.eventImageButton3 setBackgroundImage:nil forState:UIControlStateNormal];
         
     }
+    
     
 }
 
@@ -179,36 +201,38 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 -(UIImage *)getActivityCategoryImageFromString:(NSString *)category{
     
-    if([category isEqualToString:@"eating"]){
+    
+    
+    if([category isEqualToString:@"吃货小分队"]){
         
         return [UIImage imageNamed:@"restaurant-48"];
     }
-    else if([category isEqualToString:@"sports"]){
+    else if([category isEqualToString:@"体育健身"]){
         
         return [UIImage imageNamed:@"basketball-48"];
         
     }
-    else if([category isEqualToString:@"study"]){
+    else if([category isEqualToString:@"学术会议"]){
         
         return [UIImage imageNamed:@"study-48"];
         
     }
-    else if([category isEqualToString:@"movie"]){
+    else if([category isEqualToString:@"娱乐活动"]){
         
         return [UIImage imageNamed:@"movie-48"];
         
     }
-    else if([category isEqualToString:@"hiking"]){
+    else if([category isEqualToString:@"户外旅行"]){
         
         return [UIImage imageNamed:@"backpack-48"];
         
     }
-    else if([category isEqualToString:@"tour"]){
+    else if([category isEqualToString:@"电子游戏"]){
         
-        return [UIImage imageNamed:@"camera-48"];
+        return [UIImage imageNamed:@"controller-48"];
         
     }
-    else if([category isEqualToString:@"shopping"]){
+    else if([category isEqualToString:@"逛街购物"]){
         
         return [UIImage imageNamed:@"shopping_bag-48"];
         

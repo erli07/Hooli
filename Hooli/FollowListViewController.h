@@ -9,8 +9,18 @@
 #import <Parse/Parse.h>
 #import "FollowListCell.h"
 #import "ActivityManager.h"
+
+@protocol HLSelectUserProfileDelegate <NSObject>
+
+@optional
+
+- (void)didSelectUser:(NSString *)userId;
+
+@end
+
 @interface FollowListViewController : PFQueryTableViewController<FollowListCellDelegate>
 @property (nonatomic, assign) RelationshipType followStatus;
 @property (nonatomic) PFUser *fromUser;
+@property (nonatomic, weak) id<HLSelectUserProfileDelegate> delegate;
 
 @end

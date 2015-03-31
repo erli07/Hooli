@@ -28,6 +28,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *offerId;
 @property (nonatomic, strong) NSString *offerName;
 @property (nonatomic, strong) NSString *offerDescription;
+@property (nonatomic, strong) NSString *offerCondition;
 @property (nonatomic, strong) NSString *offerCategory;
 @property (nonatomic) CLLocationCoordinate2D offerLocation;
 @property (nonatomic, strong) NSString *offerLikesNum;
@@ -72,7 +73,7 @@ typedef enum {
                 description:(NSString *)offerDescription
                    location:(CLLocationCoordinate2D) offerLocation
                 isOfferSold:(NSNumber *)isOfferSold
-                     toUser:(PFUser *)toUser;
+                  condition:(NSString *)offerCondition;
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
