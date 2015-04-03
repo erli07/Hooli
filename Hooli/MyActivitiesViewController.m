@@ -12,16 +12,26 @@
 #import "ActivityListViewController.h"
 #import "ActivityDetailViewController.h"
 @interface MyActivitiesViewController ()
+@property (nonatomic, strong) UIView *blankView;
 
 @end
 
 @implementation MyActivitiesViewController
 @synthesize aUser = _aUser;
-
+@synthesize blankView = _blankView;
 - (void)viewDidLoad {
     
     self.title = @"我的活动";
     [super viewDidLoad];
+    
+    self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
+    [self.blankView setBackgroundColor:[UIColor whiteColor]];
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    noContentLabel.text = @"No content at the moment";
+    noContentLabel.textColor = [UIColor lightGrayColor];
+    noContentLabel.font = [UIFont systemFontOfSize:17.0f];
+    noContentLabel.textAlignment = NSTextAlignmentCenter;
+    [self.blankView addSubview:noContentLabel];
     // Do any additional setup after loading the view.
 }
 
@@ -99,6 +109,24 @@
 - (void)objectsDidLoad:(NSError *)error {
     
     [super objectsDidLoad:error];
+    
+    if (self.objects.count == 0 && ![[self queryForTable] hasCachedResult]) {
+        self.tableView.scrollEnabled = NO;
+        //  self.navigationController.tabBarItem.badgeValue = nil;
+        
+        if (!self.blankView.superview) {
+            self.blankView.alpha = 0.0f;
+            self.tableView.tableHeaderView = self.blankView;
+            [UIView animateWithDuration:0.200f animations:^{
+                self.blankView.alpha = 1.0f;
+            }];
+        }
+    } else {
+        self.tableView.tableHeaderView = nil;
+        self.tableView.scrollEnabled = YES;
+        
+    }
+
     
 }
 

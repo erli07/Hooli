@@ -81,6 +81,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
     [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:coord
                                                                     block:^(NSString *address, NSError *error) {
                                                                         
+                                                                        
+                                                                        if(!address){
+                                                                            
+                                                                           address = [eventObject objectForKey:kHLEventKeyEventLocation];
+                                                                            
+                                                                        }
+                                                                        
                                                                         if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
                                                                             
                                                                             self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", address,week,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
@@ -102,7 +109,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
         timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
     }
     
-    self.userInfoLabel.text = [NSString stringWithFormat:@"%@ | %@",[[LocationManager sharedInstance]getApproximateDistanceInKm:userLocation], [timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:[eventObject createdAt]]];
+    self.userInfoLabel.text = [NSString stringWithFormat:@"%@ | %@",[[LocationManager sharedInstance]getApproximateDistanceInKm:userLocation], [timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:[eventObject updatedAt]]];
     
     self.imagesArray = [NSMutableArray new];
     

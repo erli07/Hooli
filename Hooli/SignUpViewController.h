@@ -10,7 +10,7 @@
 #import "UserModel.h"
 #import "ChattingManager.h"
 
-@interface SignUpViewController : UIViewController<UITextFieldDelegate,UIActionSheetDelegate>
+@interface SignUpViewController : UIViewController<UITextFieldDelegate,UIActionSheetDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *nameText;
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
@@ -21,6 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *rePasswordText;
 @property (weak, nonatomic) IBOutlet UITextField *genderTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
+@property (nonatomic) IBOutlet UITableView *genderTableView;
+@property (nonatomic) IBOutlet UISegmentedControl *genderSegmentControl;
+
 - (IBAction)submit:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 - (IBAction)editPhoto:(id)sender;

@@ -11,8 +11,8 @@
 @protocol HLItemCategoryDelegate <NSObject>
 
 @optional
-- (void)didSelectEventCategory:(NSString *)eventCategory;
-- (void)didSelectEventCategories:(NSArray *)eventCategories;
+- (void)didSelectItemCategory:(NSString *)itemCategory;
+- (void)didSelectItemCategories:(NSArray *)itemsCategories;
 
 @end
 
@@ -20,5 +20,6 @@
 
 @property (nonatomic, weak) id<HLItemCategoryDelegate> delegate;
 @property (nonatomic, assign) BOOL isMultipleSelection;
+@property (nonatomic) NSArray *selectedArray;
 
 @end

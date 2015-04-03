@@ -16,6 +16,7 @@
 @property (nonatomic) NSArray *eventSymbolsArray;
 @property (nonatomic) NSMutableArray *selectionArray;
 
+
 @end
 
 @implementation ActivityCategoryViewController
@@ -23,11 +24,10 @@
 @synthesize eventNameArray = _eventNameArray;
 @synthesize eventSymbolsArray = _eventSymbolsArray;
 @synthesize selectionArray = _selectionArray;
+@synthesize selectedArray = _selectedArray;
 @synthesize isMultipleSelection = _isMultipleSelection;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _selectionArray = [NSMutableArray new];
     
     self.title = @"活动类别";
     
@@ -45,6 +45,19 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    if([_selectedArray count] > 0){
+        
+        _selectionArray = [[NSMutableArray alloc]initWithArray:_selectedArray];
+    }
+    else{
+        
+        _selectionArray = [NSMutableArray new];
+
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -76,6 +89,12 @@
     cell.textLabel.textColor = [HLTheme mainColor];
     cell.textLabel.text = [_eventNameArray objectAtIndex:indexPath.row];
     cell.imageView.image = [_eventSymbolsArray objectAtIndex:indexPath.row];
+    
+    if([_selectedArray containsObject:[_eventNameArray objectAtIndex:indexPath.row]] ){
+        
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    
     return cell;
 }
 
@@ -111,9 +130,10 @@
     }
     else{
         
+        [self.navigationController popViewControllerAnimated:YES];
+
         [self.delegate didSelectEventCategory:[_eventNameArray objectAtIndex:indexPath.row]];
         
-        [self.navigationController popViewControllerAnimated:YES];
         
     }
     

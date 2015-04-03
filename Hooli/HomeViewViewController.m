@@ -25,7 +25,9 @@
 #import "ActivityManager.h"
 #import "CreateActivityViewController.h"
 #import "CreateItemViewController.h"
-@interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate>{
+#import "SelectCategoryTableViewController.h"
+
+@interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate,ShowSearchResultDelegate>{
     
 }
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -55,18 +57,22 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"二手市场";
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showCamera:)
                                                  name:kHLShowCameraViewNotification object:nil];
     
     [[HLSettings sharedInstance]setShowSoldItems:NO];
     
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"My Items"
+    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]
+                                       initWithTitle:@"种类"
                                        style:UIBarButtonItemStyleDone
                                        target:self
-                                       action:@selector(seeMyItems)];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
+                                       action:@selector(seeCategories)];
+
+    
+    self.navigationItem.rightBarButtonItem = rightBarButton2;
     
     [self initViewELements];
     
@@ -112,6 +118,19 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
+
+-(void)seeCategories{
+    
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SearchItemViewController *categoryVC = [mainSb  instantiateViewControllerWithIdentifier:@"SearchItemViewController"];
+    categoryVC.isMultipleSelection = YES;
+    categoryVC.hidesBottomBarWhenPushed = YES;
+    categoryVC.selectedArray = [NSMutableArray arrayWithArray:[[OffersManager sharedInstance]filterArray]];
+    categoryVC.delegate = self;
+    [self.navigationController pushViewController:categoryVC animated:YES];
+    
+}
 
 -(void)seeMyItems{
     
@@ -174,8 +193,9 @@ static NSString * const reuseIdentifier = @"Cell";
     [self addSwipeGesture];
     
     [self configureAddButton];
+
     
-    [self configureSearchBar];
+   // [self configureSearchBar];
     
     //    self.searchCategoryVC = [[SearchItemViewController alloc]init];
     //
@@ -692,6 +712,15 @@ static NSString * const reuseIdentifier = @"Cell";
         //        }
         
     }
+}
+
+-(void)didSelectItemCategories:(NSArray *)itemsCategories{
+    
+    [[OffersManager sharedInstance]setFilterArray:itemsCategories];
+    
+    [self updateCollectionViewData];
+
+    
 }
 
 -(void)getOffersFormAll{

@@ -388,6 +388,7 @@
     PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:imageData];
     [newUser setObject:image forKey:kHLUserModelKeyPortraitImage];
     [newUser setObject:[newUser.email MD5] forKey:kHLUserModelKeyUserIdMD5];
+    [newUser setObject:userModel.gender forKey:kHLUserModelKeyGender];
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         

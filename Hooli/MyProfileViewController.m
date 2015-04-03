@@ -44,21 +44,11 @@
     
     self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"star"], [UIImage imageNamed:@"item"],[UIImage imageNamed:@"user"],[UIImage imageNamed:@"group"],[UIImage imageNamed:@"setting"],nil];
     
-    [[HLSettings sharedInstance]setCurrentPageIndex:3];
-    
-    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
-        
-        return;
-        
-    }
-    
+    [[HLSettings sharedInstance]setCurrentPageIndex:3];    
+
     [self addUIElements];
     
-    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
-        
-        [self updateProfileData];
-        
-    }
+
     //    [self loadData];
     // Do any additional setup after loading the view.
 }
@@ -67,6 +57,21 @@
     
     [super viewWillAppear:animated];
 
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    if(![HLUtilities checkIfUserLoginWithCurrentVC:self]){
+        
+        return;
+        
+    }
+    else{
+        
+        [self updateProfileData];
+        
+    }
+    
 }
 
 -(void)addUIElements{
@@ -163,6 +168,11 @@
 //            [self.navigationController pushViewController:myAc animated:YES];
 
         }
+        else if(indexPath.row == 2){
+            
+            [self performSegueWithIdentifier:@"myItems" sender:self];
+            
+        }
 
     }
     else if(indexPath.section == 1){
@@ -255,7 +265,7 @@
             
             cell.textLabel.text = @"二手市场";
 
-            cell.imageView.image = [self.imagesArray objectAtIndex:1];
+            cell.imageView.image = [UIImage imageNamed:@"shopping"];
 
         }
         else if(indexPath.row == 1){
@@ -265,6 +275,15 @@
             cell.textLabel.text = @"我的活动";
             
             cell.imageView.image = [self.imagesArray objectAtIndex:0];
+            
+        }
+        else if(indexPath.row == 2){
+            
+            //     cell.textLabel.text = @"My Items";
+            
+            cell.textLabel.text = @"我的物品";
+            
+            cell.imageView.image = [self.imagesArray objectAtIndex:1];
             
         }
         
@@ -309,7 +328,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 2;
+        return 3;
     else if(section == 1)
         return 2;
     else

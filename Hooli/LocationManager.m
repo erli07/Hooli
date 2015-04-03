@@ -155,6 +155,13 @@
         NSString *startAddressString = [NSString stringWithFormat:@"%@ %@",
                                         placemark.locality, placemark.administrativeArea];
         
+        if(!placemark.locality || !placemark.administrativeArea){
+            
+            startAddressString = nil;
+            
+        }
+        
+        
         if(completionBlock){
             
             completionBlock(startAddressString, nil);

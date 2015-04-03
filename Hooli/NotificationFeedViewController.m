@@ -22,6 +22,8 @@
 #import "HLUtilities.h"
 #import "ActivityManager.h"
 #import "ActivityDetailViewController.h"
+#import "PAPLoadMoreCell.h"
+
 @interface NotificationFeedViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
 @property (nonatomic, strong) UIView *blankView;
@@ -51,7 +53,7 @@
         self.pullToRefreshEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 50;
+        self.objectsPerPage = 10;
         
         // The Loading text clashes with the dark Anypic design
         self.loadingViewEnabled = NO;
@@ -225,7 +227,6 @@
                 else{
                     
                     UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-                                            @"Accept Bid",
                                             @"Contact",
                                             @"See offer detail",
                                             nil];
@@ -267,6 +268,22 @@
         [self loadNextPage];
     }
 }
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
+    
+    PAPLoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
+    if (!cell) {
+        cell = [[PAPLoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
+        cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        //  cell.separatorImageTop.image = [UIImage imageNamed:@"SeparatorTimelineDark.png"];
+        cell.hideSeparatorBottom = YES;
+        cell.mainView.backgroundColor = [UIColor clearColor];
+    }
+    return cell;
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //    if (indexPath.row < self.objects.count) {
@@ -326,24 +343,24 @@
     switch (popup.tag) {
         case 1: {
             switch (buttonIndex) {
+//                case 0:
+//                {
+//                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to accept this bid?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+//                    
+//                    
+//                    alertView.tag = 0;
+//                    
+//                    [alertView show];
+//                }
+//                    
+//                    break;
+//                    
                 case 0:
-                {
-                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to accept this bid?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-                    
-                    
-                    alertView.tag = 0;
-                    
-                    [alertView show];
-                }
-                    
-                    break;
-                    
-                case 1:
                     
                     [self startChattingWithBidder];
                     break;
                     
-                case 2:
+                case 1:
                     
                     [self seeOfferDetail];
                     break;
@@ -466,47 +483,47 @@
     
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    if(alertView.tag == 0){
-        
-        if(buttonIndex == 1){
-            
-            PFObject *offer = [_notification objectForKey:kHLNotificationOfferKey];
-            
-            [[ActivityManager sharedInstance]acceptingOfferWithOffer:offer price:_bidPrice toUser:_toUser block:^(BOOL succeeded, NSError *error) {
-                
-                if(succeeded){
-                    
-                    [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:offer.objectId
-                                                                         soldStatus:YES
-                                                                              block:^(BOOL succeeded, NSError *error)
-                     {
-                         
-                         if(succeeded){
-                             
-                             NSString *userName = [[_notification objectForKey:kHLNotificationFromUserKey]objectForKey:kHLUserModelKeyUserName];
-                             
-                             NSString *message = [NSString stringWithFormat:@"You decide to sell the item to %@, %@ credits has been added to your account.",userName, _bidPrice];
-                             
-                             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations!" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                             
-                             [alertView show];
-                             
-                             [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-                         }
-                         
-                     }];
-                    
-                }
-                
-            }];
-            
-        }
-        
-    }
-    
-}
+//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    
+//    if(alertView.tag == 0){
+//        
+//        if(buttonIndex == 1){
+//            
+//            PFObject *offer = [_notification objectForKey:kHLNotificationOfferKey];
+//            
+//            [[ActivityManager sharedInstance]acceptingOfferWithOffer:offer price:_bidPrice toUser:_toUser block:^(BOOL succeeded, NSError *error) {
+//                
+//                if(succeeded){
+//                    
+//                    [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:offer.objectId
+//                                                                         soldStatus:YES
+//                                                                              block:^(BOOL succeeded, NSError *error)
+//                     {
+//                         
+//                         if(succeeded){
+//                             
+//                             NSString *userName = [[_notification objectForKey:kHLNotificationFromUserKey]objectForKey:kHLUserModelKeyUserName];
+//                             
+//                             NSString *message = [NSString stringWithFormat:@"You decide to sell the item to %@, %@ credits has been added to your account.",userName, _bidPrice];
+//                             
+//                             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations!" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                             
+//                             [alertView show];
+//                             
+//                             [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+//                         }
+//                         
+//                     }];
+//                    
+//                }
+//                
+//            }];
+//            
+//        }
+//        
+//    }
+//    
+//}
 
 
 

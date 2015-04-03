@@ -15,10 +15,13 @@
 #import "HLSettings.h"
 @interface SearchItemViewController ()
 @property (nonatomic) NSArray* imagesArray;
+@property (nonatomic) NSArray *categoriesArray;
 @end
 
 @implementation SearchItemViewController
-//@synthesize delegate;
+@synthesize isMultipleSelection = _isMultipleSelection;
+@synthesize categoriesArray = _categoriesArray;
+@synthesize selectedArray = _selectedArray;
 
 //@synthesize searchBar;
 - (void)viewDidLoad {
@@ -27,7 +30,10 @@
   //  self.navigationController.navigationBar.backgroundColor = [HLTheme mainColor];
     self.categories = [OfferCategory allCategories];
     
-    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"furniture"],[UIImage imageNamed:@"homegoods"], [UIImage imageNamed:@"books"],[UIImage imageNamed:@"women_clothes"],[UIImage imageNamed:@"men_clothes"],[UIImage imageNamed:@"computer"],[UIImage imageNamed:@"football"],[UIImage imageNamed:@"baby"],[UIImage imageNamed:@"others"],nil];
+    self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"star"],[UIImage imageNamed:@"furniture"],[UIImage imageNamed:@"homegoods"], [UIImage imageNamed:@"books"],[UIImage imageNamed:@"women_clothes"],[UIImage imageNamed:@"men_clothes"],[UIImage imageNamed:@"computer"],[UIImage imageNamed:@"football"],[UIImage imageNamed:@"baby"],[UIImage imageNamed:@"others"],nil];
+    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -35,8 +41,13 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillDisappear:(BOOL)animated{
     
+    if(_isMultipleSelection){
+        
+        [self.delegate didSelectItemCategories:_selectedArray];
+        
+    }
     
 }
 
@@ -56,6 +67,7 @@
 
     
     return [self.categories count];
+    
 }
 
 
@@ -68,13 +80,23 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-        
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categoryCell" forIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
     [cell.imageView setImage:[self.imagesArray objectAtIndex:indexPath.row]];
      cell.textLabel.text = [self.categories objectAtIndex:indexPath.row];
+    
+    if([_selectedArray containsObject:[self.categories objectAtIndex:indexPath.row]] ){
+        
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+    }
+    else{
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    
     return cell;
 }
 
@@ -82,20 +104,44 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *cellText = selectedCell.textLabel.text;
     
-    [[OffersManager sharedInstance]setPageCounter:0];
-
-    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                        kHLFilterDictionarySearchKeyCategory, kHLFilterDictionarySearchType,
-                        cellText,kHLFilterDictionarySearchKeyCategory,nil];
-    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
-
-  //  [self.delegate showSearchResultVCWithCategory:cellText];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
+    if(_isMultipleSelection){
+        
+        if(indexPath.row == 0){
+            
+            _selectedArray = nil;
+            
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            return;
+        }
+        
+        if([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark){
+            
+            [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
+            
+            [_selectedArray removeObject:[self.categories objectAtIndex:indexPath.row]];
+            
+        }
+        else{
+            
+            [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
+            
+            [_selectedArray addObject:[self.categories objectAtIndex:indexPath.row]];
+            
+        }
+        
+    }
+    else{
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        [self.delegate didSelectItemCategory:[self.categories objectAtIndex:indexPath.row]];
+        
+        
+    }
 
 }
 

@@ -12,6 +12,9 @@
 @protocol ShowSearchResultDelegate <NSObject>
 
 -(void)showSearchResultVCWithCategory:(NSString *)category;
+@optional
+- (void)didSelectItemCategory:(NSString *)itemCategory;
+- (void)didSelectItemCategories:(NSArray *)itemsCategories;
 
 @end
 
@@ -19,6 +22,9 @@
 @property (nonatomic, strong) NSArray* categories;
 //@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) id <ShowSearchResultDelegate> delegate; //define MyClassDelegate as delegate
+
+@property (nonatomic, assign) BOOL isMultipleSelection;
+@property (nonatomic) NSMutableArray *selectedArray;
 
 @end
 

@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "camera.h"
 #import "SelectGenderViewController.h"
+#import "HLConstant.h"
 @interface SignUpViewController ()<HLSelectGenderDelegate>{
     
     MBProgressHUD *HUD;
@@ -22,7 +23,7 @@
 const CGFloat duration = 0.3;
 
 @implementation SignUpViewController
-@synthesize nameLabel,nameText,emailLabel,emailText,passwordLabel,passwordText,rePasswordLabel,rePasswordText,portraitImage,genderTextField;
+@synthesize nameLabel,nameText,emailLabel,emailText,passwordLabel,passwordText,rePasswordLabel,rePasswordText,portraitImage,genderTextField,genderSegmentControl;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,6 +44,7 @@ const CGFloat duration = 0.3;
     
     self.rePasswordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     
+    self.genderTableView.scrollEnabled = NO;
     // Do any additional setup after loading the view.
 }
 
@@ -67,6 +69,8 @@ const CGFloat duration = 0.3;
         vc.delegate = self;
         [self.navigationController pushViewController:vc animated:YES];
         
+        [textField resignFirstResponder];
+
     }
     else{
         
@@ -74,7 +78,7 @@ const CGFloat duration = 0.3;
         [UIView animateWithDuration:duration animations:^{
             
             CGRect viewFrame = self.view.frame;
-            viewFrame.origin.y = -150;
+            viewFrame.origin.y = -170;
             self.view.frame = viewFrame;
             
             
@@ -84,9 +88,53 @@ const CGFloat duration = 0.3;
     
 }
 
+//delegate method
+
+#pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"genderCell"];
+    
+    if (cell == nil) {
+        
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"genderCell"];
+    }
+    
+    cell.textLabel.text= @"Select Gender";
+    
+    cell.textLabel.textColor = [UIColor lightGrayColor];
+    
+    [cell.textLabel setFont:[UIFont systemFontOfSize:14.0]];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if(indexPath.row == 0){
+        
+        SelectGenderViewController *vc = [[SelectGenderViewController alloc]initWithStyle:UITableViewStyleGrouped];
+        vc.delegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    
+}
+
 -(void)didSelectGender:(NSString *)gender{
     
-    self.genderTextField.text = gender;
+   // self.genderTextField.text = gender;
     
 }
 
@@ -138,9 +186,6 @@ const CGFloat duration = 0.3;
 
 - (IBAction)submit:(id)sender {
     
-    
-    
-    
     if ([self.emailText.text isEqualToString: @""] || [self.nameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""] || [self.genderTextField.text isEqualToString:@""]) {
         
         UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"User info is missing." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -172,8 +217,19 @@ const CGFloat duration = 0.3;
         return;
     }
     
+    NSString *gender;
     
-    UserModel *userModel = [[UserModel alloc]initUserWithEmail:self.emailText.text userName:self.nameText.text password:self.passwordText.text portraitImage:self.portraitImage.image gender:self.genderTextField.text];
+    if(self.genderSegmentControl.selectedSegmentIndex == 0){
+        
+        gender = USER_GENDER_MALE;
+    }
+    else{
+        
+        gender = USER_GENDER_FEMALE;
+        
+    }
+    
+    UserModel *userModel = [[UserModel alloc]initUserWithEmail:self.emailText.text userName:self.nameText.text password:self.passwordText.text portraitImage:self.portraitImage.image gender:gender];
     
     
     [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];

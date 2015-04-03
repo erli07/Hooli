@@ -21,6 +21,7 @@
 
 @property (nonatomic, weak) id<HLActivityCategoryDelegate> delegate;
 @property (nonatomic, assign) BOOL isMultipleSelection;
+@property (nonatomic) NSArray *selectedArray;
 
 
 @end

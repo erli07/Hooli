@@ -38,8 +38,8 @@ typedef void (^UploadFailureBlock) (id error);
 - (void)isOfferLikedByCurrentUser:(OfferModel *)offer block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 - (void)getLikedOffersByUser:(PFUser *)user WithSuccess:(DownloadSuccessBlock)success
                      Failure:(DownloadFailureBlock)failure;
-
-
+- (void)getBidOffersByUser:(PFUser *)user WithSuccess:(DownloadSuccessBlock)success
+                   Failure:(DownloadFailureBlock)failure;
 - (void)followUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 - (void)unFollowUserInBackground:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 - (void)getFollowersByUser:(PFUser *)user block:(void (^)(NSArray *array, NSError *error))completionBlock;

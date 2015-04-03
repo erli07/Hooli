@@ -10,6 +10,7 @@
 #import "FormManager.h"
 #import "OfferCondition.h"
 #import "HLTheme.h"
+#import "HLConstant.h"
 #import "EditProfileDetailViewController.h"
 @interface SelectGenderViewController ()
 @property (nonatomic) NSArray *array;
@@ -23,7 +24,7 @@
     // Uncomment the following line to preserve selection between presentations.
     self.clearsSelectionOnViewWillAppear = YES;
     self.title = @"Gender";
-    self.array = @[@"Male", @"Female"];
+    self.array = @[USER_GENDER_MALE, USER_GENDER_FEMALE];
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }

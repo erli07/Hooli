@@ -31,6 +31,7 @@
         self.password = _password;
         self.portraitImage = _portraitImage;
         self.chattingId = [_email MD5];
+        self.gender = _gender;
         
     }
     return self;

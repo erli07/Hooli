@@ -19,6 +19,7 @@
 @synthesize uploadSuccess = _uploadSuccess;
 @synthesize pageCounter;
 @synthesize followedUserArray;
+@synthesize filterArray = _filterArray;
 
 +(OffersManager *)sharedInstance{
     
@@ -272,6 +273,12 @@
     if(![[HLSettings sharedInstance]showSoldItems]){
         
         [query whereKey:kHLOfferModelKeyOfferStatus notEqualTo:[NSNumber numberWithBool:YES]];
+        
+    }
+    
+    if(_filterArray && [_filterArray count] > 0){
+        
+        [query whereKey:kHLOfferModelKeyCategory containedIn:_filterArray];
         
     }
     
@@ -638,6 +645,8 @@
     [query whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
     
     [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerId]];
+    
+    [query orderByDescending:@"createdAt"];
     
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         

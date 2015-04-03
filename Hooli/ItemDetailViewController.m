@@ -525,8 +525,9 @@
         [[OffersManager sharedInstance]getLastestBillWithOfferId:self.offerId block:^(PFObject *object, NSError *error) {
             
             if(object){
+
                 
-                [self.showBidButton setTitle:[NSString stringWithFormat:@"Lastest Bid: %@", [object objectForKey:kHLNotificationContentKey]] forState:UIControlStateNormal];
+                [self.showBidButton setTitle:[NSString stringWithFormat:@"Latest Bid: %@", [object objectForKey:kHLNotificationContentKey]] forState:UIControlStateNormal];
             }
             else{
                 
@@ -667,7 +668,7 @@
                     
                     if (succeeded) {
                         
-                        [self.navigationController popToRootViewControllerAnimated:YES];
+                       // [self.navigationController popToRootViewControllerAnimated:YES];
                         
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations" message:@"Succesfully made offer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                         

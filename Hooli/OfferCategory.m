@@ -27,6 +27,6 @@
     
   //  return [[NSArray alloc]initWithObjects:kHLOfferCategoryHomeGoods,kHLOfferCategoryFurniture,kHLOfferCategoryBabyKids,kHLOfferCategoryBooks,kHLOfferCategoryWomenClothes,kHLOfferCategoryMenClothes,kHLOfferCategoryCollectiblesArt,kHLOfferCategoryElectronics,kHLOfferCategorySportingGoods,kHLOfferCategoryOther,nil];
     
-        return [[NSArray alloc]initWithObjects:kHLOfferCategoryFurniture,kHLOfferCategoryHomeGoods,kHLOfferCategoryBooks,kHLOfferCategoryWomenClothes,kHLOfferCategoryMenClothes,kHLOfferCategoryElectronics,kHLOfferCategorySportingGoods,kHLOfferCategoryBabyKids,kHLOfferCategoryOther,nil];
+        return [[NSArray alloc]initWithObjects:@"All",kHLOfferCategoryFurniture,kHLOfferCategoryHomeGoods,kHLOfferCategoryBooks,kHLOfferCategoryWomenClothes,kHLOfferCategoryMenClothes,kHLOfferCategoryElectronics,kHLOfferCategorySportingGoods,kHLOfferCategoryBabyKids,kHLOfferCategoryOther,nil];
 }
 @end

@@ -9,6 +9,7 @@
 #import "ActivityLocationViewController.h"
 #import "LocationManager.h"
 #import "LocationPinAnnotation.h"
+#import "MBProgressHUD.h"
 @interface ActivityLocationViewController ()<MKMapViewDelegate>
 @property (nonatomic, assign) MKCoordinateRegion boundingRegion;
 @property (nonatomic) CLLocationCoordinate2D userLocation;
@@ -65,16 +66,24 @@
         [self dropPinOnMap: CLLocationCoordinate2DMake(_eventGeopoint.latitude, _eventGeopoint.longitude)];
         
     }
+    
+    if(_eventLocationText){
+        
+        _searchBar.text = _eventLocationText;
+    }
 
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     
-    if(_eventLocation){
-    
-    [self.delegate didSelectEventLocation:_eventLocation locationString:_eventLocationText];
+    if(!_eventLocationText){
+        
+        _eventLocationText = self.searchBar.text;
         
     }
+    
+    [self.delegate didSelectEventLocation:_eventLocation locationString:_eventLocationText];
+    
 }
 
 -(void)tapEventOccured:(id)sender{
@@ -97,6 +106,8 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+
     [self convertAddressToCoordinate:searchBar.text block:^(CLLocationCoordinate2D coordinate, NSError *error) {
         
         if(!error){
@@ -193,6 +204,9 @@
     if(center.longitude != 0 && center.latitude != 0){
         
         completionBlock(center,nil);
+        
+        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
         
     }
     

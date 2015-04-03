@@ -75,7 +75,7 @@
         
         UserModel *userModel =  [[UserModel alloc]initUserWithPFObject:object];
         
-        if([[object objectForKey:kHLUserModelKeyGender] isEqualToString:@"Male"]){
+        if([[object objectForKey:kHLUserModelKeyGender] isEqualToString:USER_GENDER_MALE]){
             
             self.genderImage.image = [UIImage imageNamed:@"male_symbol"];
             

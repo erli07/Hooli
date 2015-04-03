@@ -15,12 +15,16 @@
 #import "LocationManager.h"
 #import "ActivityCategoryViewController.h"
 #import "HomeViewViewController.h"
+#import "PAPLoadMoreCell.h"
 @interface ActivityListViewController ()<HLCreateActivityDelegate,HLActivityCategoryDelegate>
 @property (nonatomic) NSArray *eventCategories;
+@property (nonatomic, strong) UIView *blankView;
+@property (nonatomic, strong) NSDate *lastRefresh;
+
 @end
 
 @implementation ActivityListViewController
-@synthesize aObject;
+@synthesize aObject,lastRefresh,blankView;
 @synthesize eventCategories = _eventCategories;
 
 
@@ -38,7 +42,7 @@
         self.pullToRefreshEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 10;
+        self.objectsPerPage = 5;
         
         // The Loading text clashes with the dark Anypic design
         self.loadingViewEnabled = NO;
@@ -60,7 +64,7 @@
     
     [query includeKey:kHLEventKeyHost];
     [query includeKey:kHLEventKeyImages];
-    [query orderByDescending:@"createdAt"];
+    [query orderByDescending:@"updatedAt"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
@@ -76,6 +80,23 @@
 - (void)objectsDidLoad:(NSError *)error {
     
     [super objectsDidLoad:error];
+    
+    if (self.objects.count == 0 && ![[self queryForTable] hasCachedResult]) {
+        self.tableView.scrollEnabled = NO;
+        //  self.navigationController.tabBarItem.badgeValue = nil;
+        
+        if (!self.blankView.superview) {
+            self.blankView.alpha = 0.0f;
+            self.tableView.tableHeaderView = self.blankView;
+            [UIView animateWithDuration:0.200f animations:^{
+                self.blankView.alpha = 1.0f;
+            }];
+        }
+    } else {
+        self.tableView.tableHeaderView = nil;
+        self.tableView.scrollEnabled = YES;
+        
+    }
     
 }
 
@@ -98,6 +119,15 @@
     
     self.navigationController.navigationBarHidden = NO;
     self.title = @"Activities";
+    
+    self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
+    [self.blankView setBackgroundColor:[UIColor whiteColor]];
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    noContentLabel.text = @"No content at the moment";
+    noContentLabel.textColor = [UIColor lightGrayColor];
+    noContentLabel.font = [UIFont systemFontOfSize:17.0f];
+    noContentLabel.textAlignment = NSTextAlignmentCenter;
+    [self.blankView addSubview:noContentLabel];
     
     [self getdate];
     // Do any additional setup after loading the view.
@@ -166,6 +196,7 @@
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     ActivityCategoryViewController *categoryVC = [detailSb instantiateViewControllerWithIdentifier:@"ActivityCategoryViewController"];
     categoryVC.isMultipleSelection = YES;
+    categoryVC.selectedArray = _eventCategories;
     categoryVC.hidesBottomBarWhenPushed = YES;
     categoryVC.delegate = self;
     [self.navigationController pushViewController:categoryVC animated:YES];
@@ -220,11 +251,22 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self setNavBarVisible:YES animated:NO];
     
+    
     if([PFUser currentUser]){
+        
+        if (indexPath.row < self.objects.count) {
+        
         ActivityDetailViewController *detailVC = [[ActivityDetailViewController alloc]init];
         detailVC.activityDetail = [self.objects objectAtIndex:indexPath.row];
         detailVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:detailVC animated:YES];
+            
+        }
+        else if (self.paginationEnabled) {
+            
+            [self loadNextPage];
+        }
+        
     }
     else{
         
@@ -235,6 +277,21 @@
     }
     //[self performSegueWithIdentifier:@"seeActivityDetail" sender:self];
     
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
+    
+    PAPLoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
+    if (!cell) {
+        cell = [[PAPLoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
+        cell.selectionStyle =UITableViewCellSelectionStyleNone;
+      //  cell.separatorImageTop.image = [UIImage imageNamed:@"SeparatorTimelineDark.png"];
+        cell.hideSeparatorBottom = YES;
+        cell.mainView.backgroundColor = [UIColor clearColor];
+    }
+    return cell;
 }
 
 

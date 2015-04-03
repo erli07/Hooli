@@ -18,6 +18,9 @@
 #import "ActivityListViewController.h"
 #import "HSDatePickerViewController.h"
 #import "HomeViewViewController.h"
+#import "ChatConstant.h"
+#import "messages.h"
+#import "ProgressHUD.h"
 @interface CreateActivityViewController ()<UIActionSheetDelegate,UIAlertViewDelegate, HSDatePickerViewControllerDelegate>
 //@property (nonatomic) NSMutableArray *detailsArray;
 @property (nonatomic) NSArray *titlesArray;
@@ -28,6 +31,7 @@
 @property (nonatomic) CLLocation *eventLocation;
 @property (nonatomic) PFGeoPoint *eventGeopoint;
 @property (nonatomic) NSString *eventCategory;
+
 
 
 @end
@@ -42,6 +46,10 @@
 @synthesize eventGeopoint = _eventGeopoint;
 @synthesize eventObject = _eventObject;
 @synthesize eventCategory = _eventCategory;
+@synthesize eventLocationLabel = _eventLocationLabel;
+@synthesize imageButton1 = _imageButton1;
+@synthesize imageButton2 = _imageButton2;
+@synthesize imageButton3 = _imageButton3;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -73,13 +81,18 @@
     
     _imagesArray = [[NSMutableArray alloc]init];
     
+    [self configureEventObject:_eventObject];
+    
+    _imageButton1.hidden = NO;
+    _imageButton2.hidden = YES;
+    _imageButton3.hidden = YES;
+
     // Do any additional setup after loading the view.
 }
 
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [self configureEventObject:_eventObject];
     
 }
 
@@ -108,21 +121,52 @@
         PFObject *imagesObject = [eventObject objectForKey:kHLEventKeyImages];
         
         PFFile *imageFile0 =[imagesObject objectForKey:@"imageFile0"];
+        PFFile *imageFile1 =[imagesObject objectForKey:@"imageFile1"];
+        PFFile *imageFile2 =[imagesObject objectForKey:@"imageFile2"];
+        
         if(imageFile0){
             
-            [_imagesArray addObject:[UIImage imageWithData:[imageFile0 getData]]];
-            [self.imageButton1 setImage:[UIImage imageWithData:[imageFile0 getData]] forState:UIControlStateNormal];
+            [imageFile0 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                
+                [_imagesArray addObject:[UIImage imageWithData:data]];
+                
+                self.imageButton1.imageView.image = nil;
+                
+                [self configureImageButtons];
+
+                
+            }];
         }
-        PFFile *imageFile1 =[imagesObject objectForKey:@"imageFile1"];
+        
         if(imageFile1){
-            [_imagesArray addObject:[UIImage imageWithData:[imageFile1 getData]]];
-            [self.imageButton2 setImage:[UIImage imageWithData:[imageFile1 getData]] forState:UIControlStateNormal];
+            
+            [imageFile1 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                
+                [_imagesArray addObject:[UIImage imageWithData:data]];
+                
+                self.imageButton2.imageView.image = nil;
+
+                [self configureImageButtons];
+
+                
+            }];
         }
-        PFFile *imageFile2 =[imagesObject objectForKey:@"imageFile2"];
+      
         if(imageFile2){
-            [_imagesArray addObject:[UIImage imageWithData:[imageFile2 getData]]];
-            [self.imageButton3 setImage:[UIImage imageWithData:[imageFile2 getData]] forState:UIControlStateNormal];
+            
+            [imageFile2 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                
+                [_imagesArray addObject:[UIImage imageWithData:data]];
+                
+                self.imageButton3.imageView.image = nil;
+
+                [self configureImageButtons];
+
+
+            }];
+            
         }
+        
         
         [_submitButton setTitle:@"发布更新" forState:UIControlStateNormal];
         
@@ -151,7 +195,8 @@
         return NO;
         
     }
-    else if([_imagesArray count] == 0){
+    else if(_imagesArray == nil || [_imagesArray count] == 0){
+
         
         UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Image missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
@@ -178,7 +223,96 @@
     
 }
 
+-(void)configureImageButtons{
+    
+    [self.imageButton1 setBackgroundImage:nil forState:UIControlStateNormal];
+    
+    [self.imageButton1 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
+    
+    [self.imageButton2 setBackgroundImage:nil forState:UIControlStateNormal];
+    
+    [self.imageButton2 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
+    
+    [self.imageButton3 setBackgroundImage:nil forState:UIControlStateNormal];
+    
+    [self.imageButton3 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
+    
+    for (int i = 0; i< [_imagesArray count]; i++) {
+        
+        switch (i) {
+            case 0:
+                
+                if( [_imagesArray objectAtIndex:0] != nil){
+                    
+                    [_imageButton1 setBackgroundImage:[_imagesArray objectAtIndex:0] forState:UIControlStateNormal];
+                    [_imageButton1 setTitle:@"" forState:UIControlStateNormal];
+                    [_imageButton1 setImage:nil forState:UIControlStateNormal];
+                    
+                    _imageButton1.hidden = NO;
+                    _imageButton2.hidden = NO;
+                    _imageButton3.hidden = YES;
+                    
+                    
+                }
+                else{
+                    
+                    _imageButton1.hidden = NO;
+                    _imageButton2.hidden = YES;
+                    _imageButton3.hidden = YES;
+                    
+                }
+                
+                break;
+            case 1:
+                if( [_imagesArray objectAtIndex:1] != nil){
+                    
+                    [_imageButton2 setBackgroundImage:[_imagesArray objectAtIndex:1] forState:UIControlStateNormal];
+                    [_imageButton2 setTitle:@"" forState:UIControlStateNormal];
+                    [_imageButton2 setImage:nil forState:UIControlStateNormal];
+                    
+                    _imageButton1.hidden = NO;
+                    _imageButton2.hidden = NO;
+                    _imageButton3.hidden = NO;
+                    
+                }
+                else{
+                    
+                    _imageButton1.hidden = NO;
+                    _imageButton2.hidden = NO;
+                    _imageButton3.hidden = YES;
+                    
+                }
+                break;
+            case 2:
+                if( [_imagesArray objectAtIndex:1] != nil){
+                    
+                    [_imageButton3 setBackgroundImage:[_imagesArray objectAtIndex:2] forState:UIControlStateNormal];
+                    [_imageButton3 setTitle:@"" forState:UIControlStateNormal];
+                    [_imageButton3 setImage:nil forState:UIControlStateNormal];
+                    
+                    _imageButton1.hidden = NO;
+                    _imageButton2.hidden = NO;
+                    _imageButton3.hidden = NO;
+                }
+                else{
+                    
+                    _imageButton1.hidden = NO;
+                    _imageButton2.hidden = NO;
+                    _imageButton3.hidden = NO;
+                    
+                }
+                break;
 
+                
+            default:
+                break;
+        }
+        
+        
+    }
+    
+    
+}
 
 
 - (IBAction)submitActivity:(id)sender {
@@ -244,6 +378,7 @@
                     [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
                     [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
                     [eventObject setObject:self.eventDateField.text forKey:kHLEventKeyDateText];
+                    [eventObject setObject:[[NSDate alloc]init] forKey:@"updatedAt"];
                     
                     if(_eventDate){
                         
@@ -263,7 +398,7 @@
                     NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:0]WithCompression:0.1f];
                     PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:imageData];
                     [eventObject setObject:thumbnailFile forKey:kHLEventKeyThumbnail];
-                    [eventObject setObject:kHLEventCategoryEating forKey:kHLEventKeyCategory];
+                    [eventObject setObject:self.eventCategoryLabel.text forKey:kHLEventKeyCategory];
                     
                     [eventObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                         
@@ -285,6 +420,8 @@
                                     
                                     if(succeeded){
                                         
+                                        [self sendWelcomeMessage:eventObject];
+                                        
                                         UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                         
                                         [alert show];
@@ -301,7 +438,7 @@
                             }
                             else{
                                 
-                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"更新成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"更新成功！不要忘了通知你的活动成员哦^^" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                 
                                 [alert show];
                                 
@@ -345,19 +482,31 @@
             
             if(_currentButtonIndex == 0){
                 
-                [self.imageButton1 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
+                [_imagesArray removeObjectAtIndex:0];
                 
+                [self.imageButton1 setBackgroundImage:nil forState:UIControlStateNormal];
+                
+                [self.imageButton1 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
             }
             else if(_currentButtonIndex == 1){
                 
-                [self.imageButton2 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
+                [_imagesArray removeObjectAtIndex:1];
                 
+                [self.imageButton2 setBackgroundImage:nil forState:UIControlStateNormal];
+                
+                [self.imageButton2 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
             }
             else{
                 
-                [self.imageButton3 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
+                [_imagesArray removeObjectAtIndex:2];
                 
+                [self.imageButton3 setBackgroundImage:nil forState:UIControlStateNormal];
+                
+                [self.imageButton3 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
             }
+            
+            [self configureImageButtons];
+
         }
     }
     else if(alertView.tag == 2){
@@ -530,6 +679,28 @@
     self.eventMemberNumberField.text = @"人数不限";
     
 }
+
+-(void)sendWelcomeMessage:(PFObject *)eventObject{
+   
+    CreateMessageItem([PFUser currentUser], eventObject.objectId, [eventObject objectForKey:kHLEventKeyTitle], eventObject);
+    
+    PFObject *object = [PFObject objectWithClassName:PF_CHAT_CLASS_NAME];
+    object[PF_CHAT_USER] = [PFUser currentUser];
+    object[PF_CHAT_GROUPID] = eventObject.objectId;
+    object[PF_CHAT_TEXT] = @"欢迎！";
+
+    [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+     {
+         if (error == nil)
+         {
+         }
+         else [ProgressHUD showError:@"Network error."];;
+     }];
+    
+    
+}
+
+
 - (IBAction)inviteFriends:(id)sender {
     
     
@@ -558,6 +729,7 @@
         ActivityLocationViewController *locationVC = segue.destinationViewController;
         locationVC.showSearchBar = YES;
         locationVC.eventGeopoint = _eventGeopoint;
+        locationVC.eventLocationText = _eventLocationField.text;
         locationVC.delegate = self;
         
     }
@@ -573,7 +745,7 @@
 
 - (IBAction)firstImagePressed:(id)sender {
     
-    if(_imageButton1.imageView.frame.size.width == _imageButton1.frame.size.width){
+    if(!_imageButton1.imageView.image){
         
         _currentButtonIndex = 0;
         
@@ -591,7 +763,7 @@
 }
 - (IBAction)secondImagePressed:(id)sender {
     
-    if(_imageButton2.imageView.frame.size.width == _imageButton2.frame.size.width){
+    if(!_imageButton2.imageView.image){
         
         _currentButtonIndex = 1;
         
@@ -609,7 +781,7 @@
 }
 - (IBAction)thirdImagePressed:(id)sender {
     
-    if(_imageButton3.imageView.frame.size.width == _imageButton3.frame.size.width){
+    if(!_imageButton3.imageView.image){
         
         _currentButtonIndex = 2;
         
@@ -625,11 +797,10 @@
     }
     
 }
-- (IBAction)fourthImagePressed:(id)sender {
-    
-    _currentButtonIndex = 3;
-    [self showActionSheetWithCameraOptions];
-    
+//- (IBAction)fourthImagePressed:(id)sender {
+//    
+//    _currentButtonIndex = 3;
+//    [self showActionSheetWithCameraOptions];
     //    if(_imageButton4.imageView.frame.size.width == _imageButton4.frame.size.width){
     //
     //        _currentButtonIndex = 3;
@@ -644,8 +815,7 @@
     //        [self showActionSheetWithCameraOptions];
     //
     //    }
-    
-}
+//}
 
 -(void)showActionSheetWithCameraOptions{
     
@@ -703,7 +873,9 @@
     
     if(eventCategory){
         
-        self.eventCategoryLabel.text = eventCategory;
+        _eventCategoryLabel.text = eventCategory;
+        
+     //   [_eventObject setObject:eventCategory forKey:kHLEventKeyCategory];
         
     }
     
@@ -718,6 +890,7 @@
         
         self.eventLocationField.text = eventLocationText;
         
+      //  [_eventObject setObject:eventLocationText forKey:kHLEventKeyEventLocation];
         
     }
     
@@ -728,6 +901,9 @@
         _eventGeopoint.longitude = eventLocation.coordinate.longitude;
         
         _eventGeopoint.latitude = eventLocation.coordinate.latitude;
+        
+      //  [_eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
+
     }
     
     
@@ -770,19 +946,26 @@
     
     if(_currentButtonIndex == 0){
         
+        _imageButton2.hidden = NO;
+
         [_imagesArray addObject:compressedImage];
         [self.imageButton1 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton1 setTitle:@"" forState:UIControlStateNormal];
         [self.imageButton1 setImage:nil forState:UIControlStateNormal];
         
+         self.imageButton1.imageView.image = nil;
+        
     }
     else if(_currentButtonIndex == 1){
         
+        _imageButton3.hidden = NO;
+
         [_imagesArray addObject:compressedImage];
         [self.imageButton2 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton2 setTitle:@"" forState:UIControlStateNormal];
         [self.imageButton2 setImage:nil forState:UIControlStateNormal];
-        
+        self.imageButton2.imageView.image = nil;
+
         
     }
     else if(_currentButtonIndex == 2){
@@ -791,17 +974,9 @@
         [self.imageButton3 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton3 setTitle:@"" forState:UIControlStateNormal];
         [self.imageButton3 setImage:nil forState:UIControlStateNormal];
-        
+        self.imageButton3.imageView.image = nil;
+
     }
-    else if(_currentButtonIndex == 3){
-        
-        [_imagesArray addObject:compressedImage];
-        [self.imageButton4 setBackgroundImage:compressedImage forState:UIControlStateNormal];
-        [self.imageButton4 setTitle:@"" forState:UIControlStateNormal];
-        [self.imageButton4 setImage:nil forState:UIControlStateNormal];
-        
-    }
-    
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     

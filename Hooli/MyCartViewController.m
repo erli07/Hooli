@@ -60,6 +60,10 @@ static NSString * const reuseIdentifier = @"Cell";
             
             [self getLikedItems];
         }
+        else if(self.segmentedControl.selectedSegmentIndex == 2){
+            
+            [self getBidItems];
+        }
         
         [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
 
@@ -125,6 +129,22 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
+-(void)getBidItems{
+    
+   // self.collectionView.disableRefreshFlag = NO;
+    
+    [[OffersManager sharedInstance]setPageCounter:0];
+    
+    [[ActivityManager sharedInstance]getBidOffersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
+        
+        [self.collectionView reloadDataByOffersArray:downloadObjects];
+        
+    } Failure:^(id error) {
+        
+        
+    }];
+    
+}
 
 #pragma mark collectionview delegate
 
@@ -162,7 +182,7 @@ static NSString * const reuseIdentifier = @"Cell";
         [actionSheet showInView:self.view];
         
     }
-    else if(self.segmentedControl.selectedSegmentIndex == 1){
+    else{
         
         ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
         UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
@@ -179,10 +199,20 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if(buttonIndex == 0){
         
-        
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to mark this item as unsold? All the credits you have earned will be returned." delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-        
-        [alertView show];
+        [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
+            
+            //return all credits
+            //          [[ActivityManager sharedInstance]returnCreditsWithOffer:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_currentOfferId]];
+            
+            [self getGivingItems];
+            
+            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+            
+        }];
+
+//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to mark this item as sold?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+//        
+//        [alertView show];
         
         
     }
@@ -245,6 +275,10 @@ static NSString * const reuseIdentifier = @"Cell";
     else if(self.segmentedControl.selectedSegmentIndex == 1){
         
         [self getLikedItems];
+    }
+    else if(self.segmentedControl.selectedSegmentIndex == 2){
+        
+        [self getBidItems];
     }
     
 }

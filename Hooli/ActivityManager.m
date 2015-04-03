@@ -155,6 +155,51 @@
     }];
     
 }
+- (void)getBidOffersByUser:(PFUser *)user WithSuccess:(DownloadSuccessBlock)success
+                     Failure:(DownloadFailureBlock)failure{
+    
+    _downloadSuccess = success ;
+    _downloadFailure = failure;
+    
+    NSMutableArray *bidOffers = [NSMutableArray array];
+    
+    PFQuery *queryBid = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [queryBid whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
+    [queryBid whereKey:kHLNotificationFromUserKey equalTo:user];
+    [queryBid includeKey:kHLNotificationOfferKey];
+    [queryBid findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            for (PFObject *notif in objects) {
+                
+                PFObject *offerOriginal = [notif objectForKey:kHLNotificationOfferKey];
+                
+                if(offerOriginal){
+                    
+                    OfferModel *offerModel = [[OfferModel alloc]initOfferWithPFObject:offerOriginal];
+                    
+                    [bidOffers addObject:offerModel];
+                    
+                }
+                
+            }
+            
+            _downloadSuccess(bidOffers);
+            
+            
+        }
+        else{
+            
+            
+            _downloadFailure(nil);
+            
+        }
+        
+        
+        
+    }];
+}
+
 
 - (void)getLikedOffersByUser:(PFUser *)user WithSuccess:(DownloadSuccessBlock)success
                      Failure:(DownloadFailureBlock)failure{

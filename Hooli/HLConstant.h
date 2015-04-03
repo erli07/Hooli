@@ -17,6 +17,9 @@
 #define     ITEM_CONDITION_RARELY_USED @"Rarely used"
 #define     ITEM_CONDITION_USED @"USED"
 
+#define     USER_GENDER_MALE @"Male"
+#define     USER_GENDER_FEMALE @"Female"
+
 #define     TAB_BAR_INDEX_ITEM_PAGE 0
 #define     TAB_BAR_INDEX_MESSAGES 1
 #define     TAB_BAR_INDEX_NOTIFICATION 2

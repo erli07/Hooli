@@ -16,6 +16,8 @@
 @end
 
 @implementation SelectCategoryTableViewController
+@synthesize selectedArray = _selectedArray;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -57,7 +59,7 @@
     
     NSString *category= [[OfferCategory allCategories]objectAtIndex:indexPath.row];
     
-    [self.delegate didSelectEventCategory:category];
+    [self.delegate didSelectItemCategory:category];
     
     [self.navigationController popViewControllerAnimated:YES];
     //[[HLSettings sharedInstance]setCategory:categoryArray];

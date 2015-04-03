@@ -29,6 +29,7 @@ typedef void (^UploadFailureBlock) (id error);
 @property (nonatomic, strong) UploadSuccessBlock uploadSuccess;
 @property (nonatomic, strong)  NSMutableArray *retrivedObjects;
 @property (nonatomic, strong)  NSDictionary *filterDictionary;
+@property (nonatomic) NSArray *filterArray;
 @property (nonatomic, strong)  NSMutableArray *offersArray;
 @property (nonatomic, assign) NSInteger pageCounter;
 @property (nonatomic, strong) NSArray *followedUserArray;
