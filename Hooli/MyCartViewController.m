@@ -47,8 +47,8 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-
-
+    
+    
     if([[HLSettings sharedInstance]isRefreshNeeded]){
         
         if(self.segmentedControl.selectedSegmentIndex == 0){
@@ -66,11 +66,13 @@ static NSString * const reuseIdentifier = @"Cell";
         }
         
         [[HLSettings sharedInstance]setIsRefreshNeeded:NO];
-
+        
     }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    
+    [[OffersManager sharedInstance]clearData];
     
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
     
@@ -106,17 +108,17 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)getLikedItems{
     
     self.collectionView.disableRefreshFlag = YES;
-
+    
     [[OffersManager sharedInstance]setPageCounter:0];
-
-//    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                      kHLFilterDictionarySearchKeyUserLikes, kHLFilterDictionarySearchType,
-//                                      [PFUser currentUser],kHLFilterDictionarySearchKeyUser,nil];
-//    
-//    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
-//
-//    [self.collectionView updateDataFromCloud];
-
+    
+    //    NSDictionary *filterDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+    //                                      kHLFilterDictionarySearchKeyUserLikes, kHLFilterDictionarySearchType,
+    //                                      [PFUser currentUser],kHLFilterDictionarySearchKeyUser,nil];
+    //
+    //    [[OffersManager sharedInstance]setFilterDictionary:filterDictionary];
+    //
+    //    [self.collectionView updateDataFromCloud];
+    
     [[ActivityManager sharedInstance]getLikedOffersByUser:[PFUser currentUser] WithSuccess:^(id downloadObjects) {
         
         [self.collectionView reloadDataByOffersArray:downloadObjects];
@@ -131,7 +133,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)getBidItems{
     
-   // self.collectionView.disableRefreshFlag = NO;
+    // self.collectionView.disableRefreshFlag = NO;
     
     [[OffersManager sharedInstance]setPageCounter:0];
     
@@ -209,22 +211,19 @@ static NSString * const reuseIdentifier = @"Cell";
             [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
             
         }];
-
-//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to mark this item as sold?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-//        
-//        [alertView show];
+        
+        //        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to mark this item as sold?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        //
+        //        [alertView show];
         
         
     }
     else if(buttonIndex == 1){
         
-        [[OffersManager sharedInstance]deleteOfferModelWithOfferId:_currentOfferId block:^(BOOL succeeded, NSError *error) {
-            
-            [self getGivingItems];
-            
-            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-            
-        }];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to delete this item?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        alertView.tag = 1;
+        [alertView show];
+        
         
     }
     
@@ -233,24 +232,37 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
+    if(alertView.tag == 0){
+        
+        if(buttonIndex== 1){
+            
+            [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
+                
+                [self getGivingItems];
+                
+                [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+                
+            }];
+            
+        }
+    }
+    else{
+        
+        if(buttonIndex== 1){
+            
+            [[OffersManager sharedInstance]deleteOfferModelWithOfferId:_currentOfferId block:^(BOOL succeeded, NSError *error) {
+                
+                [self getGivingItems];
+                
+                [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadFeedObjectsNotification object:self];
+                
+            }];
+        }
+    }
     
-  if(buttonIndex== 1){
-      
-      
-      [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
-          
-          //return all credits
-//          [[ActivityManager sharedInstance]returnCreditsWithOffer:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_currentOfferId]];
-          
-          [self getGivingItems];
-          
-          [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-          
-      }];
-      
-  }
     
-  
 }
 
 #pragma scrollview delegate

@@ -39,10 +39,38 @@
 
 }
 
+- (BOOL)getPushFlag{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    return [ud boolForKey:@"PUSH_ENABLE"];
+}
+
+- (void)savePushFlag:(BOOL)pushFlag
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setBool:pushFlag forKey:@"PUSH_ENABLE"];
+    [ud synchronize];
+    
+}
 - (NSArray *)getTitlesArray{
     
     return @[@"Discover", @"Messages",@"Notifications",@"Profile"];
     
+}
+
++(NSString *)releaseNumber{
+    
+    NSDictionary *dictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = [dictionary objectForKey:@"CFBundleShortVersionString"];
+    return version;
+    
+}
+
++(NSString *)buildNumber{
+    
+    NSDictionary *dictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *build = [dictionary objectForKey:@"CFBundleVersion"];
+    return build;
 }
 
 @end

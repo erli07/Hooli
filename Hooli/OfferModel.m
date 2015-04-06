@@ -30,7 +30,8 @@
                    category:(NSString *)offerCategory
                 description:(NSString *)offerDescription
                    location:(CLLocationCoordinate2D) offerLocation
-                isOfferSold:(NSNumber *)isOfferSold{
+                isOfferSold:(NSNumber *)isOfferSold
+                  condition:(NSString *)condition{
     
     self = [super init];
     if(self)
@@ -46,43 +47,12 @@
         _geoPoint.latitude = offerLocation.latitude;
         _geoPoint.longitude = offerLocation.longitude;
         _isOfferSold = isOfferSold;
+        _offerCondition = condition;
     }
     return self;
     
     
 }
-
--(id)initOfferModelWithUser:(PFObject *)user
-                 imageArray:(NSArray *)imageArray
-                      price:(NSString *)offerPrice
-                  offerName:(NSString *)offerName
-                   category:(NSString *)offerCategory
-                description:(NSString *)offerDescription
-                   location:(CLLocationCoordinate2D) offerLocation
-                isOfferSold:(NSNumber *)isOfferSold{
-    
-    self = [super init];
-    if(self)
-    {
-        _imageArray = imageArray;
-        _user = user;
-        _offerName = offerName;
-        _offerCategory = offerCategory;
-        _offerDescription = offerDescription;
-        _offerPrice = offerPrice;
-        _offerLocation = offerLocation;
-        _geoPoint = [[PFGeoPoint alloc]init];
-        _geoPoint.latitude = offerLocation.latitude;
-        _geoPoint.longitude = offerLocation.longitude;
-        _isOfferSold = isOfferSold;
-        _image = [imageArray objectAtIndex:0];
-        
-    }
-    return self;
-    
-    
-}
-
 
 -(id)initOfferModelWithUser:(PFObject *)user
                  imageArray:(NSArray *)imageArray
@@ -92,7 +62,7 @@
                 description:(NSString *)offerDescription
                    location:(CLLocationCoordinate2D) offerLocation
                 isOfferSold:(NSNumber *)isOfferSold
-                  condition:(NSString *)offerCondition{
+                  condition:(NSString *)condition{
     
     self = [super init];
     if(self)
@@ -109,13 +79,16 @@
         _geoPoint.longitude = offerLocation.longitude;
         _isOfferSold = isOfferSold;
         _image = [imageArray objectAtIndex:0];
-        _offerCondition = offerCondition;
+        _offerCondition = condition;
         
     }
     return self;
     
     
 }
+
+
+
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
@@ -125,7 +98,8 @@
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
                       location:(CLLocationCoordinate2D) offerLocation
-                   isOfferSold:(NSNumber *)isOfferSold {
+                   isOfferSold:(NSNumber *)isOfferSold
+                     condition:(NSString *)condition{
     
     self = [super init];
     if(self)
@@ -139,6 +113,7 @@
         _offerPrice = offerPrice;
         _offerLocation = offerLocation;
         _isOfferSold = isOfferSold;
+        _offerCondition = condition;
         
     }
     return self;
@@ -152,7 +127,9 @@
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
                       location:(CLLocationCoordinate2D) offerLocation
-                   isOfferSold:(NSNumber *)isOfferSold {
+                       address:(NSString *)address
+                   isOfferSold:(NSNumber *)isOfferSold
+                     condition:(NSString *)condition{
     
     self = [super init];
     if(self)
@@ -167,6 +144,7 @@
         _offerLocation = offerLocation;
         _isOfferSold = isOfferSold;
         _image = [imageArray objectAtIndex:0];
+        _offerCondition = condition;
     }
     return self;
 }
@@ -180,11 +158,12 @@
     NSString *description = [object objectForKey:kHLOfferModelKeyDescription];
     NSString *offerId = [object objectId];
     NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
-    PFGeoPoint *geoPoint =  [object objectForKeyedSubscript:kHLOfferModelKeyGeoPoint];
+    PFGeoPoint *geoPoint =  [object objectForKey:kHLOfferModelKeyGeoPoint];
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
-    NSNumber *offerStatus = [object objectForKeyedSubscript:kHLOfferModelKeyOfferStatus];
+    NSNumber *offerStatus = [object objectForKey:kHLOfferModelKeyOfferStatus];
+    NSString *condition = [object objectForKey:kHLOfferModelKeyCondition];
     
-    return  [self initOfferModelWithOfferId:offerId user:user imageFile:theImage offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus];
+    return  [self initOfferModelWithOfferId:offerId user:user imageFile:theImage offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus condition:condition];
 }
 
 -(id)initOfferDetailsWithPFObject:(PFObject *)object{
@@ -214,11 +193,11 @@
     NSString *description = [object objectForKey:kHLOfferModelKeyDescription];
     NSString *offerId = [object objectId];
     NSString *offerName = [object objectForKey:kHLOfferModelKeyOfferName];
-    PFGeoPoint *geoPoint =  [object objectForKeyedSubscript:kHLOfferModelKeyGeoPoint];
+    PFGeoPoint *geoPoint =  [object objectForKey:kHLOfferModelKeyGeoPoint];
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
-    NSNumber *offerStatus = [object objectForKeyedSubscript:kHLOfferModelKeyOfferStatus];
-
-    return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus];
+    NSNumber *offerStatus = [object objectForKey:kHLOfferModelKeyOfferStatus];
+    NSString *condition = [object objectForKey:kHLOfferModelKeyCondition];
+    return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus condition:condition];
 }
 
 

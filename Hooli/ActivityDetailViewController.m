@@ -12,7 +12,6 @@
 #import "ItemCommentViewController.h"
 #import "LocationManager.h"
 #import "HLTheme.h"
-#import "ActivityDetailCell.h"
 #import "ActivityLocationViewController.h"
 #import "HLConstant.h"
 #import "UserCartViewController.h"
@@ -27,12 +26,13 @@
 #import "messages.h"
 #import "EventManager.h"
 #import "ActivityListViewController.h"
+#import <MessageUI/MessageUI.h>
 
 #define text_color [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
 
 
-@interface ActivityDetailViewController ()
+@interface ActivityDetailViewController ()<UIActionSheetDelegate,MFMailComposeViewControllerDelegate>
 @property (nonatomic) NSArray *detailArray;
 @property (nonatomic) NSMutableArray *hostArray;
 @property (nonatomic) NSMutableArray *participantArray;
@@ -65,10 +65,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"详细";
+    self.title = @"Detail";
     
-   // [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
+    // [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
     // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
@@ -102,14 +101,12 @@
     
     [_parentScrollView addSubview:_memberTableView.view];
     
-    [self reloadContentsize];
-    
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
-        UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareToFriends)];
+    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheetOptions)];
     
-//    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookMarkEvent)];
+    //    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookMarkEvent)];
     
     //  NSArray *buttonsArray = @[rightBarButton1, rightBarButton2];
     
@@ -121,9 +118,6 @@
     
 }
 
--(void)reloadContentsize{
-    
-}
 
 -(void)configureBottomButtons{
     
@@ -135,7 +129,7 @@
     
     [_inviteButton setTitle:@"邀请" forState:UIControlStateNormal];
     
-   // _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
+    // _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
     _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(30, 520, 260, 40)];
     
     [_joinButton setBackgroundColor:[HLTheme buttonColor]];
@@ -146,11 +140,11 @@
     _inviteButton.layer.cornerRadius = 10.0f;
     _inviteButton.layer.masksToBounds = YES;
     
-   // [self.view addSubview:_inviteButton];
+    // [self.view addSubview:_inviteButton];
     
     [self.view addSubview:_joinButton];
     
- //   [_inviteButton bringSubviewToFront:_activityDetailTableView];
+    //   [_inviteButton bringSubviewToFront:_activityDetailTableView];
     
     [_joinButton bringSubviewToFront:_activityDetailTableView];
     
@@ -187,13 +181,13 @@
         
     }
     
-     _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, 320, _memberTableView.tableView.contentSize.height);
+    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, 320, _memberTableView.tableView.contentSize.height);
     
     [self.parentScrollView setContentSize:CGSizeMake(320, 568 - 64 - 72 + _memberTableView.tableView.contentSize.height)];
     
-  //  [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-
+    //  [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
+    
 }
 
 -(BOOL)checkIfCurrentUserInTheEvent{
@@ -238,6 +232,49 @@
     
 }
 
+-(void)showActionSheetOptions{
+    
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+                                               otherButtonTitles:@"Report this event", @"Share with friends", nil];
+    [action showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+{
+    if (buttonIndex != actionSheet.cancelButtonIndex)
+    {
+        if (buttonIndex == 0)	[self reportEvent];
+        if (buttonIndex == 1)	[self shareToFriends];
+    }
+}
+
+-(void)reportEvent{
+    
+    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
+    mailVC.mailComposeDelegate = self;
+    [mailVC setSubject:[NSString stringWithFormat:@"Report event %@",[_activityDetail objectForKey:kHLEventKeyTitle]]];
+    [mailVC setMessageBody:@"Hi there," isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"erli.0715@gmail.com"]];
+    
+    if (mailVC)
+        
+        [self presentViewController:mailVC animated:YES completion:^{
+            
+        }];
+    
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error;
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+
 -(void)shareToFriends{
     
     NSString *textToShare = [_activityDetail objectForKey:kHLEventKeyTitle];
@@ -259,11 +296,7 @@
     [self presentViewController:activityVC animated:YES completion:nil];
 }
 
--(void)bookMarkEvent{
-    
-    
-    
-}
+
 
 -(void)editEvent{
     
@@ -317,7 +350,7 @@
 -(void)didUpdateActivity:(PFObject *)object{
     
     _activityDetail = object;
-    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"微信群二维码"];
+    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
     
 }
 
@@ -521,11 +554,7 @@
         }
         
     }
-    else{
-        
-        [label setText:@"成员"];
-        
-    }
+    
     
     return view;
     
@@ -537,8 +566,6 @@
     
     // NSString *titleForHeader = [NSString stringWithFormat:@"Comment"];
     
-    if(tableView == _activityDetailTableView){
-        
         if(section == 0){
             
             return  [_activityDetail objectForKey:kHLEventKeyTitle];
@@ -549,13 +576,7 @@
             return  @"公告";
             
         }
-    }
-    else{
-        return @"成员";
-        
-    }
-    
-    
+
     
 }
 
@@ -588,12 +609,13 @@
             else if(indexPath.row == 2){
                 
                 if([_activityDetail objectForKey:kHLEventKeyEventGeoPoint]){
-                
-                UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
-                ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
-                vc.showSearchBar = NO;
-                vc.eventGeopoint = [_activityDetail objectForKey:kHLEventKeyEventGeoPoint];
-                [self.navigationController pushViewController:vc animated:YES];
+                    
+                    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+                    ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
+                    vc.showSearchBar = NO;
+                    vc.title = @"活动位置";
+                    vc.eventGeopoint = [_activityDetail objectForKey:kHLEventKeyEventGeoPoint];
+                    [self.navigationController pushViewController:vc animated:YES];
                     
                 }
                 
@@ -622,11 +644,11 @@
             }
             else{
                 
-//                ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]init];
-//                
-//                apVC.aObject = _activityDetail;
-//                
-//                [self.navigationController pushViewController:apVC animated:YES];
+                //                ActivityPicturesViewController *apVC = [[ActivityPicturesViewController alloc]init];
+                //
+                //                apVC.aObject = _activityDetail;
+                //
+                //                [self.navigationController pushViewController:apVC animated:YES];
             }
             
         }
@@ -695,7 +717,7 @@
                 EKEvent *event = [EKEvent eventWithEventStore:store];
                 event.title = [_activityDetail objectForKey:kHLEventKeyTitle];
                 event.startDate = [_activityDetail objectForKey:kHLEventKeyDate];
-                event.endDate = [event.startDate dateByAddingTimeInterval:60*60*24];  //set 1 hour meeting
+                event.endDate = [event.startDate dateByAddingTimeInterval:60*60*24];  //set 1 day notification
                 [event setCalendar:[store defaultCalendarForNewEvents]];
                 NSError *err = nil;
                 [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
@@ -712,59 +734,28 @@
         }
         else{
             
-            [[EventManager sharedInstance]joinEvent:_activityDetail user:[PFUser currentUser] withBlock:^(BOOL succeeded, NSError *error) {
+            
+            [[EventManager sharedInstance]getEventMemberCountWithEvent:_activityDetail withBlock:^(int count, NSError *error) {
                 
-                if(succeeded){
+                if([[_activityDetail objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
                     
-                    
-                    PFObject *joinEventActivity = [PFObject objectWithClassName:kHLCloudNotificationClass];
-                    [joinEventActivity setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
-                    [joinEventActivity setObject:[_activityDetail objectForKey:kHLEventKeyHost] forKey:kHLNotificationToUserKey];
-                    [joinEventActivity setObject:kHLNotificationTypeJoinEvent forKey:kHLNotificationTypeKey];
-                    [joinEventActivity setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId] forKey:kHLNotificationEventKey];
-                    [joinEventActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (count >= [[_activityDetail objectForKey:kHLEventKeyMemberNumber] intValue]) {
                         
-                        if(succeeded){
-                            
-                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"参加成功!" message:nil
-                                                                          delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                            
-                            [alert show];
-                        }
-                    }];
-                    
-                    [_memberTableView loadObjects];
+                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"此群人数已满"
+                                                                      delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        
+                        [alert show];
+                        
+                        return;
+                        
+                    }
                     
                 }
                 
+                [self performJoinEvent];
+                
+                
             }];
-            
-            //            PFObject *joinEvent = [PFObject objectWithClassName:kHLCloudNotificationClass];
-            //            [joinEvent setObject:[_activityDetail objectForKey:kHLEventKeyHost] forKey:kHLNotificationToUserKey];
-            //            [joinEvent setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
-            //            [joinEvent setObject:kHLNotificationTypeJoinEvent forKey:kHLNotificationTypeKey];
-            //            [joinEvent setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId] forKey:kHLNotificationEventKey];
-            //            PFACL *joinEventACL = [PFACL ACLWithUser:[PFUser currentUser]];
-            //            [joinEventACL setPublicReadAccess:YES];
-            //            [joinEventACL setWriteAccess:YES forUser:[_activityDetail objectForKey:kHLEventKeyHost]];
-            //            joinEvent.ACL = joinEventACL;
-            //
-            //            [joinEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            //
-            //                if(succeeded){
-            //
-            //
-            //                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"申请成功!" message:nil
-            //                                                                  delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            //
-            //                    [alert show];
-            //
-            //                    [_memberTableView loadObjects];
-            //
-            //                }
-            //
-            //
-            //            }];
             
         }
         
@@ -804,6 +795,38 @@
         }
         
     }
+    
+}
+
+
+-(void)performJoinEvent{
+    
+    [[EventManager sharedInstance]joinEvent:_activityDetail user:[PFUser currentUser] withBlock:^(BOOL succeeded, NSError *error) {
+        
+        if(succeeded){
+            
+            
+            PFObject *joinEventActivity = [PFObject objectWithClassName:kHLCloudNotificationClass];
+            [joinEventActivity setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey];
+            [joinEventActivity setObject:[_activityDetail objectForKey:kHLEventKeyHost] forKey:kHLNotificationToUserKey];
+            [joinEventActivity setObject:kHLNotificationTypeJoinEvent forKey:kHLNotificationTypeKey];
+            [joinEventActivity setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_activityDetail.objectId] forKey:kHLNotificationEventKey];
+            [joinEventActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"参加成功!" message:nil
+                                                                  delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                }
+            }];
+            
+            [_memberTableView loadObjects];
+            
+        }
+        
+    }];
     
 }
 

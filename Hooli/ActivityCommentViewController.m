@@ -99,9 +99,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
     
     [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeActivityComment];
-    
     [query whereKey:kHLNotificationEventKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:self.aObject.objectId]];
-    
     [query includeKey:kHLNotificationFromUserKey];
     [query includeKey:kHLNotificationToUserKey];
     

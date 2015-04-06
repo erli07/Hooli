@@ -28,6 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.loginButton.hidden = YES;
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboards)];
     
@@ -44,6 +46,11 @@
     if ([PFUser currentUser] || [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         
         [self loginSuccessWithUser:[PFUser currentUser]];
+        
+    }
+    else{
+    
+        [self.emailText becomeFirstResponder];
         
     }
 }

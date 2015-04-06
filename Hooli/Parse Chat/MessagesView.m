@@ -43,6 +43,12 @@
 
 @synthesize tableMessages, viewEmpty, blankView;
 
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kHLLoadMessageObjectsNotification object:nil];
+    
+}
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -63,6 +69,8 @@
 {
 	[super viewDidLoad];
 	self.title = @"Messages";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:kHLLoadMessageObjectsNotification object:nil];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"messages_compose"]
 																	  style:UIBarButtonItemStylePlain target:self action:@selector(actionCompose)];

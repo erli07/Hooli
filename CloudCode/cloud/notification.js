@@ -41,16 +41,16 @@ Parse.Cloud.afterSave('Notification', function(request) {
 var alertMessage = function(request) {
   var message = "";
 
-  if (request.object.get("type") === "needComment" || request.object.get("type") === "offerComment"  ) {
+  if (request.object.get("type") === "offerComment"  ) {
     if (request.user.get('username')) {
-      message = request.user.get('username') + ': ' + request.object.get('content').trim();
+      message = request.user.get('username') + ' commented on your item: ' + request.object.get('content').trim();
     } else {
       message = "Someone commented on your item.";
     }
   }
    else if (request.object.get("type") === "like") {
     if (request.user.get('username')) {
-      message = request.user.get('username') + ' likes your itemsss.';
+      message = request.user.get('username') + ' likes your item.';
     } else {
       message = 'Someone likes your item.';
     }
@@ -60,8 +60,19 @@ var alertMessage = function(request) {
     } else {
       message = "You have a new follower.";
     }
-  }
-
+  }else if (request.object.get("type") === "joinEvent") {
+      if (request.user.get('username')) {
+        message = request.user.get('username') + ' has joined your event.';
+      } else {
+        message = "Someone joined your event.";
+      }
+  }else if (request.object.get("type") === "makeOffer") {
+	  if (request.user.get('username')) {
+	    message = request.user.get('username') + ' bid on your item.';
+      } else {
+		message = "Someone bid on your item.";
+	  }
+  }  
   // Trim our message to 140 characters.
   if (message.length > 140) {
     message = message.substring(0, 140);
@@ -80,23 +91,36 @@ var alertPayload = function(request) {
       // The following keys help Anypic load the correct photo in response to this push notification.
 	  sound: 'default',
       p: 'nf', // Payload Type: Activity
-      t: 'co', // Activity Type: Comment
+      t: 'co', // Activity Type: Comment offer
       fu: request.object.get('fromUser').id, // From User
       objId: request.object.id // Photo Id
-    };
-  } else if (request.object.get("type") === "needComment") {
+  	  };
+  	} else if (request.object.get("type") === "joinEvent") {
     return {
       alert: alertMessage(request), // Set our alert message.
+      badge: 'Increment', // Increment the target device's badge count.
       // The following keys help Anypic load the correct photo in response to this push notification.
 	  sound: 'default',
       p: 'nf', // Payload Type: Activity
-      t: 'cn', // Activity Type: Like
+      t: 'je', // Activity Type: join event
       fu: request.object.get('fromUser').id, // From User
       objId: request.object.id // Photo Id
-    };
-  }else if (request.object.get("type") === "like") {
+      };
+    }else if (request.object.get("type") === "makeOffer") {
+      return {
+        alert: alertMessage(request), // Set our alert message.
+        badge: 'Increment', // Increment the target device's badge count.
+        // The following keys help Anypic load the correct photo in response to this push notification.
+  	    sound: 'default',
+        p: 'nf', // Payload Type: Activity
+        t: 'mo', // Activity Type: Like
+        fu: request.object.get('fromUser').id, // From User
+        objId: request.object.id // Photo Id
+      };
+    }else if (request.object.get("type") === "like") {
     return {
       alert: alertMessage(request), // Set our alert message.
+      badge: 'Increment', // Increment the target device's badge count.
       // The following keys help Anypic load the correct photo in response to this push notification.
 	  sound: 'default',
       p: 'nf', // Payload Type: Activity
@@ -107,6 +131,7 @@ var alertPayload = function(request) {
   } else if (request.object.get("type") === "follow") {
     return {
       alert: alertMessage(request), // Set our alert message.
+      badge: 'Increment', // Increment the target device's badge count.	
       // The following keys help Anypic load the correct photo in response to this push notification.
   	  sound: 'default',
 	  p: 'nf', // Payload Type: NotificationFeed

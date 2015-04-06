@@ -12,6 +12,8 @@
 #import "IntroViewController.h"
 #import "AppDelegate.h"
 #import "AccountManager.h"
+#import "PushSettingsViewController.h"
+
 @interface MySettingsViewController ()
 @property (nonatomic)  NSArray *sectionArray;
 
@@ -50,11 +52,11 @@
             [self.navigationController pushViewController:introVC animated:NO];
             
         }
-        else{
-            NSString *textToShare = @"Use Hooli to sell your unused stuff!";
-            NSURL *myApp = [NSURL URLWithString:@"http://itunes.apple.com/app/id378458261"];
+        else if(indexPath.row == 1){
+            NSString *textToShare = @"海圈圈，您海外生活的好帮手!";
+           // NSURL *myApp = [NSURL URLWithString:@"http://itunes.apple.com/app/id378458261"];
             
-            NSArray *objectsToShare = @[textToShare, myApp];
+            NSArray *objectsToShare = @[textToShare];
             
             UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
             
@@ -70,6 +72,12 @@
             
             [self presentViewController:activityVC animated:YES completion:nil];
         }
+        else{
+            
+            PushSettingsViewController *pvc = [[PushSettingsViewController alloc]init];
+            
+            [self.navigationController pushViewController:pvc animated:YES];
+        }
         
     }
     else if(indexPath.section == 1){
@@ -78,8 +86,8 @@
             MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
             mailVC.mailComposeDelegate = self;
             [mailVC setSubject:@"My Subject"];
-            [mailVC setMessageBody:@"Hello there." isHTML:NO];
-            [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
+            [mailVC setMessageBody:@"Hello there. " isHTML:NO];
+            [mailVC setToRecipients:[NSArray arrayWithObject:@"erli.0715@gmail.com"]];
             
             if (mailVC)
                 
@@ -90,10 +98,6 @@
             
         }
         else if(indexPath.row == 1){
-            
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms://itunes.apple.com/app/id378458261"]];
-        }
-        else if(indexPath.row == 2){
             
             AboutViewController *about = [[AboutViewController alloc]init];
             [self.navigationController pushViewController:about animated:YES];
@@ -120,12 +124,17 @@
         
         if(indexPath.row == 0){
             
-            cell.textLabel.text = @"FAQ";
+            cell.textLabel.text = @"Intro";
             
         }
         else if(indexPath.row == 1){
             
             cell.textLabel.text = @"Share to Friends";
+            
+        }
+        else if(indexPath.row == 2){
+            
+            cell.textLabel.text = @"Push notification settings";
             
         }
         
@@ -139,14 +148,9 @@
             cell.textLabel.text = @"Send Feedback";
             
         }
-        else if(indexPath.row == 1){
-            
-            cell.textLabel.text = @"Rate Us";
-            
-        }
         else{
             
-            cell.textLabel.text = @"About Hooli";
+            cell.textLabel.text = @"About";
         }
     }
     else if(indexPath.section == 2){
@@ -165,9 +169,9 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 2;
-    else if(section == 1)
         return 3;
+    else if(section == 1)
+        return 2;
     else
         return 1;
     

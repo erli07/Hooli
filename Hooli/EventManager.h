@@ -23,4 +23,6 @@
             user:(PFUser *)user
        withBlock:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 
+-(void)getEventMemberCountWithEvent:(PFObject *)eventObject withBlock:(void (^)(int count, NSError *error))completionBlock;
+
 @end

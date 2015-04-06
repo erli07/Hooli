@@ -45,6 +45,8 @@ const CGFloat duration = 0.3;
     self.rePasswordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     
     self.genderTableView.scrollEnabled = NO;
+    
+    self.genderSegmentControl.tintColor = [HLTheme secondColor];
     // Do any additional setup after loading the view.
 }
 

@@ -32,7 +32,7 @@
 -(void)uploadEventToCloud:(PFObject *)event withBlock:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     
     [event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-       
+        
         if(succeeded){
             
             completionBlock(YES, nil);
@@ -62,7 +62,7 @@
         if(object){
             
             completionBlock(NO, nil);
-
+            
         }
         else{
             
@@ -79,37 +79,52 @@
             [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
                 if(succeeded){
-    
+                    
                     
                     completionBlock(YES,nil);
                     
-//                    PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
-//                    [deleteQuery whereKey:kHLNotificationFromUserKey equalTo:user];
-//                    [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
-//                    [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-//                        
-//                        if(object){
-//                            
-//                            [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                                
-//                                if(succeeded){
-//                                   
-//                                    completionBlock(YES, nil);
-//                                    
-//                                }
-//                                
-//                            }];
-//                        }
-//                        
-//                    }];
+                    //                    PFQuery *deleteQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+                    //                    [deleteQuery whereKey:kHLNotificationFromUserKey equalTo:user];
+                    //                    [deleteQuery setCachePolicy:kPFCachePolicyNetworkOnly];
+                    //                    [deleteQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                    //
+                    //                        if(object){
+                    //
+                    //                            [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    //
+                    //                                if(succeeded){
+                    //
+                    //                                    completionBlock(YES, nil);
+                    //
+                    //                                }
+                    //
+                    //                            }];
+                    //                        }
+                    //
+                    //                    }];
                 }
                 
                 
             }];
         }
     }];
-
+    
 }
-
+-(void)getEventMemberCountWithEvent:(PFObject *)eventObject withBlock:(void (^)(int count, NSError *error))completionBlock{
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudEventMemberClass];
+    [query whereKey:kHLEventMemberKeyEvent equalTo:eventObject];
+    [query includeKey:kHLEventMemberKeyMember];
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        
+        if(completionBlock){
+            
+            completionBlock(number,error);
+            
+        }
+        
+    }];
+}
 
 @end

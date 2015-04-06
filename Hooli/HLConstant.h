@@ -81,6 +81,7 @@ extern NSString *const kHLOfferModelKeyOfferName;
 extern NSString *const kHLOfferModelKeyGeoPoint;
 extern NSString *const kHLOfferModelKeyOfferStatus;
 extern NSString *const kHLOfferModelKeyToUser;
+extern NSString *const kHLOfferModelKeyCondition;
 
 extern NSString *const kHLNeedsModelKeyPrice;
 extern NSString *const kHLNeedsModelKeyLikes;
@@ -237,6 +238,8 @@ extern NSString *const kHLPushPayloadActivityLikeKey;
 extern NSString *const kHLPushPayloadActivityCommentNeedKey;
 extern NSString *const kHLPushPayloadActivityCommentOfferKey;
 extern NSString *const kHLPushPayloadActivityFollowKey;
+extern NSString *const kHLPushPayloadActivityJoinEventKey;
+extern NSString *const kHLPushPayloadActivityMakeOfferKey;
 
 extern NSString *const kHLPushPayloadFromUserObjectIdKey;
 extern NSString *const kHLPushPayloadToUserObjectIdKey;

@@ -303,15 +303,15 @@
         if(self.followStatus == HL_RELATIONSHIP_TYPE_FRIENDS || self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWING ){
             
             [self.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
-          //  [self.followButton setBackgroundColor:[HLTheme mainColor]];
-            [self.followButton setTintColor:[UIColor whiteColor]];
+            [self.followButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
+            [self.followButton setTitleColor:[HLTheme buttonColor] forState:UIControlStateNormal];
             
         }
         else{
             
             [self.followButton setTitle:@"Follow" forState:UIControlStateNormal] ;
-          //  [self.followButton setBackgroundColor:[HLTheme mainColor]];
-            [self.followButton setTintColor:[UIColor whiteColor]];
+            [self.followButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
+            [self.followButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
         }
         

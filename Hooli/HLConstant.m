@@ -71,6 +71,7 @@ NSString *const kHLOfferModelKeyOfferName = @"offerName";
 NSString *const kHLOfferModelKeyGeoPoint = @"geoPoint";
 NSString *const kHLOfferModelKeyOfferStatus = @"offerStatus";
 NSString *const kHLOfferModelKeyToUser = @"toUser";
+NSString *const kHLOfferModelKeyCondition = @"condition";
 
 NSString *const kHLNeedsModelKeyPrice= @"price";
 //NSString *const kHLNeedsModelKeyLikes;
@@ -182,16 +183,18 @@ NSString *const kHLNotificationEventKey = @"event";
 NSString *const kHLNotificationTypeLike       = @"like";
 NSString *const kHLNotificationTypeFollow     = @"follow";
 NSString *const kHLNotificationTypeOfferComment    = @"offerComment";
-NSString *const kHLNotificationTypeNeedComment    = @"needComment";
-NSString *const kHLNotificationTypeActivityComment    = @"activityComment";
+NSString *const khlNotificationTypMakeOffer     = @"makeOffer";
+NSString *const kHLNotificationTypeJoinEvent = @"joinEvent";
+
 NSString *const kHLNotificationTypeJoined     = @"joined";
-NSString *const khlNotificationTypMakeOffer     = @"make offer";
 NSString *const khlNotificationTypAcceptOffer     = @"accept offer";
 NSString *const khlNotificationTypeOfferSold     = @"offer sold";
 NSString *const khlNotificationTypOfferItem     = @"Offer Item";
-NSString *const kHLNotificationTypeJoinEvent = @"join event";
-NSString *const kHLNotificationTypeInvitation = @"invite";
 NSString *const kHLNotificationTypeAcceptInvitation = @"accept invitation";
+NSString *const kHLNotificationTypeActivityComment    = @"activityComment";
+NSString *const kHLNotificationTypeNeedComment    = @"needComment";
+NSString *const kHLNotificationTypeInvitation = @"invite";
+
 
 NSString *const khlNotificationAddValue     = @"add";
 NSString *const khlNotificationSubValue     = @"sub";
@@ -239,6 +242,9 @@ NSString *const kHLPushPayloadActivityLikeKey     = @"l";
 NSString *const kHLPushPayloadActivityCommentNeedKey  = @"cn";
 NSString *const kHLPushPayloadActivityCommentOfferKey  = @"co";
 NSString *const kHLPushPayloadActivityFollowKey   = @"f";
+NSString *const kHLPushPayloadActivityJoinEventKey   = @"je";
+NSString *const kHLPushPayloadActivityMakeOfferKey   = @"mo";
+
 
 NSString *const kHLPushPayloadFromUserObjectIdKey = @"fu";
 NSString *const kHLPushPayloadToUserObjectIdKey   = @"tu";

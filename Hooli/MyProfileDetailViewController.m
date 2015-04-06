@@ -33,37 +33,47 @@
     
     //_titleArray = @[@"Username",@"Gender", @"Email",@"Phone Number",@"Wechat"];
     _titleArray = @[@"用户名",@"性别", @"年龄",@"职业",@"兴趣爱好", @"个性签名",];
-
+    
     
     [[AccountManager sharedInstance]loadAccountDataWithUserId:self.user.objectId Success:^(id object) {
         
         PFFile *imageFile = [object objectForKey:kHLUserModelKeyPortraitImage];
         _portraitImage = [UIImage imageWithData:[imageFile getData]];
-       // NSString *email = [object objectForKey:kHLUserModelKeyEmail]?[object objectForKey:kHLUserModelKeyEmail]:@"N/A";
+        // NSString *email = [object objectForKey:kHLUserModelKeyEmail]?[object objectForKey:kHLUserModelKeyEmail]:@"N/A";
         NSString *age = [object objectForKey:kHLUserModelKeyAge]?[object objectForKey:kHLUserModelKeyAge]:@"";
         NSString *username = [object objectForKey:kHLUserModelKeyUserName]?[object objectForKey:kHLUserModelKeyUserName]:@"";;
         NSString *gender = [object objectForKey:kHLUserModelKeyGender]?[object objectForKey:kHLUserModelKeyGender]:@"";;
         NSString *hobby = [object objectForKey:kHLUserModelKeyHobby]?[object objectForKey:kHLUserModelKeyHobby]:@"";;
         NSString *signature = [object objectForKey:kHLUserModelKeySignature]?[object objectForKey:kHLUserModelKeySignature]:@"";;
         NSString *work = [object objectForKey:kHLUserModelKeyWork]?[object objectForKey:kHLUserModelKeyWork]:@"";;
-
+        
         [[FormManager sharedInstance]setProfileDetailArray:[NSMutableArray arrayWithArray:@[username,gender, age,work, hobby, signature]]] ;
         
         [self.tableView reloadData];
-
+        
     } Failure:^(id error) {
         
     }];
     
     self.clearsSelectionOnViewWillAppear = YES;
     
-
+    if([self.user.objectId isEqualToString:[[PFUser currentUser]objectId]]){
+        
+        UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                           initWithTitle:@"Update"
+                                           style:UIBarButtonItemStyleDone
+                                           target:self
+                                           action:@selector(updateCurrentUserProfile)];
+        self.navigationItem.rightBarButtonItem = rightBarButton;
+        
+    }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [self.tableView reloadData];
-
+    
 }
 
 #pragma mark - Table view data source
@@ -104,10 +114,13 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imageCellID];
             
         }
-        
-        cell.textLabel.text =@"click to edit";
-        cell.textLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if([self.user.objectId isEqualToString:[[PFUser currentUser]objectId]]){
+            
+            cell.textLabel.text =@"click to edit";
+            cell.textLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+        }
         cell.imageView.image = _portraitImage;
         cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height/2;
         cell.imageView.layer.masksToBounds = YES;
@@ -124,8 +137,12 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
             
         }
+        if([self.user.objectId isEqualToString:[[PFUser currentUser]objectId]]){
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+        }
         
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [_titleArray objectAtIndex:indexPath.row];
         cell.textLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
         cell.detailTextLabel.text = [[[FormManager sharedInstance]profileDetailArray] objectAtIndex:indexPath.row];
@@ -133,7 +150,7 @@
         
         [cell.textLabel setTextColor:[HLTheme mainColor]];
         [cell.detailTextLabel setTextColor:[HLTheme mainColor]];
-
+        
     }
     
     
@@ -155,7 +172,7 @@
         else{
             
             return 44;
-
+            
         }
     }
 }
@@ -179,7 +196,7 @@
         }
         else if(indexPath.row == 1){
             
-           // UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+            // UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
             SelectGenderViewController *vc = [[SelectGenderViewController alloc]initWithStyle:UITableViewStyleGrouped];
             [self.navigationController pushViewController:vc animated:YES];
             
@@ -204,11 +221,7 @@
             [self showEditProfileWithProfileType:PROFILE_INDEX_SIGNATURE];
             
         }
-        
-        
     }
-    
-    
 }
 
 
@@ -256,46 +269,36 @@
 }
 
 
--(void)viewWillDisappear:(BOOL)animated{
+-(void)updateCurrentUserProfile{
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
-    
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-    
-    [self updateCurrentUserProfile];
-
-}
-
--(void)updateCurrentUserProfile{
     
     NSArray *array = [[FormManager sharedInstance]profileDetailArray];
     
-//    UserModel *updatedUserModel = [[UserModel alloc]initUserWithEmail:[array objectAtIndex:PROFILE_INDEX_EMAIL] userName:[array objectAtIndex:PROFILE_INDEX_USERNAME] portraitImage:_portraitImage gender:[array objectAtIndex:PROFILE_INDEX_GENDER] phoneNumber:[array objectAtIndex:PROFILE_INDEX_PHONE] wechat:[array objectAtIndex:PROFILE_INDEX_WECHAT]];
+    //    UserModel *updatedUserModel = [[UserModel alloc]initUserWithEmail:[array objectAtIndex:PROFILE_INDEX_EMAIL] userName:[array objectAtIndex:PROFILE_INDEX_USERNAME] portraitImage:_portraitImage gender:[array objectAtIndex:PROFILE_INDEX_GENDER] phoneNumber:[array objectAtIndex:PROFILE_INDEX_PHONE] wechat:[array objectAtIndex:PROFILE_INDEX_WECHAT]];
     
     UserModel *updatedUserModel = [[UserModel alloc]initUserWithUserName:[array objectAtIndex:PROFILE_INDEX_USERNAME] age:[array objectAtIndex:PROFILE_INDEX_AGE] portraitImage:_portraitImage gender:[array objectAtIndex:PROFILE_INDEX_GENDER] work:[array objectAtIndex:PROFILE_INDEX_WORK] hobby:[array objectAtIndex:PROFILE_INDEX_HOBBY] signature:[array objectAtIndex:PROFILE_INDEX_SIGNATURE]];
     
     NSData *imageData = UIImagePNGRepresentation(_portraitImage);
     PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:imageData];
     [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
-   // [[PFUser currentUser] setObject:updatedUserModel.email forKey:kHLUserModelKeyEmail];
+    // [[PFUser currentUser] setObject:updatedUserModel.email forKey:kHLUserModelKeyEmail];
     [[PFUser currentUser] setObject:updatedUserModel.username forKey:kHLUserModelKeyUserName];
     [[PFUser currentUser] setObject:updatedUserModel.gender forKey:kHLUserModelKeyGender];
     [[PFUser currentUser] setObject:updatedUserModel.work forKey:kHLUserModelKeyWork];
     [[PFUser currentUser] setObject:updatedUserModel.hobby forKey:kHLUserModelKeyHobby];
     [[PFUser currentUser] setObject:updatedUserModel.signature forKey:kHLUserModelKeySignature];
     [[PFUser currentUser] setObject:updatedUserModel.age forKey:kHLUserModelKeyAge];
-
-
+    
+    
     [[PFUser currentUser]saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if(succeeded){
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-
             
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"Details have been updated.", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alert show];
         }
         
     }];

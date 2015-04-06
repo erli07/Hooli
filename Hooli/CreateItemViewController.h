@@ -13,9 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *itemTitleField;
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *itemContetnTextView;
 @property (weak, nonatomic) IBOutlet UITextField *itemPriceField;
-@property (weak, nonatomic) IBOutlet UITextField *itemConditionField;
-@property (weak, nonatomic) IBOutlet UITextField *itemCategoryField;
-@property (weak, nonatomic) IBOutlet UITextField *itemPickupField;
+
 
 - (IBAction)submitItem:(id)sender;
 
@@ -24,6 +22,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *imageButton2;
 @property (weak, nonatomic) IBOutlet UIButton *imageButton3;
 @property (weak, nonatomic) IBOutlet UIButton *imageButton4;
+
+- (IBAction)showConditions:(id)sender;
+- (IBAction)showCategories:(id)sender;
+- (IBAction)showDelivery:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UILabel *conditionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryLabel;
 
 - (IBAction)imageButton1Pressed:(id)sender;
 - (IBAction)imageButton2Pressed:(id)sender;

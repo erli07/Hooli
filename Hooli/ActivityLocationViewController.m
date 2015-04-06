@@ -38,8 +38,6 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
-    self.title = @"活动位置";
-    
     _mapView.delegate = self;
     
     _searchBar.delegate = self;
@@ -76,13 +74,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     
-    if(!_eventLocationText){
-        
-        _eventLocationText = self.searchBar.text;
-        
-    }
-    
-    [self.delegate didSelectEventLocation:_eventLocation locationString:_eventLocationText];
+   
     
 }
 
@@ -107,6 +99,8 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
     [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+    
+    [_searchBar resignFirstResponder];
 
     [self convertAddressToCoordinate:searchBar.text block:^(CLLocationCoordinate2D coordinate, NSError *error) {
         
@@ -114,10 +108,17 @@
             
             _eventLocationText = searchBar.text;
             
+            [self.delegate didSelectEventLocation:_eventLocation locationString:_eventLocationText];
+
             [self dropPinOnMap:coordinate];
             
             _eventLocation = [[CLLocation alloc]initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
             
+        }
+        else{
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Can not load location" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alert show];
         }
         
     }];
@@ -201,14 +202,11 @@
     center.latitude = latitude;
     center.longitude = longitude;
     
-    if(center.longitude != 0 && center.latitude != 0){
-        
-        completionBlock(center,nil);
-        
-        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+    completionBlock(center,nil);
+    
+    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
 
         
-    }
     
 }
 

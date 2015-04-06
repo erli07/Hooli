@@ -331,11 +331,10 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         }
         
         // [comment setObject:image forKey:kHLOfferModelKeyImage];
-        
-        PFACL *ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-        [ACL setPublicReadAccess:YES];
-        [ACL setWriteAccess:YES forUser:[PFUser currentUser]];
-        comment.ACL = ACL;
+//        PFACL *ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+//        [ACL setPublicReadAccess:YES];
+//        [ACL setWriteAccess:YES forUser:[PFUser currentUser]];
+//        comment.ACL = ACL;
         
         //  [[PAPCache sharedCache] incrementCommentCountForPhoto:self.photo];
         

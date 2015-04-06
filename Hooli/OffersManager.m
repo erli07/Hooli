@@ -171,10 +171,11 @@
             [offerClass setObject:offer.offerCategory forKey:kHLOfferModelKeyCategory];
             [offerClass setObject:offer.offerName forKey:kHLOfferModelKeyOfferName];
             [offerClass setObject:offer.geoPoint forKey:kHLOfferModelKeyGeoPoint];
+            [offerClass setObject:offer.offerCondition forKey:kHLOfferModelKeyCondition];
             [offerClass setObject:[PFObject objectWithoutDataWithClassName:kHLCloudOfferImagesClass objectId:offerImagesClass.objectId] forKey:kHLOfferModelKeyImage];
-            if(offer.toUser){
-                [offerClass setObject:offer.toUser forKey:kHLOfferModelKeyToUser];
-            }
+//            if(offer.toUser){
+//                [offerClass setObject:offer.toUser forKey:kHLOfferModelKeyToUser];
+//            }
             
             
             [offerClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -623,9 +624,22 @@
     [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(succeeded){
             
-            if (completionBlock) {
-                completionBlock(succeeded,error);
-            }
+            PFQuery *notifQuery = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+            [notifQuery whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerId]];
+            [notifQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+               
+                for (PFObject *object in objects) {
+                    
+                    [object deleteInBackground];
+                }
+                
+                if (completionBlock) {
+                    completionBlock(succeeded,error);
+                }
+                
+                
+            }];
+           
             
         }
         else{

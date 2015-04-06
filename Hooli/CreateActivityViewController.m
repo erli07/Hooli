@@ -81,20 +81,18 @@
     
     _imagesArray = [[NSMutableArray alloc]init];
     
+    _eventGeopoint = [[PFGeoPoint alloc]init];
+    
     [self configureEventObject:_eventObject];
     
     _imageButton1.hidden = NO;
     _imageButton2.hidden = YES;
     _imageButton3.hidden = YES;
-
+    
     // Do any additional setup after loading the view.
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
-    
-    
-}
 
 
 -(void)configureEventObject:(PFObject *)eventObject{
@@ -110,8 +108,8 @@
         
         _eventTitle.text = [eventObject objectForKey:kHLEventKeyTitle];
         _eventContent.text = [eventObject objectForKey:kHLEventKeyDescription];
-        _eventLocationField.text = [eventObject objectForKey:kHLEventKeyEventLocation];
-        _eventDateField.text = [eventObject objectForKey:kHLEventKeyDateText];
+        _eventLocationLabel.text = [eventObject objectForKey:kHLEventKeyEventLocation];
+        _eventDateLabel.text = [eventObject objectForKey:kHLEventKeyDateText];
         _eventDate = [eventObject objectForKey:kHLEventKeyDate];
         _eventGeopoint = [eventObject objectForKey:kHLEventKeyEventGeoPoint];
         _eventAnnouncementField.text = [eventObject objectForKey:kHLEventKeyAnnoucement];
@@ -133,7 +131,7 @@
                 self.imageButton1.imageView.image = nil;
                 
                 [self configureImageButtons];
-
+                
                 
             }];
         }
@@ -145,13 +143,13 @@
                 [_imagesArray addObject:[UIImage imageWithData:data]];
                 
                 self.imageButton2.imageView.image = nil;
-
+                
                 [self configureImageButtons];
-
+                
                 
             }];
         }
-      
+        
         if(imageFile2){
             
             [imageFile2 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -159,14 +157,13 @@
                 [_imagesArray addObject:[UIImage imageWithData:data]];
                 
                 self.imageButton3.imageView.image = nil;
-
+                
                 [self configureImageButtons];
-
-
+                
+                
             }];
             
         }
-        
         
         [_submitButton setTitle:@"发布更新" forState:UIControlStateNormal];
         
@@ -185,7 +182,7 @@
 
 -(BOOL)checkIfFieldsFilled{
     
-    if([self.eventTitle.text isEqualToString:@""] || [self.eventContent.text isEqualToString:@""] || [self.eventMemberNumberField.text isEqualToString:@""] || [self.eventDateField.text isEqualToString:@""] || [self.eventLocationField.text isEqualToString:@""]){
+    if([self.eventTitle.text isEqualToString:@""] || [self.eventContent.text isEqualToString:@""] || [self.eventMemberNumberField.text isEqualToString:@""] || [self.eventDateLabel.text isEqualToString:@""]){
         
         
         UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Field missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -195,8 +192,9 @@
         return NO;
         
     }
-    else if(_imagesArray == nil || [_imagesArray count] == 0){
-
+    
+    if(_imagesArray == nil || [_imagesArray count] == 0){
+        
         
         UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Image missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
@@ -204,11 +202,21 @@
         
         return NO;
     }
-    else {
+    
+    
+    NSDate *today = [NSDate date];
+    
+    if ([_eventDate earlierDate:today] == _eventDate) {
         
-        return  YES;
+        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Date cannot be earlier than today!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        
+        return NO;
+        
     }
     
+    return  YES;
     
 }
 
@@ -302,7 +310,7 @@
                     
                 }
                 break;
-
+                
                 
             default:
                 break;
@@ -374,11 +382,10 @@
                     [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
                     [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
                     [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
-                    [eventObject setObject:self.eventLocationField.text forKey:kHLEventKeyEventLocation];
+                    [eventObject setObject:self.eventLocationLabel.text forKey:kHLEventKeyEventLocation];
                     [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
                     [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
-                    [eventObject setObject:self.eventDateField.text forKey:kHLEventKeyDateText];
-                    [eventObject setObject:[[NSDate alloc]init] forKey:@"updatedAt"];
+                    [eventObject setObject:self.eventDateLabel.text forKey:kHLEventKeyDateText];
                     
                     if(_eventDate){
                         
@@ -506,7 +513,7 @@
             }
             
             [self configureImageButtons];
-
+            
         }
     }
     else if(alertView.tag == 2){
@@ -525,6 +532,8 @@
                     
                     [self deleteRelatedMessages];
                     
+                    [self deleteRelatedNotifications];
+                    
                     UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"删除成功" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alert show];
@@ -535,6 +544,9 @@
                     [self presentViewController:vc animated:YES completion:^{
                         
                         [self.delegate didCreateActivity:_eventObject];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadFeedObjectsNotification object:self];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadMessageObjectsNotification object:self];
                         
                     }];
                     
@@ -569,71 +581,21 @@
         textField.inputAccessoryView = keyboardDoneButtonView;
         
         [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, -120 ,
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, -200 ,
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
         
         
     }
     
-    if(textField == self.eventTitle){
+    else if(textField == self.eventTitle){
         
         [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x,  - 80,
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x,  - 100,
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
         
     }
-    else if(textField == self.eventLocationField){
-        
-        for (UIView *subView in self.view.subviews) {
-            
-            if ([subView isFirstResponder]) {
-                
-                [subView resignFirstResponder];
-                
-            }
-        }
-        
-        [self.eventAnnouncementField resignFirstResponder];
-        [self.eventContent resignFirstResponder];
-        [self.eventTitle resignFirstResponder];
-        [self.eventMemberNumberField resignFirstResponder];
-        [self.eventDateField resignFirstResponder];
-        [self.eventLocationField resignFirstResponder];
-        
-        [self performSegueWithIdentifier:@"map" sender:self];
-
-    }
-    else if(textField == self.eventDateField){
-        
-        for (UIView *subView in self.view.subviews) {
-            
-            if ([subView isFirstResponder]) {
-                
-                [subView resignFirstResponder];
-                
-            }
-        }
-        [self.eventAnnouncementField resignFirstResponder];
-        [self.eventContent resignFirstResponder];
-        [self.eventTitle resignFirstResponder];
-        [self.eventMemberNumberField resignFirstResponder];
-        [textField resignFirstResponder];
-        [self.eventLocationField resignFirstResponder];
-
-        HSDatePickerViewController *hsdpvc = [HSDatePickerViewController new];
-        hsdpvc.delegate = self;
-        
-        [self presentViewController:hsdpvc animated:YES completion:nil];
-        
-    }
-    else{
-        
-        [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, -120,
-                                                                   self.view.frame.size.width, self.view.frame.size.height); } ];
-        
-    }
-   
+    
+    
     
     
 }
@@ -643,13 +605,13 @@
     if(textView == self.eventAnnouncementField){
         
         [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, - 250,
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, - 220,
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
     }
     else{
         
         [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x,  - 80,
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x,  - 100,
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
         
     }
@@ -681,14 +643,14 @@
 }
 
 -(void)sendWelcomeMessage:(PFObject *)eventObject{
-   
+    
     CreateMessageItem([PFUser currentUser], eventObject.objectId, [eventObject objectForKey:kHLEventKeyTitle], eventObject);
     
     PFObject *object = [PFObject objectWithClassName:PF_CHAT_CLASS_NAME];
     object[PF_CHAT_USER] = [PFUser currentUser];
     object[PF_CHAT_GROUPID] = eventObject.objectId;
     object[PF_CHAT_TEXT] = @"欢迎！";
-
+    
     [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
      {
          if (error == nil)
@@ -712,13 +674,39 @@
     
 }
 
-- (IBAction)locateInMap:(id)sender {
-    
-}
 
 - (IBAction)showCalender:(id)sender {
     
+    [self resetViews];
+    
+    HSDatePickerViewController *hsdpvc = [HSDatePickerViewController new];
+    hsdpvc.delegate = self;
+    
+    [self presentViewController:hsdpvc animated:YES completion:nil];
+    
+}
 
+- (IBAction)showMap:(id)sender {
+    
+    [self resetViews];
+    
+    [self performSegueWithIdentifier:@"map" sender:self];
+    
+}
+
+-(void)resetViews{
+    
+    for (UIView *subView in self.view.subviews) {
+        
+        if ([subView isFirstResponder]) {
+            
+            [subView resignFirstResponder];
+            
+        }
+    }
+    [UIView animateWithDuration:.5
+                     animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x,  0,
+                                                               self.view.frame.size.width, self.view.frame.size.height); } ];
     
 }
 
@@ -728,8 +716,14 @@
     {
         ActivityLocationViewController *locationVC = segue.destinationViewController;
         locationVC.showSearchBar = YES;
-        locationVC.eventGeopoint = _eventGeopoint;
-        locationVC.eventLocationText = _eventLocationField.text;
+        
+        if(_eventGeopoint.latitude!=0 && _eventGeopoint.longitude!=0){
+            
+            locationVC.eventGeopoint = _eventGeopoint;
+            
+        }
+
+        locationVC.eventLocationText = _eventLocationLabel.text;
         locationVC.delegate = self;
         
     }
@@ -798,23 +792,23 @@
     
 }
 //- (IBAction)fourthImagePressed:(id)sender {
-//    
+//
 //    _currentButtonIndex = 3;
 //    [self showActionSheetWithCameraOptions];
-    //    if(_imageButton4.imageView.frame.size.width == _imageButton4.frame.size.width){
-    //
-    //        _currentButtonIndex = 3;
-    //
-    //        [self showAlertViewWithDeleteOptions];
-    //
-    //    }
-    //    else{
-    //
-    //        _currentButtonIndex = 3;
-    //
-    //        [self showActionSheetWithCameraOptions];
-    //
-    //    }
+//    if(_imageButton4.imageView.frame.size.width == _imageButton4.frame.size.width){
+//
+//        _currentButtonIndex = 3;
+//
+//        [self showAlertViewWithDeleteOptions];
+//
+//    }
+//    else{
+//
+//        _currentButtonIndex = 3;
+//
+//        [self showActionSheetWithCameraOptions];
+//
+//    }
 //}
 
 -(void)showActionSheetWithCameraOptions{
@@ -866,6 +860,27 @@
     
 }
 
+-(void)deleteRelatedNotifications{
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHLCloudNotificationClass];
+    [query whereKey:@"event" equalTo:_eventObject];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if(!error){
+            
+            for (PFObject *object in objects) {
+                
+                [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    
+                    NSLog(@"Delete notification succeed");
+                    
+                }];
+            }
+        }
+        
+    }];
+    
+}
 
 #pragma mark - Category delegate
 
@@ -875,7 +890,7 @@
         
         _eventCategoryLabel.text = eventCategory;
         
-     //   [_eventObject setObject:eventCategory forKey:kHLEventKeyCategory];
+        //   [_eventObject setObject:eventCategory forKey:kHLEventKeyCategory];
         
     }
     
@@ -888,22 +903,20 @@
     //    self.eventLocationLabel.text = [NSString stringWithFormat:@"(%.2f, %.2f)", eventLocation.coordinate.latitude, eventLocation.coordinate.longitude];
     if(eventLocationText){
         
-        self.eventLocationField.text = eventLocationText;
-        
-      //  [_eventObject setObject:eventLocationText forKey:kHLEventKeyEventLocation];
+        _eventLocationLabel.text = eventLocationText;
+        //  [_eventObject setObject:eventLocationText forKey:kHLEventKeyEventLocation];
         
     }
     
     if (eventLocation) {
         
-        _eventGeopoint = [[PFGeoPoint alloc]init];
         
         _eventGeopoint.longitude = eventLocation.coordinate.longitude;
         
         _eventGeopoint.latitude = eventLocation.coordinate.latitude;
         
-      //  [_eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
-
+        //  [_eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
+        
     }
     
     
@@ -916,7 +929,7 @@
     NSDateFormatter *dateFormater = [NSDateFormatter new];
     dateFormater.dateFormat = @"EEEE yyyy-MM-dd hh:mm a";
     //    self.eventDateField.text =[NSString stringWithFormat:@"%@ %@", self.eventDateField.text, [dateFormater stringFromDate:date]];
-    self.eventDateField.text = [dateFormater stringFromDate:date];
+    self.eventDateLabel.text = [dateFormater stringFromDate:date];
     
     _eventDate = date;
     //
@@ -947,25 +960,25 @@
     if(_currentButtonIndex == 0){
         
         _imageButton2.hidden = NO;
-
+        
         [_imagesArray addObject:compressedImage];
         [self.imageButton1 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton1 setTitle:@"" forState:UIControlStateNormal];
         [self.imageButton1 setImage:nil forState:UIControlStateNormal];
         
-         self.imageButton1.imageView.image = nil;
+        self.imageButton1.imageView.image = nil;
         
     }
     else if(_currentButtonIndex == 1){
         
         _imageButton3.hidden = NO;
-
+        
         [_imagesArray addObject:compressedImage];
         [self.imageButton2 setBackgroundImage:compressedImage forState:UIControlStateNormal];
         [self.imageButton2 setTitle:@"" forState:UIControlStateNormal];
         [self.imageButton2 setImage:nil forState:UIControlStateNormal];
         self.imageButton2.imageView.image = nil;
-
+        
         
     }
     else if(_currentButtonIndex == 2){
@@ -975,7 +988,7 @@
         [self.imageButton3 setTitle:@"" forState:UIControlStateNormal];
         [self.imageButton3 setImage:nil forState:UIControlStateNormal];
         self.imageButton3.imageView.image = nil;
-
+        
     }
     
     [picker dismissViewControllerAnimated:YES completion:nil];

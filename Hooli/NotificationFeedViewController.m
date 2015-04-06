@@ -219,7 +219,7 @@
                 
                 if(succeeded){
                     
-                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"This item has been sold. Change the status in your items list." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"This item has been sold." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alertView show];
                     
@@ -308,26 +308,26 @@
 + (NSString *)stringForNotificationType:(NSString *)notificationType {
     
     if ([notificationType isEqualToString:kHLNotificationTypeLike]) {
-        return NSLocalizedString(@"liked your photo", nil);
+        return NSLocalizedString(@"liked your item", nil);
     } else if ([notificationType isEqualToString:kHLNotificationTypeFollow]) {
         return NSLocalizedString(@"started following you", nil);
     } else if ([notificationType isEqualToString:kHLNotificationTypeOfferComment]) {
         return NSLocalizedString(@"commented on your item", nil);
-    } else if ([notificationType isEqualToString:kHLNotificationTypeNeedComment]){
-        return NSLocalizedString(@"commented on your need", nil);
-    } else if ([notificationType isEqualToString:kHLNotificationTypeJoined]) {
-        return NSLocalizedString(@"joined Hooli", nil);
+//    } else if ([notificationType isEqualToString:kHLNotificationTypeNeedComment]){
+//        return NSLocalizedString(@"commented on your need", nil);
+//    } else if ([notificationType isEqualToString:kHLNotificationTypeJoined]) {
+//        return NSLocalizedString(@"joined Hooli", nil);
     } else if ([notificationType isEqualToString:khlNotificationTypMakeOffer]){
         return NSLocalizedString(@"bid on your item for", nil);
-    }else if ([notificationType isEqualToString:khlNotificationTypOfferItem]){
-        return NSLocalizedString(@"offer you an item", nil);
-    }else if ([notificationType isEqualToString:khlNotificationTypAcceptOffer]){
-        return NSLocalizedString(@"has accepted your bid", nil);
-    }else if ([notificationType isEqualToString:khlNotificationTypeOfferSold]){
-        return NSLocalizedString(@"Sorry,item has been sold.", nil);
-    }
-    else if ([notificationType isEqualToString:kHLNotificationTypeActivityComment]){
-        return NSLocalizedString(@"comment on your event", nil);
+//    }else if ([notificationType isEqualToString:khlNotificationTypOfferItem]){
+//        return NSLocalizedString(@"offer you an item", nil);
+//    }else if ([notificationType isEqualToString:khlNotificationTypAcceptOffer]){
+//        return NSLocalizedString(@"has accepted your bid", nil);
+//    }else if ([notificationType isEqualToString:khlNotificationTypeOfferSold]){
+//        return NSLocalizedString(@"Sorry,item has been sold.", nil);
+//    }
+//    else if ([notificationType isEqualToString:kHLNotificationTypeActivityComment]){
+//        return NSLocalizedString(@"comment on your event", nil);
     }
     else if ([notificationType isEqualToString:kHLNotificationTypeJoinEvent]){
         return NSLocalizedString(@"has joined your event", nil);

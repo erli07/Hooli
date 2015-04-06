@@ -42,7 +42,7 @@
         self.pullToRefreshEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 5;
+        self.objectsPerPage = 20;
         
         // The Loading text clashes with the dark Anypic design
         self.loadingViewEnabled = NO;
@@ -129,7 +129,6 @@
     noContentLabel.textAlignment = NSTextAlignmentCenter;
     [self.blankView addSubview:noContentLabel];
     
-    [self getdate];
     // Do any additional setup after loading the view.
 }
 

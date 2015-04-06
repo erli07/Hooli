@@ -10,6 +10,7 @@
 #import "HLConstant.h"
 #import "HLTheme.h"
 #import "UserCartViewController.h"
+#import "EventManager.h"
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
 
 @interface ActivityMemberViewController ()
@@ -53,6 +54,7 @@
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
     [query whereKey:kHLEventMemberKeyEvent equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:self.aObject.objectId]];
     [query includeKey:kHLEventMemberKeyMember];
+    [query includeKey:kHLEventMemberKeyEvent];
     [query orderByAscending:@"createdAt"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     // If no objects are loaded in memory, we look to the cache first to fill the table
@@ -139,19 +141,45 @@
     
     [view addSubview:label];
     
-    [label setText:@"成员"];    
+    NSUInteger joinedNum = [self.objects count];
+
+    if([[aObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
+        
+        
+        [label setText:[NSString stringWithFormat:@"成员（%lu/%d）", (unsigned long)joinedNum,[[aObject objectForKey:kHLEventKeyMemberNumber] intValue]]];
+
+    }
+    else{
+        
+        [label setText:@"成员（人数不限）"];
+
+        
+    }
+
     
     return view;
     
     /* Section header is in 0th index... */
     
 }
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     
-    return @"成员";
+    if([[aObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
+        
+        NSUInteger joinedNum = [self.objects count];
+        
+        return  [NSString stringWithFormat:@"成员（%lu/%d）", (unsigned long)joinedNum,[[aObject objectForKey:kHLEventKeyMemberNumber] intValue]];
+        
+    }
+    else{
+        
+        return @"成员（人数不限）";
+        
+    }
+    
     
 }
+
 
 @end

@@ -36,14 +36,7 @@ typedef enum {
 @property (nonatomic, assign) NSNumber *isOfferSold;
 @property (nonatomic, strong) PFUser *toUser;
 
--(id)initOfferModelWithUser:(PFObject *)user
-                      image:(UIImage *)image
-                      price:(NSString *)offerPrice
-                  offerName:(NSString *)offerName
-                   category:(NSString *)offerCategory
-                description:(NSString *)offerDescription
-                   location:(CLLocationCoordinate2D) offerLocation
-                isOfferSold:(NSNumber *)isOfferSold;
+
 
 -(id)initOfferModelWithUser:(PFObject *)user
                  imageArray:(NSArray *)imageArray
@@ -52,7 +45,8 @@ typedef enum {
                    category:(NSString *)offerCategory
                 description:(NSString *)offerDescription
                    location:(CLLocationCoordinate2D) offerLocation
-                isOfferSold:(NSNumber *)isOfferSold;
+                isOfferSold:(NSNumber *)isOfferSold
+                  condition:(NSString *)condition;
 
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
@@ -63,17 +57,9 @@ typedef enum {
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
                       location:(CLLocationCoordinate2D) offerLocation
-                   isOfferSold:(NSNumber *)isOfferSold;
+                   isOfferSold:(NSNumber *)isOfferSold
+                     condition:(NSString *)condition;
 
--(id)initOfferModelWithUser:(PFObject *)user
-                 imageArray:(NSArray *)imageArray
-                      price:(NSString *)offerPrice
-                  offerName:(NSString *)offerName
-                   category:(NSString *)offerCategory
-                description:(NSString *)offerDescription
-                   location:(CLLocationCoordinate2D) offerLocation
-                isOfferSold:(NSNumber *)isOfferSold
-                  condition:(NSString *)offerCondition;
 
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
@@ -83,7 +69,8 @@ typedef enum {
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
                       location:(CLLocationCoordinate2D) offerLocation
-                   isOfferSold:(NSNumber *)isOfferSold;
+                   isOfferSold:(NSNumber *)isOfferSold
+                     condition:(NSString *)condition;
 
 
 -(id)initOfferWithPFObject:(PFObject *)object;

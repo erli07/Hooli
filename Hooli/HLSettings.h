@@ -17,6 +17,12 @@
 @property (nonatomic, assign) BOOL showSoldItems;
 @property (nonatomic, assign) NSInteger currentPageIndex;
 
++(NSString *)releaseNumber;
++(NSString *)buildNumber;
+
+- (BOOL)getPushFlag;
+- (void)savePushFlag:(BOOL)pushFlag;
+
 - (PFUser *)getCurrentUser ;
 - (void)saveCurrentUser:(PFUser *)currentUser;
 

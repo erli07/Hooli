@@ -54,7 +54,9 @@ typedef enum{
 @property (nonatomic) PFObject *eventObject;
 
 
+
 - (IBAction)showCalender:(id)sender;
+- (IBAction)showMap:(id)sender;
 
 - (IBAction)submitActivity:(id)sender;
 - (IBAction)inviteFriends:(id)sender;

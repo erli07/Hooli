@@ -13,6 +13,7 @@
 #import "LocationManager.h"
 #import "HomeViewViewController.h"
 #import "HLSettings.h"
+#import "HomeTabBarController.h"
 //#import "EaseMob.h"
 #import "AccountManager.h"
 #import "HLUtilities.h"
@@ -126,7 +127,9 @@
 }
 
 - (BOOL)isParseReachable {
+    
     return self.networkStatus != NotReachable;
+    
 }
 
 
@@ -135,7 +138,6 @@
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
     
  //   [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
@@ -144,7 +146,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
-  //  [PFPush handlePush:userInfo];
+   // [PFPush handlePush:userInfo];
     
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
         // Track app opens due to a push notification being acknowledged while the app wasn't active.
@@ -157,6 +159,55 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:kHLAppDelegateApplicationDidReceiveRemoteNotification object:nil userInfo:userInfo];
         
     }
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+    
+    NSLog(@"notification userinfo :%@",     [[userInfo objectForKey:kAPNSKey]objectForKey:kAPNSAlertKey]);
+    NSString *payloadType = [userInfo objectForKey:kHLPushPayloadPayloadTypeKey];
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+    if(payloadType){
+        
+        if([payloadType isEqualToString:kHLPushPayloadPayloadTypeNotificationFeedKey]){
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadFeedObjectsNotification object:self];
+            
+            UITabBarItem *tabBarItem = [[vc.viewControllers objectAtIndex:TAB_BAR_INDEX_NOTIFICATION] tabBarItem];
+            
+            NSString *currentBadgeValue = tabBarItem.badgeValue;
+            
+            if (currentBadgeValue && currentBadgeValue.length > 0) {
+                
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                NSNumber *badgeValue = [numberFormatter numberFromString:currentBadgeValue];
+                NSNumber *newBadgeValue = [NSNumber numberWithInt:[badgeValue intValue] + 1];
+                tabBarItem.badgeValue = [numberFormatter stringFromNumber:newBadgeValue];
+            } else {
+                tabBarItem.badgeValue = @"1";
+            }
+            
+        }
+        else if([payloadType isEqualToString:kHLPushPayloadPayloadTypeMessagesKey]){
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadMessageObjectsNotification object:self];
+            
+            UITabBarItem *tabBarItem = [[vc.viewControllers objectAtIndex:TAB_BAR_INDEX_MESSAGES] tabBarItem];
+            
+            NSString *currentBadgeValue = tabBarItem.badgeValue;
+            
+            if (currentBadgeValue && currentBadgeValue.length > 0) {
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                NSNumber *badgeValue = [numberFormatter numberFromString:currentBadgeValue];
+                NSNumber *newBadgeValue = [NSNumber numberWithInt:[badgeValue intValue] + 1];
+                tabBarItem.badgeValue = [numberFormatter stringFromNumber:newBadgeValue];
+            } else {
+                tabBarItem.badgeValue = @"1";
+            }
+        }
+    }
+
     
 }
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
@@ -203,6 +254,8 @@
     
     [FBAppEvents activateApp];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadFeedObjectsNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadMessageObjectsNotification object:self];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{

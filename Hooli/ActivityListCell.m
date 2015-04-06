@@ -13,6 +13,7 @@
 #import "KZImageViewer.h"
 #import "KZImage.h"
 #import "KZPhotoBrowser.h"
+#import "EventManager.h"
 
 #define kScreenHeight         [UIScreen mainScreen].bounds.size.height
 #define kScreenWidth          [UIScreen mainScreen].bounds.size.width
@@ -74,9 +75,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
-    [dateFormatter setDateFormat:@"ccc d MMM"];
-    NSString *week = [dateFormatter stringFromDate:[eventObject objectForKey:kHLEventKeyDate]];
+    
     
     [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:coord
                                                                     block:^(NSString *address, NSError *error) {
@@ -84,19 +83,12 @@ static TTTTimeIntervalFormatter *timeFormatter;
                                                                         
                                                                         if(!address){
                                                                             
-                                                                           address = [eventObject objectForKey:kHLEventKeyEventLocation];
+                                                                            address = [eventObject objectForKey:kHLEventKeyEventLocation];
                                                                             
                                                                         }
                                                                         
-                                                                        if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
-                                                                            
-                                                                            self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", address,week,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
-                                                                            
-                                                                        }
-                                                                        else{
-                                                                            self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@", address,week,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
-                                                                            
-                                                                        }
+                                                                        [self configureInfoLabel:eventObject withAddress:address];
+                                                                        
                                                                     }];
     
     self.activityCategoryImageView.image = [self getActivityCategoryImageFromString:[eventObject objectForKey:kHLEventKeyCategory]];
@@ -251,7 +243,49 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
 }
 
+-(void)configureInfoLabel:(PFObject *)eventObject withAddress:(NSString *)address{
+    
+    NSDate *today = [NSDate date];
+    NSString *time ;
+    
+    NSDate *myDate = [eventObject objectForKey:kHLEventKeyDate];
+    
+    if ([myDate earlierDate:today] == myDate) {
+        
+            time = @"Expired";
+        
+    }
+    else{
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
+        [dateFormatter setDateFormat:@"ccc d MMM"];
+        time = [dateFormatter stringFromDate:[eventObject objectForKey:kHLEventKeyDate]];
 
+    }
+    
+    if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
+        
+        [[EventManager sharedInstance]getEventMemberCountWithEvent:eventObject withBlock:^(int count, NSError *error) {
+            
+            if(count < [[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] ){
+                
+                self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", address,time,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
+            }
+            else{
+                
+                self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | 已满", address,time];
+            }
+            
+        }];
+        
+    }
+    else{
+        
+        self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | 人数不限", address, time];
+        
+    }
+    
+}
 
 
 

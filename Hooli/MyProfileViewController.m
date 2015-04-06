@@ -44,11 +44,11 @@
     
     self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"star"], [UIImage imageNamed:@"item"],[UIImage imageNamed:@"user"],[UIImage imageNamed:@"group"],[UIImage imageNamed:@"setting"],nil];
     
-    [[HLSettings sharedInstance]setCurrentPageIndex:3];    
-
+    [[HLSettings sharedInstance]setCurrentPageIndex:3];
+    
     [self addUIElements];
     
-
+    
     //    [self loadData];
     // Do any additional setup after loading the view.
 }
@@ -56,7 +56,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -103,27 +103,27 @@
     self.profilePictureView.image = [UIImage imageWithData:imageData];
     [self.settingTableView reloadData];
     
-//    [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
-//        
-//        PFUser *user = [PFUser currentUser];
-//        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
-//        NSData *imageData = [theImage getData];
-//        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
-//        self.profilePictureView.image = [UIImage imageWithData:imageData];
-//        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
-//        [self.settingTableView reloadData];
-//
-//    } Failure:^(id error) {
-//        
-//        PFUser *user = [PFUser currentUser];
-//        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
-//        NSData *imageData = [theImage getData];
-//        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
-//        self.profilePictureView.image = [UIImage imageWithData:imageData];
-//        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
-//        [self.settingTableView reloadData];
-//
-//    }];
+    //    [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
+    //
+    //        PFUser *user = [PFUser currentUser];
+    //        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+    //        NSData *imageData = [theImage getData];
+    //        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+    //        self.profilePictureView.image = [UIImage imageWithData:imageData];
+    //        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
+    //        [self.settingTableView reloadData];
+    //
+    //    } Failure:^(id error) {
+    //
+    //        PFUser *user = [PFUser currentUser];
+    //        PFFile *theImage = [user objectForKey:kHLUserModelKeyPortraitImage];
+    //        NSData *imageData = [theImage getData];
+    //        self.nameLabel.text =[NSString stringWithFormat:@"Welcome %@！", user.username];
+    //        self.profilePictureView.image = [UIImage imageWithData:imageData];
+    //        self.myCredtis = [user objectForKey:kHLUserModelKeyCredits];
+    //        [self.settingTableView reloadData];
+    //
+    //    }];
     
 }
 
@@ -136,44 +136,20 @@
     
     if(indexPath.section == 0){
         
-//        if(indexPath.row == 0){
-//            
-//            [self performSegueWithIdentifier:@"myCredits" sender:self];
-//            
-//        }
-//        else
-            if(indexPath.row == 0){
-            
-                UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeVC"];
-                vc.hidesBottomBarWhenPushed = YES;
-                // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-                [self.navigationController pushViewController:vc animated:YES];
-       //     [self performSegueWithIdentifier:@"myItems" sender:self];
-       
-        }
-
-        else if(indexPath.row == 1){
+        
+        if(indexPath.row == 0){
             
             UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
-            vc.aUser = [PFUser currentUser];
+            HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeVC"];
             vc.hidesBottomBarWhenPushed = YES;
+            // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
             [self.navigationController pushViewController:vc animated:YES];
-            
-//            MyActivitiesViewController *myAc = [[MyActivitiesViewController alloc]initWithUser:[PFUser currentUser]];
-//            
-//            myAc.hidesBottomBarWhenPushed = YES;
-//            
-//            [self.navigationController pushViewController:myAc animated:YES];
-
-        }
-        else if(indexPath.row == 2){
-            
-            [self performSegueWithIdentifier:@"myItems" sender:self];
+            //     [self performSegueWithIdentifier:@"myItems" sender:self];
             
         }
-
+        
+        
+        
     }
     else if(indexPath.section == 1){
         
@@ -188,35 +164,27 @@
         }
         else if(indexPath.row == 1){
             
+            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
+            vc.aUser = [PFUser currentUser];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            
+        }
+        else if(indexPath.row == 2){
+            
+            [self performSegueWithIdentifier:@"myItems" sender:self];
+            
+        }
+        else if(indexPath.row == 3){
+            
             MyRelationshipViewController *vc = [[MyRelationshipViewController alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
-//            FollowListViewController *vc = [[FollowListViewController alloc] init];
-//            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
-//            vc.fromUser = [PFUser currentUser];
-//            vc.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:vc animated:YES];
-            
         }
-//        else if(indexPath.row == 2){
-//            
-//            FollowListViewController *vc = [[FollowListViewController alloc] init];
-//            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWING;
-//            vc.fromUser = [PFUser currentUser];
-//            vc.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:vc animated:YES];
-//
-//        }
-//        else if(indexPath.row == 3){
-//            
-//            FollowListViewController *vc = [[FollowListViewController alloc] init];
-//            vc.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
-//            vc.fromUser = [PFUser currentUser];
-//            vc.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:vc animated:YES];
-//
-//        }
+    
         
     }
     else if(indexPath.section == 2){
@@ -226,9 +194,9 @@
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
         
-//        UIAlertView *logoutAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-//        logoutAlert.delegate = self;
-//        [logoutAlert show];
+        //        UIAlertView *logoutAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        //        logoutAlert.delegate = self;
+        //        [logoutAlert show];
         
     }
     
@@ -251,39 +219,21 @@
     
     if(indexPath.section == 0){
         
-//        if(indexPath.row == 0){
-//            
-//            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
-//            cell.imageView.image = [self.imagesArray objectAtIndex:0];
-//
-//        }
-//        else
+        //        if(indexPath.row == 0){
+        //
+        //            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
+        //            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+        //
+        //        }
+        //        else
         
         if(indexPath.row == 0){
             
-          //     cell.textLabel.text = @"My Items";
+            //     cell.textLabel.text = @"My Items";
             
             cell.textLabel.text = @"二手市场";
-
+            
             cell.imageView.image = [UIImage imageNamed:@"shopping"];
-
-        }
-        else if(indexPath.row == 1){
-            
-            //     cell.textLabel.text = @"My Items";
-            
-            cell.textLabel.text = @"我的活动";
-            
-            cell.imageView.image = [self.imagesArray objectAtIndex:0];
-            
-        }
-        else if(indexPath.row == 2){
-            
-            //     cell.textLabel.text = @"My Items";
-            
-            cell.textLabel.text = @"我的物品";
-            
-            cell.imageView.image = [self.imagesArray objectAtIndex:1];
             
         }
         
@@ -292,32 +242,46 @@
         
         if(indexPath.row == 0){
             
-           // cell.textLabel.text = @"My Profile";
+            // cell.textLabel.text = @"My Profile";
             cell.textLabel.text = @"个人资料";
-
+            
             cell.imageView.image = [self.imagesArray objectAtIndex:2];
             
         }
         else if(indexPath.row == 1){
             
-          //  cell.textLabel.text = @"My Relations";
-
+            cell.textLabel.text = @"我的活动";
+            
+            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+            
+        }
+        else if(indexPath.row == 2){
+            
+            cell.textLabel.text = @"我的物品";
+            
+            cell.imageView.image = [self.imagesArray objectAtIndex:1];
+            
+        }
+        else if(indexPath.row == 3){
+            
+            //  cell.textLabel.text = @"My Relations";
+            
             cell.textLabel.text = @"我的朋友";
             cell.imageView.image = [self.imagesArray objectAtIndex:3];
             
         }
-
+        
     }
     else if(indexPath.section == 2){
         
         cell.textLabel.text = @"设置";
         
-       // cell.textLabel.text = @"Settings";
-
+        // cell.textLabel.text = @"Settings";
+        
         cell.imageView.image = [self.imagesArray objectAtIndex:4];
-
+        
     }
-
+    
     [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
     cell.textLabel.textColor = [HLTheme mainColor];
     
@@ -328,9 +292,9 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 3;
+        return 1;
     else if(section == 1)
-        return 2;
+        return 4;
     else
         return 1;
 }
@@ -350,8 +314,8 @@
 
 
 //- (BOOL)checkIfUserLogin{
-//    
-//    
+//
+//
 //    if(![PFUser currentUser]){
 //        
 //        UIStoryboard *loginSb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];

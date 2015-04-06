@@ -82,6 +82,12 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [self setNavBarVisible:YES animated:YES];
+
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     
     [[HLSettings sharedInstance]setShowSoldItems:NO];

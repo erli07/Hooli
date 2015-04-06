@@ -16,9 +16,9 @@
 #import "HLTheme.h"
 #import "camera.h"
 #import "ActivityLocationViewController.h"
-#import "SelectCategoryTableViewController.h"
+#import "SearchItemViewController.h"
 
-@interface CreateItemViewController ()<UIActionSheetDelegate,UIAlertViewDelegate,HLActivityLocationDelegate,UITextFieldDelegate,UITextViewDelegate,HLItemCategoryDelegate>
+@interface CreateItemViewController ()<UIActionSheetDelegate,UIAlertViewDelegate,HLActivityLocationDelegate,UITextFieldDelegate,UITextViewDelegate,ShowSearchResultDelegate>
 @property (nonatomic) NSMutableArray *imagesArray;
 @property (nonatomic,assign) CLLocationCoordinate2D itemLocationCoordinate;
 @property (nonatomic) NSInteger currentButtonIndex;
@@ -28,29 +28,30 @@
 
 @implementation CreateItemViewController
 @synthesize currentButtonIndex = _currentButtonIndex;
-@synthesize itemCategoryField = _itemCategoryField;
-@synthesize itemConditionField = _itemConditionField;
 @synthesize itemContetnTextView = _itemContetnTextView;
-@synthesize itemPickupField = _itemPickupField;
 @synthesize itemPriceField = _itemPriceField;
 @synthesize itemTitleField = _itemTitleField;
 @synthesize imagesArray = _imagesArray;
 @synthesize itemLocationCoordinate = _itemLocationCoordinate;
 @synthesize submitButton= _submitButton;
 @synthesize itemCondition = _itemCondition;
+@synthesize deliveryLabel = _deliveryLabel;
+@synthesize conditionLabel = _conditionLabel;
+@synthesize categoryLabel = _categoryLabel;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = @"发布物品";
     
     _itemContetnTextView.placeholder = @"必填";
     
     _imagesArray = [NSMutableArray new];
     
-    _itemPickupField.delegate = self;
-    _itemCategoryField.delegate = self;
-    _itemConditionField.delegate = self;
     _itemTitleField.delegate = self;
     _itemContetnTextView.delegate = self;
     _itemPriceField.delegate = self;
+    _itemPriceField.placeholder = @"in US dollar";
     
     _imageButton1.hidden = NO;
     _imageButton2.hidden = YES;
@@ -72,7 +73,11 @@
 
 -(BOOL)checkFieldEmpty{
     
-    if([_itemContetnTextView.text  isEqual: @""] || [_itemCategoryField.text  isEqual: @""] || [_itemPickupField.text  isEqual: @""] || [_itemConditionField.text  isEqual: @""] || [_itemPriceField.text  isEqual: @""] || [_itemTitleField.text isEqualToString:@""]){
+    if([_itemContetnTextView.text  isEqual: @""] || [_conditionLabel.text  isEqual: @""] || [_categoryLabel.text  isEqual: @""] || [_deliveryLabel.text  isEqual: @""] || [_itemTitleField.text isEqualToString:@""]){
+        
+        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Field missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
         
         return NO;
         
@@ -84,6 +89,10 @@
 -(BOOL)checkImagesEmpty{
     
     if(_imagesArray == nil || [_imagesArray count] == 0){
+        
+        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Image missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
         
         return NO;
         
@@ -99,45 +108,11 @@
         return;
     }
     
-    NSString *itemName = _itemTitleField.text;
-    NSString *itemPrice = _itemPriceField.text;
-    NSString *itemCategory = _itemCategoryField.text;
-    NSString *itemDescription = _itemContetnTextView.text;
-    NSString *itemCondtion = _itemConditionField.text;
+    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"确定发布？" delegate:self cancelButtonTitle:@"等一会儿" otherButtonTitles:@"是的", nil];
     
+    alert.tag = 0;
     
-    OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:_imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:_itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] condition:itemCondtion];
-    
-    [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
-        
-        
-        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-        
-        [[FormManager sharedInstance]setToUser:nil];
-        
-        [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-        
-        UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
-                                                              message:@"You have successfully post your item!"
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles:nil];
-        [confirmAlert show];
-        
-        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-        ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
-        vc.offerObject = offer;
-        vc.isFirstPosted = YES;
-        vc.hidesBottomBarWhenPushed = YES;
-        vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    } withFailure:^(id error) {
-        
-        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-        
-        
-    }];
+    [alert show];
     
 }
 
@@ -146,15 +121,15 @@
     [self.imageButton1 setBackgroundImage:nil forState:UIControlStateNormal];
     
     [self.imageButton1 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
-
+    
     [self.imageButton2 setBackgroundImage:nil forState:UIControlStateNormal];
     
     [self.imageButton2 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
-
+    
     [self.imageButton3 setBackgroundImage:nil forState:UIControlStateNormal];
     
     [self.imageButton3 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
-
+    
     [self.imageButton4 setBackgroundImage:nil forState:UIControlStateNormal];
     
     [self.imageButton4 setImage:[UIImage imageNamed:@"take_photo"] forState:UIControlStateNormal];
@@ -174,8 +149,8 @@
                     _imageButton2.hidden = NO;
                     _imageButton3.hidden = YES;
                     _imageButton4.hidden = YES;
-
-
+                    
+                    
                 }
                 else{
                     
@@ -183,7 +158,7 @@
                     _imageButton2.hidden = YES;
                     _imageButton3.hidden = YES;
                     _imageButton4.hidden = YES;
-
+                    
                 }
                 
                 break;
@@ -198,7 +173,7 @@
                     _imageButton2.hidden = NO;
                     _imageButton3.hidden = NO;
                     _imageButton4.hidden = YES;
-
+                    
                 }
                 else{
                     
@@ -261,6 +236,42 @@
     }
     
     
+}
+
+- (IBAction)showConditions:(id)sender {
+    
+    [self resetViews];
+    
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+                                               otherButtonTitles:@"全新", @"半新",@"旧物" , nil];
+    action.tag = 2;
+    [action showInView:self.view];
+    
+}
+
+- (IBAction)showCategories:(id)sender {
+    
+    [self resetViews];
+    
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Main"
+                                                  bundle:nil];
+    SearchItemViewController *vc =  [sb instantiateViewControllerWithIdentifier:@"SearchItemViewController"];
+    vc.title = @"Category";
+    vc.isMultipleSelection = NO;
+    vc.delegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
+- (IBAction)showDelivery:(id)sender {
+    
+    [self resetViews];
+    
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+                                               otherButtonTitles:@"包邮", @"自取", nil];
+    action.tag = 1;
+    
+    [action showInView:self.view];
 }
 
 - (IBAction)imageButton1Pressed:(id)sender {
@@ -360,7 +371,49 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if(alertView.tag == 1){
+    if(alertView.tag == 0){
+        
+        NSString *itemName = _itemTitleField.text;
+        NSString *itemPrice = [NSString stringWithFormat:@"$%@",_itemPriceField.text];
+        NSString *itemCategory = _categoryLabel.text;
+        NSString *itemDescription = _itemContetnTextView.text;
+        NSString *itemCondtion = _conditionLabel.text;
+        
+        OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:_imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:_itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] condition:itemCondtion];
+        
+        [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
+            
+            
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            
+            [[FormManager sharedInstance]setToUser:nil];
+            
+            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+            
+            UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
+                                                                  message:@"You have successfully post your item!"
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+            [confirmAlert show];
+            
+            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+            ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+            vc.offerObject = offer;
+            vc.isFirstPosted = YES;
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        } withFailure:^(id error) {
+            
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            
+            
+        }];
+        
+    }
+    else if(alertView.tag == 1){
         
         if(buttonIndex == 1){
             
@@ -427,7 +480,7 @@
             
             if (buttonIndex == 0)	{
                 
-                _itemPickupField.text = @"包送";
+                _deliveryLabel.text = @"包邮";
             }
             if (buttonIndex == 1) {
                 
@@ -448,16 +501,16 @@
             
             if (buttonIndex == 0)	{
                 
-                _itemConditionField.text  = @"全新";
+                _conditionLabel.text  = @"全新";
             }
             else if (buttonIndex == 1) {
                 
-                _itemConditionField.text  = @"半新";
+                _conditionLabel.text  = @"半新";
                 
             }
             else if (buttonIndex == 2) {
                 
-                _itemConditionField.text  = @"旧物";
+                _conditionLabel.text  = @"旧物";
                 
             }
         }
@@ -526,65 +579,45 @@
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField{
     
-    if(textField == self.itemPriceField || textField == self.itemCategoryField ){
-        
+    
         [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, - 200,
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, - 80,
                                                                    self.view.frame.size.width, self.view.frame.size.height); } ];
-    }
-    
-    if(textField == self.itemPickupField){
-        
-        [textField resignFirstResponder];
-        
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                                   otherButtonTitles:@"包送", @"自取", nil];
-        action.tag = 1;
-        
-        [action showInView:self.view];
-        
-        
-    }
-    
-    else if(textField == self.itemConditionField){
-        
-        [textField resignFirstResponder];
-        
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                                   otherButtonTitles:@"全新", @"半新",@"旧物" , nil];
-        action.tag = 2;
-        [action showInView:self.view];
-        
-        
-    }
-    
-    else if(textField == self.itemCategoryField){
-        
-        [textField resignFirstResponder];
-        
-        UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Post"
-                                                      bundle:nil];
-        SelectCategoryTableViewController *vc =  [sb instantiateViewControllerWithIdentifier:@"SelectCategoryTableViewController"];
-        vc.title = @"Category";
-        vc.delegate = self;
-        [self.navigationController pushViewController:vc animated:YES];
-        
-        
-    }
+
     
     
 }
 
-- (void)didSelectEventCategory:(NSString *)eventCategory{
+-(void)resetViews{
     
-    _itemCategoryField.text = eventCategory;
+    for (UIView *subView in self.view.subviews) {
+        
+        if ([subView isFirstResponder]) {
+            
+            [subView resignFirstResponder];
+            
+        }
+    }
+    
+    [UIView animateWithDuration:.5
+                     animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x,  0,
+                                                               self.view.frame.size.width, self.view.frame.size.height); } ];
+    
 }
+
+
+-(void)didSelectItemCategory:(NSString *)itemCategory{
+    
+    _categoryLabel.text = itemCategory;
+
+}
+
 
 -(void)didSelectEventLocation:(CLLocation *)eventLocation locationString:(NSString *)eventLocationText{
     
     _itemLocationCoordinate = eventLocation.coordinate;
     
-    _itemPickupField.text = [NSString stringWithFormat:@"自取 %@", eventLocationText];
+    _deliveryLabel.text = [NSString stringWithFormat:@"自取 %@", eventLocationText];
     
 }
 

@@ -27,6 +27,7 @@
 #import "HomeTabBarController.h"
 #import "UserAccountViewController.h"
 #import "BidHistoryViewController.h"
+
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
 
@@ -129,9 +130,9 @@
     
     MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
     mailVC.mailComposeDelegate = self;
-    [mailVC setSubject:@"My Subject"];
-    [mailVC setMessageBody:@"Hello there." isHTML:NO];
-    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
+    [mailVC setSubject:[NSString stringWithFormat:@"Report item %@",self.offerObject.offerName]];
+    [mailVC setMessageBody:@"Hi there," isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"erli.0715@gmail.com"]];
     
     if (mailVC)
         
@@ -263,13 +264,13 @@
     
     
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer (in US dollar):" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
     
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     
     UITextField* tf = [alertView textFieldAtIndex:0];
     
-    tf.text = self.offerObject.offerPrice;
+    tf.text = [self.offerObject.offerPrice substringFromIndex:1];
     
     tf.keyboardType = UIKeyboardTypeNumberPad;
     
@@ -312,13 +313,27 @@
         
         if(address){
             
-            [self.seeMapButton setTitle:address forState:UIControlStateNormal];
             
+            [self.seeMapButton setTitle:[NSString stringWithFormat:@"自取:%@",address] forState:UIControlStateNormal];
+            
+            [self.seeMapButton setEnabled:YES];
+
+        }
+        else{
+            
+            [self.seeMapButton setTitle:[NSString stringWithFormat:@"包邮"] forState:UIControlStateNormal];
+            
+            [self.seeMapButton setEnabled:NO];
         }
         
     }];
     
-    self.itemNameLabel.text =  offerModel.offerName;
+
+    
+    
+        
+    self.itemNameLabel.text =  [NSString stringWithFormat:@"(%@)%@",offerModel.offerCondition,offerModel.offerName];
+    
     NSString *distanceText = [[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
     self.locationLabel.text = [NSString stringWithFormat:@"Location: %@", distanceText];
     self.categoryLabel.text = [NSString stringWithFormat:@"In %@",offerModel.offerCategory];
@@ -522,20 +537,7 @@
     }
     else{
         
-        [[OffersManager sharedInstance]getLastestBillWithOfferId:self.offerId block:^(PFObject *object, NSError *error) {
-            
-            if(object){
-
-                
-                [self.showBidButton setTitle:[NSString stringWithFormat:@"Latest Bid: %@", [object objectForKey:kHLNotificationContentKey]] forState:UIControlStateNormal];
-            }
-            else{
-                
-                [self.showBidButton setTitle:@"No bid yet" forState:UIControlStateNormal];
-                
-            }
-            
-        }];
+        [self updateBidButton];
         
         
     }
@@ -652,7 +654,7 @@
         
         if(buttonIndex== 1){
             
-            NSString *price = [alertView textFieldAtIndex:0].text;
+            NSString *price = [NSString stringWithFormat:@"$%@",[alertView textFieldAtIndex:0].text];
             
 //            if(![[ActivityManager sharedInstance]checkBalanceStatus:price]){
 //                
@@ -673,6 +675,9 @@
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Congratulations" message:@"Succesfully made offer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                         
                         [alertView show];
+                        
+                        [self updateBidButton];
+                        
                     }
                     else{
                         
@@ -917,21 +922,6 @@
     
 }
 
-- (IBAction)addToCart:(id)sender {
-    
-    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
-    mailVC.mailComposeDelegate = self;
-    [mailVC setSubject:@"My Subject"];
-    [mailVC setMessageBody:@"Hello there." isHTML:NO];
-    [mailVC setToRecipients:[NSArray arrayWithObject:@"123@gmail.com"]];
-    
-    if (mailVC)
-        
-        [self presentViewController:mailVC animated:YES completion:^{
-            
-        }];
-    
-}
 - (IBAction)seeMapButtonClicked:(id)sender {
     
     
@@ -984,6 +974,25 @@
         BidHistoryViewController *destVC = segue.destinationViewController;
         destVC.offerId = self.offerObject.offerId;
     }
+    
+}
+
+-(void)updateBidButton{
+    
+    [[OffersManager sharedInstance]getLastestBillWithOfferId:self.offerId block:^(PFObject *object, NSError *error) {
+        
+        if(object){
+            
+            
+            [self.showBidButton setTitle:[NSString stringWithFormat:@"Latest Bid: %@", [object objectForKey:kHLNotificationContentKey]] forState:UIControlStateNormal];
+        }
+        else{
+            
+            [self.showBidButton setTitle:@"No bid yet" forState:UIControlStateNormal];
+            
+        }
+        
+    }];
     
 }
 
