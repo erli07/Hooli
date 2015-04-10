@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "GCPlaceholderTextView.h"
+#import  <Parse/Parse.h>
+#import "OfferModel.h"
 
 @interface CreateItemViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *itemTitleField;
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *itemContetnTextView;
 @property (weak, nonatomic) IBOutlet UITextField *itemPriceField;
-
+@property (nonatomic) PFObject *offerObject;
 
 - (IBAction)submitItem:(id)sender;
 

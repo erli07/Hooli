@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "449971172.476072"
+            timestampString = "450333708.427578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396">
+            startingLineNumber = "433"
+            endingLineNumber = "433">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -376,11 +376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "449971172.476072"
+            timestampString = "450333708.427578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400">
+            startingLineNumber = "437"
+            endingLineNumber = "437">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -390,11 +390,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/MyCartViewController.m"
-            timestampString = "449971172.476072"
+            timestampString = "450333708.427578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "476"
-            endingLineNumber = "476">
+            startingLineNumber = "513"
+            endingLineNumber = "513">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -451,13 +451,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hooli/MyProfileDetailViewController.m"
-            timestampString = "449959779.643826"
+            filePath = "Hooli/ActivityCommentViewController.m"
+            timestampString = "450251420.235898"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
+            landmarkName = "-dismissKeyboard"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -468,11 +468,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hooli/CreateActivityViewController.m"
-            timestampString = "449970358.557946"
+            timestampString = "450322470.211784"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -483,13 +483,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hooli/ActivityLocationViewController.m"
-            timestampString = "449970398.163327"
+            filePath = "Hooli/ItemDetailViewController.m"
+            timestampString = "450321005.261288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "-refreshOfferDetailsFromCloud"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hooli/ItemDetailViewController.m"
+            timestampString = "450321012.261267"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-refreshOfferDetailsFromCloud"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hooli/ItemDetailViewController.m"
+            timestampString = "450321168.004362"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "-refreshOfferDetailsFromCloud"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

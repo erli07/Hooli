@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "FollowListCell.h"
 #import "ActivityManager.h"
+#import <ParseUI/ParseUI.h>
 
 @protocol HLSelectUserProfileDelegate <NSObject>
 

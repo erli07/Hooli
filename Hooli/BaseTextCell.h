@@ -37,6 +37,7 @@
 @property (nonatomic, strong) ProfileImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UIButton *replyButton;
 @property (nonatomic, strong) UIImageView *separatorImage;
 
 /*! The horizontal inset of the cell */
@@ -87,6 +88,9 @@
  @param aUser the PFUser of the user that was tapped
  */
 - (void)cell:(BaseTextCell *)cellView didTapUserButton:(PFUser *)aUser;
+@optional
+- (void)cell:(BaseTextCell *)cellView didReplyButton:(PFUser *)aUser;
+
 
 @end
 

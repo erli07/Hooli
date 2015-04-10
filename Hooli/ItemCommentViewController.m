@@ -17,6 +17,7 @@
 @interface ItemCommentViewController ()
 @property (nonatomic, strong) ItemDetailsHeaderView *headerView;
 @property (nonatomic, assign) BOOL likersQueryInProgress;
+@property (nonatomic, assign) BOOL isReplyIndividual;
 @end
 
 static const CGFloat kHLCellInsetWidth = 0.0f;
@@ -24,6 +25,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 @implementation ItemCommentViewController
 
 @synthesize commentTextField;
+@synthesize repliedUser;
 @synthesize offer, headerView, aObject;
 
 #pragma mark - Initialization
@@ -126,9 +128,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     //    } failure:^(id error) {
     //
     //    }];
-    
-    
-    
+  
     // Set table view properties
 //    UIView *texturedBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
 //    texturedBackgroundView.backgroundColor = [UIColor whiteColor];
@@ -151,6 +151,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    self.repliedUser = nil;
     // [self.headerView reloadLikeBar];
     
     // we will only hit the network if we have no cached data for this photo
@@ -204,7 +205,8 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     else if([[self.aObject objectForKey:kHLCommentTypeKey] isEqualToString: kHLCommentTypeOffer]){
         
         [query includeKey:kHLNotificationOfferKey];
-        
+        [query includeKey:kHLNotificationFromUserKey];
+        [query includeKey:kHLNotificationToUserKey];
         [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeOfferComment];
 
         [query whereKey:kHLNotificationOfferKey equalTo:[PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:self.aObject.objectId]];
@@ -248,7 +250,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, tableView.frame.size.width, 12)];
     [label setFont:[UIFont boldSystemFontOfSize:12.0f]];
-    NSString *titleForHeader = [NSString stringWithFormat:@"Comment(%d)",[self.objects count]];
+    NSString *titleForHeader = [NSString stringWithFormat:@"Comment(%lu)",(unsigned long)[self.objects count]];
     /* Section header is in 0th index... */
     [label setText:titleForHeader];
     [view addSubview:label];
@@ -258,7 +260,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
-    NSString *titleForHeader = [NSString stringWithFormat:@"Comment(%d)",[self.objects count]];
+    NSString *titleForHeader = [NSString stringWithFormat:@"Comment(%lu)",(unsigned long)[self.objects count]];
     
     return titleForHeader;
 }
@@ -284,10 +286,38 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
     [cell addGestureRecognizer:tap];
     
     [cell setUser:[object objectForKey:kHLNotificationFromUserKey]];
+    
+    PFUser *toUser =[object objectForKey:kHLNotificationToUserKey];
+    PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
+    PFUser *offerOwner = [self.aObject objectForKey:kHLOfferModelKeyUser];
+    
+    if([fromUser.objectId isEqualToString:[[PFUser currentUser] objectId]]){
+        
+        cell.replyButton.hidden = YES;
+    }
+    
+    if(![toUser.objectId isEqualToString:offerOwner.objectId]){
+        
+        [cell.nameButton setTitle:[NSString stringWithFormat:@"%@ reply %@:",fromUser.username,toUser.username] forState:UIControlStateNormal];
+        [cell.nameButton setTitle:[NSString stringWithFormat:@"%@ reply %@:",fromUser.username,toUser.username] forState:UIControlStateHighlighted];
+        // [cell setNeedsLayout];
+    }
+    
     [cell setContentText:[object objectForKey:kHLNotificationContentKey]];
     [cell setDate:[object createdAt]];
     
+
+
+    
     return cell;
+}
+
+-(void)cell:(BaseTextCell *)cellView didReplyButton:(PFUser *)aUser{
+    
+    [commentTextField becomeFirstResponder];
+    commentTextField.text = @"";
+    commentTextField.placeholder = [NSString stringWithFormat:@"reply:%@",aUser.username];
+    self.repliedUser = aUser;
 }
 
 //- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
@@ -314,7 +344,18 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
         
         PFObject *comment = [PFObject objectWithClassName:kHLCloudNotificationClass];
         [comment setObject:trimmedComment forKey:kHLNotificationContentKey]; // Set comment text
-        [comment setObject:[self.aObject objectForKey:@"user"] forKey:kHLNotificationToUserKey]; // Set toUser
+        
+        if(!self.repliedUser){
+        
+            [comment setObject:[self.aObject objectForKey:@"user"] forKey:kHLNotificationToUserKey];
+            
+        }
+        else{
+            
+            [comment setObject:self.repliedUser forKey:kHLNotificationToUserKey];
+            
+        }
+            // Set toUser
         [comment setObject:[PFUser currentUser] forKey:kHLNotificationFromUserKey]; // Set fromUser
         
         if( [[self.aObject objectForKey:kHLCommentTypeKey] isEqualToString:kHLCommentTypeOffer]){
@@ -353,6 +394,10 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
                 [alert show];
             }
             
+            self.repliedUser = nil;
+            commentTextField.text = @"";
+            commentTextField.placeholder =  @"Leave your comment...";
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsUserCommentedNotification object:self.aObject userInfo:@{@"comments": @(self.objects.count + 1)}];
             
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
@@ -373,6 +418,11 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 }
 
 -(void)dismissKeyboard {
+    
+    self.repliedUser = nil;
+    commentTextField.text = @"";
+    commentTextField.placeholder =  @"Leave your comment...";
+    
     [commentTextField resignFirstResponder];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsPutDownCommentViewNotification object:self];
     

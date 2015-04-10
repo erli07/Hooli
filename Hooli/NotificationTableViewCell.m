@@ -48,7 +48,6 @@ static TTTTimeIntervalFormatter *timeFormatter;
         self.accessoryType = UITableViewCellAccessoryNone;
         self.hasActivityImage = NO; //No until one is set
         
-        
         self.activityImageView = [[ProfileImageView alloc] init];
         [self.activityImageView setBackgroundColor:[UIColor clearColor]];
         [self.activityImageView setOpaque:YES];
@@ -106,6 +105,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 
 -(void)setNotification:(PFObject *)notification{
+    
+    self.replyButton.hidden = YES;
     
     if ([[notification objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeFollow] || [[notification objectForKey:kHLNotificationTypeKey] isEqualToString:kHLNotificationTypeJoined]) {
         [self setActivityImageFile:nil];

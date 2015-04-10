@@ -59,6 +59,23 @@
     
 }
 
+
++ (void)saveAddressToLocal:(NSMutableDictionary *)dictionary{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setObject:dictionary forKey:@"MY_ADDRESS"];
+    [ud synchronize];
+    
+}
+
++ (NSDictionary *)getAddressBook{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    return [ud objectForKey:@"MY_ADDRESS"];
+    
+}
+
+
 + (BOOL)checkIfUserLoginWithCurrentVC:(UIViewController *)vc{
     
     if(![PFUser currentUser]){

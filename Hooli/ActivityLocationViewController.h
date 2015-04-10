@@ -14,7 +14,7 @@
 @protocol HLActivityLocationDelegate <NSObject>
 
 //- (void)didSelectEventLocation:(CLLocation *)eventLocation;
-- (void)didSelectEventLocation:(CLLocation *)eventLocation locationString:(NSString *)eventLocationText;
+- (void)didSelectLocation:(CLLocation *)location locationString:(NSString *)locationText;
 
 @end
 

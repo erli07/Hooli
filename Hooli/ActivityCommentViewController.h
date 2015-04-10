@@ -8,7 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "BaseTextCell.h"
-
+#import <ParseUI/ParseUI.h>
 
 @interface ActivityCommentViewController : PFQueryTableViewController<UITextFieldDelegate, UIActionSheetDelegate, BaseTextCellDelegate>
 

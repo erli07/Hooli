@@ -19,6 +19,8 @@
 #import "HLUtilities.h"
 #import "Reachability.h"
 #import "HLCache.h"
+#import <ParseCrashReporting/ParseCrashReporting.h>
+
 @interface AppDelegate ()
 
 @end
@@ -28,11 +30,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [HLTheme customizeTheme];
     
+    [ParseCrashReporting enable];
+
     [Parse setApplicationId:@"nLiRBbe4xwev8pUXbvD3x8Q2eQAuSg8NRQWsoo9y" clientKey:@"WIJGRQoKLR1ascXnVZMyrFGX8y9F0tfBRDJr0YdX"];
     [PFFacebookUtils initializeFacebook];
     
+    [HLTheme customizeTheme];
+
     [[LocationManager sharedInstance]startLocationUpdate];
     
     // Register for Push Notitications
@@ -166,7 +171,12 @@
     
     NSLog(@"notification userinfo :%@",     [[userInfo objectForKey:kAPNSKey]objectForKey:kAPNSAlertKey]);
     NSString *payloadType = [userInfo objectForKey:kHLPushPayloadPayloadTypeKey];
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+    if(![[userInfo objectForKey:kHLPushPayloadFromUserObjectIdKey] isEqualToString:[PFUser currentUser].objectId ]){
+        
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        
+    }
     
     if(payloadType){
         

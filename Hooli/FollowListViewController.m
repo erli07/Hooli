@@ -112,11 +112,6 @@
         [query whereKey:kHLNotificationTypeKey equalTo:kHLNotificationTypeFollow];
         [query whereKey:kHLNotificationToUserKey equalTo:self.fromUser];
         
-    }else{
-        
-        [query includeKey:kHLNotificationToUserKey];
-        [query includeKey:kHLNotificationFromUserKey];
-        
     }
     
     [query orderByDescending:@"createAt"];

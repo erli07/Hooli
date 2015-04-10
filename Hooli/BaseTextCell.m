@@ -9,6 +9,7 @@
 #import "BaseTextCell.h"
 #import "HLConstant.h"
 #import "AccountManager.h"
+#import "HLTheme.h"
 
 static TTTTimeIntervalFormatter *timeFormatter;
 
@@ -33,6 +34,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
 @synthesize separatorImage;
 @synthesize delegate;
 @synthesize user;
+@synthesize replyButton;
 
 
 #pragma mark - NSObject
@@ -68,6 +70,17 @@ static TTTTimeIntervalFormatter *timeFormatter;
         self.avatarImageView.layer.masksToBounds = YES;
         [mainView addSubview:self.avatarImageView];
         
+        self.replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.replyButton setBackgroundColor:[UIColor clearColor]];
+        [self.replyButton setTitle:@"reply" forState:UIControlStateNormal];
+        [self.replyButton setTitle:@"reply" forState:UIControlStateHighlighted];
+        [self.replyButton setTitleColor:[HLTheme mainColor] forState:UIControlStateNormal];
+        [self.replyButton addTarget:self action:@selector(didtapReplyButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.replyButton.titleLabel setLineBreakMode:NSLineBreakByTruncatingTail];
+        [self.replyButton.titleLabel setFont:[UIFont boldSystemFontOfSize:13]];
+        
+        [mainView addSubview:self.replyButton];
+        
         self.nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.nameButton setBackgroundColor:[UIColor clearColor]];
         
@@ -88,8 +101,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
         if ([reuseIdentifier isEqualToString:@"CommentCell"]) {
             
             [self.contentLabel setTextColor:[UIColor blackColor]];
-
-          //  [self.contentLabel setTextColor:[UIColor whiteColor]];
+            
+            //  [self.contentLabel setTextColor:[UIColor whiteColor]];
         } else {
             [self.contentLabel setTextColor:[UIColor colorWithRed:34.0f/255.0f green:34.0f/255.0f blue:34.0f/255.0f alpha:1.0f]];
         }
@@ -153,6 +166,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
                                                         context:nil].size;
     [self.timeLabel setFrame:CGRectMake(timeX, contentLabel.frame.origin.y + contentLabel.frame.size.height + vertElemSpacing, timeSize.width, timeSize.height)];
     
+    [self.replyButton setFrame:CGRectMake(320 - 64, contentLabel.frame.origin.y + contentLabel.frame.size.height, 64, timeSize.height + 6)];
+    
     // Layour separator
     [self.separatorImage setFrame:CGRectMake(0, self.frame.size.height-1, self.frame.size.width-cellInsetWidth*2, 1)];
     [self.separatorImage setHidden:hideSeparator];
@@ -168,6 +183,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
     }
 }
 
+-(void)didtapReplyButtonAction:(id)sender{
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cell:didReplyButton:)]) {
+        [self.delegate cell:self didReplyButton:self.user];
+    }
+    
+}
 
 #pragma mark - BaseTextCell
 
@@ -227,28 +249,32 @@ static TTTTimeIntervalFormatter *timeFormatter;
     return paddedString;
 }
 
+
+
 - (void)setUser:(PFUser *)aUser {
     user = aUser;
     
     [[AccountManager sharedInstance]setUserProfilePicture:self.avatarImageView withUserId:user.objectId];
     
-//    UITapGestureRecognizer *tapOnAvatarImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnAvatarImageView:)];
-//    
-//    [tapOnAvatarImageView setNumberOfTapsRequired:1];
-//    
-//    [self.avatarImageView addGestureRecognizer:tapOnAvatarImageView];
+    //    UITapGestureRecognizer *tapOnAvatarImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnAvatarImageView:)];
+    //
+    //    [tapOnAvatarImageView setNumberOfTapsRequired:1];
+    //
+    //    [self.avatarImageView addGestureRecognizer:tapOnAvatarImageView];
     
-   // [self.avatarImageView setFile:[self.user objectForKey:kHLUserModelKeyPortraitImage]];
+    // [self.avatarImageView setFile:[self.user objectForKey:kHLUserModelKeyPortraitImage]];
     
     // Set name button properties and avatar image
-//    if ([PAPUtility userHasProfilePictures:self.user]) {
-//        [self.avatarImageView setFile:[self.user objectForKey:kPAPUserProfilePicSmallKey]];
-//    } else {
-//        [self.avatarImageView setImage:[PAPUtility defaultProfilePicture]];
-//    }
-//    
+    //    if ([PAPUtility userHasProfilePictures:self.user]) {
+    //        [self.avatarImageView setFile:[self.user objectForKey:kPAPUserProfilePicSmallKey]];
+    //    } else {
+    //        [self.avatarImageView setImage:[PAPUtility defaultProfilePicture]];
+    //    }
+    
     [self.nameButton setTitle:[self.user objectForKey:kHLUserModelKeyUserName] forState:UIControlStateNormal];
     [self.nameButton setTitle:[self.user objectForKey:kHLUserModelKeyUserName] forState:UIControlStateHighlighted];
+    
+
     
     // If user is set after the contentText, we reset the content to include padding
     if (self.contentLabel.text) {
@@ -258,6 +284,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
 }
 
 - (void)setContentText:(NSString *)contentString {
+    
     // If we have a user we pad the content with spaces to make room for the name
     if (self.user) {
         CGSize nameSize = [self.nameButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)

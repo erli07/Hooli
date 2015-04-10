@@ -27,6 +27,7 @@
 #import "HomeTabBarController.h"
 #import "UserAccountViewController.h"
 #import "BidHistoryViewController.h"
+#import "CreateItemViewController.h"
 
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
@@ -69,7 +70,7 @@
                                    action:@selector(dismissKeyboard)];
     
     [self.view addGestureRecognizer:tap];
-    
+//    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftCommentView:) name:kHLItemDetailsLiftCommentViewNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(putDownCommentView) name:kHLItemDetailsPutDownCommentViewNotification object:nil];
@@ -286,28 +287,23 @@
     
     if(!self.isFirstPosted){
         
-        if ([[[self.offerObject user]objectId] isEqualToString:[[PFUser currentUser]objectId]]) {
-            
-            //            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-            //                                               initWithTitle:@"Edit"
-            //                                               style:UIBarButtonItemStyleDone
-            //                                               target:self
-            //                                               action:@selector(redirectToEditPage)];
-            //            self.navigationItem.rightBarButtonItem = rightBarButton;
-            
-        }
-        
-        else{
-            
             UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
                                                initWithTitle:@"Report"
                                                style:UIBarButtonItemStyleDone
                                                target:self
                                                action:@selector(reportItem)];
             self.navigationItem.rightBarButtonItem = rightBarButton;
-        }
+        
         
     }
+    else{
+        
+        self.makeOfferButton.hidden = YES;
+        self.showBidButton.hidden = YES;
+        self.likeButton.hidden = YES;
+        self.likeCountLabel.hidden = YES;
+    }
+
     
     [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:offerModel.offerLocation block:^(NSString *address, NSError *error) {
         
@@ -321,15 +317,12 @@
         }
         else{
             
-            [self.seeMapButton setTitle:[NSString stringWithFormat:@"包邮"] forState:UIControlStateNormal];
+            [self.seeMapButton setTitle:[NSString stringWithFormat:@"包送"] forState:UIControlStateNormal];
             
             [self.seeMapButton setEnabled:NO];
         }
         
     }];
-    
-
-    
     
         
     self.itemNameLabel.text =  [NSString stringWithFormat:@"(%@)%@",offerModel.offerCondition,offerModel.offerName];
@@ -439,9 +432,10 @@
 
 -(void)liftCommentView:(NSNotification*)note{
     
+    [self reloadContentsize];
     NSDictionary* info = [note userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    [self.offerDetailView setContentOffset:CGPointMake(0.0f, self.offerDetailView.contentSize.height-kbSize.height - 74) animated:YES];
+    [self.offerDetailView setContentOffset:CGPointMake(0.0f, self.offerDetailView.contentSize.height - kbSize.height - 200 ) animated:YES];
     
 }
 
@@ -453,8 +447,10 @@
 
 -(void)dismissKeyboard{
     
+    self.commentVC.repliedUser = nil;
+    self.commentVC.commentTextField.placeholder = @"Leave your comment...";
     [self.commentVC.commentTextField resignFirstResponder];
-    [self putDownCommentView];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsPutDownCommentViewNotification object:self];
     
 }
 
@@ -462,7 +458,7 @@
     
     //    [self.offerDetailView setFrame:CGRectMake(0, 0, 320, self.offerDetailView.frame.size.height + self.commentVC.tableView.contentSize.height)];
     
-    [self.offerDetailView setContentSize:CGSizeMake(320, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height - 74)];
+    [self.offerDetailView setContentSize:CGSizeMake(320, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height + 100)];
     
     [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
     
@@ -475,6 +471,8 @@
     self.tabBarController.tabBar.hidden = YES;
     // self.navigationController.navigationBar.hidden = YES;
     self.title = @"Item Detail";
+    
+
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.topDetailBar.bounds;
@@ -515,8 +513,6 @@
     
     
     if(self.isFirstPosted){
-        
-        
         
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
                                          initWithTitle:@"Cancel"
@@ -930,11 +926,6 @@
     
 }
 
--(void)redirectToEditPage{
-    
-    [self performSegueWithIdentifier:@"editOffer" sender:self];
-    
-}
 
 - (IBAction)showBidHistory:(id)sender {
     
@@ -958,6 +949,7 @@
     if([segue.identifier isEqualToString:@"map"])
     {
         MapViewController *map = segue.destinationViewController;
+        map.title = @"自取地点";
         map.offerLocation = self.offerLocation;
     }
     else if([segue.identifier isEqualToString:@"editOffer"]){

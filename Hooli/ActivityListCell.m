@@ -79,9 +79,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:coord
                                                                     block:^(NSString *address, NSError *error) {
-                                                                        
-                                                                        
-                                                                        if(!address){
+                                                                                                                                                
+                                                                        if ([address isEqualToString:@""]) {
                                                                             
                                                                             address = [eventObject objectForKey:kHLEventKeyEventLocation];
                                                                             
@@ -252,13 +251,16 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     if ([myDate earlierDate:today] == myDate) {
         
-            time = @"Expired";
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
+        [dateFormatter setDateFormat:@"ccc dd MMM"];
+        time = [dateFormatter stringFromDate:[eventObject objectForKey:kHLEventKeyDate]];
+        time = [NSString stringWithFormat:@"%@(已过期)",time];
         
     }
     else{
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
-        [dateFormatter setDateFormat:@"ccc d MMM"];
+        [dateFormatter setDateFormat:@"ccc dd MMM"];
         time = [dateFormatter stringFromDate:[eventObject objectForKey:kHLEventKeyDate]];
 
     }

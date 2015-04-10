@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "ItemDetailsHeaderView.h"
+#import <ParseUI/ParseUI.h>
 @protocol ItemDetailsHeaderViewDelegate;
 
 

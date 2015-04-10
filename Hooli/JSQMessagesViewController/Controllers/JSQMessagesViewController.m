@@ -639,11 +639,16 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
  didTapAvatarImageView:(UIImageView *)avatarImageView
            atIndexPath:(NSIndexPath *)indexPath { }
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath { }
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath {
+
+}
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
  didTapCellAtIndexPath:(NSIndexPath *)indexPath
-         touchLocation:(CGPoint)touchLocation { }
+         touchLocation:(CGPoint)touchLocation {
+
+
+}
 
 #pragma mark - Input toolbar delegate
 

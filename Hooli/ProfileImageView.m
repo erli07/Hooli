@@ -7,6 +7,7 @@
 //
 
 #import "ProfileImageView.h"
+#import <ParseUI/ParseUI.h>
 
 @interface ProfileImageView ()
 @property (nonatomic, strong) UIImageView *borderImageview;

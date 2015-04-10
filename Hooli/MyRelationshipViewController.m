@@ -37,8 +37,7 @@
 //    scroll.backgroundColor = [UIColor whiteColor];
 //    scroll.showsHorizontalScrollIndicator = YES;
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.title = @"我的朋友";
+    self.title = @"My Friends";
     
     NSArray *itemArray = [NSArray arrayWithObjects: @"我关注的", @"我的粉丝", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
@@ -92,6 +91,22 @@
         [_followListVC.view setNeedsDisplay];
 
     }
+//    else if(segment.selectedSegmentIndex == 2)
+//    {
+//        
+//        _followListVC.followStatus =  HL_RELATIONSHIP_TYPE_FRIENDS;
+//
+//        [[ActivityManager sharedInstance]getFriendsByUser:[PFUser currentUser] block:^(NSArray *array, NSError *error) {
+//            
+//            if(!error){
+//            
+//            [_followListVC.view setNeedsDisplay];
+//                
+//            }
+//
+//        }];
+//        
+//    }
 
 }
 

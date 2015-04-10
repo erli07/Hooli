@@ -32,8 +32,6 @@
 @property (nonatomic) PFGeoPoint *eventGeopoint;
 @property (nonatomic) NSString *eventCategory;
 
-
-
 @end
 
 @implementation CreateActivityViewController
@@ -898,24 +896,26 @@
 
 #pragma mark - HLLocation delegate
 
--(void)didSelectEventLocation:(CLLocation *)eventLocation locationString:(NSString *)eventLocationText{
+-(void)didSelectLocation:(CLLocation *)location locationString:(NSString *)locationText{
     
     //    self.eventLocationLabel.text = [NSString stringWithFormat:@"(%.2f, %.2f)", eventLocation.coordinate.latitude, eventLocation.coordinate.longitude];
-    if(eventLocationText){
+    if(locationText){
         
-        _eventLocationLabel.text = eventLocationText;
-        //  [_eventObject setObject:eventLocationText forKey:kHLEventKeyEventLocation];
+        _eventLocationLabel.text = locationText;
         
     }
     
-    if (eventLocation) {
+    if (location) {
         
+        if(!_eventGeopoint){
+            
+            _eventGeopoint = [[PFGeoPoint alloc]init];
+        }
         
-        _eventGeopoint.longitude = eventLocation.coordinate.longitude;
+        _eventGeopoint.longitude = location.coordinate.longitude;
         
-        _eventGeopoint.latitude = eventLocation.coordinate.latitude;
+        _eventGeopoint.latitude = location.coordinate.latitude;
         
-        //  [_eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
         
     }
     

@@ -482,7 +482,16 @@
             cell.textLabel.textColor = text_color;
             cell.imageView.image = [UIImage imageNamed:@"content"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = [_activityDetail objectForKey:kHLEventKeyAnnoucement];
+            if ([[_activityDetail objectForKey:kHLEventKeyAnnoucement]isEqualToString:@""] ) {
+                
+                cell.textLabel.text = @"暂无";
+                
+            }
+            else{
+                
+                 cell.textLabel.text = [_activityDetail objectForKey:kHLEventKeyAnnoucement];
+                
+            }
             
             return cell;
             

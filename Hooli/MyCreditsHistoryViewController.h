@@ -8,6 +8,8 @@
 
 #import <Parse/Parse.h>
 #import "CreditHistoryCell.h"
+#import <ParseUI/ParseUI.h>
+
 @interface MyCreditsHistoryViewController : PFQueryTableViewController
 
 + (NSString *)stringForNotificationType:(NSString *)notificationType;

@@ -63,9 +63,9 @@
     
     [self.view addGestureRecognizer:tap];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftCommentView:) name:kHLItemDetailsLiftCommentViewNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(putDownCommentView) name:kHLItemDetailsPutDownCommentViewNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftCommentView:) name:kHLItemDetailsLiftCommentViewNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadContentsize) name:kHLItemDetailsReloadContentSizeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(putDownCommentView) name:kHLItemDetailsPutDownCommentViewNotification object:nil];
     
     [self configureElements];
 
@@ -236,7 +236,7 @@
 
 -(void)putDownCommentView{
     
-    [self.parentView  setContentOffset:CGPointMake(0.0f, 0.0f) animated:YES];
+   // [self.parentView  setContentOffset:CGPointMake(0.0f, 0.0f) animated:YES];
     
 }
 

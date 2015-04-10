@@ -7,6 +7,7 @@
 //
 
 #import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
 
 @interface BidHistoryViewController : PFQueryTableViewController
 @property (nonatomic) NSString *offerId;

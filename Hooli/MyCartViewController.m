@@ -16,6 +16,7 @@
 #import "HLSettings.h"
 #import "HLConstant.h"
 #import "ActivityManager.h"
+#import "CreateItemViewController.h"
 @interface MyCartViewController ()<UICollectionViewDelegate,UpdateCollectionViewDelegate,UIActionSheetDelegate>
 @property (nonatomic, strong) UISegmentedControl *typeSegmentedControl;
 @property (nonatomic, strong) UIViewController *currentViewController;
@@ -73,6 +74,8 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)viewWillDisappear:(BOOL)animated{
     
     [[OffersManager sharedInstance]clearData];
+    
+    [[OffersManager sharedInstance]setFilterDictionary:nil];
     
     [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
     
@@ -174,13 +177,15 @@ static NSString * const reuseIdentifier = @"Cell";
         }
         
         NSString *other2 = @"Delete";
+        NSString *other3 = @"Edit";
+        NSString *other0 = @"Detail";
         NSString *cancelTitle = @"Cancel";
         UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                       initWithTitle:nil
                                       delegate:self
                                       cancelButtonTitle:cancelTitle
                                       destructiveButtonTitle:nil
-                                      otherButtonTitles:other1, other2, nil];
+                                      otherButtonTitles:other0, other1, other2, other3, nil];
         [actionSheet showInView:self.view];
         
     }
@@ -199,7 +204,16 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma acrionsheet delegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
+    
     if(buttonIndex == 0){
+
+        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+        ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+        vc.offerId = _currentOfferId;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+    else if(buttonIndex == 1){
         
         [[OffersManager sharedInstance]updateOfferSoldStatusWithOfferID:_currentOfferId soldStatus:!_currentOfferSoldStatus block:^(BOOL succeeded, NSError *error) {
             
@@ -218,12 +232,35 @@ static NSString * const reuseIdentifier = @"Cell";
         
         
     }
-    else if(buttonIndex == 1){
+    else if(buttonIndex == 2){
         
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to delete this item?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
         alertView.tag = 1;
         [alertView show];
         
+        
+    }
+    else if(buttonIndex == 3){
+        
+        [[OffersManager sharedInstance]fetchOfferByID:_currentOfferId withSuccess:^(id downloadObjects) {
+            
+            if(downloadObjects){
+                
+                UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+                
+                CreateItemViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateItemViewController"];
+                
+                postVC.offerObject = downloadObjects;
+                
+                postVC.hidesBottomBarWhenPushed = YES;
+                
+                [self.navigationController pushViewController:postVC animated:YES];
+                
+            }
+            
+        } failure:^(id error) {
+            
+        }];
         
     }
     

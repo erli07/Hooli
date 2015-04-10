@@ -129,7 +129,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="er.png" id="SbH-gZ-YiJ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="SbH-gZ-YiJ">
                                             <rect key="frame" x="15" y="10" width="40" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -271,7 +271,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="er.png" id="lBj-Ji-UxF">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="lBj-Ji-UxF">
                                             <rect key="frame" x="15" y="10" width="40" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -1101,7 +1101,6 @@
     <resources>
         <image name="discover.png" width="30" height="30"/>
         <image name="discover@2x.png" width="32" height="32"/>
-        <image name="er.png" width="264" height="276"/>
         <image name="messages.png" width="30" height="30"/>
         <image name="notification.png" width="30" height="30"/>
         <image name="pink-heart.png" width="17" height="16"/>
@@ -1114,6 +1113,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ciK-9r-ZiN"/>
+        <segue reference="xMT-h4-l7l"/>
     </inferredMetricsTieBreakers>
 </document>

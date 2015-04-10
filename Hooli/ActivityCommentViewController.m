@@ -213,7 +213,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 
 -(void)dismissKeyboard {
     [commentTextField resignFirstResponder];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsPutDownCommentViewNotification object:self];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kHLItemDetailsPutDownCommentViewNotification object:self];
     
 }
 

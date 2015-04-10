@@ -17,12 +17,17 @@
 #import "camera.h"
 #import "ActivityLocationViewController.h"
 #import "SearchItemViewController.h"
+#import "HLConstant.h"
+#import "OffersManager.h"
+#import "LocationManager.h"
+#import "HLUtilities.h"
 
 @interface CreateItemViewController ()<UIActionSheetDelegate,UIAlertViewDelegate,HLActivityLocationDelegate,UITextFieldDelegate,UITextViewDelegate,ShowSearchResultDelegate>
 @property (nonatomic) NSMutableArray *imagesArray;
 @property (nonatomic,assign) CLLocationCoordinate2D itemLocationCoordinate;
 @property (nonatomic) NSInteger currentButtonIndex;
 @property (nonatomic) NSString *itemCondition;
+@property (nonatomic) PFGeoPoint *itemGeoPoint;
 
 @end
 
@@ -38,6 +43,8 @@
 @synthesize deliveryLabel = _deliveryLabel;
 @synthesize conditionLabel = _conditionLabel;
 @synthesize categoryLabel = _categoryLabel;
+@synthesize offerObject = _offerObject;
+@synthesize itemGeoPoint = _itemGeoPoint;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,6 +52,7 @@
     self.title = @"发布物品";
     
     _itemContetnTextView.placeholder = @"必填";
+    _itemContetnTextView.textColor = [HLTheme textColor];
     
     _imagesArray = [NSMutableArray new];
     
@@ -58,11 +66,12 @@
     _imageButton3.hidden = YES;
     _imageButton4.hidden = YES;
     
-    
     [_itemPriceField setKeyboardType:UIKeyboardTypeNumberPad];
     
     [_submitButton setBackgroundColor:[HLTheme mainColor]];
     [_submitButton setTintColor:[UIColor whiteColor]];
+    
+    [self updateExistingItem];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapEventOccured:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
@@ -70,6 +79,100 @@
     [self.view addGestureRecognizer:tapGestureRecognizer];
     // Do any additional setup after loading the view.
 }
+
+
+-(void)updateExistingItem{
+    
+    if(_offerObject){
+        
+        _itemContetnTextView.text = [_offerObject objectForKey:kHLOfferModelKeyDescription];
+        _conditionLabel.text = [_offerObject objectForKey:kHLOfferModelKeyCondition];
+        _categoryLabel.text = [_offerObject objectForKey:kHLOfferModelKeyCategory];
+        _itemTitleField.text = [_offerObject objectForKey:kHLOfferModelKeyOfferName] ;
+        _itemPriceField.text = [[_offerObject objectForKey:kHLOfferModelKeyPrice]substringFromIndex:1];
+        _itemGeoPoint = [_offerObject objectForKey:kHLOfferModelKeyGeoPoint];
+        
+        if(_itemGeoPoint){
+            
+            CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(_itemGeoPoint.latitude, _itemGeoPoint.longitude);
+            [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:coord
+                                                                            block:^(NSString *address, NSError *error) {
+                                                                                
+                                                                                _deliveryLabel.text = [NSString stringWithFormat:@"自取:%@",address];
+                                                                                
+                                                                            }];
+        }
+        
+        PFObject *imagesObject = [_offerObject objectForKey:kHLOfferModelKeyImage];
+        PFFile *imageFile0 =[imagesObject objectForKey:@"imageFile0"];
+        PFFile *imageFile1 =[imagesObject objectForKey:@"imageFile1"];
+        PFFile *imageFile2 =[imagesObject objectForKey:@"imageFile2"];
+        PFFile *imageFile3 =[imagesObject objectForKey:@"imageFile3"];
+        
+        if(imageFile0){
+            
+            [imageFile0 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                
+                [_imagesArray addObject:[UIImage imageWithData:data]];
+                
+                self.imageButton1.imageView.image = nil;
+                
+                [self configureImageButtons];
+                
+                
+            }];
+        }
+        
+        if(imageFile1){
+            
+            [imageFile1 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                
+                [_imagesArray addObject:[UIImage imageWithData:data]];
+                
+                self.imageButton2.imageView.image = nil;
+                
+                [self configureImageButtons];
+                
+                
+            }];
+        }
+        
+        if(imageFile2){
+            
+            [imageFile2 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                
+                [_imagesArray addObject:[UIImage imageWithData:data]];
+                
+                self.imageButton3.imageView.image = nil;
+                
+                [self configureImageButtons];
+                
+                
+            }];
+            
+        }
+        
+        if(imageFile3){
+            
+            [imageFile3 getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                
+                [_imagesArray addObject:[UIImage imageWithData:data]];
+                
+                self.imageButton4.imageView.image = nil;
+                
+                [self configureImageButtons];
+                
+                
+            }];
+            
+        }
+        
+        [_submitButton setTitle:@"发布更新" forState:UIControlStateNormal];
+        
+        
+    }
+}
+
 
 -(BOOL)checkFieldEmpty{
     
@@ -260,7 +363,7 @@
     vc.isMultipleSelection = NO;
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
-
+    
 }
 
 - (IBAction)showDelivery:(id)sender {
@@ -268,7 +371,7 @@
     [self resetViews];
     
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                               otherButtonTitles:@"包邮", @"自取", nil];
+                                               otherButtonTitles:@"包送", @"自取", nil];
     action.tag = 1;
     
     [action showInView:self.view];
@@ -373,44 +476,113 @@
     
     if(alertView.tag == 0){
         
-        NSString *itemName = _itemTitleField.text;
-        NSString *itemPrice = [NSString stringWithFormat:@"$%@",_itemPriceField.text];
-        NSString *itemCategory = _categoryLabel.text;
-        NSString *itemDescription = _itemContetnTextView.text;
-        NSString *itemCondtion = _conditionLabel.text;
         
-        OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:_imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:_itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] condition:itemCondtion];
-        
-        [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
+        if(buttonIndex == 1){
             
+            NSString *itemName = _itemTitleField.text;
+            NSString *itemPrice = [NSString stringWithFormat:@"$%@",_itemPriceField.text];
+            NSString *itemCategory = _categoryLabel.text;
+            NSString *itemDescription = _itemContetnTextView.text;
+            NSString *itemCondtion = _conditionLabel.text;
             
-            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
             
-            [[FormManager sharedInstance]setToUser:nil];
-            
-            [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
-            
-            UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
-                                                                  message:@"You have successfully post your item!"
-                                                                 delegate:nil
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-            [confirmAlert show];
-            
-            UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-            ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
-            vc.offerObject = offer;
-            vc.isFirstPosted = YES;
-            vc.hidesBottomBarWhenPushed = YES;
-            vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            [self.navigationController pushViewController:vc animated:YES];
-            
-        } withFailure:^(id error) {
-            
-            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-            
-            
-        }];
+            if(_offerObject){
+                
+                PFObject *offerImages = [_offerObject objectForKey:kHLOfferModelKeyImage];
+                PFObject *offerImageObject = [PFObject objectWithoutDataWithClassName:kHLCloudOfferImagesClass objectId:offerImages.objectId];
+                [offerImageObject deleteInBackground];
+                
+                PFObject *offerImagesClass = [PFObject objectWithClassName:kHLCloudOfferImagesClass];
+                for (int i = 0; i <[_imagesArray count]; i++) {
+                    
+                    if ([_imagesArray objectAtIndex:i]) {
+                        
+                        NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:i] WithCompression:1.0f];
+                        PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
+                        [offerImagesClass setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
+                    }
+                    
+                }
+                [offerImagesClass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    
+                    if(succeeded){
+                        
+                        PFObject *offerObject = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_offerObject.objectId];
+                        [offerObject setObject:itemName forKey:kHLOfferModelKeyOfferName];
+                        [offerObject setObject:[NSString stringWithFormat:@"$%@", itemPrice]forKey:kHLOfferModelKeyPrice];
+                        [offerObject setObject:itemCategory forKey:kHLOfferModelKeyCategory];
+                        [offerObject setObject:itemDescription forKey:kHLOfferModelKeyDescription];
+                        [offerObject setObject:itemCondtion forKey:kHLOfferModelKeyCondition];
+                        [offerObject setObject:[PFUser currentUser] forKey:kHLOfferModelKeyUser];
+                        NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:0] WithCompression:1.0f];
+                        PFFile *thumbnail = [PFFile fileWithName:@"thumbNail.jpg" data:imageData];
+                        [offerObject setObject:thumbnail forKey:kHLOfferModelKeyThumbNail];
+                        [offerObject setObject:offerImagesClass forKey:kHLOfferModelKeyImage];
+                        PFGeoPoint *geopoint = [[PFGeoPoint alloc]init];
+                        geopoint.latitude = _itemLocationCoordinate.latitude;
+                        geopoint.longitude = _itemLocationCoordinate.longitude;
+                        [offerObject setObject:geopoint forKey:kHLOfferModelKeyGeoPoint];
+                        [offerObject setObject:[NSNumber numberWithBool:NO] forKey:kHLOfferModelKeyOfferStatus];
+                        [offerObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            
+                            if(succeeded){
+                                
+                                UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
+                                                                                      message:@"You have successfully post your item!"
+                                                                                     delegate:nil
+                                                                            cancelButtonTitle:@"OK"
+                                                                            otherButtonTitles:nil];
+                                [confirmAlert show];
+                                
+                                [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+                                
+                                [self.navigationController popViewControllerAnimated:YES];
+                                
+                            }
+                            
+                        }];
+                    }
+                }];
+                
+            }
+            else{
+                
+                OfferModel *offer = [[OfferModel alloc]initOfferModelWithUser:[PFUser currentUser] imageArray:_imagesArray  price:itemPrice offerName:itemName category:itemCategory description:itemDescription location:_itemLocationCoordinate isOfferSold:[NSNumber numberWithBool:NO] condition:itemCondtion];
+                
+                
+                [[OffersManager sharedInstance]updaloadOfferToCloud:offer withSuccess:^{
+                    
+                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    
+                    [[FormManager sharedInstance]setToUser:nil];
+                    
+                    [[HLSettings sharedInstance]setIsRefreshNeeded:YES];
+                    
+                    UIAlertView *confirmAlert = [[UIAlertView alloc]initWithTitle:@"Congratulations!"
+                                                                          message:@"You have successfully post your item!"
+                                                                         delegate:nil
+                                                                cancelButtonTitle:@"OK"
+                                                                otherButtonTitles:nil];
+                    [confirmAlert show];
+                    
+                    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+                    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+                    vc.offerObject = offer;
+                    vc.isFirstPosted = YES;
+                    vc.hidesBottomBarWhenPushed = YES;
+                    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                    [self.navigationController pushViewController:vc animated:YES];
+                    
+                } withFailure:^(id error) {
+                    
+                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    
+                    
+                }];
+                
+            }
+        }
         
     }
     else if(alertView.tag == 1){
@@ -458,6 +630,7 @@
             
         }
     }
+    
 }
 
 
@@ -480,7 +653,7 @@
             
             if (buttonIndex == 0)	{
                 
-                _deliveryLabel.text = @"包邮";
+                _deliveryLabel.text = @"包送";
             }
             if (buttonIndex == 1) {
                 
@@ -580,10 +753,10 @@
 - (void) textFieldDidBeginEditing:(UITextField *)textField{
     
     
-        [UIView animateWithDuration:.5
-                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, - 80,
-                                                                   self.view.frame.size.width, self.view.frame.size.height); } ];
-
+    [UIView animateWithDuration:.5
+                     animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, - 80,
+                                                               self.view.frame.size.width, self.view.frame.size.height); } ];
+    
     
     
 }
@@ -609,15 +782,14 @@
 -(void)didSelectItemCategory:(NSString *)itemCategory{
     
     _categoryLabel.text = itemCategory;
-
+    
 }
 
-
--(void)didSelectEventLocation:(CLLocation *)eventLocation locationString:(NSString *)eventLocationText{
+-(void)didSelectLocation:(CLLocation *)location locationString:(NSString *)locationText{
     
-    _itemLocationCoordinate = eventLocation.coordinate;
+    _itemLocationCoordinate = location.coordinate;
     
-    _deliveryLabel.text = [NSString stringWithFormat:@"自取 %@", eventLocationText];
+    _deliveryLabel.text = [NSString stringWithFormat:@"自取 %@", locationText];
     
 }
 

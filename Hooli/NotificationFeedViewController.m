@@ -184,7 +184,7 @@
     }
     
     PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
-    
+        
     [cell setUser:fromUser];
     
     [cell setNotification:object];
@@ -312,7 +312,7 @@
     } else if ([notificationType isEqualToString:kHLNotificationTypeFollow]) {
         return NSLocalizedString(@"started following you", nil);
     } else if ([notificationType isEqualToString:kHLNotificationTypeOfferComment]) {
-        return NSLocalizedString(@"commented on your item", nil);
+        return NSLocalizedString(@"commented on item", nil);
 //    } else if ([notificationType isEqualToString:kHLNotificationTypeNeedComment]){
 //        return NSLocalizedString(@"commented on your need", nil);
 //    } else if ([notificationType isEqualToString:kHLNotificationTypeJoined]) {

@@ -105,6 +105,13 @@
 - (void)applicationDidReceiveRemoteNotification:(NSNotification *)note {
     
     NSLog(@"notification userinfo :%@",     [[note.userInfo objectForKey:kAPNSKey]objectForKey:kAPNSAlertKey]);
+    
+    if([[note.userInfo objectForKey:kHLPushPayloadFromUserObjectIdKey] isEqualToString:[PFUser currentUser].objectId ]){
+        
+        return;
+        
+    }
+    
     NSString *payloadType = [note.userInfo objectForKey:kHLPushPayloadPayloadTypeKey];
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     

@@ -7,7 +7,7 @@
 //
 
 #import <Parse/Parse.h>
-
+#import <ParseUI/ParseUI.h>
 @interface NeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate>
 @property (nonatomic, strong) NSString *needId;
 @property (nonatomic, strong) PFUser *user;

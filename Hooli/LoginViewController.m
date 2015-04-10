@@ -49,7 +49,7 @@
         
     }
     else{
-    
+        
         [self.emailText becomeFirstResponder];
         
     }
@@ -91,60 +91,43 @@
     
     
     
-   [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
     
     PFQuery *query = [PFUser query];
     [query whereKey:@"email" equalTo:self.emailText.text];
-
+    
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-       
-        [self.emailText resignFirstResponder];
-        [self.passwordText resignFirstResponder];
         
         if(object){
+            
+            [self.emailText resignFirstResponder];
+            [self.passwordText resignFirstResponder];
+            
             NSString *username = [object objectForKey:@"username"];
             [PFUser logInWithUsernameInBackground:username password:self.passwordText.text block:^(PFUser* user, NSError* error){
                 
                 if(user){
                     
-                    [[ChattingManager sharedInstance]loginChattingSDK:user block:^(BOOL succeeded, NSError *error) {
-                                                
-                        if(succeeded){
-                            
-                             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
-                            
-                            [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
-                                
-                                [self loginSuccessWithUser:user];
-                                
-                            } Failure:^(id error) {
-                                
-                            }];
-                            
-                            
-                        }
-                        else{
-                            
-                             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-                            
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                            message:@"Log In Error"
-                                                                           delegate:nil
-                                                                  cancelButtonTitle:nil
-                                                                  otherButtonTitles:@"Dismiss", nil];
-                            [alert show];
-                        }
-                        
-                        
-                    }];
-
+                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    
+                    [self loginSuccessWithUser:user];
+//
+//                    [[AccountManager sharedInstance]loadAccountDataWithSuccess:^(id object) {
+//                        
+//                        
+//                    } Failure:^(id error) {
+//                        
+//                        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+//                        
+//                    }];
+                    
+                    
                     
                 }
                 else{
                     
-                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
+                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                                     message:@"Password is not correct. Please try again."
@@ -152,15 +135,15 @@
                                                           cancelButtonTitle:nil
                                                           otherButtonTitles:@"OK", nil];
                     [alert show];
-
+                    
                     
                 }
             }];
         }
         else{
             
-             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                             message:@"Email does not exist. Please sign up."
                                                            delegate:nil
@@ -173,7 +156,7 @@
         
         
     }];
-
+    
 }
 
 
@@ -186,20 +169,20 @@
 
 - (void)loginFB {
     
-
+    
     
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me",@"email"];
     
     // Show the HUD while the provided method executes in a new thread
-    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];    
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         
         
         if (!user) {
             
-             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             
             NSString *errorMessage = nil;
             if (!error) {
@@ -218,7 +201,7 @@
             [alert show];
             
         } else {
-                        
+            
             [[AccountManager sharedInstance]saveFacebookAccountDataWithPFUser:user WithSuccess:^{
                 
                 [[ChattingManager sharedInstance]signUpChattingSDK:user block:^(BOOL succeeded, NSError *error) {
@@ -232,23 +215,23 @@
                             
                             if(succeeded){
                                 
-                                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                                 
                                 [self loginSuccessWithUser:[PFUser currentUser]];
                                 
-                               // [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                                // [self performSegueWithIdentifier:@"loginSuccess" sender:self];
                                 
                             }
                             else{
                                 
-                                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                                 
-//                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                                                message:@"Log In Error"
-//                                                                               delegate:nil
-//                                                                      cancelButtonTitle:nil
-//                                                                      otherButtonTitles:@"Dismiss", nil];
-//                                [alert show];
+                                //                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                //                                                                                message:@"Log In Error"
+                                //                                                                               delegate:nil
+                                //                                                                      cancelButtonTitle:nil
+                                //                                                                      otherButtonTitles:@"Dismiss", nil];
+                                //                                [alert show];
                             }
                             
                             
@@ -260,7 +243,7 @@
                 
             } Failure:^(id error) {
                 
-                 [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                 
             }];
             
@@ -274,7 +257,7 @@
 
 -(void)loginSuccessWithUser:(PFUser *)currentUser{
     
-  //  [[HLSettings sharedInstance]saveCurrentUser:currentUser];
+    //  [[HLSettings sharedInstance]saveCurrentUser:currentUser];
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
     // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

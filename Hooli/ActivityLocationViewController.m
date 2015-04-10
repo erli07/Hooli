@@ -108,12 +108,12 @@
             
             _eventLocationText = searchBar.text;
             
-            [self.delegate didSelectEventLocation:_eventLocation locationString:_eventLocationText];
-
             [self dropPinOnMap:coordinate];
             
             _eventLocation = [[CLLocation alloc]initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
             
+            [self.delegate didSelectLocation:_eventLocation locationString:_eventLocationText];
+
         }
         else{
             

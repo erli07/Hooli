@@ -119,6 +119,8 @@
     return self;
 }
 
+
+
 -(id)initOfferModelWithOfferId:(NSString*)offerId
                           user:(PFObject *)user
                     imageArray:(NSArray *)imageArray
@@ -127,7 +129,6 @@
                       category:(NSString *)offerCategory
                    description:(NSString *)offerDescription
                       location:(CLLocationCoordinate2D) offerLocation
-                       address:(NSString *)address
                    isOfferSold:(NSNumber *)isOfferSold
                      condition:(NSString *)condition{
     
@@ -172,7 +173,6 @@
     
     PFObject *images = [object objectForKey:kHLOfferModelKeyImage];
     
-    
     for (int i=0; i< 4; i++) {
         
         PFFile *theImage = [images objectForKey:[NSString stringWithFormat:@"imageFile%d",i]];
@@ -197,7 +197,8 @@
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
     NSNumber *offerStatus = [object objectForKey:kHLOfferModelKeyOfferStatus];
     NSString *condition = [object objectForKey:kHLOfferModelKeyCondition];
-    return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:location isOfferSold:offerStatus condition:condition];
+    CLLocationCoordinate2D locationCoord = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude);
+    return  [self initOfferModelWithOfferId:offerId user:user imageArray:imageArray offerName:offerName price:price category:category description:description location:locationCoord isOfferSold:offerStatus condition:condition];
 }
 
 
