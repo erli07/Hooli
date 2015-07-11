@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OfferModel.h"
+#import <ParseUI/ParseUI.h>
 @interface ItemCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView* soldImage;
 @property (nonatomic, weak) IBOutlet UIImageView* productImageView;

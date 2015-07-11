@@ -66,3 +66,8 @@
 
 -(id)initUserWithPFObject:(PFObject *)object;
 @end
+
+@interface UserManager : NSObject
+@property(strong, atomic) UserModel* mainUser;
++(UserManager*)shareMainUser;
+@end

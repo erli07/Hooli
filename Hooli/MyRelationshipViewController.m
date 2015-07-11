@@ -37,7 +37,7 @@
 //    scroll.backgroundColor = [UIColor whiteColor];
 //    scroll.showsHorizontalScrollIndicator = YES;
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"My Friends";
+    self.title = @"我的朋友";
     
     NSArray *itemArray = [NSArray arrayWithObjects: @"我关注的", @"我的粉丝", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];

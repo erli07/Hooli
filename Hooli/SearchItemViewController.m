@@ -26,7 +26,7 @@
 //@synthesize searchBar;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Search";
+    self.title = @"搜索";
   //  self.navigationController.navigationBar.backgroundColor = [HLTheme mainColor];
     self.categories = [OfferCategory allCategories];
     

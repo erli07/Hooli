@@ -50,7 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Bid History";
+    self.title = @"竞价记录";
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankView setBackgroundColor:[UIColor whiteColor]];
     UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];

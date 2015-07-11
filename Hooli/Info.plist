@@ -28,7 +28,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>6</string>
 	<key>FacebookAppID</key>
 	<string>822520167800693</string>
 	<key>FacebookDisplayName</key>
@@ -41,6 +41,8 @@
 	<string></string>
 	<key>UILaunchImageFile~iphone</key>
 	<string>Default-568h.png</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

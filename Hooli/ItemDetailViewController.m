@@ -419,7 +419,7 @@
         
         self.commentVC = [[ItemCommentViewController alloc]initWithObject:object];
         
-        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
+        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, self.view.frame.size.width, self.commentVC.tableView.contentSize.height)];
         
         [self.offerDetailView addSubview:self.commentVC.view];
         
@@ -458,9 +458,9 @@
     
     //    [self.offerDetailView setFrame:CGRectMake(0, 0, 320, self.offerDetailView.frame.size.height + self.commentVC.tableView.contentSize.height)];
     
-    [self.offerDetailView setContentSize:CGSizeMake(320, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height + 100)];
+    [self.offerDetailView setContentSize:CGSizeMake(self.view.frame.size.width, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height + 100)];
     
-    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
+    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, self.view.frame.size.width, self.commentVC.tableView.contentSize.height)];
     
     
 }
@@ -601,7 +601,7 @@
     
     for (UIImage *image in imagesArray) {
         
-        CGRect frame = CGRectMake(scrollContentWidth + 0  , (self.scrollView.bounds.size.height - scrollHeight)/2, 320, 320);
+        CGRect frame = CGRectMake(scrollContentWidth + 0  , (self.scrollView.bounds.size.height - scrollHeight)/2, self.view.frame.size.width, self.view.frame.size.width);
         
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         

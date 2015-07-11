@@ -16,7 +16,7 @@
 #import "HLConstant.h"
 #import "LocationManager.h"
 #import "ItemDetailViewController.h"
-static NSString * const reuseIdentifier = @"Cell";
+static NSString * const reuseIdentifier = @"ItemCell";
 
 @implementation MainCollectionView{
     
@@ -190,14 +190,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
+
     ItemCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    
     OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
-    
-    //    NSLog(@"GET DATA SIZE %lu k", sizeof(offer) );
-    //    NSLog(@"Size of %@: %zd k", NSSt       ringFromClass([OfferModel class]), malloc_size((__bridge const void *) offer));
-    
     
     [cell updateCellWithOfferModel:offer];
     
@@ -222,7 +218,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.noContentLabel.textColor = [UIColor lightGrayColor];
     self.noContentLabel.font = [UIFont systemFontOfSize:17.0f];
     self.noContentLabel.textAlignment = NSTextAlignmentCenter;
-    
+
     UIView *contentView = [[UIView alloc]initWithFrame:self.frame];
     [contentView setBackgroundColor:[UIColor whiteColor]];
     [contentView addSubview:noContentLabel];

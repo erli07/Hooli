@@ -23,7 +23,7 @@
 @synthesize sectionArray;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Settings";
+    self.title = @"设置";
     self.sectionArray = [[NSArray alloc]initWithObjects:@"",@"", nil];
     self.navigationController.navigationBarHidden = NO;
     
@@ -124,17 +124,17 @@
         
         if(indexPath.row == 0){
             
-            cell.textLabel.text = @"Intro";
+            cell.textLabel.text = @"海圈圈介绍";
             
         }
         else if(indexPath.row == 1){
             
-            cell.textLabel.text = @"Share to Friends";
+            cell.textLabel.text = @"分享给朋友";
             
         }
         else if(indexPath.row == 2){
             
-            cell.textLabel.text = @"Push notification settings";
+            cell.textLabel.text = @"推送设定";
             
         }
         
@@ -145,12 +145,12 @@
         
         if(indexPath.row == 0){
             
-            cell.textLabel.text = @"Send Feedback";
+            cell.textLabel.text = @"用户反馈";
             
         }
         else{
             
-            cell.textLabel.text = @"About";
+            cell.textLabel.text = @"关于";
         }
     }
     else if(indexPath.section == 2){

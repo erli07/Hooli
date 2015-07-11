@@ -70,7 +70,7 @@ static NSString * const sampleDescription4 = @"心动了吗? \n Let’s get star
 #pragma mark - EAIntroView delegate
 
 - (void)introDidFinish:(EAIntroView *)introView {
-    NSLog(@"introDidFinish callback");
+
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
     [self presentViewController:vc animated:YES completion:^{

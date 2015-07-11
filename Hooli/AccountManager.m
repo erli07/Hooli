@@ -32,126 +32,126 @@
 }
 
 
-- (void)loadFaceBookAccountDataWithSuccess:(DownloadSuccessBlock)success
-                                   Failure:(DownloadFailureBlock)failure{
-    
-    _dowloadSuccess = success ;
-    _downloadFailure = failure;
-    
-    // Send request to Facebook
-    FBRequest *request = [FBRequest requestForMe];
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        // handle response
-        if (!error) {
-            // Parse the data received
-            NSDictionary *userData = (NSDictionary *)result;
-            
-            NSString *facebookID = userData[@"id"];
-            
-            NSString *name = userData[@"name"];
-            
-            NSString *email = userData[@"email"];
-            
-            __block UIImage  *portraitImage = nil;
-            
-            NSString *userProfilePhotoURLString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID];
-            // Download the user's facebook profile picture
-            if (userProfilePhotoURLString) {
-                NSURL *pictureURL = [NSURL URLWithString:userProfilePhotoURLString];
-                NSURLRequest *urlRequest = [NSURLRequest requestWithURL:pictureURL];
-                
-                [NSURLConnection sendAsynchronousRequest:urlRequest
-                                                   queue:[NSOperationQueue mainQueue]
-                                       completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                           if (connectionError == nil && data != nil) {
-                                               
-                                               portraitImage = [UIImage imageWithData:data];
-                                               
-                                               
-                                           } else {
-                                               
-                                               NSLog(@"Failed to load profile photo.");
-                                           }
-                                           
-                                           [[PFUser currentUser] setObject:portraitImage forKey:kHLUserModelKeyPortraitImage];
-                                           [[PFUser currentUser] setObject:email forKey:kHLUserModelKeyEmail];
-                                           [[PFUser currentUser] setObject:name forKey:kHLUserModelKeyUserName];
-                                           [[PFUser currentUser] setObject:[[[PFUser currentUser]objectId]MD5] forKey:kHLUserModelKeyUserIdMD5];
-                                           [[PFUser currentUser] saveInBackground];
-                                           _dowloadSuccess(nil);
-                                           
-                                       }];
-            }
-            
-            
-        } else {
-            
-            _downloadFailure(error);
-            
-        }
-    }];
-}
-
--(void)saveFacebookAccountDataWithPFUser:(PFUser *)user
-                             WithSuccess:(UploadSuccessBlock)success
-                                 Failure:(UploadFailureBlock)failure{
-    
-    _uploadSuccess = success ;
-    _uploadFailure = failure;
-    
-    if (user) {
-        
-        // Parse the data received
-        NSDictionary *userData =  user[@"profile"];
-        
-        NSString *facebookID = userData[@"facebookId"];
-        
-        NSString *name = userData[@"name"];
-        
-        NSString *email = userData[@"email"];
-        
-        //  __block UIImage  *portraitImage = nil;
-        
-        NSString *userProfilePhotoURLString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID];
-        // Download the user's facebook profile picture
-        if (userProfilePhotoURLString) {
-            NSURL *pictureURL = [NSURL URLWithString:userProfilePhotoURLString];
-            NSURLRequest *urlRequest = [NSURLRequest requestWithURL:pictureURL];
-            
-            [NSURLConnection sendAsynchronousRequest:urlRequest
-                                               queue:[NSOperationQueue mainQueue]
-                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                       if (connectionError == nil && data != nil) {
-                                           
-                                           PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:data];
-                                           [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
-                                           [[PFUser currentUser] setObject:email forKey:kHLUserModelKeyEmail];
-                                           [[PFUser currentUser] setObject:name forKey:kHLUserModelKeyUserName];
-                                           [[PFUser currentUser] setObject:[[[PFUser currentUser]objectId]MD5] forKey:kHLUserModelKeyUserIdMD5];
-                                           [[PFUser currentUser] saveInBackground];
-                                           
-                                           _uploadSuccess();
-                                           
-                                       } else {
-                                           
-                                           NSLog(@"Failed to load profile photo.");
-                                           _uploadFailure(nil);
-                                           
-                                       }
-                                       
-                                       
-                                   }];
-        }
-        
-        
-    } else {
-        
-        _uploadFailure(nil);
-        
-    }
-    
-}
-
+//- (void)loadFaceBookAccountDataWithSuccess:(DownloadSuccessBlock)success
+//                                   Failure:(DownloadFailureBlock)failure{
+//    
+//    _dowloadSuccess = success ;
+//    _downloadFailure = failure;
+//    
+//    // Send request to Facebook
+//    FBRequest *request = [FBRequest requestForMe];
+//    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//        // handle response
+//        if (!error) {
+//            // Parse the data received
+//            NSDictionary *userData = (NSDictionary *)result;
+//            
+//            NSString *facebookID = userData[@"id"];
+//            
+//            NSString *name = userData[@"name"];
+//            
+//            NSString *email = userData[@"email"];
+//            
+//            __block UIImage  *portraitImage = nil;
+//            
+//            NSString *userProfilePhotoURLString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID];
+//            // Download the user's facebook profile picture
+//            if (userProfilePhotoURLString) {
+//                NSURL *pictureURL = [NSURL URLWithString:userProfilePhotoURLString];
+//                NSURLRequest *urlRequest = [NSURLRequest requestWithURL:pictureURL];
+//                
+//                [NSURLConnection sendAsynchronousRequest:urlRequest
+//                                                   queue:[NSOperationQueue mainQueue]
+//                                       completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//                                           if (connectionError == nil && data != nil) {
+//                                               
+//                                               portraitImage = [UIImage imageWithData:data];
+//                                               
+//                                               
+//                                           } else {
+//                                               
+//                                               NSLog(@"Failed to load profile photo.");
+//                                           }
+//                                           
+//                                           [[PFUser currentUser] setObject:portraitImage forKey:kHLUserModelKeyPortraitImage];
+//                                           [[PFUser currentUser] setObject:email forKey:kHLUserModelKeyEmail];
+//                                           [[PFUser currentUser] setObject:name forKey:kHLUserModelKeyUserName];
+//                                           [[PFUser currentUser] setObject:[[[PFUser currentUser]objectId]MD5] forKey:kHLUserModelKeyUserIdMD5];
+//                                           [[PFUser currentUser] saveInBackground];
+//                                           _dowloadSuccess(nil);
+//                                           
+//                                       }];
+//            }
+//            
+//            
+//        } else {
+//            
+//            _downloadFailure(error);
+//            
+//        }
+//    }];
+//}
+//
+//-(void)saveFacebookAccountDataWithPFUser:(PFUser *)user
+//                             WithSuccess:(UploadSuccessBlock)success
+//                                 Failure:(UploadFailureBlock)failure{
+//    
+//    _uploadSuccess = success ;
+//    _uploadFailure = failure;
+//    
+//    if (user) {
+//        
+//        // Parse the data received
+//        NSDictionary *userData =  user[@"profile"];
+//        
+//        NSString *facebookID = userData[@"facebookId"];
+//        
+//        NSString *name = userData[@"name"];
+//        
+//        NSString *email = userData[@"email"];
+//        
+//        //  __block UIImage  *portraitImage = nil;
+//        
+//        NSString *userProfilePhotoURLString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID];
+//        // Download the user's facebook profile picture
+//        if (userProfilePhotoURLString) {
+//            NSURL *pictureURL = [NSURL URLWithString:userProfilePhotoURLString];
+//            NSURLRequest *urlRequest = [NSURLRequest requestWithURL:pictureURL];
+//            
+//            [NSURLConnection sendAsynchronousRequest:urlRequest
+//                                               queue:[NSOperationQueue mainQueue]
+//                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//                                       if (connectionError == nil && data != nil) {
+//                                           
+//                                           PFFile *image = [PFFile fileWithName:@"portrait.jpg" data:data];
+//                                           [[PFUser currentUser] setObject:image forKey:kHLUserModelKeyPortraitImage];
+//                                           [[PFUser currentUser] setObject:email forKey:kHLUserModelKeyEmail];
+//                                           [[PFUser currentUser] setObject:name forKey:kHLUserModelKeyUserName];
+//                                           [[PFUser currentUser] setObject:[[[PFUser currentUser]objectId]MD5] forKey:kHLUserModelKeyUserIdMD5];
+//                                           [[PFUser currentUser] saveInBackground];
+//                                           
+//                                           _uploadSuccess();
+//                                           
+//                                       } else {
+//                                           
+//                                           NSLog(@"Failed to load profile photo.");
+//                                           _uploadFailure(nil);
+//                                           
+//                                       }
+//                                       
+//                                       
+//                                   }];
+//        }
+//        
+//        
+//    } else {
+//        
+//        _uploadFailure(nil);
+//        
+//    }
+//    
+//}
+//
 
 
 
@@ -241,15 +241,15 @@
     
 }
 
--(void)setInfomationFromFaceBookWithEmail{
-    FBRequest *request = [FBRequest requestForMe];
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        // handle response
-        if (!error) {
-            
-        }
-    }];
-}
+//-(void)setInfomationFromFaceBookWithEmail{
+//    FBRequest *request = [FBRequest requestForMe];
+//    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//        // handle response
+//        if (!error) {
+//            
+//        }
+//    }];
+//}
 
 
 -(UIImage *)getFBPortraitImage{
@@ -580,7 +580,7 @@
     [PFQuery clearAllCachedResults];
     
     [PFUser logOut];
-    [FBSession setActiveSession:nil];
+    //[FBSession setActiveSession:nil];
     
 }
 

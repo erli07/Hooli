@@ -65,7 +65,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Detail";
+    self.title = @"详细";
     
     // [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     

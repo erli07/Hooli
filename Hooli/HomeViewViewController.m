@@ -26,6 +26,7 @@
 #import "CreateActivityViewController.h"
 #import "CreateItemViewController.h"
 #import "SelectCategoryTableViewController.h"
+#import "HomeOffersViewController.h"
 
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate,ShowSearchResultDelegate>{
     
@@ -128,13 +129,18 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)seeCategories{
     
     
-    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    SearchItemViewController *categoryVC = [mainSb  instantiateViewControllerWithIdentifier:@"SearchItemViewController"];
-    categoryVC.isMultipleSelection = YES;
-    categoryVC.hidesBottomBarWhenPushed = YES;
-    categoryVC.selectedArray = [NSMutableArray arrayWithArray:[[OffersManager sharedInstance]filterArray]];
-    categoryVC.delegate = self;
-    [self.navigationController pushViewController:categoryVC animated:YES];
+//    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    SearchItemViewController *categoryVC = [mainSb  instantiateViewControllerWithIdentifier:@"SearchItemViewController"];
+//    categoryVC.isMultipleSelection = YES;
+//    categoryVC.hidesBottomBarWhenPushed = YES;
+//    categoryVC.selectedArray = [NSMutableArray arrayWithArray:[[OffersManager sharedInstance]filterArray]];
+//    categoryVC.delegate = self;
+    
+    MainCollectionViewFlowLayout *layout = [[MainCollectionViewFlowLayout alloc]init];
+    
+    HomeOffersViewController *offers = [[HomeOffersViewController alloc]initWithCollectionViewLayout:layout className:kHLCloudOfferClass];
+    
+    [self.navigationController pushViewController:offers animated:YES];
     
 }
 

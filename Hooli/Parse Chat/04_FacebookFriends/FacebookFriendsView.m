@@ -9,7 +9,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <FacebookSDK/FacebookSDK.h>
+//#import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
 #import "ProgressHUD.h"
 
@@ -41,48 +41,48 @@
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	users = [[NSMutableArray alloc] init];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	[self loadFacebook];
+	//[self loadFacebook];
 }
 
 #pragma mark - Backend methods
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-- (void)loadFacebook
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-{
-	if ([FBSession.activeSession isOpen] == NO) return;
-	//---------------------------------------------------------------------------------------------------------------------------------------------
-	FBRequest *request = [FBRequest requestForMyFriends];
-	[request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
-	{
-		if (error == nil)
-		{
-			NSMutableArray *fbids = [[NSMutableArray alloc] init];
-			NSDictionary *userData = (NSDictionary *)result;
-			NSArray *fbusers = [userData objectForKey:@"data"];
-			for (NSDictionary *fbuser in fbusers)
-			{
-				[fbids addObject:[fbuser valueForKey:@"id"]];
-			}
-
-			PFQuery *query = [PFQuery queryWithClassName:PF_USER_CLASS_NAME];
-			[query whereKey:PF_USER_FACEBOOKID containedIn:fbids];
-			[query orderByAscending:PF_USER_USERNAME];
-			[query setLimit:1000];
-			[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-			{
-				if (error == nil)
-				{
-					[users removeAllObjects];
-					[users addObjectsFromArray:objects];
-					[self.tableView reloadData];
-				}
-				else [ProgressHUD showError:@"Network error."];
-			}];
-		}
-		else [ProgressHUD showError:@"Facebook request error."];
-	}];
-}
+//
+////-------------------------------------------------------------------------------------------------------------------------------------------------
+//- (void)loadFacebook
+////-------------------------------------------------------------------------------------------------------------------------------------------------
+//{
+//	if ([FBSession.activeSession isOpen] == NO) return;
+//	//---------------------------------------------------------------------------------------------------------------------------------------------
+//	FBRequest *request = [FBRequest requestForMyFriends];
+//	[request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
+//	{
+//		if (error == nil)
+//		{
+//			NSMutableArray *fbids = [[NSMutableArray alloc] init];
+//			NSDictionary *userData = (NSDictionary *)result;
+//			NSArray *fbusers = [userData objectForKey:@"data"];
+//			for (NSDictionary *fbuser in fbusers)
+//			{
+//				[fbids addObject:[fbuser valueForKey:@"id"]];
+//			}
+//
+//			PFQuery *query = [PFQuery queryWithClassName:PF_USER_CLASS_NAME];
+//			[query whereKey:PF_USER_FACEBOOKID containedIn:fbids];
+//			[query orderByAscending:PF_USER_USERNAME];
+//			[query setLimit:1000];
+//			[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+//			{
+//				if (error == nil)
+//				{
+//					[users removeAllObjects];
+//					[users addObjectsFromArray:objects];
+//					[self.tableView reloadData];
+//				}
+//				else [ProgressHUD showError:@"Network error."];
+//			}];
+//		}
+//		else [ProgressHUD showError:@"Facebook request error."];
+//	}];
+//}
 
 #pragma mark - User actions
 

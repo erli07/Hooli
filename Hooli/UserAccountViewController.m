@@ -40,9 +40,13 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+    self.profileImageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 75, 90, 90)];
+    
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height/2;
     
     self.profileImageView.layer.masksToBounds = YES;
+    
+    self.title = @"用户信息";
     
     [self updateProfileData];
     
@@ -95,14 +99,15 @@
         
         NSString *signature = [object objectForKey:kHLUserModelKeySignature];
         
-        if(signature){
+        if(!signature || [signature isEqual:@""] || [signature isKindOfClass:[NSNull null]]){
             
-            self.selfIntroLabel.text = signature;
+            self.selfIntroLabel.text = @"这家伙很懒，什么也没有留下";
 
         }
         else{
             
-            self.selfIntroLabel.text = @"这家伙很懒，什么也没有留下";
+            self.selfIntroLabel.text = signature;
+
         }
         
         self.userNameLabel.text = userModel.username;
@@ -208,6 +213,7 @@
             UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
             vc.userID = self.userID;
             vc.hidesBottomBarWhenPushed = YES;
+            vc.title = @"物品";
             [self.navigationController pushViewController:vc animated:YES];
         }
         else{
@@ -215,6 +221,7 @@
             UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
             vc.aUser = self.user;
+            vc.title = @"活动";
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
@@ -302,14 +309,14 @@
         
         if(self.followStatus == HL_RELATIONSHIP_TYPE_FRIENDS || self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWING ){
             
-            [self.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
+            [self.followButton setTitle:@"已关注" forState:UIControlStateNormal] ;
             [self.followButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
             [self.followButton setTitleColor:[HLTheme buttonColor] forState:UIControlStateNormal];
             
         }
         else{
             
-            [self.followButton setTitle:@"Follow" forState:UIControlStateNormal] ;
+            [self.followButton setTitle:@"关注" forState:UIControlStateNormal] ;
             [self.followButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
             [self.followButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             

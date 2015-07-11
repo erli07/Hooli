@@ -125,5 +125,25 @@
 }
 
 
+@end
+
+//-----User Manager----//
+static UserManager *pUserManagerInst = nil;
+
+@implementation UserManager
+@synthesize mainUser;
+
++(UserManager*)shareMainUser
+{
+    @synchronized(self)
+    {
+        if(pUserManagerInst == nil)
+        {
+            pUserManagerInst = [[UserManager alloc] init];
+            pUserManagerInst.mainUser = nil;
+        }
+    }
+    return pUserManagerInst;
+}
 
 @end

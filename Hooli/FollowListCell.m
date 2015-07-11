@@ -33,8 +33,8 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         self.avatarImageView = [[ProfileImageView alloc] init];
-        self.avatarImageView.frame = CGRectMake( 10.0f, 14.0f, 40.0f, 40.0f);
-        self.avatarImageView.layer.cornerRadius = 23.0f;
+        self.avatarImageView.frame = CGRectMake( 10.0f, 2.0f, 40.0f, 40.0f);
+        self.avatarImageView.layer.cornerRadius = 20.0f;
         self.avatarImageView.layer.masksToBounds = YES;
         [self.contentView addSubview:self.avatarImageView];
         
@@ -105,7 +105,7 @@
     
     // Set name
     NSString *nameString = [self.user objectForKey:kHLUserModelKeyUserName];
-    CGSize nameSize = [nameString boundingRectWithSize:CGSizeMake(144.0f, CGFLOAT_MAX)
+    CGSize nameSize = [nameString boundingRectWithSize:CGSizeMake(244.0f, CGFLOAT_MAX)
                                                options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin
                                             attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16.0f]}
                                                context:nil].size;

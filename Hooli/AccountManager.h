@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "UserModel.h"
 #import <Parse/Parse.h>
-#import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "HLConstant.h"
 #import "ChattingManager.h"
 #import "ProfileImageView.h"

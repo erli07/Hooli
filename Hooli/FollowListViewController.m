@@ -47,7 +47,7 @@
 
 - (void)viewDidLoad {
     
-     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [super viewDidLoad];
     
@@ -174,18 +174,18 @@
     PFUser  *user;
     
     if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWED){
-
-    user = [[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationToUserKey];
-
+        
+        user = [[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationToUserKey];
+        
     }
     else{
         
-    user = [[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationFromUserKey];
-
+        user = [[self.objects objectAtIndex:indexPath.row] objectForKey:kHLNotificationFromUserKey];
+        
     }
     
     [self.delegate didSelectUser:user.objectId];
-
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
@@ -197,70 +197,59 @@
     if (cell == nil) {
         cell = [[FollowListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FriendCellIdentifier];
         [cell setDelegate:self];
-    }
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    //cell.textLabel.text = @"test";
-    
-    PFUser *user;
-    
-    if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWING){
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                
+        PFUser *user;
         
-        user = [(PFUser*)object objectForKey:kHLNotificationFromUserKey];        
-        cell.followButton.hidden = YES;
-//        [cell.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
-//        [cell.followButton setTitle:@"Followed" forState:UIControlStateHighlighted];
-//        [cell.followButton setBackgroundColor:[HLTheme mainColor]];
-        
-    }
-    else if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWED){
-        
-        user = [(PFUser*)object objectForKey:kHLNotificationToUserKey];
-        cell.followButton.hidden = YES;
-
-//        [cell.followButton setTitle:@"UnFollow" forState:UIControlStateNormal] ;
-//        [cell.followButton setTitle:@"UnFollow" forState:UIControlStateHighlighted] ;
-        
-    }
-    
-    [cell setUser:user];
-    
-    [cell.subTitle setText:@""];
-    
-    cell.followButton.selected = NO;
-    cell.tag = indexPath.row;
-    
-    NSDictionary *attributes = [[HLCache sharedCache] attributesForUser:(PFUser *)object];
-    
-    if (attributes) {
-        
-        [cell.followButton setSelected:[[HLCache sharedCache] followStatusForUser:(PFUser *)object]];
-        
-    } else {
-        @synchronized(self) {
+        if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWING){
             
+            user = [(PFUser*)object objectForKey:kHLNotificationFromUserKey];
+            cell.followButton.hidden = YES;
+        }
+        else if(self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWED){
             
-            //            [[ActivityManager sharedInstance]getUserRelationshipWithUserOne:[PFUser currentUser] UserTwo:(PFUser *)object WithBlock:^(RelationshipType relationType, NSError *error) {
-            //
-            //                if(relationType == HL_RELATIONSHIP_TYPE_FRIENDS || relationType == HL_RELATIONSHIP_TYPE_IS_FOLLOWING ){
-            //
-            //                    [cell.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
-            //                    [cell.followButton setTitle:@"Followed" forState:UIControlStateHighlighted] ;
-            //
-            //
-            //                }
-            //                else{
-            //
-            //                    [cell.followButton setTitle:@"Follow" forState:UIControlStateNormal] ;
-            //                    [cell.followButton setTitle:@"Follow" forState:UIControlStateHighlighted] ;
-            //
-            //                }
-            //
-            //            }];
+            user = [(PFUser*)object objectForKey:kHLNotificationToUserKey];
+            cell.followButton.hidden = YES;
+            
+        }
+        
+        [cell setUser:user];
+        
+        [cell.subTitle setText:@""];
+        
+        cell.followButton.selected = NO;
+        cell.tag = indexPath.row;
+        
+        NSDictionary *attributes = [[HLCache sharedCache] attributesForUser:(PFUser *)object];
+        
+        if (attributes) {
+            
+            [cell.followButton setSelected:[[HLCache sharedCache] followStatusForUser:(PFUser *)object]];
+            
+        } else {
+            @synchronized(self) {
+                
+                
+                //            [[ActivityManager sharedInstance]getUserRelationshipWithUserOne:[PFUser currentUser] UserTwo:(PFUser *)object WithBlock:^(RelationshipType relationType, NSError *error) {
+                //
+                //                if(relationType == HL_RELATIONSHIP_TYPE_FRIENDS || relationType == HL_RELATIONSHIP_TYPE_IS_FOLLOWING ){
+                //
+                //                    [cell.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
+                //                    [cell.followButton setTitle:@"Followed" forState:UIControlStateHighlighted] ;
+                //
+                //
+                //                }
+                //                else{
+                //
+                //                    [cell.followButton setTitle:@"Follow" forState:UIControlStateNormal] ;
+                //                    [cell.followButton setTitle:@"Follow" forState:UIControlStateHighlighted] ;
+                //
+                //                }
+                //
+                //            }];
+            }
         }
     }
-    
     
     return cell;
 }
@@ -268,7 +257,7 @@
 
 - (void)cell:(FollowListCell *)cellView didTapUserButton:(PFUser *)aUser {
     // Push account view controller
-
+    
     
 }
 

@@ -33,7 +33,7 @@
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    self.title = @"About";
+    self.title = @"关于";
     
     UIFont *font = [UIFont systemFontOfSize:12.0f];
     
@@ -55,7 +55,7 @@
     _rightsLabel.font = font;
     
     _followButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _followButton.frame = CGRectMake(20, 210, 150, 30);
+    _followButton.frame = CGRectMake(20, 240, 150, 30);
     [_followButton addTarget:self action:@selector(followMe) forControlEvents:UIControlEventTouchUpInside];
     [_followButton setTitle:@"Follow me @Twitter" forState:UIControlStateNormal];
     _followButton.tintColor = [HLTheme mainColor];

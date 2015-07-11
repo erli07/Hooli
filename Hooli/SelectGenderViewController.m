@@ -23,7 +23,7 @@
     
     // Uncomment the following line to preserve selection between presentations.
     self.clearsSelectionOnViewWillAppear = YES;
-    self.title = @"Gender";
+    self.title = @"性别";
     self.array = @[USER_GENDER_MALE, USER_GENDER_FEMALE];
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;

@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "HLTheme.h"
-#import <FacebookSDK/FacebookSDK.h>
 #import "LoginViewController.h"
 #import "LocationManager.h"
 #import "HomeViewViewController.h"
@@ -27,52 +26,39 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
     [ParseCrashReporting enable];
-
     [Parse setApplicationId:@"nLiRBbe4xwev8pUXbvD3x8Q2eQAuSg8NRQWsoo9y" clientKey:@"WIJGRQoKLR1ascXnVZMyrFGX8y9F0tfBRDJr0YdX"];
-    [PFFacebookUtils initializeFacebook];
-    
     [HLTheme customizeTheme];
-
-    [[LocationManager sharedInstance]startLocationUpdate];
     
+    [[LocationManager sharedInstance]startLocationUpdate];
     // Register for Push Notitications
     application.applicationIconBadgeNumber = 0;
     
     //iOS8 注册APNS
-    if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
-        [application registerForRemoteNotifications];
-        UIUserNotificationType notificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
-        [application registerUserNotificationSettings:settings];
-    }else{
-        UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeBadge |
-        UIRemoteNotificationTypeSound |
-        UIRemoteNotificationTypeAlert;
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:notificationTypes];
-    }
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    UIUserNotificationType notificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     
-    NSString *apnsCertName = @"PushTest";
+
+
+//环信
+//    NSString *apnsCertName = @"PushTest";
 //    [[EaseMob sharedInstance] registerSDKWithAppKey:@"catalina#hooli" apnsCertName:apnsCertName];
 //    //    [[EaseMob sharedInstance] enableBackgroundReceiveMessage];
 //    [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 //    [[EaseMob sharedInstance].chatManager removeDelegate:self];
 //    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
-    
     // PFUser *currentUser = [[HLSettings sharedInstance]getCurrentUser];
-    
-    if ( [PFUser currentUser]) {
-        
-        [[ChattingManager sharedInstance]loginChattingSDK:[PFUser currentUser] block:^(BOOL succeeded, NSError *error) {
-            
-        }];
-        
-    }
-    
+//    
+//    if ( [PFUser currentUser]) {
+//        [[ChattingManager sharedInstance]loginChattingSDK:[PFUser currentUser] block:^(BOOL succeeded, NSError *error) {
+//        }];
+//    }
+//融云
     
     if(![HLUtilities getFirstLaunchStatus]){
         
@@ -83,6 +69,7 @@
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         self.window.rootViewController = introNav;
         [self.window makeKeyAndVisible];
+        
     }
     else{
         
@@ -144,7 +131,9 @@
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation saveInBackground];
-    
+    // 获取苹果推送权限成功。
+ 
+        // 设置 deviceToken。
  //   [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
@@ -262,24 +251,24 @@
         [currentInstallation saveEventually];
     }
     
-    [FBAppEvents activateApp];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadFeedObjectsNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHLLoadMessageObjectsNotification object:self];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    
-    return [FBAppCall handleOpenURL:url
-                  sourceApplication:sourceApplication
-                        withSession:[PFFacebookUtils session]];
-    
-}
+//-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+//    
+//    return [FBAppCall handleOpenURL:url
+//                  sourceApplication:sourceApplication
+//                        withSession:[PFFacebookUtils session]];
+//    
+//}
 - (void)applicationWillTerminate:(UIApplication *)application {
     
   //  [[EaseMob sharedInstance] applicationWillTerminate:application];
     
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end

@@ -41,9 +41,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    self.title = @"Login";
+    self.title = @"登录";
     
-    if ([PFUser currentUser] || [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+    if ([PFUser currentUser] ) {
         
         [self loginSuccessWithUser:[PFUser currentUser]];
         
@@ -163,94 +163,94 @@
 - (IBAction)loginButton:(id)sender {
     
     
-    [self loginFB];
+//[self loginFB];
     
 }
 
-- (void)loginFB {
-    
-    
-    
-    // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me",@"email"];
-    
-    // Show the HUD while the provided method executes in a new thread
-    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
-    // Login PFUser using Facebook
-    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-        
-        
-        if (!user) {
-            
-            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-            
-            NSString *errorMessage = nil;
-            if (!error) {
-                NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                errorMessage = @"Uh oh. The user cancelled the Facebook login.";
-            } else {
-                NSLog(@"Uh oh. An error occurred: %@", error);
-                errorMessage = [error localizedDescription];
-            }
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
-                                                            message:errorMessage
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"Dismiss", nil];
-            [alert show];
-            
-        } else {
-            
-            [[AccountManager sharedInstance]saveFacebookAccountDataWithPFUser:user WithSuccess:^{
-                
-                [[ChattingManager sharedInstance]signUpChattingSDK:user block:^(BOOL succeeded, NSError *error) {
-                    
-                    
-                    if(succeeded){
-                        
-                        [[ChattingManager sharedInstance]loginChattingSDK:user block:^(BOOL succeeded, NSError *error) {
-                            
-                            
-                            
-                            if(succeeded){
-                                
-                                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-                                
-                                [self loginSuccessWithUser:[PFUser currentUser]];
-                                
-                                // [self performSegueWithIdentifier:@"loginSuccess" sender:self];
-                                
-                            }
-                            else{
-                                
-                                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-                                
-                                //                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                //                                                                                message:@"Log In Error"
-                                //                                                                               delegate:nil
-                                //                                                                      cancelButtonTitle:nil
-                                //                                                                      otherButtonTitles:@"Dismiss", nil];
-                                //                                [alert show];
-                            }
-                            
-                            
-                        }];
-                        
-                    }
-                    
-                }];
-                
-            } Failure:^(id error) {
-                
-                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-                
-            }];
-            
-        }
-    }];
-    
-}
+//- (void)loginFB {
+//    
+//    
+//    
+//    // Set permissions required from the facebook user account
+//    NSArray *permissionsArray = @[ @"user_about_me",@"email"];
+//    
+//    // Show the HUD while the provided method executes in a new thread
+//    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+//    // Login PFUser using Facebook
+//    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+//        
+//        
+//        if (!user) {
+//            
+//            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+//            
+//            NSString *errorMessage = nil;
+//            if (!error) {
+//                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+//                errorMessage = @"Uh oh. The user cancelled the Facebook login.";
+//            } else {
+//                NSLog(@"Uh oh. An error occurred: %@", error);
+//                errorMessage = [error localizedDescription];
+//            }
+//            
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
+//                                                            message:errorMessage
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:nil
+//                                                  otherButtonTitles:@"Dismiss", nil];
+//            [alert show];
+//            
+//        } else {
+//            
+//            [[AccountManager sharedInstance]saveFacebookAccountDataWithPFUser:user WithSuccess:^{
+//                
+//                [[ChattingManager sharedInstance]signUpChattingSDK:user block:^(BOOL succeeded, NSError *error) {
+//                    
+//                    
+//                    if(succeeded){
+//                        
+//                        [[ChattingManager sharedInstance]loginChattingSDK:user block:^(BOOL succeeded, NSError *error) {
+//                            
+//                            
+//                            
+//                            if(succeeded){
+//                                
+//                                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+//                                
+//                                [self loginSuccessWithUser:[PFUser currentUser]];
+//                                
+//                                // [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+//                                
+//                            }
+//                            else{
+//                                
+//                                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+//                                
+//                                //                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                //                                                                                message:@"Log In Error"
+//                                //                                                                               delegate:nil
+//                                //                                                                      cancelButtonTitle:nil
+//                                //                                                                      otherButtonTitles:@"Dismiss", nil];
+//                                //                                [alert show];
+//                            }
+//                            
+//                            
+//                        }];
+//                        
+//                    }
+//                    
+//                }];
+//                
+//            } Failure:^(id error) {
+//                
+//                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+//                
+//            }];
+//            
+//        }
+//    }];
+//    
+//}
 
 
 

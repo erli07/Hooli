@@ -21,6 +21,7 @@
 #import "ChatConstant.h"
 #import "messages.h"
 #import "ProgressHUD.h"
+
 @interface CreateActivityViewController ()<UIActionSheetDelegate,UIAlertViewDelegate, HSDatePickerViewControllerDelegate>
 //@property (nonatomic) NSMutableArray *detailsArray;
 @property (nonatomic) NSArray *titlesArray;
@@ -679,7 +680,7 @@
     
     HSDatePickerViewController *hsdpvc = [HSDatePickerViewController new];
     hsdpvc.delegate = self;
-    
+
     [self presentViewController:hsdpvc animated:YES completion:nil];
     
 }
@@ -688,9 +689,49 @@
     
     [self resetViews];
     
-    [self performSegueWithIdentifier:@"map" sender:self];
+    
+   // [self performSegueWithIdentifier:@"map" sender:self];
     
 }
+
+//-(UIView *)mapView{
+//    
+//    UIView *mapView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,320, 120)];
+//    
+//    return mapView;
+//    
+//}
+//
+//-(CLLocationCoordinate2D)mapViewCenter{
+//    
+//    return  CLLocationCoordinate2DMake([[LocationManager sharedInstance]getCurrentLocationGeoPoint].latitude, [[LocationManager sharedInstance]getCurrentLocationGeoPoint].longitude);
+//}
+//
+//-(void)setOnPoiSearchResult:(OnPoiSearchResult)poiSearchResult{
+//    
+//}
+//
+//-(void)beginFetchPoisOfCurrentLocation{
+//    
+//}
+//
+//-(UIImage *)mapViewScreenShot{
+//    
+//    UIImage *image = [[UIImage alloc]init];
+//    
+//    return image;
+//}
+/**
+ 
+ RCLocationPickerViewControllerDataSource必须实现下面方法
+ 
+ -  \- (UIView*)mapView;
+ -  \- (CLLocationCoordinate2d)mapViewCenter;
+ -  \- (void)setOnPoiSearchResult:(OnPoiSearchResul)poiSearchResult
+ -  \- (void)beginFetchPoisOfCurrentLocation;
+ -  \- (UIImage*)mapViewScreenShot;
+ 
+ */
 
 -(void)resetViews{
     

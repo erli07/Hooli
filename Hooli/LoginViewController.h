@@ -7,12 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
-#import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "ChattingManager.h"
-@interface LoginViewController : UIViewController<FBLoginViewDelegate>
-@property (strong, nonatomic) FBProfilePictureView *profilePictureView;
+@interface LoginViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *emailText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
 - (IBAction)signUp:(id)sender;

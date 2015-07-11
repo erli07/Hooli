@@ -25,6 +25,8 @@
 #import "LoginWelcomeViewController.h"
 #import "HLUtilities.h"
 #import "MyActivitiesViewController.h"
+
+
 @interface MyProfileViewController ()
 @property (nonatomic,strong) UIImageView *profilePictureView;
 @property (nonatomic,strong) UILabel *nameLabel;
@@ -77,7 +79,7 @@
 -(void)addUIElements{
     
     self.navigationController.navigationBarHidden = NO;
-    self.title = @"Profile";
+    self.title = @"我";
     self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(120, 80, 80, 80)];
     self.profilePictureView.layer.cornerRadius = self.profilePictureView.frame.size.height/2;
     self.profilePictureView.layer.masksToBounds = YES;
@@ -134,24 +136,20 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
+//    if(indexPath.section == 0){
+//        
+//        
+//        if(indexPath.row == 0){
+//            
+//            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeVC"];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
+//            
+//        }
+//                
+//    }
     if(indexPath.section == 0){
-        
-        
-        if(indexPath.row == 0){
-            
-            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeVC"];
-            vc.hidesBottomBarWhenPushed = YES;
-            // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-            [self.navigationController pushViewController:vc animated:YES];
-            //     [self performSegueWithIdentifier:@"myItems" sender:self];
-            
-        }
-        
-        
-        
-    }
-    else if(indexPath.section == 1){
         
         if(indexPath.row == 0){
             
@@ -162,22 +160,22 @@
             [self.navigationController pushViewController:profileDetailVC animated:YES];
             
         }
+//        else if(indexPath.row == 1){
+//            
+//            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
+//            vc.aUser = [PFUser currentUser];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
+//            
+//            
+//        }
         else if(indexPath.row == 1){
-            
-            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
-            vc.aUser = [PFUser currentUser];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-            
-            
-        }
-        else if(indexPath.row == 2){
             
             [self performSegueWithIdentifier:@"myItems" sender:self];
             
         }
-        else if(indexPath.row == 3){
+        else if(indexPath.row == 2){
             
             MyRelationshipViewController *vc = [[MyRelationshipViewController alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
@@ -187,7 +185,7 @@
     
         
     }
-    else if(indexPath.section == 2){
+    else if(indexPath.section == 1){
         
         UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"settings"];
@@ -217,29 +215,29 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
     
-    if(indexPath.section == 0){
-        
-        //        if(indexPath.row == 0){
-        //
-        //            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
-        //            cell.imageView.image = [self.imagesArray objectAtIndex:0];
-        //
-        //        }
-        //        else
-        
-        if(indexPath.row == 0){
-            
-            //     cell.textLabel.text = @"My Items";
-            
-            cell.textLabel.text = @"二手市场";
-            
-            cell.imageView.image = [UIImage imageNamed:@"shopping"];
-            
-        }
-        
-    }
-    else if(indexPath.section == 1){
-        
+//    if(indexPath.section == 0){
+//        
+//        //        if(indexPath.row == 0){
+//        //
+//        //            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
+//        //            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+//        //
+//        //        }
+//        //        else
+//        
+//        if(indexPath.row == 0){
+//            
+//            //     cell.textLabel.text = @"My Items";
+//            
+//            cell.textLabel.text = @"二手市场";
+//            
+//            cell.imageView.image = [UIImage imageNamed:@"shopping"];
+//            
+//        }
+//        
+//    }
+     if(indexPath.section == 0){
+    
         if(indexPath.row == 0){
             
             // cell.textLabel.text = @"My Profile";
@@ -248,21 +246,21 @@
             cell.imageView.image = [self.imagesArray objectAtIndex:2];
             
         }
+//        else if(indexPath.row == 1){
+//            
+//            cell.textLabel.text = @"我的活动";
+//            
+//            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+//            
+//        }
         else if(indexPath.row == 1){
-            
-            cell.textLabel.text = @"我的活动";
-            
-            cell.imageView.image = [self.imagesArray objectAtIndex:0];
-            
-        }
-        else if(indexPath.row == 2){
             
             cell.textLabel.text = @"我的物品";
             
             cell.imageView.image = [self.imagesArray objectAtIndex:1];
             
         }
-        else if(indexPath.row == 3){
+        else if(indexPath.row == 2){
             
             //  cell.textLabel.text = @"My Relations";
             
@@ -271,8 +269,8 @@
             
         }
         
-    }
-    else if(indexPath.section == 2){
+     }
+    else if(indexPath.section == 1){
         
         cell.textLabel.text = @"设置";
         
@@ -292,16 +290,14 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 1;
-    else if(section == 1)
-        return 4;
+        return 3;
     else
         return 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return  3;
+    return  2;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -312,6 +308,51 @@
     return view;
 }
 
+-(void)startPrivateChat{
+    
+//    RCChatListViewController *temp = [[RCChatListViewController alloc]init];
+//    temp.portraitStyle = RCUserAvatarCycle;
+//    temp.hidesBottomBarWhenPushed = YES;
+//    
+//    [self.navigationController pushViewController:temp animated:YES];
+    
+//      NSString *token = @"IqjPJsH9C967B/FcH07yQWaxE1lvzN/g3p2Ydid4EExpG7RwV/e7LObBTUdVcUIbQzifT73Cv2yoYCwsryBv/Z+W7cGbshQZ";
+//    
+//    [RCIM connectWithToken:token completion:^(NSString *userId) {
+//        // 此处处理连接成功。
+//        NSLog(@"Login successfully with userId: %@.", userId);
+//            RCChatListViewController *chatList = [[RCChatListViewController alloc]init];
+//            chatList.portraitStyle = RCUserAvatarCycle;
+//            chatList.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:chatList animated:YES];
+////        // 创建单聊视图控制器。
+////        RCChatViewController *chatViewController = [[RCIM sharedRCIM]createPrivateChat:userId title:@"自问自答" completion:^(){
+////            // 创建 ViewController 后，调用的 Block，可以用来实现自定义行为。
+////        }];
+////                
+////        chatViewController.hidesBottomBarWhenPushed = YES;
+////        // 把单聊视图控制器添加到导航栈。
+////        [self.navigationController pushViewController:chatViewController animated:YES];
+//        
+//    } error:^(RCConnectErrorCode status) {
+//        // 此处处理连接错误。
+//        NSLog(@"Login failed.");
+//    }];
+    
+    
+    
+//    RCChatViewController* chat = [self getChatController:userInfo.userId conversationType:ConversationType_PRIVATE];
+//    if (nil == chat) {
+//        chat =[[RCChatViewController alloc]init];
+//        chat.portraitStyle = RCUserAvatarCycle;
+//        [self addChatController:chat];
+//    }
+//    
+//    chat.currentTarget = userInfo.userId;
+//    chat.currentTargetName = userInfo.name;
+//    chat.conversationType = ConversationType_PRIVATE;
+//    [self.navigationController pushViewController:chat animated:YES];
+}
 
 //- (BOOL)checkIfUserLogin{
 //

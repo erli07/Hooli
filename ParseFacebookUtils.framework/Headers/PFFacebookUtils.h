@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import <Parse/PFConstants.h>
 #import <Parse/PFNullability.h>

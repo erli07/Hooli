@@ -80,7 +80,7 @@
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     
-    self.title = @"Notification";
+    self.title = @"提醒";
     
     // Add Settings button
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kHLLoadFeedObjectsNotification object:nil];
@@ -109,8 +109,6 @@
         
     }
     
-    //[self.tableView reloadData];
-    
 }
 
 - (PFQuery *)queryForTable {
@@ -119,7 +117,7 @@
         PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
         [query setLimit:0];
         return query;
-    }
+    }    
     
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
     [query whereKey:kHLNotificationToUserKey equalTo:[PFUser currentUser]];
@@ -171,34 +169,36 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    
-    static NSString *CellIdentifier = @"NotificationFeedCell";
-    
-    NotificationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[NotificationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        [cell setDelegate:self];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    }
-    
-    PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
-        
-    [cell setUser:fromUser];
-    
-    [cell setNotification:object];
-    
-    //    if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
-    //        [cell setIsNew:YES];
-    //    } else {
-    //        [cell setIsNew:NO];
-    //    }
-    //
-    //  [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
-    
-    return cell;
-}
+
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+//    
+//    static NSString *CellIdentifier = @"NotificationFeedCell";
+//    
+//    NotificationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//    if (cell == nil) {
+//        cell = [[NotificationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//        [cell setDelegate:self];
+//        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//        
+//        PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
+//        [cell setUser:fromUser];
+//        [cell setNotification:object];
+//        
+//    }o
+//    
+//  
+//    
+//    //    if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
+//    //        [cell setIsNew:YES];
+//    //    } else {
+//    //        [cell setIsNew:NO];
+//    //    }
+//    //
+//    //  [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
+//    
+//    return cell;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -308,17 +308,27 @@
 + (NSString *)stringForNotificationType:(NSString *)notificationType {
     
     if ([notificationType isEqualToString:kHLNotificationTypeLike]) {
-        return NSLocalizedString(@"liked your item", nil);
+       // return NSLocalizedString(@"liked your item", nil);
+        return NSLocalizedString(@"喜欢你的物品", nil);
+
     } else if ([notificationType isEqualToString:kHLNotificationTypeFollow]) {
-        return NSLocalizedString(@"started following you", nil);
+        
+        return NSLocalizedString(@"开始关注你", nil);
+
+//        return NSLocalizedString(@"started following you", nil);
     } else if ([notificationType isEqualToString:kHLNotificationTypeOfferComment]) {
-        return NSLocalizedString(@"commented on item", nil);
+        
+        return NSLocalizedString(@"评论了物品", nil);
+
+     //   return NSLocalizedString(@"commented on item", nil);
 //    } else if ([notificationType isEqualToString:kHLNotificationTypeNeedComment]){
 //        return NSLocalizedString(@"commented on your need", nil);
 //    } else if ([notificationType isEqualToString:kHLNotificationTypeJoined]) {
 //        return NSLocalizedString(@"joined Hooli", nil);
     } else if ([notificationType isEqualToString:khlNotificationTypMakeOffer]){
-        return NSLocalizedString(@"bid on your item for", nil);
+        return NSLocalizedString(@"对你的物品竞价", nil);
+
+       // return NSLocalizedString(@"bid on your item for", nil);
 //    }else if ([notificationType isEqualToString:khlNotificationTypOfferItem]){
 //        return NSLocalizedString(@"offer you an item", nil);
 //    }else if ([notificationType isEqualToString:khlNotificationTypAcceptOffer]){
@@ -330,7 +340,9 @@
 //        return NSLocalizedString(@"comment on your event", nil);
     }
     else if ([notificationType isEqualToString:kHLNotificationTypeJoinEvent]){
-        return NSLocalizedString(@"has joined your event", nil);
+        return NSLocalizedString(@"参加了你的活动", nil);
+
+    //return NSLocalizedString(@"has joined your event", nil);
     }
     else  {
         return nil;

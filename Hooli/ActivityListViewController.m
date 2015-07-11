@@ -118,7 +118,7 @@
     self.navigationItem.leftBarButtonItem = leftBarButton;
     
     self.navigationController.navigationBarHidden = NO;
-    self.title = @"Activities";
+    self.title = @"活动";
     
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankView setBackgroundColor:[UIColor whiteColor]];

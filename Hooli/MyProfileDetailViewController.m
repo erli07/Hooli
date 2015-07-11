@@ -29,7 +29,7 @@
     
     self.tableView.tintColor = [HLTheme mainColor];
     
-    self.title = @"Profile";
+    self.title = @"个人资料";
     
     //_titleArray = @[@"Username",@"Gender", @"Email",@"Phone Number",@"Wechat"];
     _titleArray = @[@"用户名",@"性别", @"年龄",@"职业",@"兴趣爱好", @"个性签名",];
