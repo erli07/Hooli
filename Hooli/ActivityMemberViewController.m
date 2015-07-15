@@ -146,12 +146,12 @@
     if([[aObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
         
         
-        [label setText:[NSString stringWithFormat:@"成员（%lu/%d）", (unsigned long)joinedNum,[[aObject objectForKey:kHLEventKeyMemberNumber] intValue]]];
+        [label setText:[NSString stringWithFormat:@"Member（%lu/%d）", (unsigned long)joinedNum,[[aObject objectForKey:kHLEventKeyMemberNumber] intValue]]];
 
     }
     else{
         
-        [label setText:@"成员（人数不限）"];
+        [label setText:@"Member（Non-limit）"];
 
         
     }
@@ -169,12 +169,12 @@
         
         NSUInteger joinedNum = [self.objects count];
         
-        return  [NSString stringWithFormat:@"成员（%lu/%d）", (unsigned long)joinedNum,[[aObject objectForKey:kHLEventKeyMemberNumber] intValue]];
+        return  [NSString stringWithFormat:@"Member（%lu/%d）", (unsigned long)joinedNum,[[aObject objectForKey:kHLEventKeyMemberNumber] intValue]];
         
     }
     else{
         
-        return @"成员（人数不限）";
+        return @"Member（Non-limit）";
         
     }
     

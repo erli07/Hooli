@@ -29,10 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"活动类别";
-    
-    _eventNameArray = @[@"全部类别", @"吃货小分队", @"体育健身", @"娱乐活动", @"逛街购物", @"户外旅行", @"电子游戏", @"学术会议"];
-   // _eventNameArray = @[@"all",@"eating",@"sports",@"tour", @"shopping", @"movie"];
+   // self.title = @"活动类别";
+    self.title = @"Categories";
+    //_eventNameArray = @[@"全部类别", @"吃货小分队", @"体育健身", @"娱乐活动", @"逛街购物", @"户外旅行", @"电子游戏", @"学术会议"];
+    _eventNameArray = @[@"All",@"Eating",@"Sports",@"Entertainment", @"Shopping", @"Movie",@"Game",@"Study"];
     
     _eventSymbolsArray = @[[UIImage imageNamed:@"others"],[UIImage imageNamed:@"restaurant-48"],[UIImage imageNamed:@"basketball-48"],[UIImage imageNamed:@"movie-48"],[UIImage imageNamed:@"shopping_bag-48"],[UIImage imageNamed:@"backpack-48"],[UIImage imageNamed:@"controller-48"],[UIImage imageNamed:@"study-48"]];
     

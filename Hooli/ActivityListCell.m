@@ -199,38 +199,39 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 -(UIImage *)getActivityCategoryImageFromString:(NSString *)category{
     
+    NSArray *array = @[@"All",@"Eating",@"Sports",@"Entertainment", @"Shopping", @"Movie",@"Game",@"Study"];
     
     
-    if([category isEqualToString:@"吃货小分队"]){
+    if([category isEqualToString:array[1]]){
         
         return [UIImage imageNamed:@"restaurant-48"];
     }
-    else if([category isEqualToString:@"体育健身"]){
+    else if([category isEqualToString:array[2]]){
         
         return [UIImage imageNamed:@"basketball-48"];
         
     }
-    else if([category isEqualToString:@"学术会议"]){
+    else if([category isEqualToString:array[3]]){
         
         return [UIImage imageNamed:@"study-48"];
         
     }
-    else if([category isEqualToString:@"娱乐活动"]){
+    else if([category isEqualToString:array[4]]){
         
         return [UIImage imageNamed:@"movie-48"];
         
     }
-    else if([category isEqualToString:@"户外旅行"]){
+    else if([category isEqualToString:array[5]]){
         
         return [UIImage imageNamed:@"backpack-48"];
         
     }
-    else if([category isEqualToString:@"电子游戏"]){
+    else if([category isEqualToString:array[6]]){
         
         return [UIImage imageNamed:@"controller-48"];
         
     }
-    else if([category isEqualToString:@"逛街购物"]){
+    else if([category isEqualToString:array[7]]){
         
         return [UIImage imageNamed:@"shopping_bag-48"];
         
@@ -239,6 +240,48 @@ static TTTTimeIntervalFormatter *timeFormatter;
         
         return nil;
     }
+    
+    
+//    if([category isEqualToString:@"吃货小分队"]){
+//        
+//        return [UIImage imageNamed:@"restaurant-48"];
+//    }
+//    else if([category isEqualToString:@"体育健身"]){
+//        
+//        return [UIImage imageNamed:@"basketball-48"];
+//        
+//    }
+//    else if([category isEqualToString:@"学术会议"]){
+//        
+//        return [UIImage imageNamed:@"study-48"];
+//        
+//    }
+//    else if([category isEqualToString:@"娱乐活动"]){
+//        
+//        return [UIImage imageNamed:@"movie-48"];
+//        
+//    }
+//    else if([category isEqualToString:@"户外旅行"]){
+//        
+//        return [UIImage imageNamed:@"backpack-48"];
+//        
+//    }
+//    else if([category isEqualToString:@"电子游戏"]){
+//        
+//        return [UIImage imageNamed:@"controller-48"];
+//        
+//    }
+//    else if([category isEqualToString:@"逛街购物"]){
+//        
+//        return [UIImage imageNamed:@"shopping_bag-48"];
+//        
+//    }
+//    else{
+//        
+//        return nil;
+//    }
+    
+    
     
 }
 
@@ -254,37 +297,42 @@ static TTTTimeIntervalFormatter *timeFormatter;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
         [dateFormatter setDateFormat:@"ccc dd MMM"];
         time = [dateFormatter stringFromDate:[eventObject objectForKey:kHLEventKeyDate]];
-        time = [NSString stringWithFormat:@"%@(已过期)",time];
-        
+       // time = [NSString stringWithFormat:@"%@(Expired)",time];
+        self.activityInfoLabel.text  = @"Expired";
+        self.activityInfoLabel.textColor = [UIColor redColor];
+
     }
     else{
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init] ;
         [dateFormatter setDateFormat:@"ccc dd MMM"];
         time = [dateFormatter stringFromDate:[eventObject objectForKey:kHLEventKeyDate]];
+        
+        
+        if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
+            
+            [[EventManager sharedInstance]getEventMemberCountWithEvent:eventObject withBlock:^(int count, NSError *error) {
+                
+                if(count < [[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] ){
+                    self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@", address, time];
+                    self.activityInfoLabel.textColor = [UIColor lightGrayColor];
 
-    }
-    
-    if([[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] > 0){
-        
-        [[EventManager sharedInstance]getEventMemberCountWithEvent:eventObject withBlock:^(int count, NSError *error) {
-            
-            if(count < [[eventObject objectForKey:kHLEventKeyMemberNumber] intValue] ){
+                    //   self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", address,time,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
+                }
+                else{
+                    
+                    self.activityInfoLabel.text  = @"Full";
+                    self.activityInfoLabel.textColor = [UIColor redColor];
+                }
                 
-                self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | %@人", address,time,  [eventObject objectForKey:kHLEventKeyMemberNumber]];
-            }
-            else{
-                
-                self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | 已满", address,time];
-            }
+            }];
             
-        }];
-        
-    }
-    else{
-        
-        self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | 人数不限", address, time];
-        
+        }
+        else{
+            self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@", address, time];
+            self.activityInfoLabel.textColor = [UIColor lightGrayColor];
+            // self.activityInfoLabel.text  = [NSString stringWithFormat:@"%@ | %@ | Unlimited", address, time];
+        }
     }
     
 }

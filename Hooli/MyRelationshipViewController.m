@@ -39,7 +39,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"My Friends";
     
-    NSArray *itemArray = [NSArray arrayWithObjects: @"我关注的", @"我的粉丝", nil];
+    NSArray *itemArray = [NSArray arrayWithObjects: @"I'm following", @"My Fans", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(35, 70, 250, 30);
     [segmentedControl addTarget:self action:@selector(MySegmentControlAction:) forControlEvents: UIControlEventValueChanged];

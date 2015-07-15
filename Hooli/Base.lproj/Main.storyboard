@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="AeA-Af-hPt">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--Search-->
@@ -31,8 +31,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="categoryCell" id="Auj-Jv-fjf">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Auj-Jv-fjf" id="iIC-Jg-7EU">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -96,11 +98,11 @@
             </objects>
             <point key="canvasLocation" x="-397" y="-1387"/>
         </scene>
-        <!--Activities-->
+        <!--Events-->
         <scene sceneID="70z-Qd-pUx">
             <objects>
                 <navigationController id="nOb-nQ-HmQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Activities" image="discover.png" id="H0S-Ee-Tbb"/>
+                    <tabBarItem key="tabBarItem" title="Events" image="tab_events.png" id="H0S-Ee-Tbb"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KRK-0t-Bpz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -113,7 +115,7 @@
             </objects>
             <point key="canvasLocation" x="-1888" y="-674"/>
         </scene>
-        <!--Activity List View Controller-->
+        <!--Events-->
         <scene sceneID="hg0-v2-Xbd">
             <objects>
                 <tableViewController storyboardIdentifier="ActivityListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ahb-8u-baX" customClass="ActivityListViewController" sceneMemberID="viewController">
@@ -123,10 +125,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActivityListCell" rowHeight="220" id="RxE-v5-Opy" customClass="ActivityListCell">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="220"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RxE-v5-Opy" id="Exq-xX-gVf">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="219"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="SbH-gZ-YiJ">
@@ -166,7 +168,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Medford, MA | 本周六 |  不限" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rxh-gb-78x">
-                                            <rect key="frame" x="140" y="57" width="170" height="25"/>
+                                            <rect key="frame" x="163" y="57" width="147" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -229,7 +231,7 @@
                             <outlet property="delegate" destination="ahb-8u-baX" id="HOk-VW-j9Q"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="" id="X1s-mu-nSY"/>
+                    <tabBarItem key="tabBarItem" title="Events" image="tab_events.png" id="X1s-mu-nSY"/>
                     <navigationItem key="navigationItem" id="5y3-PJ-T9o"/>
                     <connections>
                         <segue destination="YVy-IH-4Xt" kind="push" identifier="seeActivityDetail" id="xMT-h4-l7l"/>
@@ -265,10 +267,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyActivityListCell" rowHeight="220" id="vhm-Vh-sFy" customClass="ActivityListCell">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="220"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vhm-Vh-sFy" id="CEf-Ec-lgL">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="219"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="lBj-Ji-UxF">
@@ -391,8 +393,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" id="5dM-SB-9dy">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5dM-SB-9dy" id="pP6-cm-8MF">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -428,7 +432,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="pHA-Sx-hSc">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -559,7 +563,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="7l0-wT-T8E" customClass="MainCollectionViewFlowLayout"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="e6H-nA-4Q2" customClass="ItemCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="114" height="146"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="114" height="146"/>
@@ -608,7 +612,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="nKv-bY-Xi7" customClass="ItemCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -636,7 +640,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JbU-1N-pYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="935" y="-390"/>
+            <point key="canvasLocation" x="821" y="-686"/>
         </scene>
         <!--Need Table View Controller-->
         <scene sceneID="pO7-0C-Swf">
@@ -648,8 +652,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NeedCell" rowHeight="94" id="w4e-04-dPH" customClass="NeedTableViewCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="94"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w4e-04-dPH" id="hf3-Pa-iWK">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="93"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Q7-dR-ju2">
@@ -929,11 +935,11 @@
             </objects>
             <point key="canvasLocation" x="-623" y="101"/>
         </scene>
-        <!--Discover-->
+        <!--Yard Sale-->
         <scene sceneID="DCG-tY-LjD">
             <objects>
                 <navigationController id="KpJ-4a-BBa" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Discover" image="discover@2x.png" id="YFi-Ey-5TO"/>
+                    <tabBarItem key="tabBarItem" title="Yard Sale" image="tab_cart.png" id="YFi-Ey-5TO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eIw-Df-M6T">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -944,7 +950,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ru3-hk-9fQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="375" y="-686"/>
+            <point key="canvasLocation" x="47" y="-674"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YSQ-gA-iJF">
@@ -975,6 +981,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="nOb-nQ-HmQ" kind="relationship" relationship="viewControllers" id="NlD-Vk-gDr"/>
+                        <segue destination="KpJ-4a-BBa" kind="relationship" relationship="viewControllers" id="tvU-nz-cO6"/>
                         <segue destination="1KV-LZ-8Qg" kind="relationship" relationship="viewControllers" id="qGb-vK-9zk"/>
                         <segue destination="cXU-HP-P88" kind="relationship" relationship="viewControllers" id="0cl-Ne-pa8"/>
                         <segue destination="ErL-aS-9xf" kind="relationship" relationship="viewControllers" id="FIZ-4C-qZt"/>
@@ -982,7 +989,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36M-LB-2zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-942" y="-1625"/>
+            <point key="canvasLocation" x="-1088" y="-1625"/>
         </scene>
         <!--Profile-->
         <scene sceneID="3xC-mR-Ygy">
@@ -1015,9 +1022,10 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="profileCell" id="oNX-hf-ygF">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="114" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oNX-hf-ygF" id="v89-Dl-Jew">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1056,9 +1064,10 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="KZS-hB-rad">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="114" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KZS-hB-rad" id="8GX-42-Lyl">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1099,13 +1108,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="discover.png" width="30" height="30"/>
-        <image name="discover@2x.png" width="32" height="32"/>
         <image name="messages.png" width="30" height="30"/>
         <image name="notification.png" width="30" height="30"/>
         <image name="pink-heart.png" width="17" height="16"/>
         <image name="profile.png" width="30" height="30"/>
-        <image name="shopping" width="17" height="16"/>
+        <image name="shopping" width="32" height="32"/>
+        <image name="tab_cart.png" width="32" height="32"/>
+        <image name="tab_events.png" width="32" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

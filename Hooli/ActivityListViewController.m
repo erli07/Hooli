@@ -103,22 +103,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"发布"
-                                       style:UIBarButtonItemStyleDone
-                                       target:self
-                                       action:@selector(postEvent)];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
-    
+//    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+//                                       initWithTitle:@"Post"
+//                                       style:UIBarButtonItemStyleDone
+//                                       target:self
+//                                       action:@selector(postEvent)];
     UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
-                                      initWithTitle:@"类别"
-                                      style:UIBarButtonItemStyleDone
-                                      target:self
-                                      action:@selector(seeCategories)];
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(postEvent)];
     self.navigationItem.leftBarButtonItem = leftBarButton;
     
+//    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
+//                                      initWithTitle:@"Categories"
+//                                      style:UIBarButtonItemStyleDone
+//                                      target:self
+//                                      action:@selector(seeCategories)];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(seeCategories)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+    
     self.navigationController.navigationBarHidden = NO;
-    self.title = @"Activities";
+    self.title = @"Events";
     
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankView setBackgroundColor:[UIColor whiteColor]];

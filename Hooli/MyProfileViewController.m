@@ -134,24 +134,24 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
+//    if(indexPath.section == 0){
+//        
+//        
+//        if(indexPath.row == 0){
+//            
+//            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeVC"];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//            [self.navigationController pushViewController:vc animated:YES];
+//            //     [self performSegueWithIdentifier:@"myItems" sender:self];
+//            
+//        }
+//        
+//        
+//        
+//    }
     if(indexPath.section == 0){
-        
-        
-        if(indexPath.row == 0){
-            
-            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeVC"];
-            vc.hidesBottomBarWhenPushed = YES;
-            // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-            [self.navigationController pushViewController:vc animated:YES];
-            //     [self performSegueWithIdentifier:@"myItems" sender:self];
-            
-        }
-        
-        
-        
-    }
-    else if(indexPath.section == 1){
         
         if(indexPath.row == 0){
             
@@ -187,7 +187,7 @@
     
         
     }
-    else if(indexPath.section == 2){
+    else if(indexPath.section == 1){
         
         UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         EditProfileViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"settings"];
@@ -217,66 +217,70 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
     
+//    if(indexPath.section == 0){
+//        
+//        //        if(indexPath.row == 0){
+//        //
+//        //            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
+//        //            cell.imageView.image = [self.imagesArray objectAtIndex:0];
+//        //
+//        //        }
+//        //        else
+//        
+//        if(indexPath.row == 0){
+//            
+//            cell.textLabel.text = @"My Items";
+//            
+//            cell.textLabel.text = @"二手市场";
+//            
+//            cell.imageView.image = [UIImage imageNamed:@"shopping"];
+//            
+//        }
+//        
+//    }
     if(indexPath.section == 0){
         
-        //        if(indexPath.row == 0){
-        //
-        //            cell.textLabel.text =[NSString stringWithFormat:@"%@ (%@)",@"My Credits",self.myCredtis];
-        //            cell.imageView.image = [self.imagesArray objectAtIndex:0];
-        //
-        //        }
-        //        else
-        
         if(indexPath.row == 0){
             
-            //     cell.textLabel.text = @"My Items";
-            
-            cell.textLabel.text = @"二手市场";
-            
-            cell.imageView.image = [UIImage imageNamed:@"shopping"];
-            
-        }
-        
-    }
-    else if(indexPath.section == 1){
-        
-        if(indexPath.row == 0){
-            
-            // cell.textLabel.text = @"My Profile";
-            cell.textLabel.text = @"个人资料";
+            cell.textLabel.text = @"My Profile";
+            //cell.textLabel.text = @"个人资料";
             
             cell.imageView.image = [self.imagesArray objectAtIndex:2];
             
         }
         else if(indexPath.row == 1){
             
-            cell.textLabel.text = @"我的活动";
+            cell.textLabel.text = @"My Events";
+            
+            //cell.textLabel.text = @"我的活动";
             
             cell.imageView.image = [self.imagesArray objectAtIndex:0];
             
         }
         else if(indexPath.row == 2){
             
-            cell.textLabel.text = @"我的物品";
+            cell.textLabel.text = @"My Items";
+            
+            //cell.textLabel.text = @"我的物品";
             
             cell.imageView.image = [self.imagesArray objectAtIndex:1];
             
         }
         else if(indexPath.row == 3){
             
-            //  cell.textLabel.text = @"My Relations";
+            cell.textLabel.text = @"My Relations";
             
-            cell.textLabel.text = @"我的朋友";
+            //cell.textLabel.text = @"我的朋友";
             cell.imageView.image = [self.imagesArray objectAtIndex:3];
             
         }
         
     }
-    else if(indexPath.section == 2){
+    else if(indexPath.section == 1){
         
-        cell.textLabel.text = @"设置";
+        //cell.textLabel.text = @"设置";
         
-        // cell.textLabel.text = @"Settings";
+         cell.textLabel.text = @"Settings";
         
         cell.imageView.image = [self.imagesArray objectAtIndex:4];
         
@@ -291,9 +295,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if(section == 0)
-        return 1;
-    else if(section == 1)
+  if(section == 0)
         return 4;
     else
         return 1;
@@ -301,7 +303,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return  3;
+    return  2;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

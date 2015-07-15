@@ -307,20 +307,25 @@
     
     [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:offerModel.offerLocation block:^(NSString *address, NSError *error) {
         
-        if(address){
-            
-            
-            [self.seeMapButton setTitle:[NSString stringWithFormat:@"自取:%@",address] forState:UIControlStateNormal];
-            
-            [self.seeMapButton setEnabled:YES];
-
-        }
-        else{
-            
-            [self.seeMapButton setTitle:[NSString stringWithFormat:@"包送"] forState:UIControlStateNormal];
-            
-            [self.seeMapButton setEnabled:NO];
-        }
+        
+        [self.seeMapButton setTitle:[NSString stringWithFormat:@"%@",address] forState:UIControlStateNormal];
+        
+        [self.seeMapButton setEnabled:YES];
+//
+//        if(address){
+//            
+//            
+//            [self.seeMapButton setTitle:[NSString stringWithFormat:@"%@",address] forState:UIControlStateNormal];
+//            
+//            [self.seeMapButton setEnabled:YES];
+//
+//        }
+//        else{
+//            
+//            [self.seeMapButton setTitle:[NSString stringWithFormat:@"包送"] forState:UIControlStateNormal];
+//            
+//            [self.seeMapButton setEnabled:NO];
+//        }
         
     }];
     
@@ -949,7 +954,7 @@
     if([segue.identifier isEqualToString:@"map"])
     {
         MapViewController *map = segue.destinationViewController;
-        map.title = @"自取地点";
+        map.title = @"Location";
         map.offerLocation = self.offerLocation;
     }
     else if([segue.identifier isEqualToString:@"editOffer"]){

@@ -21,7 +21,7 @@
 @synthesize blankView = _blankView;
 - (void)viewDidLoad {
     
-    self.title = @"我的活动";
+    self.title = @"My events";
     [super viewDidLoad];
     
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];

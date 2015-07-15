@@ -57,7 +57,8 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"二手市场";
+    //self.title = @"二手市场";
+    self.title = @"Yard Sale";
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showCamera:)
@@ -65,12 +66,13 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [[HLSettings sharedInstance]setShowSoldItems:NO];
     
+//    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]
+//                                       initWithTitle:@"种类"
+//                                       style:UIBarButtonItemStyleDone
+//                                       target:self
+//                                       action:@selector(seeCategories)];
     UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"种类"
-                                       style:UIBarButtonItemStyleDone
-                                       target:self
-                                       action:@selector(seeCategories)];
-
+                                        initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(seeCategories)];
     
     self.navigationItem.rightBarButtonItem = rightBarButton2;
     

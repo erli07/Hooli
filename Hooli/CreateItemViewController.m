@@ -49,9 +49,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"发布物品";
+    self.title = @"Post Item";
     
-    _itemContetnTextView.placeholder = @"必填";
+    _itemContetnTextView.placeholder = @"";
     _itemContetnTextView.textColor = [HLTheme textColor];
     
     _imagesArray = [NSMutableArray new];
@@ -98,7 +98,7 @@
             [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:coord
                                                                             block:^(NSString *address, NSError *error) {
                                                                                 
-                                                                                _deliveryLabel.text = [NSString stringWithFormat:@"自取:%@",address];
+                                                                                _deliveryLabel.text = [NSString stringWithFormat:@"%@",address];
                                                                                 
                                                                             }];
         }
@@ -167,7 +167,7 @@
             
         }
         
-        [_submitButton setTitle:@"发布更新" forState:UIControlStateNormal];
+        [_submitButton setTitle:@"Submit Update" forState:UIControlStateNormal];
         
         
     }
@@ -211,7 +211,7 @@
         return;
     }
     
-    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"确定发布？" delegate:self cancelButtonTitle:@"等一会儿" otherButtonTitles:@"是的", nil];
+    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Post？" delegate:self cancelButtonTitle:@"Wait" otherButtonTitles:@"Yes", nil];
     
     alert.tag = 0;
     
@@ -346,7 +346,7 @@
     [self resetViews];
     
     UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                               otherButtonTitles:@"全新", @"半新",@"旧物" , nil];
+                                               otherButtonTitles:@"New", @"Half new",@"Old" , nil];
     action.tag = 2;
     [action showInView:self.view];
     
@@ -370,11 +370,18 @@
     
     [self resetViews];
     
-    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
-                                               otherButtonTitles:@"包送", @"自取", nil];
-    action.tag = 1;
-    
-    [action showInView:self.view];
+    [self tapEventOccured:nil];
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
+    vc.title = @"Location";
+    vc.showSearchBar = YES;
+    vc.delegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
+//    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+//                                               otherButtonTitles:@"包送", @"自取", nil];
+//    action.tag = 1;
+//    
+//    [action showInView:self.view];
 }
 
 - (IBAction)imageButton1Pressed:(id)sender {
@@ -651,21 +658,21 @@
         
         if (buttonIndex != actionSheet.cancelButtonIndex){
             
-            if (buttonIndex == 0)	{
-                
-                _deliveryLabel.text = @"包送";
-            }
-            if (buttonIndex == 1) {
-                
-                [self tapEventOccured:nil];
-                UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
-                ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
-                vc.title = @"自取地点";
-                vc.showSearchBar = YES;
-                vc.delegate = self;
-                [self.navigationController pushViewController:vc animated:YES];
-                
-            }
+//            if (buttonIndex == 0)	{
+//                
+//                _deliveryLabel.text = @"包送";
+//            }
+//            if (buttonIndex == 1) {
+//                
+//                [self tapEventOccured:nil];
+//                UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+//                ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
+//                vc.title = @"自取地点";
+//                vc.showSearchBar = YES;
+//                vc.delegate = self;
+//                [self.navigationController pushViewController:vc animated:YES];
+//                
+//            }
         }
     }
     else{
@@ -674,16 +681,16 @@
             
             if (buttonIndex == 0)	{
                 
-                _conditionLabel.text  = @"全新";
+                _conditionLabel.text  = @"New";
             }
             else if (buttonIndex == 1) {
                 
-                _conditionLabel.text  = @"半新";
+                _conditionLabel.text  = @"Half New";
                 
             }
             else if (buttonIndex == 2) {
                 
-                _conditionLabel.text  = @"旧物";
+                _conditionLabel.text  = @"Old";
                 
             }
         }
@@ -789,7 +796,7 @@
     
     _itemLocationCoordinate = location.coordinate;
     
-    _deliveryLabel.text = [NSString stringWithFormat:@"自取 %@", locationText];
+    _deliveryLabel.text = [NSString stringWithFormat:@"%@", locationText];
     
 }
 

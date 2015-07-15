@@ -31,9 +31,8 @@
     
     self.title = @"Profile";
     
-    //_titleArray = @[@"Username",@"Gender", @"Email",@"Phone Number",@"Wechat"];
-    _titleArray = @[@"用户名",@"性别", @"年龄",@"职业",@"兴趣爱好", @"个性签名",];
-    
+    _titleArray = @[@"Username",@"Gender", @"Age",@"Work",@"Hobbies",@"Signature"];
+    //_titleArray = @[@"用户名",@"性别", @"年龄",@"职业",@"兴趣爱好", @"个性签名",];
     
     [[AccountManager sharedInstance]loadAccountDataWithUserId:self.user.objectId Success:^(id object) {
         

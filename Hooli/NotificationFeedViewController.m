@@ -181,7 +181,7 @@
         cell = [[NotificationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         [cell setDelegate:self];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    }
+
     
     PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
         
@@ -196,7 +196,7 @@
     //    }
     //
     //  [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
-    
+    }
     return cell;
 }
 

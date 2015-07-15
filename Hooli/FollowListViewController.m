@@ -197,7 +197,7 @@
     if (cell == nil) {
         cell = [[FollowListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FriendCellIdentifier];
         [cell setDelegate:self];
-    }
+    
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -261,6 +261,7 @@
         }
     }
     
+    }
     
     return cell;
 }

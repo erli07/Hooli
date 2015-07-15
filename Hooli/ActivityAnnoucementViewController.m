@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"公告";
+    self.title = @"Announcement";
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     

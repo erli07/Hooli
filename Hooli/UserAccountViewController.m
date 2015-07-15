@@ -34,7 +34,7 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
-    self.userInfoArray = @[@"活动", @"物品"];
+    self.userInfoArray = @[@"Activities", @"Items"];
     
     self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"star"],[UIImage imageNamed:@"item"],nil];
     
@@ -102,7 +102,7 @@
         }
         else{
             
-            self.selfIntroLabel.text = @"这家伙很懒，什么也没有留下";
+            self.selfIntroLabel.text = @"This guy is lazy, nothing left here...";
         }
         
         self.userNameLabel.text = userModel.username;
@@ -156,7 +156,8 @@
     
     if(indexPath.section == 0){
         
-        cell.textLabel.text = @"个人资料";
+       // cell.textLabel.text = @"个人资料";
+        cell.textLabel.text = @"Profile";
         
         cell.imageView.image = [UIImage imageNamed:@"user"];
         

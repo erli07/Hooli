@@ -544,6 +544,7 @@
     PFQuery *queryExistingMakeOffer = [PFQuery queryWithClassName:kHLCloudNotificationClass];
     [queryExistingMakeOffer whereKey:kHLNotificationOfferKey equalTo: [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:offerObject.offerId]];
     [queryExistingMakeOffer whereKey:kHLNotificationFromUserKey equalTo:[PFUser currentUser]];
+    [queryExistingMakeOffer whereKey:kHLNotificationTypeKey equalTo:khlNotificationTypMakeOffer];
     [queryExistingMakeOffer includeKey:kHLNotificationToUserKey];
     [queryExistingMakeOffer setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryExistingMakeOffer findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {

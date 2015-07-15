@@ -54,14 +54,16 @@
     
     self.titlesArray = @[@"Title",@"Detail",@"Location", @"Date"];
     
-    self.title = @"发布活动";
+    self.title = @"Post Event";
     
-    _eventContent.placeholder = @"简洁介绍你的活动，吸引更多的小伙伴儿，不多于80个字 ";
-    
+   // _eventContent.placeholder = @"简洁介绍你的活动，吸引更多的小伙伴儿，不多于80个字 ";
+    _eventContent.placeholder = @"Brief Introduction ";
+
     _eventContent.placeholderColor = [UIColor lightGrayColor];
     
-    _eventAnnouncementField.placeholder = @"附加详细信息，包括注意事项等，可稍后修改 （Optional）";
-    
+    //_eventAnnouncementField.placeholder = @"附加详细信息，包括注意事项等，可稍后修改 （Optional）";
+    _eventAnnouncementField.placeholder = @"More details here（Optional）";
+
     _eventAnnouncementField.placeholderColor = [UIColor lightGrayColor];
     
     [_inviteButton setBackgroundColor:[HLTheme secondColor]];
@@ -98,7 +100,7 @@
     if(_eventObject){
         
         UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                           initWithTitle:@"删除"
+                                           initWithTitle:@"Delete"
                                            style:UIBarButtonItemStyleDone
                                            target:self
                                            action:@selector(deleteEvent)];
@@ -163,7 +165,7 @@
             
         }
         
-        [_submitButton setTitle:@"发布更新" forState:UIControlStateNormal];
+        [_submitButton setTitle:@"Update" forState:UIControlStateNormal];
         
         
     }
@@ -221,7 +223,7 @@
 -(void)deleteEvent{
     
     
-    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"确定删除？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Delete？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     
     alert.tag = 2;
     
@@ -327,7 +329,7 @@
         return;
     }
     
-    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"确定发布？" delegate:self cancelButtonTitle:@"等一会儿" otherButtonTitles:@"是的", nil];
+    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure？" delegate:self cancelButtonTitle:@"Wait" otherButtonTitles:@"Yes", nil];
     
     alert.tag = 0;
     
@@ -425,9 +427,9 @@
                                     
                                     if(succeeded){
                                         
-                                        [self sendWelcomeMessage:eventObject];
+                                       // [self sendWelcomeMessage:eventObject];
                                         
-                                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Post Success！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                         
                                         [alert show];
                                         
@@ -443,7 +445,7 @@
                             }
                             else{
                                 
-                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"更新成功！不要忘了通知你的活动成员哦^^" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Update success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                 
                                 [alert show];
                                 
@@ -461,7 +463,7 @@
                         }
                         else{
                             
-                            UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布失败..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                            UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Post fail..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                             
                             [alert show];
                             
@@ -532,7 +534,7 @@
                     
                     [self deleteRelatedNotifications];
                     
-                    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"删除成功" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Delete Success" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alert show];
                     
@@ -571,7 +573,7 @@
         
         [keyboardDoneButtonView sizeToFit];
         
-        UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"人数不限"
+        UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Non-limit"
                                                                        style:UIBarButtonItemStylePlain target:self
                                                                       action:@selector(setEventNoLimited)];
         [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
@@ -636,7 +638,7 @@
 
 -(void)setEventNoLimited{
     
-    self.eventMemberNumberField.text = @"人数不限";
+    self.eventMemberNumberField.text = @"No Limit";
     
 }
 
