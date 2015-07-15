@@ -30,7 +30,8 @@
 
 #define text_color [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]
 #define light_grey [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1.0]
-
+#define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
+#define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 
 @interface ActivityDetailViewController ()<UIActionSheetDelegate,MFMailComposeViewControllerDelegate>
 @property (nonatomic) NSArray *detailArray;
@@ -65,23 +66,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"详细";
+    self.title = @"Event Detail";
     
     // [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
+    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"Discussion"];
     // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
     _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"discussion"]];
     
     _participantArray = [[NSMutableArray alloc]init];
     
-    _parentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, 568)];
+    _parentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     
     [_parentScrollView setBackgroundColor:[UIColor whiteColor]];
     
     [self.view addSubview:_parentScrollView];
     
-    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 340) style:UITableViewStylePlain];
+    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 340) style:UITableViewStylePlain];
     
     _activityDetailTableView.scrollEnabled = NO;
     
@@ -93,7 +94,7 @@
     
     _memberTableView = [[ActivityMemberViewController alloc]initWithObject:_activityDetail];
     
-    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, 320, 300);
+    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, SCREEN_WIDTH, 300);
     
     _memberTableView.tableView.scrollEnabled = NO;
     
@@ -127,10 +128,10 @@
     
     [_inviteButton setBackgroundColor:[HLTheme buttonColor]];
     
-    [_inviteButton setTitle:@"邀请" forState:UIControlStateNormal];
+    [_inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
     
     // _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
-    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(30, 520, 260, 40)];
+    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(30, SCREEN_HEIGHT - 64, SCREEN_WIDTH - 60, 44)];
     
     [_joinButton setBackgroundColor:[HLTheme buttonColor]];
     
@@ -156,7 +157,7 @@
         
         [_joinButton addTarget:self action:@selector(editEvent) forControlEvents:UIControlEventTouchUpInside];
         
-        [_joinButton setTitle:@"修改" forState:UIControlStateNormal];
+        [_joinButton setTitle:@"Edit" forState:UIControlStateNormal];
     }
     else{
         
@@ -166,7 +167,7 @@
             
             [_joinButton addTarget:self action:@selector(quitEvent) forControlEvents:UIControlEventTouchUpInside];
             
-            [_joinButton setTitle:@"退出该群" forState:UIControlStateNormal];
+            [_joinButton setTitle:@"Quit" forState:UIControlStateNormal];
             
         }
         else{
@@ -175,15 +176,15 @@
             
             [_joinButton addTarget:self action:@selector(joinEvent) forControlEvents:UIControlEventTouchUpInside];
             
-            [_joinButton setTitle:@"我要参加" forState:UIControlStateNormal];
+            [_joinButton setTitle:@"Join the event" forState:UIControlStateNormal];
             
         }
         
     }
     
-    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, 320, _memberTableView.tableView.contentSize.height);
+    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, SCREEN_WIDTH, _memberTableView.tableView.contentSize.height);
     
-    [self.parentScrollView setContentSize:CGSizeMake(320, 568 - 64 - 72 + _memberTableView.tableView.contentSize.height)];
+    [self.parentScrollView setContentSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 72 + _memberTableView.tableView.contentSize.height)];
     
     //  [MBProgressHUD hideHUDForView:self.view animated:YES];
     
@@ -211,7 +212,7 @@
 -(void)quitEvent{
     
     
-    UIAlertView *quitAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"确定退出？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *quitAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to quit？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     
     quitAlert.tag = 2;
     
@@ -326,7 +327,7 @@
         if (object) {
             
             
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"你已经发出了活动申请" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"You have send the event request" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [alert show];
             
@@ -335,7 +336,7 @@
         }
         else{
             
-            UIAlertView *joinAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"确定参加？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+            UIAlertView *joinAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to join？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
             
             joinAlert.tag = 1;
             
@@ -350,7 +351,7 @@
 -(void)didUpdateActivity:(PFObject *)object{
     
     _activityDetail = object;
-    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"讨论区"];
+    _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"Discussion board"];
     
 }
 
@@ -484,7 +485,7 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if ([[_activityDetail objectForKey:kHLEventKeyAnnoucement]isEqualToString:@""] ) {
                 
-                cell.textLabel.text = @"暂无";
+                cell.textLabel.text = @"None";
                 
             }
             else{
@@ -558,7 +559,7 @@
         }
         else {
             
-            [label setText:@"公告"];
+            [label setText:@"Annoucement"];
             
         }
         
@@ -582,7 +583,7 @@
         }
         else {
             
-            return  @"公告";
+            return  @"Annoucement";
             
         }
 
@@ -622,7 +623,7 @@
                     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
                     ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
                     vc.showSearchBar = NO;
-                    vc.title = @"活动位置";
+                    vc.title = @"Event Location";
                     vc.eventGeopoint = [_activityDetail objectForKey:kHLEventKeyEventGeoPoint];
                     [self.navigationController pushViewController:vc animated:YES];
                     
@@ -645,7 +646,7 @@
                 }
                 else{
                     
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry，参加活动才能参与讨论" message:nil
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry，you have to join the event to discuss." message:nil
                                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alert show];
@@ -750,7 +751,7 @@
                     
                     if (count >= [[_activityDetail objectForKey:kHLEventKeyMemberNumber] intValue]) {
                         
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"此群人数已满"
+                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"This event is full."
                                                                       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                         
                         [alert show];
@@ -789,7 +790,7 @@
                         
                         if(succeeded){
                             
-                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"退出成功" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"Quit successfully" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                             
                             [alert show];
                             
@@ -824,7 +825,7 @@
                 
                 if(succeeded){
                     
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"参加成功!" message:nil
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Join successfully!" message:nil
                                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     
                     [alert show];

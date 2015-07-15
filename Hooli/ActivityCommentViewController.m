@@ -49,7 +49,7 @@ static const CGFloat kHLCellInsetWidth = 0.0f;
 
 - (void)viewDidLoad {
     
-    self.title = @"讨论区";
+    self.title = @"Discussion";
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     

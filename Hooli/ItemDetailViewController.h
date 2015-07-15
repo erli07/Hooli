@@ -38,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIView *topDetailBar;
+@property (weak, nonatomic) IBOutlet UIView *likeView;
 @property (nonatomic, strong) ItemCommentViewController *commentVC;
 @property (weak, nonatomic) IBOutlet SMPageControl *pageControl;
 @property (nonatomic, assign) BOOL isFirstPosted;

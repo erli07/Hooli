@@ -27,6 +27,7 @@
 #import "CreateItemViewController.h"
 #import "SelectCategoryTableViewController.h"
 #import "HomeOffersViewController.h"
+#import "PostItemViewController.h"
 
 @interface HomeViewViewController ()<UpdateCollectionViewDelegate,DCPathButtonDelegate,ShowSearchResultDelegate>{
     
@@ -58,7 +59,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"二手市场";
+    self.title = @"Discover";
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showCamera:)
@@ -67,7 +68,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [[HLSettings sharedInstance]setShowSoldItems:NO];
     
     UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"种类"
+                                       initWithTitle:@"Category"
                                        style:UIBarButtonItemStyleDone
                                        target:self
                                        action:@selector(seeCategories)];
@@ -129,18 +130,18 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)seeCategories{
     
     
-//    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    SearchItemViewController *categoryVC = [mainSb  instantiateViewControllerWithIdentifier:@"SearchItemViewController"];
-//    categoryVC.isMultipleSelection = YES;
-//    categoryVC.hidesBottomBarWhenPushed = YES;
-//    categoryVC.selectedArray = [NSMutableArray arrayWithArray:[[OffersManager sharedInstance]filterArray]];
-//    categoryVC.delegate = self;
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    SelectCategoryTableViewController *categoryVC = [mainSb  instantiateViewControllerWithIdentifier:@"SelectCategoryTableViewController"];
+    categoryVC.isMultipleSelection = YES;
+    categoryVC.hidesBottomBarWhenPushed = YES;
+    categoryVC.selectedArray = [NSMutableArray arrayWithArray:[[OffersManager sharedInstance]filterArray]];
+    categoryVC.delegate = self;
     
-    MainCollectionViewFlowLayout *layout = [[MainCollectionViewFlowLayout alloc]init];
-    
-    HomeOffersViewController *offers = [[HomeOffersViewController alloc]initWithCollectionViewLayout:layout className:kHLCloudOfferClass];
-    
-    [self.navigationController pushViewController:offers animated:YES];
+//    MainCollectionViewFlowLayout *layout = [[MainCollectionViewFlowLayout alloc]init];
+//    
+//    HomeOffersViewController *offers = [[HomeOffersViewController alloc]initWithCollectionViewLayout:layout className:kHLCloudOfferClass];
+//    
+//    [self.navigationController pushViewController:offers animated:YES];
     
 }
 
@@ -181,6 +182,7 @@ static NSString * const reuseIdentifier = @"Cell";
     //
     self.collectionView.hidden = NO;
     
+    [self.collectionView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
     
     //    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc]
     //                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAction
@@ -277,7 +279,7 @@ static NSString * const reuseIdentifier = @"Cell";
         
         self.searchItemVC.view.tag = 99;
         
-        [self.searchItemVC.view setFrame:CGRectMake(0, 64, 320, 568)];
+        [self.searchItemVC.view setFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT)];
         
         self.searchItemVC.delegate = self;
         
@@ -344,38 +346,17 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, 64, 64)];
-    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168);
+    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - 168);
     [self.addItemButton setBackgroundImage:[UIImage imageNamed:@"camera_128x128"] forState:UIControlStateNormal];
     [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addItemButton];
     [self.addItemButton bringSubviewToFront:self.collectionView];
-    //    self.addItemButton  = [[DCPathButton alloc]initWithCenterImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                    hilightedImage:[UIImage imageNamed:@"camera_64x64"]];
-    //
-    //    [self.addItemButton setDcButtonCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168) ];
-    //    DCPathItemButton *itemButton_1 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
-    //
-    //    DCPathItemButton *itemButton_2 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
-    //
-    //    [self.addItemButton addPathItems:@[itemButton_1, itemButton_2]];
-    //
-    //    self.addItemButton.delegate = self;
-    //     [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.addItemButton];
-    [self.addItemButton bringSubviewToFront:self.collectionView];
+
 }
 
 #pragma register notification
 
-
 -(void)addSwipeGesture{
-    
     
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
@@ -594,10 +575,10 @@ static NSString * const reuseIdentifier = @"Cell";
         CGRect collectionView = self.collectionView.frame;
         
         collectionView.origin.y = (visible)? 10 : 20;
-        collectionView.size.height = (visible)? 558 : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
+        collectionView.size.height = (visible)? SCREEN_HEIGHT : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
         self.addItemButton.alpha =(visible)?1:0;
         
-        self.addItemButton.center = (visible)?CGPointMake(160, 452):CGPointMake(160,568);
+        self.addItemButton.center = (visible)?CGPointMake(SCREEN_WIDTH/2, 452):CGPointMake(SCREEN_WIDTH/2,SCREEN_HEIGHT);
         self.collectionView.frame = collectionView;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         
@@ -648,14 +629,13 @@ static NSString * const reuseIdentifier = @"Cell";
     
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     
-    
-    CreateItemViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateItemViewController"];
+    PostItemViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"PostItemViewController"];
     
     postVC.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:postVC animated:YES];
 
-    
+//    
 //    MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
 //    
 //    

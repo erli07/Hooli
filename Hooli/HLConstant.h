@@ -25,6 +25,10 @@
 #define     TAB_BAR_INDEX_NOTIFICATION 2
 #define     TAB_BAR_INDEX_MY_PROFILE 3
 
+#define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
+#define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
+#define ITEMCELL_LEGNTH ([[UIScreen mainScreen] bounds].size.width - 40)/2
+
 @interface HLConstant : NSObject
 
 extern NSString *const kHLOfferCategoryHomeGoods;

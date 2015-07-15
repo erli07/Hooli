@@ -176,15 +176,15 @@
 
 -(BOOL)checkFieldEmpty{
     
-    if([_itemContetnTextView.text  isEqual: @""] || [_conditionLabel.text  isEqual: @""] || [_categoryLabel.text  isEqual: @""] || [_deliveryLabel.text  isEqual: @""] || [_itemTitleField.text isEqualToString:@""]){
-        
-        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Field missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        
-        return NO;
-        
-    }
+//    if([_itemContetnTextView.text  isEqual: @""] || [_conditionLabel.text  isEqual: @""] || [_categoryLabel.text  isEqual: @""] || [_deliveryLabel.text  isEqual: @""] || [_itemTitleField.text isEqualToString:@""]){
+//        
+//        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Field missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        
+//        [alert show];
+//        
+//        return NO;
+//        
+//    }
     
     return YES;
 }
@@ -660,7 +660,7 @@
                 [self tapEventOccured:nil];
                 UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
                 ActivityLocationViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"ActivityLocationViewController"];
-                vc.title = @"自取地点";
+                vc.title = @"Location";
                 vc.showSearchBar = YES;
                 vc.delegate = self;
                 [self.navigationController pushViewController:vc animated:YES];

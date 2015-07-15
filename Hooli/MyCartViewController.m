@@ -34,7 +34,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"我的物品";
+    self.title = @"My Items";
     self.view.tintColor = [HLTheme mainColor];
     [self.layout configureLayout] ;
     [self.collectionView configureView];

@@ -79,13 +79,16 @@
 -(void)addUIElements{
     
     self.navigationController.navigationBarHidden = NO;
-    self.title = @"我";
-    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(120, 80, 80, 80)];
+    self.title = @"Me";
+    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 120, 120)];
+    self.profilePictureView.center = CGPointMake(self.view.frame.size.width/2, 140);
     self.profilePictureView.layer.cornerRadius = self.profilePictureView.frame.size.height/2;
     self.profilePictureView.layer.masksToBounds = YES;
-    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 160, 200, 30)];
+    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
+    self.nameLabel.center = CGPointMake(self.view.frame.size.width/2, 230);
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
-    [self.nameLabel setFont: [UIFont fontWithName:[HLTheme mainFont] size:14.0f]];
+    [self.nameLabel setFont: [UIFont fontWithName:[HLTheme mainFont] size:17.0f]];
+    [self.settingTableView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 270)];
     [self.view addSubview:self.profilePictureView];
     [self.view addSubview:self.nameLabel];
     
@@ -214,6 +217,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
+    cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
     
 //    if(indexPath.section == 0){
 //        
@@ -240,8 +244,8 @@
     
         if(indexPath.row == 0){
             
-            // cell.textLabel.text = @"My Profile";
-            cell.textLabel.text = @"个人资料";
+             cell.textLabel.text = @"My Profile";
+            //cell.textLabel.text = @"个人资料";
             
             cell.imageView.image = [self.imagesArray objectAtIndex:2];
             
@@ -255,16 +259,17 @@
 //        }
         else if(indexPath.row == 1){
             
-            cell.textLabel.text = @"我的物品";
-            
+           // cell.textLabel.text = @"我的物品";
+            cell.textLabel.text = @"My Items";
+
             cell.imageView.image = [self.imagesArray objectAtIndex:1];
             
         }
         else if(indexPath.row == 2){
             
-            //  cell.textLabel.text = @"My Relations";
+            cell.textLabel.text = @"My Relations";
             
-            cell.textLabel.text = @"我的朋友";
+            //cell.textLabel.text = @"我的朋友";
             cell.imageView.image = [self.imagesArray objectAtIndex:3];
             
         }
@@ -272,9 +277,9 @@
      }
     else if(indexPath.section == 1){
         
-        cell.textLabel.text = @"设置";
+        //cell.textLabel.text = @"设置";
         
-        // cell.textLabel.text = @"Settings";
+        cell.textLabel.text = @"Settings";
         
         cell.imageView.image = [self.imagesArray objectAtIndex:4];
         

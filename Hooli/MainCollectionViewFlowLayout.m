@@ -13,10 +13,13 @@
 
 -(void)configureLayout{
     
-    self.sectionInset = UIEdgeInsetsMake(0,5,5,5);
-    self.minimumInteritemSpacing = 3;
+    self.sectionInset = UIEdgeInsetsMake(5,5,5,5);
+    self.minimumInteritemSpacing = 5;
     self.minimumLineSpacing = 10;
-    self.itemSize = CGSizeMake(kHLOfferCellWidth, kHLOfferCellHeight);
+    //self.itemSize = CGSizeMake(kHLOfferCellWidth, kHLOfferCellHeight);
+    self.itemSize = CGSizeMake(ITEMCELL_LEGNTH,ITEMCELL_LEGNTH);
+   // self.itemSize = CGSizeMake(120, 120);
+
 }
 
 

@@ -32,9 +32,9 @@ NSString *const kHLOfferCategorySportingGoods = @"Sporting Goods";
 //NSString *const kHLNeedCategory8 = @"情感咨询";
 //NSString *const kHLNeedCategory9 = @"其他";
 
-
-int const kHLOfferCellHeight = 151.0;
 int const kHLOfferCellWidth = 151.0;
+int const kHLOfferCellHeight = 151.0;
+
 int const kHLOffersNumberShowAtFirstTime = 10;
 int const kHLNeedsNumberShowAtFirstTime = 30;
 int const kHLMaxSearchDistance = 50;

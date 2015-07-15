@@ -34,7 +34,8 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
-    self.userInfoArray = @[@"活动", @"物品"];
+   // self.userInfoArray = @[@"活动", @"物品"];
+    self.userInfoArray = @[@"物品"];
     
     self.imagesArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"star"],[UIImage imageNamed:@"item"],nil];
     
@@ -101,7 +102,8 @@
         
         if(!signature || [signature isEqual:@""] || [signature isKindOfClass:[NSNull null]]){
             
-            self.selfIntroLabel.text = @"这家伙很懒，什么也没有留下";
+            //self.selfIntroLabel.text = @"这家伙很懒，什么也没有留下";
+            self.selfIntroLabel.text = @"Nothing is written here.";
 
         }
         else{
@@ -142,7 +144,7 @@
     if(section == 0)
         return 1;
     else
-        return 2;
+        return 1;
     
 }
 
@@ -208,24 +210,24 @@
     }
     else if(indexPath.section == 1){
         
-        if(indexPath.row == 1){
+        if(indexPath.row == 0){
             UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
             UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
             vc.userID = self.userID;
             vc.hidesBottomBarWhenPushed = YES;
-            vc.title = @"物品";
+            vc.title = @"Items";
             [self.navigationController pushViewController:vc animated:YES];
         }
-        else{
-            
-            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
-            vc.aUser = self.user;
-            vc.title = @"活动";
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-            
-        }
+//        else{
+//            
+//            UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
+//            vc.aUser = self.user;
+//            vc.title = @"活动";
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
+//            
+//        }
         
     }
     
@@ -240,8 +242,8 @@
             
             if(succeeded){
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关注成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [alert show];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关注成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//                [alert show];
                 
                 [self updateRelationship];
                 
@@ -257,9 +259,9 @@
             
             if(succeeded){
                 
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"取消关注" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [alert show];
+//                
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"取消关注" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//                [alert show];
                 
                 [self updateRelationship];
                 
@@ -309,14 +311,14 @@
         
         if(self.followStatus == HL_RELATIONSHIP_TYPE_FRIENDS || self.followStatus == HL_RELATIONSHIP_TYPE_IS_FOLLOWING ){
             
-            [self.followButton setTitle:@"已关注" forState:UIControlStateNormal] ;
+            [self.followButton setTitle:@"Followed" forState:UIControlStateNormal] ;
             [self.followButton setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
             [self.followButton setTitleColor:[HLTheme buttonColor] forState:UIControlStateNormal];
             
         }
         else{
             
-            [self.followButton setTitle:@"关注" forState:UIControlStateNormal] ;
+            [self.followButton setTitle:@"Follow" forState:UIControlStateNormal] ;
             [self.followButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
             [self.followButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             

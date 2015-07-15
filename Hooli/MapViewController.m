@@ -74,7 +74,6 @@
 
 -(void)updateMapView{
     
-    
     [self configureRegionAndMapItemList];
     
     [self.mapView setRegion:self.boundingRegion];

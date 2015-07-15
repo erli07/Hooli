@@ -428,9 +428,9 @@
                                         
                                         [self sendWelcomeMessage:eventObject];
                                         
-                                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                        
-                                        [alert show];
+//                                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                                        
+//                                        [alert show];
                                         
                                         [self.delegate didCreateActivity:eventObject];
                                         
@@ -444,7 +444,7 @@
                             }
                             else{
                                 
-                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"更新成功！不要忘了通知你的活动成员哦^^" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Update success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                                 
                                 [alert show];
                                 
@@ -462,7 +462,7 @@
                         }
                         else{
                             
-                            UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"发布失败..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                            UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Fail..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                             
                             [alert show];
                             

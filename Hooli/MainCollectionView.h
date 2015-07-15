@@ -11,7 +11,7 @@
 
 
 
-@interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource,MBProgressHUDDelegate,UIScrollViewDelegate>
+@interface MainCollectionView : UICollectionView<UICollectionViewDelegate,UICollectionViewDataSource,MBProgressHUDDelegate,UIScrollViewDelegate,UICollectionViewDelegateFlowLayout>
 -(void)configureView;
 -(void)updateDataFromCloud;
 -(void)reloadDataByOffersArray:(NSArray *)offers;

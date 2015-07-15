@@ -41,6 +41,7 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
     message = message_;
+    
     //---------------------------------------------------------------------------------------------------------------------------------------------
     imageUser.layer.cornerRadius = imageUser.frame.size.width/2;
     imageUser.layer.masksToBounds = YES;
@@ -68,6 +69,9 @@
     //---------------------------------------------------------------------------------------------------------------------------------------------
     int counter = [message[PF_MESSAGES_COUNTER] intValue];
     labelCounter.text = (counter == 0) ? @"" : [NSString stringWithFormat:@"%d new", counter];
+    
+    NSLog(@"%f",self.labelLastMessage.frame.size.width) ;
+
 }
 
 @end

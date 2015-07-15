@@ -80,14 +80,14 @@
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     
-    self.title = @"提醒";
+    self.title = @"Notification";
     
     // Add Settings button
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kHLLoadFeedObjectsNotification object:nil];
     
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankView setBackgroundColor:[UIColor whiteColor]];
-    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, SCREEN_WIDTH, 44)];
     noContentLabel.text = @"No content at the moment";
     noContentLabel.textColor = [UIColor lightGrayColor];
     noContentLabel.font = [UIFont systemFontOfSize:17.0f];
@@ -170,35 +170,33 @@
 }
 
 
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-//    
-//    static NSString *CellIdentifier = @"NotificationFeedCell";
-//    
-//    NotificationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    
-//    if (cell == nil) {
-//        cell = [[NotificationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//        [cell setDelegate:self];
-//        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//        
-//        PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
-//        [cell setUser:fromUser];
-//        [cell setNotification:object];
-//        
-//    }o
-//    
-//  
-//    
-//    //    if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
-//    //        [cell setIsNew:YES];
-//    //    } else {
-//    //        [cell setIsNew:NO];
-//    //    }
-//    //
-//    //  [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
-//    
-//    return cell;
-//}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    
+    static NSString *CellIdentifier = @"NotificationFeedCell";
+    
+    NotificationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[NotificationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        [cell setDelegate:self];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        PFUser *fromUser = [object objectForKey:kHLNotificationFromUserKey];
+        [cell setUser:fromUser];
+        [cell setNotification:object];
+        
+    }
+    
+        if ([lastRefresh compare:[object createdAt]] == NSOrderedAscending) {
+            [cell setIsNew:YES];
+        } else {
+            [cell setIsNew:NO];
+        }
+    
+      [cell hideSeparator:(indexPath.row == self.objects.count - 1)];
+    
+    return cell;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     

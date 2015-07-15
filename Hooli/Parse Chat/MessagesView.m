@@ -68,7 +68,7 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	[super viewDidLoad];
-	self.title = @"消息";
+	self.title = @"Messages";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:kHLLoadMessageObjectsNotification object:nil];
 	//---------------------------------------------------------------------------------------------------------------------------------------------

@@ -180,7 +180,7 @@ static NSString * const reuseIdentifier = @"ItemCell";
     
 }
 
-#pragma mark collectionview delegate
+#pragma mark collectionview delegat
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
@@ -193,14 +193,29 @@ static NSString * const reuseIdentifier = @"ItemCell";
 
     ItemCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
+   // [cell setFrame:CGRectMake(0, 0, 60, 70)];
+    
+    [cell setFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, ITEMCELL_LEGNTH, ITEMCELL_LEGNTH)];
+    
+    [[cell contentView] setFrame:[cell bounds]];
+    [[cell contentView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    
     OfferModel *offer = [self.objectDataSource objectAtIndex:indexPath.row];
     
     [cell updateCellWithOfferModel:offer];
     
-    
     return cell;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionView *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0; // This is the minimum inter item spacing, can be more
+}
 
 #pragma mark MBProgressHUDDelegate
 
@@ -213,7 +228,7 @@ static NSString * const reuseIdentifier = @"ItemCell";
 
 -(void)addNoContentView{
     
-    self.noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    self.noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, SCREEN_WIDTH, 44)];
     self.noContentLabel.text = @"No offers at the moment";
     self.noContentLabel.textColor = [UIColor lightGrayColor];
     self.noContentLabel.font = [UIFont systemFontOfSize:17.0f];

@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _textField = [[UITextField alloc]initWithFrame:CGRectMake(0, 64, 320, 44)];
+    _textField = [[UITextField alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 44)];
     
     _textField.text = _content;
     

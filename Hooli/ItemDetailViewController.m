@@ -330,7 +330,7 @@
     NSString *distanceText = [[LocationManager sharedInstance]getApproximateDistance:offerModel.offerLocation];
     self.locationLabel.text = [NSString stringWithFormat:@"Location: %@", distanceText];
     self.categoryLabel.text = [NSString stringWithFormat:@"In %@",offerModel.offerCategory];
-    self.offerDescription.text = offerModel.offerDescription;
+   // self.offerDescription.text = offerModel.offerDescription;
     [self.offerDescription sizeToFit];
     self.priceLabel.text = offerModel.offerPrice;
     
@@ -495,12 +495,16 @@
     
     [self.likeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     
-    [self.likeButton bringSubviewToFront:self.offerDetailView];
+ //   [self.offerDetailView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    [self.view addSubview:self.likeView];
+//    [self.likeView bringSubviewToFront:self.offerDetailView];
+    
     [self.makeOfferButton bringSubviewToFront:self.offerDetailView];
     self.makeOfferButton.layer.cornerRadius = 10.0f;
     self.makeOfferButton.layer.masksToBounds = YES;
     self.showBidButton.layer.cornerRadius = 10.0f;
     self.showBidButton.layer.masksToBounds = YES;
+    
  
     //self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
     //    [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -949,7 +953,7 @@
     if([segue.identifier isEqualToString:@"map"])
     {
         MapViewController *map = segue.destinationViewController;
-        map.title = @"自取地点";
+        map.title = @"Location";
         map.offerLocation = self.offerLocation;
     }
     else if([segue.identifier isEqualToString:@"editOffer"]){
