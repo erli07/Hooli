@@ -56,7 +56,8 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[HLSettings sharedInstance]setShowSoldItems:YES ];
+
     //self.title = @"二手市场";
     self.title = @"Yard Sale";
     
@@ -64,13 +65,11 @@ static NSString * const reuseIdentifier = @"Cell";
                                              selector:@selector(showCamera:)
                                                  name:kHLShowCameraViewNotification object:nil];
     
-    [[HLSettings sharedInstance]setShowSoldItems:NO];
-    
-//    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]
-//                                       initWithTitle:@"种类"
-//                                       style:UIBarButtonItemStyleDone
-//                                       target:self
-//                                       action:@selector(seeCategories)];
+    //    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]
+    //                                       initWithTitle:@"种类"
+    //                                       style:UIBarButtonItemStyleDone
+    //                                       target:self
+    //                                       action:@selector(seeCategories)];
     UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]
                                         initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(seeCategories)];
     
@@ -87,25 +86,25 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)viewWillDisappear:(BOOL)animated{
     
     [self setNavBarVisible:YES animated:YES];
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [[HLSettings sharedInstance]setShowSoldItems:NO];
+    [[HLSettings sharedInstance]setShowSoldItems:YES ];
     [[HLSettings sharedInstance]setCurrentPageIndex:0];
     [[OffersManager sharedInstance]setFilterDictionary:nil];
     
     
-//    if(self.searchController.active){
-//        
-//        self.tabBarController.tabBar.hidden = YES;
-//    }
-//    else{
-//        
-//        self.tabBarController.tabBar.hidden = NO;
-//        
-//    }
+    //    if(self.searchController.active){
+    //
+    //        self.tabBarController.tabBar.hidden = YES;
+    //    }
+    //    else{
+    //
+    //        self.tabBarController.tabBar.hidden = NO;
+    //
+    //    }
     
     //  [self resetNavBar];
     
@@ -146,7 +145,7 @@ static NSString * const reuseIdentifier = @"Cell";
     HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyCart"];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
-
+    
 }
 
 -(void)getFollowedUserItems{
@@ -201,9 +200,9 @@ static NSString * const reuseIdentifier = @"Cell";
     [self addSwipeGesture];
     
     [self configureAddButton];
-
     
-   // [self configureSearchBar];
+    
+    // [self configureSearchBar];
     
     //    self.searchCategoryVC = [[SearchItemViewController alloc]init];
     //
@@ -298,7 +297,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     self.showCategoryVC = NO;
     
-   // self.tabBarController.tabBar.hidden = NO;
+    // self.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)willPresentSearchController:(UISearchController *)searchController {
@@ -437,15 +436,22 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    if([HLUtilities checkIfUserLoginWithCurrentVC:self]){
+    if(![PFUser currentUser]){
         
-        ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-        ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
-        vc.offerId = cell.offerId;
-        // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self.navigationController pushViewController:vc animated:YES];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"Please sign up or login first", @"") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
+        
+        return;
     }
+    
+    
+    ItemCell *cell = (ItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+    vc.offerId = cell.offerId;
+    // vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /*
@@ -517,7 +523,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-   // NSLog(@"%f %f",scrollView.contentOffset.y, fabs(scrollView.contentSize.height - scrollView.frame.size.height) );
+    // NSLog(@"%f %f",scrollView.contentOffset.y, fabs(scrollView.contentSize.height - scrollView.frame.size.height) );
     
     if (scrollView.contentOffset.y == fabs(scrollView.contentSize.height - scrollView.frame.size.height) )
     {
@@ -532,14 +538,14 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (scrollVelocity.y > 0.0f){
         
-   //     [self setTabBarVisible:YES animated:YES];
-    [self setNavBarVisible:YES animated:YES];
+        //     [self setTabBarVisible:YES animated:YES];
+        [self setNavBarVisible:YES animated:YES];
         
         
     }
     else if(scrollVelocity.y < 0.0f){
         
-    //    [self setTabBarVisible:NO animated:YES];
+        //    [self setTabBarVisible:NO animated:YES];
         [self setNavBarVisible:NO animated:YES];
         
     }
@@ -642,6 +648,15 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)showCamera:(id)sender{
     
+    if(![PFUser currentUser]){
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"Please sign up or login first", @"") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
+        
+        return;
+    }
+    
     UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     
     
@@ -650,20 +665,20 @@ static NSString * const reuseIdentifier = @"Cell";
     postVC.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:postVC animated:YES];
-
     
-//    MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
-//    
-//    
-//    [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
-//        
-//        //  [self presentViewController:cameraVC animated:YES completion:^{
-//        //  }];
-//        
-//        [self.navigationController pushViewController:cameraVC animated:NO];
-//        
-//        
-//    }];
+    
+    //    MyCameraViewController *cameraVC = [mainSb instantiateViewControllerWithIdentifier:@"MyCameraViewController"];
+    //
+    //
+    //    [cameraVC initCameraPickerWithCompletionBlock:^(BOOL succeeded) {
+    //
+    //        //  [self presentViewController:cameraVC animated:YES completion:^{
+    //        //  }];
+    //
+    //        [self.navigationController pushViewController:cameraVC animated:NO];
+    //
+    //
+    //    }];
     
 }
 
@@ -727,7 +742,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [[OffersManager sharedInstance]setFilterArray:itemsCategories];
     
     [self updateCollectionViewData];
-
+    
     
 }
 

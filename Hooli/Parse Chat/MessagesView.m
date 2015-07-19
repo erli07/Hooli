@@ -181,7 +181,7 @@
 	{
 		total += [message[PF_MESSAGES_COUNTER] intValue];
 	}
-	UITabBarItem *item = self.tabBarController.tabBar.items[1];
+	UITabBarItem *item = self.tabBarController.tabBar.items[TAB_BAR_INDEX_MESSAGES];
 	item.badgeValue = (total == 0) ? nil : [NSString stringWithFormat:@"%d", total];
 }
 
@@ -203,7 +203,7 @@
 	[messages removeAllObjects];
 	[tableMessages reloadData];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	UITabBarItem *item = self.tabBarController.tabBar.items[1];
+	UITabBarItem *item = self.tabBarController.tabBar.items[TAB_BAR_INDEX_MESSAGES];
 	item.badgeValue = nil;
 }
 

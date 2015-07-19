@@ -166,7 +166,7 @@
             
             [_joinButton addTarget:self action:@selector(quitEvent) forControlEvents:UIControlEventTouchUpInside];
             
-            [_joinButton setTitle:@"Quit" forState:UIControlStateNormal];
+            [_joinButton setTitle:@"Quit the event" forState:UIControlStateNormal];
             
         }
         else{

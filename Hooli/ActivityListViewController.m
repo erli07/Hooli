@@ -189,6 +189,8 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"Please sign up or login first", @"") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [alertView show];
+        
+        return;
     }
     
 }
@@ -196,6 +198,7 @@
 
 -(void)seeCategories{
     
+
     UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
     ActivityCategoryViewController *categoryVC = [detailSb instantiateViewControllerWithIdentifier:@"ActivityCategoryViewController"];
     categoryVC.isMultipleSelection = YES;
@@ -276,6 +279,8 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"Please sign up or login first", @"") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [alertView show];
+        
+        return;
         
     }
     //[self performSegueWithIdentifier:@"seeActivityDetail" sender:self];

@@ -53,7 +53,7 @@
             
         }
         else if(indexPath.row == 1){
-            NSString *textToShare = @"海圈圈，您海外生活的好帮手!";
+            NSString *textToShare = @"Hooli, discover the fun of life!";
            // NSURL *myApp = [NSURL URLWithString:@"http://itunes.apple.com/app/id378458261"];
             
             NSArray *objectsToShare = @[textToShare];
@@ -72,12 +72,12 @@
             
             [self presentViewController:activityVC animated:YES completion:nil];
         }
-        else{
-            
-            PushSettingsViewController *pvc = [[PushSettingsViewController alloc]init];
-            
-            [self.navigationController pushViewController:pvc animated:YES];
-        }
+//        else{
+//            
+//            PushSettingsViewController *pvc = [[PushSettingsViewController alloc]init];
+//            
+//            [self.navigationController pushViewController:pvc animated:YES];
+//        }
         
     }
     else if(indexPath.section == 1){
@@ -132,11 +132,11 @@
             cell.textLabel.text = @"Share to Friends";
             
         }
-        else if(indexPath.row == 2){
-            
-            cell.textLabel.text = @"Push notification settings";
-            
-        }
+//        else if(indexPath.row == 2){
+//            
+//            cell.textLabel.text = @"Push notification settings";
+//            
+//        }
         
         
         
@@ -169,9 +169,9 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if(section == 0)
-        return 3;
-    else if(section == 1)
         return 2;
+    else if(section == 1)
+        return 1;
     else
         return 1;
     
@@ -213,10 +213,11 @@
         
         [[AccountManager sharedInstance]logOut];
         
-        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-        vc.selectedIndex = 0;
-        [self presentViewController:vc animated:NO completion:^{
+        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Intro" bundle:nil];
+        UINavigationController *introNav = [mainSb instantiateViewControllerWithIdentifier:@"IntroNav"];
+        introNav.navigationBar.hidden = YES;
+
+        [self presentViewController:introNav animated:NO completion:^{
             
             
         }];

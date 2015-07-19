@@ -28,13 +28,14 @@ const CGFloat duration = 0.3;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"Sign Up";
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboards)];
     
     [self.view addGestureRecognizer:tap];
     
-    [self.navigationController setNavigationBarHidden:NO];
+
     
     self.nameLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     
@@ -50,7 +51,10 @@ const CGFloat duration = 0.3;
     // Do any additional setup after loading the view.
 }
 
-
+-(void)viewWillAppear:(BOOL)animated{
+        
+    [self.navigationController setNavigationBarHidden:YES];
+}
 
 
 -(void)dismissKeyboards{

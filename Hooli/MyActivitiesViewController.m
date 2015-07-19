@@ -90,7 +90,8 @@
     [query1 includeKey:kHLEventMemberKeyEvent];
 
     PFQuery *query = [PFQuery queryWithClassName:kHLCloudEventClass];
-    [query whereKey:@"objectId" matchesKey:@"eventId" inQuery:query1];
+   // [query whereKey:@"objectId" matchesKey:@"eventId" inQuery:query1];
+    [query whereKey:kHLEventKeyHost equalTo:_aUser];
     [query includeKey:kHLEventKeyHost];
     [query includeKey:kHLEventKeyImages];
     [query orderByDescending:@"createdAt"];

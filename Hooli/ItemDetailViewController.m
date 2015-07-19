@@ -263,6 +263,15 @@
     //
     //    }];
     
+    if([[PFUser currentUser].objectId isEqualToString:self.offerObject.user.objectId]){
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"You cannot bid your offer." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
+        
+        return;
+    }
+    
     
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Make Offer" message:@"Enter the price you will offer (in US dollar):" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
@@ -833,11 +842,7 @@
         
         PFUser *user2 = (PFUser *)object;
         
-        //       [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
-        
-        
-        
-        
+        //       [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error){
         
         [[ActivityManager sharedInstance]followUserInBackground:user2 block:^(BOOL succeeded, NSError *error) {
             

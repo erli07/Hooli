@@ -208,6 +208,7 @@
             UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
             UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userCart"];
             vc.userID = self.userID;
+            vc.title =[NSString stringWithFormat:@"%@'s items",self.user.username];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -216,6 +217,7 @@
             UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             MyActivitiesViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"MyActivitiesViewController"];
             vc.aUser = self.user;
+            vc.title =[NSString stringWithFormat:@"%@'s items",self.user.username];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
@@ -234,7 +236,7 @@
             
             if(succeeded){
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关注成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Follow success!" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                 [alert show];
                 
                 [self updateRelationship];
@@ -252,7 +254,7 @@
             if(succeeded){
                 
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"取消关注" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Cancel following" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                 [alert show];
                 
                 [self updateRelationship];

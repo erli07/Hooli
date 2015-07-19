@@ -92,7 +92,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     self.activityCategoryImageView.image = [self getActivityCategoryImageFromString:[eventObject objectForKey:kHLEventKeyCategory]];
     
-    PFGeoPoint *userGeoPoint = [eventObject objectForKey:kHLEventKeyUserGeoPoint];
+    PFGeoPoint *userGeoPoint = [eventObject objectForKey:kHLEventKeyEventGeoPoint];
     
     CLLocationCoordinate2D userLocation = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude);
     
@@ -114,13 +114,14 @@ static TTTTimeIntervalFormatter *timeFormatter;
             
             if(!error){
                 
-                UIImage *image1 = [UIImage imageWithData:data];
+                self.eventImage1 = [UIImage imageWithData:data];
                 
-                [self.imagesArray addObject:image1];
+                [self.imagesArray addObject: self.eventImage1];
                 
-                [self.eventImageButton1 setBackgroundImage:image1 forState:UIControlStateNormal];
+                [self.eventImageButton1 setBackgroundImage: self.eventImage1 forState:UIControlStateNormal];
                 
                 self.eventImageButton1.hidden = NO;
+                
                 
             }
         }];
@@ -142,13 +143,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
             
             if(!error){
                 
-                UIImage *image2 = [UIImage imageWithData:data];
+                self.eventImage2 = [UIImage imageWithData:data];
                 
-                [self.imagesArray addObject:image2];
+                [self.imagesArray addObject:self.eventImage2];
                 
                 self.eventImageButton2.hidden = NO;
                 
-                [self.eventImageButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
+                [self.eventImageButton2 setBackgroundImage:self.eventImage2 forState:UIControlStateNormal];
                 
             }
         }];
@@ -169,13 +170,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
             
             if(!error){
                 
-                UIImage *image3 = [UIImage imageWithData:data];
+                self.eventImage3 = [UIImage imageWithData:data];
                 
-                [self.imagesArray addObject:image3];
+                [self.imagesArray addObject:self.eventImage3];
                 
                 self.eventImageButton3.hidden = NO;
                 
-                [self.eventImageButton3 setBackgroundImage:image3 forState:UIControlStateNormal];
+                [self.eventImageButton3 setBackgroundImage:self.eventImage3 forState:UIControlStateNormal];
                 
             }
         }];
@@ -346,12 +347,14 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
     NSMutableArray  *kzImageArray = [NSMutableArray array];
     
-    for (int i = 0; i < [self.imagesArray count]; i++)
+    NSArray *eventImages =[NSArray arrayWithObjects:self.eventImage1, self.eventImage2, self.eventImage3, nil];
+    
+    for (int i = 0; i < [eventImages count]; i++)
     {
         UIImageView *imageView =  [[UIImageView alloc]init];
-        imageView.image = [self.imagesArray objectAtIndex:i];
-        KZImage *kzImage = [[KZImage alloc] initWithImage:[self.imagesArray objectAtIndex:i]];
-        kzImage.thumbnailImage = [self.imagesArray objectAtIndex:i];
+        imageView.image = [eventImages objectAtIndex:i];
+        KZImage *kzImage = [[KZImage alloc] initWithImage:[eventImages objectAtIndex:i]];
+        kzImage.thumbnailImage = [eventImages objectAtIndex:i];
         
         kzImage.srcImageView = imageView;
         [kzImageArray addObject:kzImage];

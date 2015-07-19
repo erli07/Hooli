@@ -573,13 +573,20 @@
                                                                 otherButtonTitles:nil];
                     [confirmAlert show];
                     
-                    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
-                    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
-                    vc.offerObject = offer;
-                    vc.isFirstPosted = YES;
-                    vc.hidesBottomBarWhenPushed = YES;
-                    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                    [self.navigationController pushViewController:vc animated:YES];
+                    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+                    vc.selectedIndex = 1;
+                    [self presentViewController:vc animated:YES completion:^{
+                        
+                    }];
+                
+//                    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+//                    ItemDetailViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"detailVc"];
+//                    vc.offerObject = offer;
+//                    vc.isFirstPosted = YES;
+//                    vc.hidesBottomBarWhenPushed = YES;
+//                    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//                    [self.navigationController pushViewController:vc animated:YES];
                     
                 } withFailure:^(id error) {
                     

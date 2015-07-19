@@ -467,13 +467,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hooli/ItemDetailViewController.m"
-            timestampString = "450321005.261288"
+            filePath = "Hooli/HomeTabBarController.m"
+            timestampString = "458811148.073304"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
-            landmarkName = "-refreshOfferDetailsFromCloud"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-applicationDidReceiveRemoteNotification:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -483,29 +483,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hooli/ItemDetailViewController.m"
-            timestampString = "450321012.261267"
+            filePath = "Hooli/AppDelegate.m"
+            timestampString = "458811246.100085"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
-            landmarkName = "-refreshOfferDetailsFromCloud"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hooli/ItemDetailViewController.m"
-            timestampString = "450321168.004362"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
-            landmarkName = "-refreshOfferDetailsFromCloud"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "-application:didReceiveRemoteNotification:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

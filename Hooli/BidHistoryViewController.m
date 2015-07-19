@@ -11,7 +11,8 @@
 #import "MBProgressHUD.h"
 #import "CreditHistoryCell.h"
 #import "BidHisoryCell.h"
-
+#import "UserAccountViewController.h"
+#import "UserCartViewController.h"
 @interface BidHistoryViewController ()
 @property (nonatomic, strong) NSDate *lastRefresh;
 @property (nonatomic, strong) UIView *blankView;
@@ -148,6 +149,16 @@
     return 60.0f;
 }
 
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UIStoryboard *detailSb = [UIStoryboard storyboardWithName:@"Detail" bundle:nil];
+    UserCartViewController *vc = [detailSb instantiateViewControllerWithIdentifier:@"userAccount"];
+    PFObject *bidObject = [self.objects objectAtIndex:indexPath.row];
+    PFUser *fromUser = [bidObject objectForKey:kHLNotificationFromUserKey];
+    vc.userID = fromUser.objectId;
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
 
 @end

@@ -54,7 +54,7 @@
 }
 - (NSArray *)getTitlesArray{
     
-    return @[@"Discover", @"Messages",@"Notifications",@"Profile"];
+    return @[@"Events", @"Yard Sale", @"Messages",@"Notifications",@"Profile"];
     
 }
 

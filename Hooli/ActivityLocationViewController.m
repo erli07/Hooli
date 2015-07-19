@@ -38,6 +38,8 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
+    self.title = @"Location";
+    
     _mapView.delegate = self;
     
     _searchBar.delegate = self;

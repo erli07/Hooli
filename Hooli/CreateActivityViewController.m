@@ -59,12 +59,12 @@
    // _eventContent.placeholder = @"简洁介绍你的活动，吸引更多的小伙伴儿，不多于80个字 ";
     _eventContent.placeholder = @"Brief Introduction ";
 
-    _eventContent.placeholderColor = [UIColor lightGrayColor];
+    _eventContent.placeholderColor = [HLTheme textColor];
     
     //_eventAnnouncementField.placeholder = @"附加详细信息，包括注意事项等，可稍后修改 （Optional）";
     _eventAnnouncementField.placeholder = @"More details here（Optional）";
 
-    _eventAnnouncementField.placeholderColor = [UIColor lightGrayColor];
+    _eventContent.placeholderColor = [HLTheme textColor];
     
     [_inviteButton setBackgroundColor:[HLTheme secondColor]];
     
@@ -381,7 +381,7 @@
                     
                     [eventObject setObject:self.eventTitle.text forKey:kHLEventKeyTitle];
                     [eventObject setObject:self.eventContent.text forKey:kHLEventKeyDescription];
-                    [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
+                   // [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
                     [eventObject setObject:self.eventLocationLabel.text forKey:kHLEventKeyEventLocation];
                     [eventObject setObject:self.eventAnnouncementField.text forKey:kHLEventKeyAnnoucement];
                     [eventObject setObject:self.eventMemberNumberField.text forKey:kHLEventKeyMemberNumber];
@@ -436,7 +436,6 @@
                                         [self.delegate didCreateActivity:eventObject];
                                         
                                         [self.navigationController popViewControllerAnimated:YES];
-                                        
                                         
                                     }
                                     

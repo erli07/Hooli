@@ -17,9 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *userInfoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *activityCategoryImageView;
 @property (weak, nonatomic) IBOutlet UILabel *activityInfoLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *eventImage1;
-@property (weak, nonatomic) IBOutlet UIImageView *eventImage2;
-@property (weak, nonatomic) IBOutlet UIImageView *eventImage3;
+@property (nonatomic)  UIImage *eventImage1;
+@property (nonatomic)  UIImage *eventImage2;
+@property (nonatomic)  UIImage *eventImage3;
 @property (nonatomic) NSMutableArray *imagesArray;
 
 @property (weak, nonatomic) IBOutlet UIButton *eventImageButton1;

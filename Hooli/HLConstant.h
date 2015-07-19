@@ -20,10 +20,11 @@
 #define     USER_GENDER_MALE @"Male"
 #define     USER_GENDER_FEMALE @"Female"
 
-#define     TAB_BAR_INDEX_ITEM_PAGE 0
-#define     TAB_BAR_INDEX_MESSAGES 1
-#define     TAB_BAR_INDEX_NOTIFICATION 2
-#define     TAB_BAR_INDEX_MY_PROFILE 3
+#define     TAB_BAR_INDEX_EVENT_PAGE 0
+#define     TAB_BAR_INDEX_ITEM_PAGE 1
+#define     TAB_BAR_INDEX_MESSAGES 2
+#define     TAB_BAR_INDEX_NOTIFICATION 3
+#define     TAB_BAR_INDEX_MY_PROFILE 4
 
 @interface HLConstant : NSObject
 

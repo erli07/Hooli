@@ -29,7 +29,8 @@
     [super viewDidLoad];
     
     self.loginButton.hidden = YES;
-    
+    [self.navigationController setNavigationBarHidden:NO];
+
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboards)];
     
