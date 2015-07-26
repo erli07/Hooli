@@ -29,7 +29,12 @@
     [super viewDidLoad];
     
     self.loginButton.hidden = YES;
-    [self.navigationController setNavigationBarHidden:NO];
+    
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:@"mountain"] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboards)];
@@ -43,6 +48,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     self.title = @"Login";
+    
+    [self.navigationController setNavigationBarHidden:NO];
     
     if ([PFUser currentUser] || [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         

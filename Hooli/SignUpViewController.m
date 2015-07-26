@@ -17,7 +17,7 @@
     
     MBProgressHUD *HUD;
 }
-
+@property (nonatomic) UIButton *skipButton;
 @end
 
 const CGFloat duration = 0.3;
@@ -35,15 +35,25 @@ const CGFloat duration = 0.3;
     
     [self.view addGestureRecognizer:tap];
     
-
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:@"mountain"] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     
-    self.nameLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
     
-    self.emailLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+    self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 80, self.view.frame.size.height - 60, 80, 30)];
+    [self.skipButton setTitle:NSLocalizedString(@"Skip", nil) forState:UIControlStateNormal];
+    [self.skipButton addTarget:self action:@selector(skipSignUp) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.skipButton];
     
-    self.passwordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
-    
-    self.rePasswordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+    //    self.nameLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+    //
+    //    self.emailLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+    //
+    //    self.passwordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
+    //
+    //    self.rePasswordLabel.font = [UIFont fontWithName:[HLTheme mainFont] size:11.0f];
     
     self.genderTableView.scrollEnabled = NO;
     
@@ -51,9 +61,24 @@ const CGFloat duration = 0.3;
     // Do any additional setup after loading the view.
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)skipSignUp{
+    
+    UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UITabBarController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+    [self presentViewController:vc animated:YES completion:^{
         
+    }];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
     [self.navigationController setNavigationBarHidden:YES];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    
+    [self.navigationController setNavigationBarHidden:NO];
+
 }
 
 
@@ -76,7 +101,7 @@ const CGFloat duration = 0.3;
         [self.navigationController pushViewController:vc animated:YES];
         
         [textField resignFirstResponder];
-
+        
     }
     else{
         
@@ -132,15 +157,15 @@ const CGFloat duration = 0.3;
         [self.navigationController pushViewController:vc animated:YES];
         
     }
-
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     
 }
 
 -(void)didSelectGender:(NSString *)gender{
     
-   // self.genderTextField.text = gender;
+    // self.genderTextField.text = gender;
     
 }
 
@@ -192,7 +217,7 @@ const CGFloat duration = 0.3;
 
 - (IBAction)submit:(id)sender {
     
-    if ([self.emailText.text isEqualToString: @""] || [self.nameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""] || [self.genderTextField.text isEqualToString:@""]) {
+    if ([self.emailText.text isEqualToString: @""] || [self.nameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""]) {
         
         UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"User info is missing." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
@@ -214,28 +239,28 @@ const CGFloat duration = 0.3;
     
     
     
-    if(![self checkPassword]){
-        
-        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"Password not matched." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        
-        [pwNotMatchedAlert show];
-        
-        return;
-    }
+//    if(![self checkPassword]){
+//        
+//        UIAlertView *pwNotMatchedAlert = [[UIAlertView alloc]initWithTitle:@"Oops" message:@"Password not matched." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        
+//        [pwNotMatchedAlert show];
+//        
+//        return;
+//    }
     
-    NSString *gender;
+//    NSString *gender;
+//    
+//    if(self.genderSegmentControl.selectedSegmentIndex == 0){
+//        
+//        gender = USER_GENDER_MALE;
+//    }
+//    else{
+//        
+//        gender = USER_GENDER_FEMALE;
+//        
+//    }
     
-    if(self.genderSegmentControl.selectedSegmentIndex == 0){
-        
-        gender = USER_GENDER_MALE;
-    }
-    else{
-        
-        gender = USER_GENDER_FEMALE;
-        
-    }
-    
-    UserModel *userModel = [[UserModel alloc]initUserWithEmail:self.emailText.text userName:self.nameText.text password:self.passwordText.text portraitImage:self.portraitImage.image gender:gender];
+    UserModel *userModel = [[UserModel alloc]initUserWithEmail:self.emailText.text userName:self.nameText.text password:self.passwordText.text portraitImage:self.portraitImage.image gender:USER_GENDER_MALE];
     
     
     [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
