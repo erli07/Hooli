@@ -50,7 +50,7 @@
     _followListVC.followStatus =  HL_RELATIONSHIP_TYPE_IS_FOLLOWED;
     _followListVC.fromUser = [PFUser currentUser];
     _followListVC.delegate = self;
-    _followListVC.view.frame = CGRectMake(0, 108, 320, self.view.frame.size.height - segmentedControl.frame.origin.y - segmentedControl.frame.size.height);
+    _followListVC.view.frame = CGRectMake(0, 108, SCREEN_WIDTH, self.view.frame.size.height - segmentedControl.frame.origin.y - segmentedControl.frame.size.height);
     
     [self.view addSubview:_followListVC.view];
     

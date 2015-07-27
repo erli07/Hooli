@@ -125,7 +125,7 @@
     
     self.commentVC = [[ItemCommentViewController alloc]initWithObject:object];
         
-    [self.commentVC.view setFrame:CGRectMake(0, self.contentView.frame.origin.y + self.contentView.frame.size.height, 320, 568 - self.contentView.frame.origin.y + self.contentView.frame.size.height)];
+    [self.commentVC.view setFrame:CGRectMake(0, self.contentView.frame.origin.y + self.contentView.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT - self.contentView.frame.origin.y + self.contentView.frame.size.height)];
         
     [self.parentView addSubview:self.commentVC.view];
     
@@ -136,9 +136,9 @@
 
 -(void)configureElements{
     
-    self.userInfoView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 64)];
+    self.userInfoView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
     
-    self.contentView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, 320, 200)];
+    self.contentView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 200)];
     
    // [self.contentView setBackgroundColor:Rgb2UIColor(236, 236, 236)];
     
@@ -162,7 +162,7 @@
     
     [self.nameLbael setFont: [UIFont fontWithName:[HLTheme mainFont] size:16.0f]];
 
-    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(kTextBeiginOffset, 5, 320, 32)];
+    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(kTextBeiginOffset, 5, SCREEN_WIDTH, 32)];
     
     self.titleLabel.numberOfLines = 3;
     
@@ -174,7 +174,7 @@
     
    // [self.priceLabel setTextColor:[UIColor redColor]];
 
-    self.infoTextView = [[UITextView alloc]initWithFrame:CGRectMake(kTextBeiginOffset, self.priceLabel.frame.origin.y + self.priceLabel.frame.size.height, 320 - kTextBeiginOffset, 120)];
+    self.infoTextView = [[UITextView alloc]initWithFrame:CGRectMake(kTextBeiginOffset, self.priceLabel.frame.origin.y + self.priceLabel.frame.size.height, SCREEN_WIDTH - kTextBeiginOffset, 120)];
     
     [self.infoTextView setFont:[UIFont fontWithName:[HLTheme mainFont] size:16.0f]];
     

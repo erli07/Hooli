@@ -11,6 +11,9 @@
 
 #define Rgb2UIColor(r, g, b)  [UIColor colorWithRed:((r) / 255.0) green:((g) / 255.0) blue:((b) / 255.0) alpha:1.0]
 
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+
 #define     FIRST_LAUNCH_KEY @"FIRST_LAUNCH_KEY"
 
 #define     ITEM_CONDITION_NEW @"New"

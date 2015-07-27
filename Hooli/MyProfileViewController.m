@@ -78,12 +78,12 @@
     
     self.navigationController.navigationBarHidden = NO;
     self.title = @"Profile";
-    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake(120, 80, 80, 80)];
+    self.profilePictureView = [[UIImageView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 120)/2, 80, 120, 120)];
     self.profilePictureView.layer.cornerRadius = self.profilePictureView.frame.size.height/2;
     self.profilePictureView.layer.masksToBounds = YES;
-    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 160, 200, 30)];
+    self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 200)/2, 210, 200, 44)];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
-    [self.nameLabel setFont: [UIFont fontWithName:[HLTheme mainFont] size:14.0f]];
+    [self.nameLabel setFont: [UIFont fontWithName:[HLTheme mainFont] size:17.0f]];
     [self.view addSubview:self.profilePictureView];
     [self.view addSubview:self.nameLabel];
     

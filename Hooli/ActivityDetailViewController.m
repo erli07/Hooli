@@ -75,13 +75,13 @@
     
     _participantArray = [[NSMutableArray alloc]init];
     
-    _parentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, 568)];
+    _parentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     
     [_parentScrollView setBackgroundColor:[UIColor whiteColor]];
     
     [self.view addSubview:_parentScrollView];
     
-    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 340) style:UITableViewStylePlain];
+    _activityDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 340) style:UITableViewStylePlain];
     
     _activityDetailTableView.scrollEnabled = NO;
     
@@ -93,7 +93,7 @@
     
     _memberTableView = [[ActivityMemberViewController alloc]initWithObject:_activityDetail];
     
-    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, 320, 300);
+    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, SCREEN_WIDTH, 300);
     
     _memberTableView.tableView.scrollEnabled = NO;
     
@@ -130,7 +130,7 @@
     [_inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
     
     // _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
-    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(30, 520, 260, 40)];
+    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(30, SCREEN_HEIGHT - 60, SCREEN_WIDTH - 60, 40)];
     
     [_joinButton setBackgroundColor:[HLTheme buttonColor]];
     
@@ -181,9 +181,9 @@
         
     }
     
-    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, 320, _memberTableView.tableView.contentSize.height);
+    _memberTableView.view.frame = CGRectMake(0, _activityDetailTableView.frame.size.height + _activityDetailTableView.frame.origin.y - 1, SCREEN_WIDTH, _memberTableView.tableView.contentSize.height);
     
-    [self.parentScrollView setContentSize:CGSizeMake(320, 568 - 64 - 72 + _memberTableView.tableView.contentSize.height)];
+    [self.parentScrollView setContentSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 72 + _memberTableView.tableView.contentSize.height)];
     
     //  [MBProgressHUD hideHUDForView:self.view animated:YES];
     

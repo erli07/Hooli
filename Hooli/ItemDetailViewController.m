@@ -433,7 +433,7 @@
         
         self.commentVC = [[ItemCommentViewController alloc]initWithObject:object];
         
-        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
+        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, SCREEN_WIDTH, self.commentVC.tableView.contentSize.height)];
         
         [self.offerDetailView addSubview:self.commentVC.view];
         
@@ -472,9 +472,9 @@
     
     //    [self.offerDetailView setFrame:CGRectMake(0, 0, 320, self.offerDetailView.frame.size.height + self.commentVC.tableView.contentSize.height)];
     
-    [self.offerDetailView setContentSize:CGSizeMake(320, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height + 100)];
+    [self.offerDetailView setContentSize:CGSizeMake(SCREEN_WIDTH, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height + 100)];
     
-    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, 320, self.commentVC.tableView.contentSize.height)];
+    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, SCREEN_WIDTH, self.commentVC.tableView.contentSize.height)];
     
     
 }
@@ -497,6 +497,7 @@
     // [self.makeOfferButton bringSubviewToFront:self.parentScrollView];
     self.offerDetailView.bounces = YES;
     [self.offerDetailView setBackgroundColor:[UIColor whiteColor]];
+   // [self.offerDetailView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     
     UIImage* buttonImage = [UIImage imageNamed:@"heart-64"];
     UIImage* buttonPressedImage = [UIImage imageNamed:@"heart-64"];
@@ -615,7 +616,7 @@
     
     for (UIImage *image in imagesArray) {
         
-        CGRect frame = CGRectMake(scrollContentWidth + 0  , (self.scrollView.bounds.size.height - scrollHeight)/2, 320, 320);
+        CGRect frame = CGRectMake(scrollContentWidth + 0  , (self.scrollView.bounds.size.height - scrollHeight)/2, SCREEN_WIDTH, SCREEN_WIDTH);
         
         UIImageView *preview = [[UIImageView alloc] initWithFrame:frame];
         

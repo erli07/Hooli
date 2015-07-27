@@ -7,6 +7,7 @@
 //
 
 #import "NeedTableViewCell.h"
+#import "HLConstant.h"
 @interface NeedTableViewCell()
 @property (nonatomic, strong) UILabel *distanceLabel;
 @end
@@ -39,7 +40,7 @@
     
     [super layoutSubviews];
     
-    [self.distanceLabel setFrame:CGRectMake(320 - 120, self.timeLabel.frame.origin.y, self.timeLabel.frame.size.width, self.timeLabel.frame.size.height)];
+    [self.distanceLabel setFrame:CGRectMake(SCREEN_WIDTH - 120, self.timeLabel.frame.origin.y, self.timeLabel.frame.size.width, self.timeLabel.frame.size.height)];
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

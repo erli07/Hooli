@@ -272,7 +272,7 @@ static NSString * const reuseIdentifier = @"Cell";
         
         self.searchItemVC.view.tag = 99;
         
-        [self.searchItemVC.view setFrame:CGRectMake(0, 64, 320, 568)];
+        [self.searchItemVC.view setFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT)];
         
         self.searchItemVC.delegate = self;
         
@@ -536,16 +536,18 @@ static NSString * const reuseIdentifier = @"Cell";
     CGPoint scrollVelocity = [self.collectionView.panGestureRecognizer
                               velocityInView:self.collectionView.superview];
     
+
+    
     if (scrollVelocity.y > 0.0f){
         
-        //     [self setTabBarVisible:YES animated:YES];
+        [self setTabBarVisible:YES animated:YES];
         [self setNavBarVisible:YES animated:YES];
         
         
     }
     else if(scrollVelocity.y < 0.0f){
         
-        //    [self setTabBarVisible:NO animated:YES];
+        [self setTabBarVisible:NO animated:YES];
         [self setNavBarVisible:NO animated:YES];
         
     }
@@ -596,10 +598,10 @@ static NSString * const reuseIdentifier = @"Cell";
         CGRect collectionView = self.collectionView.frame;
         
         collectionView.origin.y = (visible)? 10 : 20;
-        collectionView.size.height = (visible)? 558 : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
+        collectionView.size.height = (visible)? SCREEN_HEIGHT : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
         self.addItemButton.alpha =(visible)?1:0;
         
-        self.addItemButton.center = (visible)?CGPointMake(160, 452):CGPointMake(160,568);
+        self.addItemButton.center = (visible)?CGPointMake(SCREEN_WIDTH/2, 452):CGPointMake(SCREEN_WIDTH/2,SCREEN_HEIGHT);
         self.collectionView.frame = collectionView;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         

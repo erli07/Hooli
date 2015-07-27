@@ -54,7 +54,7 @@
     self.title = @"Bid History";
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankView setBackgroundColor:[UIColor whiteColor]];
-    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, SCREEN_WIDTH, 44)];
     noContentLabel.text = @"No content at the moment";
     noContentLabel.textColor = [UIColor lightGrayColor];
     noContentLabel.font = [UIFont systemFontOfSize:17.0f];

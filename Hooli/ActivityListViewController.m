@@ -126,7 +126,7 @@
     
     self.blankView = [[UIView alloc] initWithFrame:self.tableView.bounds];
     [self.blankView setBackgroundColor:[UIColor whiteColor]];
-    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    UILabel *noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, SCREEN_WIDTH, 44)];
     noContentLabel.text = @"No content at the moment";
     noContentLabel.textColor = [UIColor lightGrayColor];
     noContentLabel.font = [UIFont systemFontOfSize:17.0f];
@@ -322,6 +322,10 @@
     CGPoint scrollVelocity = [self.tableView.panGestureRecognizer
                               velocityInView:self.tableView.superview];
     
+    if ([self.objects count] < 4) {
+        return;
+    }
+    
     if (scrollVelocity.y > 0.0f){
         
         [self setTabBarVisible:YES animated:YES];
@@ -382,7 +386,7 @@
         CGRect tableViewframe = self.tableView.frame;
         
         tableViewframe.origin.y = (visible)? 0 : 0;
-        tableViewframe.size.height = (visible)? 568: [[UIScreen mainScreen]bounds].size.height - tableViewframe.origin.y;
+        tableViewframe.size.height = (visible)? SCREEN_HEIGHT: [[UIScreen mainScreen]bounds].size.height - tableViewframe.origin.y;
         
         self.tableView.frame = tableViewframe;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);

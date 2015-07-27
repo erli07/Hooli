@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -31,7 +31,7 @@
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No messages at the moment" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQG-9D-pil">
                             <rect key="frame" x="0.0" y="100" width="600" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="21" id="Kh2-Y5-6qX"/>
+                                <constraint firstAttribute="height" constant="21" id="x9I-O1-1hC"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -40,22 +40,22 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="EQG-9D-pil" firstAttribute="top" secondItem="ske-MY-c8q" secondAttribute="top" constant="100" id="9af-Va-d9z"/>
-                        <constraint firstAttribute="centerX" secondItem="EQG-9D-pil" secondAttribute="centerX" id="eLd-Hq-fqr"/>
-                        <constraint firstItem="EQG-9D-pil" firstAttribute="leading" secondItem="ske-MY-c8q" secondAttribute="leading" id="wsb-AP-kpV"/>
+                        <constraint firstAttribute="trailing" secondItem="EQG-9D-pil" secondAttribute="trailing" id="JeU-SS-lt9"/>
+                        <constraint firstItem="EQG-9D-pil" firstAttribute="top" secondItem="ske-MY-c8q" secondAttribute="top" constant="100" id="Qzz-Fa-eJ7"/>
+                        <constraint firstItem="EQG-9D-pil" firstAttribute="leading" secondItem="ske-MY-c8q" secondAttribute="leading" id="rJd-2H-DVo"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="ske-MY-c8q" secondAttribute="top" id="DP8-qy-Sth"/>
-                <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="guW-PG-c3R" secondAttribute="top" id="JbX-76-dN7"/>
-                <constraint firstItem="i5M-Pr-FkT" firstAttribute="trailing" secondItem="ske-MY-c8q" secondAttribute="trailing" id="LeE-tc-hY4"/>
-                <constraint firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="RfP-Pt-k10"/>
-                <constraint firstItem="i5M-Pr-FkT" firstAttribute="leading" secondItem="ske-MY-c8q" secondAttribute="leading" id="acX-bU-3LI"/>
-                <constraint firstItem="i5M-Pr-FkT" firstAttribute="leading" secondItem="guW-PG-c3R" secondAttribute="leading" id="agQ-U5-AhP"/>
-                <constraint firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="vfj-jJ-y4m"/>
-                <constraint firstItem="i5M-Pr-FkT" firstAttribute="bottom" secondItem="ske-MY-c8q" secondAttribute="bottom" id="wm8-HF-PTW"/>
+                <constraint firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="4vO-PB-Upi"/>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="trailing" secondItem="ske-MY-c8q" secondAttribute="trailing" id="LYc-UY-p7Z"/>
+                <constraint firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="UTA-vw-1RU"/>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="ske-MY-c8q" secondAttribute="top" id="hN1-Oc-1dW"/>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="guW-PG-c3R" secondAttribute="top" id="nMp-ox-NzQ"/>
+                <constraint firstItem="ske-MY-c8q" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="qhZ-yG-DDc"/>
+                <constraint firstItem="ske-MY-c8q" firstAttribute="leading" secondItem="guW-PG-c3R" secondAttribute="leading" id="wer-ea-ilg"/>
+                <constraint firstItem="ske-MY-c8q" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xKC-wq-rr1"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <point key="canvasLocation" x="383" y="267"/>

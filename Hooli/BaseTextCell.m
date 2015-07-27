@@ -166,7 +166,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
                                                         context:nil].size;
     [self.timeLabel setFrame:CGRectMake(timeX, contentLabel.frame.origin.y + contentLabel.frame.size.height + vertElemSpacing, timeSize.width, timeSize.height)];
     
-    [self.replyButton setFrame:CGRectMake(320 - 64, contentLabel.frame.origin.y + contentLabel.frame.size.height, 64, timeSize.height + 6)];
+    [self.replyButton setFrame:CGRectMake(SCREEN_WIDTH - 64, contentLabel.frame.origin.y + contentLabel.frame.size.height, 64, timeSize.height + 6)];
     
     // Layour separator
     [self.separatorImage setFrame:CGRectMake(0, self.frame.size.height-1, self.frame.size.width-cellInsetWidth*2, 1)];
@@ -226,7 +226,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 /* Static helper to obtain the horizontal space left for name and content after taking the inset and image in consideration */
 + (CGFloat)horizontalTextSpaceForInsetWidth:(CGFloat)insetWidth {
-    return (320-(insetWidth*2)) - (horiBorderSpacing+avatarDim+horiElemSpacing+horiBorderSpacing);
+    return (SCREEN_WIDTH-(insetWidth*2)) - (horiBorderSpacing+avatarDim+horiElemSpacing+horiBorderSpacing);
 }
 
 /* Static helper to pad a string with spaces to a given beginning offset */
