@@ -312,6 +312,10 @@
 		0EE4998A1A101A7D0046B3C7 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EE499891A101A7D0046B3C7 /* Login.storyboard */; };
 		0EE4998D1A1024A50046B3C7 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */; };
 		0EE499941A1029080046B3C7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE499931A1029080046B3C7 /* UserModel.m */; };
+		0EEAAE0C1B6B1B1F00E0BB5A /* plus64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EEAAE0B1B6B1B1F00E0BB5A /* plus64@2x.png */; };
+		0EEAAE171B6D600500E0BB5A /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEAAE141B6D600500E0BB5A /* Annotation.m */; };
+		0EEAAE181B6D600500E0BB5A /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEAAE161B6D600500E0BB5A /* AnnotationView.m */; };
+		0EEAAE1E1B6D637400E0BB5A /* Pin123@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EEAAE1D1B6D637400E0BB5A /* Pin123@2x.png */; };
 		0EF508CD1A9D8E9B008097DD /* SelectGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF508CC1A9D8E9B008097DD /* SelectGenderViewController.m */; };
 		0EF509061A9EABEA008097DD /* open@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EF509021A9EABEA008097DD /* open@2x.png */; };
 		0EF509091A9EABEA008097DD /* celebrate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EF509051A9EABEA008097DD /* celebrate@2x.png */; };
@@ -341,6 +345,7 @@
 		0EFA0ECF1A72174500A05ABC /* unlike-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ECE1A72174500A05ABC /* unlike-48.png */; };
 		0EFA0ED31A7217DF00A05ABC /* like-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EFA0ED21A7217DF00A05ABC /* like-48.png */; };
 		0EFA0F0A1A77637200A05ABC /* NotificationFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */; };
+		0EFE7F461B674B22002C17EC /* PostItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFE7F451B674B22002C17EC /* PostItemViewController.m */; };
 		0EFF7D5B1A895DDB0087D464 /* MyRelationshipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */; };
 		0EFF7D611A89659D0087D464 /* MyProfileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D601A89659D0087D464 /* MyProfileDetailViewController.m */; };
 		0EFF7D641A89E2F80087D464 /* UserAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF7D631A89E2F80087D464 /* UserAccountViewController.m */; };
@@ -939,6 +944,12 @@
 		0EE4998C1A1024A50046B3C7 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		0EE499921A1029080046B3C7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		0EE499931A1029080046B3C7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		0EEAAE0B1B6B1B1F00E0BB5A /* plus64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus64@2x.png"; sourceTree = "<group>"; };
+		0EEAAE131B6D600500E0BB5A /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		0EEAAE141B6D600500E0BB5A /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
+		0EEAAE151B6D600500E0BB5A /* AnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationView.h; sourceTree = "<group>"; };
+		0EEAAE161B6D600500E0BB5A /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationView.m; sourceTree = "<group>"; };
+		0EEAAE1D1B6D637400E0BB5A /* Pin123@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pin123@2x.png"; sourceTree = "<group>"; };
 		0EF508CB1A9D8E9B008097DD /* SelectGenderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectGenderViewController.h; sourceTree = "<group>"; };
 		0EF508CC1A9D8E9B008097DD /* SelectGenderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectGenderViewController.m; sourceTree = "<group>"; };
 		0EF509021A9EABEA008097DD /* open@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open@2x.png"; sourceTree = "<group>"; };
@@ -972,6 +983,8 @@
 		0EFA0ED21A7217DF00A05ABC /* like-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like-48.png"; sourceTree = "<group>"; };
 		0EFA0F081A77637200A05ABC /* NotificationFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationFeedViewController.h; sourceTree = "<group>"; };
 		0EFA0F091A77637200A05ABC /* NotificationFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationFeedViewController.m; sourceTree = "<group>"; };
+		0EFE7F441B674B22002C17EC /* PostItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostItemViewController.h; sourceTree = "<group>"; };
+		0EFE7F451B674B22002C17EC /* PostItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostItemViewController.m; sourceTree = "<group>"; };
 		0EFF7D591A895DDB0087D464 /* MyRelationshipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRelationshipViewController.h; sourceTree = "<group>"; };
 		0EFF7D5A1A895DDB0087D464 /* MyRelationshipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRelationshipViewController.m; sourceTree = "<group>"; };
 		0EFF7D5F1A89659D0087D464 /* MyProfileDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileDetailViewController.h; sourceTree = "<group>"; };
@@ -1349,6 +1362,10 @@
 			children = (
 				0E17BF5519FDD1B20042C4DD /* MapViewController.h */,
 				0E17BF5619FDD1B20042C4DD /* MapViewController.m */,
+				0EEAAE131B6D600500E0BB5A /* Annotation.h */,
+				0EEAAE141B6D600500E0BB5A /* Annotation.m */,
+				0EEAAE151B6D600500E0BB5A /* AnnotationView.h */,
+				0EEAAE161B6D600500E0BB5A /* AnnotationView.m */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1396,6 +1413,8 @@
 				45D2C4311A63345C006ADB53 /* PostFormViewController.m */,
 				0E7DB7EE1AC7594D00DEFC29 /* CreateItemViewController.h */,
 				0E7DB7EF1AC7594D00DEFC29 /* CreateItemViewController.m */,
+				0EFE7F441B674B22002C17EC /* PostItemViewController.h */,
+				0EFE7F451B674B22002C17EC /* PostItemViewController.m */,
 				0E1B8A181A9290FF0036963F /* ItemConditionViewController.h */,
 				0E1B8A191A9290FF0036963F /* ItemConditionViewController.m */,
 				0EF508CB1A9D8E9B008097DD /* SelectGenderViewController.h */,
@@ -1612,6 +1631,7 @@
 		0EB888271A3820590054F982 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0EEAAE1D1B6D637400E0BB5A /* Pin123@2x.png */,
 				0EDF9DE01B61EF58001B9931 /* default_profile@2x.png */,
 				0EDF9DDE1B61ED5A001B9931 /* mountain@2x.png */,
 				0EDF9DDC1B61ECE6001B9931 /* blue@2x.png */,
@@ -1621,6 +1641,7 @@
 				0EDF9DD41B61E4A6001B9931 /* background@2x.png */,
 				0ECCCD8F1AD038C90034C1BE /* rsz_ariel@2x.png */,
 				0ECCCD8D1ACF6DC40034C1BE /* ariel@2x.png */,
+				0EEAAE0B1B6B1B1F00E0BB5A /* plus64@2x.png */,
 				0ECCCD8B1ACF6D380034C1BE /* crowd@2x.png */,
 				0ECCCD891ACF6D150034C1BE /* together@2x.png */,
 				0ECCCD851ACE558D0034C1BE /* shopping@2x.png */,
@@ -2461,6 +2482,7 @@
 				0EB82A461AB6813400EA15ED /* take_photo@2x.png in Resources */,
 				457AC6F11A5C6AF400BFC619 /* skipButton@2x.png in Resources */,
 				0E03ACC21A1D94A100827B6C /* sold.png in Resources */,
+				0EEAAE0C1B6B1B1F00E0BB5A /* plus64@2x.png in Resources */,
 				0EF509391A9EBE94008097DD /* discover@2x.png in Resources */,
 				0E50F1341A1476FB0048FA27 /* shot@2x.png in Resources */,
 				0E28DD711A7FFA170025077C /* messages_blank@2x.png in Resources */,
@@ -2472,6 +2494,7 @@
 				4523392B1AB206FA00A3F85A /* party-48@2x.png in Resources */,
 				0E63A7BD1A2626DF0038B1AE /* Chat.storyboard in Resources */,
 				452339181AB206FA00A3F85A /* attach@2x.png in Resources */,
+				0EEAAE1E1B6D637400E0BB5A /* Pin123@2x.png in Resources */,
 				0EF5092F1A9EB28D008097DD /* baby@2x.png in Resources */,
 				0E0019DE1A0E948F0086CD77 /* sliderMaxTrack.png in Resources */,
 				0E17BF9719FE04800042C4DD /* pink-heart@2x.png in Resources */,
@@ -2615,6 +2638,7 @@
 				0EDBB7851ABE90DA00DD4688 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				0E7DB7F31AC75ABF00DEFC29 /* imageButton.m in Sources */,
 				0EB82A681AB7C28C00EA15ED /* DACircularProgressView.m in Sources */,
+				0EEAAE171B6D600500E0BB5A /* Annotation.m in Sources */,
 				0E17BED719FC8BAE0042C4DD /* AppDelegate.m in Sources */,
 				0EDBB7671ABE90DA00DD4688 /* AFNetworkReachabilityManager.m in Sources */,
 				0EB82A991AB7C68E00EA15ED /* UIImageView+WebCache.m in Sources */,
@@ -2734,12 +2758,14 @@
 				0EDBB78E1ABE90DA00DD4688 /* JSQVideoMediaItem.m in Sources */,
 				0EDBB6891ABE14F800DD4688 /* ActivityPicturesViewController.m in Sources */,
 				0EDBB7A21ABE90DA00DD4688 /* ProgressHUD.m in Sources */,
+				0EFE7F461B674B22002C17EC /* PostItemViewController.m in Sources */,
 				0EDBB6C01ABE8E2E00DD4688 /* SelectSingleView.m in Sources */,
 				0E1B8A1D1A92925F0036963F /* OfferCondition.m in Sources */,
 				0EDBB7831ABE90DA00DD4688 /* JSQMessagesTimestampFormatter.m in Sources */,
 				0E96056E1A6E49FC00791E4E /* Reachability.m in Sources */,
 				0EB82A541AB7C25E00EA15ED /* KZImageScrollView.m in Sources */,
 				0EDBB7981ABE90DA00DD4688 /* JSQMessagesLabel.m in Sources */,
+				0EEAAE181B6D600500E0BB5A /* AnnotationView.m in Sources */,
 				0EDBB78D1ABE90DA00DD4688 /* JSQPhotoMediaItem.m in Sources */,
 				0E86AA731A4C9EA3000C71E8 /* NeedsCell.m in Sources */,
 				0EDBB7651ABE90DA00DD4688 /* AFHTTPRequestOperationManager.m in Sources */,

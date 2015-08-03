@@ -22,12 +22,17 @@
 #import "LocationManager.h"
 #import "HLUtilities.h"
 
-@interface CreateItemViewController ()<UIActionSheetDelegate,UIAlertViewDelegate,HLActivityLocationDelegate,UITextFieldDelegate,UITextViewDelegate,ShowSearchResultDelegate>
+@interface CreateItemViewController ()<UIActionSheetDelegate,UIAlertViewDelegate,HLActivityLocationDelegate,UITextFieldDelegate,UITextViewDelegate,ShowSearchResultDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic) NSMutableArray *imagesArray;
 @property (nonatomic,assign) CLLocationCoordinate2D itemLocationCoordinate;
 @property (nonatomic) NSInteger currentButtonIndex;
 @property (nonatomic) NSString *itemCondition;
 @property (nonatomic) PFGeoPoint *itemGeoPoint;
+@property (nonatomic,strong) UIButton *addItemButton;
+
+@property (nonatomic) UITextField *titleTextField;
+@property (nonatomic) GCPlaceholderTextView *descriptionTextView;
+@property (nonatomic) UITextField *priceTextField;
 
 @end
 
@@ -45,6 +50,7 @@
 @synthesize categoryLabel = _categoryLabel;
 @synthesize offerObject = _offerObject;
 @synthesize itemGeoPoint = _itemGeoPoint;
+@synthesize postDetailTableView = _postDetailTableView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,25 +77,30 @@
     [_submitButton setBackgroundColor:[HLTheme mainColor]];
     [_submitButton setTintColor:[UIColor whiteColor]];
     
-    [self updateExistingItem];
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapEventOccured:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    tapGestureRecognizer.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:tapGestureRecognizer];
+//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapEventOccured:)];
+//    tapGestureRecognizer.numberOfTapsRequired = 1;
+//    tapGestureRecognizer.numberOfTouchesRequired = 1;
+//    [self.view addGestureRecognizer:tapGestureRecognizer];
+    
     // Do any additional setup after loading the view.
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [self updateExistingItem];
+
+}
 
 -(void)updateExistingItem{
     
     if(_offerObject){
         
-        _itemContetnTextView.text = [_offerObject objectForKey:kHLOfferModelKeyDescription];
+        self.descriptionTextView.text = [_offerObject objectForKey:kHLOfferModelKeyDescription];
         _conditionLabel.text = [_offerObject objectForKey:kHLOfferModelKeyCondition];
         _categoryLabel.text = [_offerObject objectForKey:kHLOfferModelKeyCategory];
-        _itemTitleField.text = [_offerObject objectForKey:kHLOfferModelKeyOfferName] ;
-        _itemPriceField.text = [[_offerObject objectForKey:kHLOfferModelKeyPrice]substringFromIndex:1];
+        self.titleTextField.text = [_offerObject objectForKey:kHLOfferModelKeyOfferName] ;
+        self.priceTextField.text = [[_offerObject objectForKey:kHLOfferModelKeyPrice]substringFromIndex:1];
         _itemGeoPoint = [_offerObject objectForKey:kHLOfferModelKeyGeoPoint];
         
         if(_itemGeoPoint){
@@ -176,7 +187,7 @@
 
 -(BOOL)checkFieldEmpty{
     
-    if([_itemContetnTextView.text  isEqual: @""] || [_conditionLabel.text  isEqual: @""] || [_categoryLabel.text  isEqual: @""] || [_deliveryLabel.text  isEqual: @""] || [_itemTitleField.text isEqualToString:@""]){
+    if([self.descriptionTextView.text  isEqual: @""] || [_conditionLabel.text  isEqual: @""] || [_categoryLabel.text  isEqual: @""] || [self.deliveryLabel.text  isEqual: @""] || [self.titleTextField.text isEqualToString:@""]){
         
         UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Field missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
@@ -190,7 +201,7 @@
 }
 
 -(BOOL)checkImagesEmpty{
-    
+
     if(_imagesArray == nil || [_imagesArray count] == 0){
         
         UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Image missing!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -341,7 +352,7 @@
     
 }
 
-- (IBAction)showConditions:(id)sender {
+- (void)showConditions:(id)sender {
     
     [self resetViews];
     
@@ -366,7 +377,7 @@
     
 }
 
-- (IBAction)showDelivery:(id)sender {
+- (void)showDelivery:(id)sender {
     
     [self resetViews];
     
@@ -479,17 +490,202 @@
     
 }
 
+#pragma mark UIGestureRecognizerDelegate methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isDescendantOfView:_postDetailTableView]) {
+        
+        // Don't let selections of auto-complete entries fire the
+        // gesture recognizer
+        return NO;
+    }
+    
+    return YES;
+}
+
+-(void)tapEventOccured:(UIGestureRecognizer *)gesture{
+    
+    [self resetViews];
+    
+}
+
+#pragma mark UITableview delegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [self resetViews];
+    
+    if(indexPath.section == 1){
+        
+        if(indexPath.row == 0){
+            
+            [self showDelivery:nil];
+            
+        }
+        else if(indexPath.row == 1){
+            
+            [self showConditions:nil];
+            
+        }
+        else if (indexPath.row == 2){
+            
+            [self showCategories:nil];
+        }
+        
+    }
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"postItemCell" forIndexPath:indexPath];
+    
+    if(indexPath.section == 0){
+        
+        if(indexPath.row == 0){
+            
+            cell.textLabel.text = @"Title";
+            
+            self.titleTextField = [[UITextField alloc]initWithFrame:CGRectMake(100, 2, SCREEN_WIDTH - 100 , 40)];
+            
+            self.titleTextField.placeholder = @"Enter title";
+            
+            [self.titleTextField setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+            
+            [self.titleTextField setDelegate:self];
+            
+            [cell addSubview:self.titleTextField];
+            
+        }
+        else if(indexPath.row == 1){
+            
+            cell.textLabel.text = @"Description";
+            
+            self.descriptionTextView = [[GCPlaceholderTextView alloc]initWithFrame:CGRectMake(96, 2, SCREEN_WIDTH - 100 , 96)];
+            
+            self.descriptionTextView.placeholder = @"Enter description";
+            
+            [self.descriptionTextView setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+            
+            [self.descriptionTextView setDelegate:self];
+            
+            [cell addSubview:self.descriptionTextView];
+            
+        }
+        else if(indexPath.row == 2){
+            
+            cell.textLabel.text = @"Price($)";
+            
+            self.priceTextField = [[UITextField alloc]initWithFrame:CGRectMake(100, 2, SCREEN_WIDTH - 100 , 40)];
+            
+            self.priceTextField.placeholder = @"Enter price in dollar";
+            
+            [self.priceTextField setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+            
+            [self.priceTextField setDelegate:self];
+            
+            [cell addSubview:self.priceTextField];
+            
+        }
+
+        
+    }
+    else if(indexPath.section == 1){
+        
+        if(indexPath.row == 0){
+            
+            cell.textLabel.text = @"Location";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            if (!self.deliveryLabel) {
+                
+                self.deliveryLabel = [[UILabel alloc]initWithFrame:CGRectMake(98, 2, SCREEN_WIDTH - 100 , 40)];
+                [self.deliveryLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+                [cell addSubview:self.deliveryLabel];
+                
+            }
+        }
+        else if(indexPath.row == 1){
+            
+            cell.textLabel.text = @"Condition";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            if (!self.conditionLabel) {
+                
+                self.conditionLabel = [[UILabel alloc]initWithFrame:CGRectMake(98, 2, SCREEN_WIDTH - 100 , 40)];
+                [self.conditionLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+                [cell addSubview:self.conditionLabel];
+                
+            }
+        }
+        else{
+            
+            if (!self.categoryLabel) {
+                
+                self.categoryLabel = [[UILabel alloc]initWithFrame:CGRectMake(98, 2, SCREEN_WIDTH - 100 , 40)];
+                [self.categoryLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+                [cell addSubview:self.categoryLabel];
+                
+            }
+            
+            cell.textLabel.text = @"Category";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+        }
+    }
+
+    
+    [cell.textLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+    cell.textLabel.textColor = [HLTheme mainColor];
+    
+    
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    if(section == 0)
+        return 3;
+    else
+        return 3;
+    
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return  2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 0){
+        
+        if(indexPath.row == 1){
+            
+            return  120;
+        }
+        
+    }
+
+    
+    return 44;
+}
+
+#pragma mark UIAlert
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if(alertView.tag == 0){
         
-        
         if(buttonIndex == 1){
             
-            NSString *itemName = _itemTitleField.text;
-            NSString *itemPrice = [NSString stringWithFormat:@"$%@",_itemPriceField.text];
+            NSString *itemName = self.titleTextField.text;
+            NSString *itemPrice = [NSString stringWithFormat:@"%@",self.priceTextField.text];
             NSString *itemCategory = _categoryLabel.text;
-            NSString *itemDescription = _itemContetnTextView.text;
+            NSString *itemDescription = self.descriptionTextView.text;
             NSString *itemCondtion = _conditionLabel.text;
             
             [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
@@ -764,16 +960,52 @@
 }
 
 
-- (void) textFieldDidBeginEditing:(UITextField *)textField{
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
     
+    if(textField == self.priceTextField){
+        
+        [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        
+        [textField setKeyboardAppearance:UIKeyboardAppearanceLight];
+        
+        UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+        
+        [keyboardDoneButtonView sizeToFit];
+        
+        UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Free"
+                                                                       style:UIBarButtonItemStylePlain target:self
+                                                                      action:@selector(setPriceFree)];
+        [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
+        
+        textField.inputAccessoryView = keyboardDoneButtonView;
+        
+        [UIView animateWithDuration:.5
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, -100 ,
+                                                                   self.view.frame.size.width, self.view.frame.size.height); } ];
+        
+        
+    }
     
-    [UIView animateWithDuration:.5
-                     animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, - 80,
-                                                               self.view.frame.size.width, self.view.frame.size.height); } ];
-    
+    else{
+        
+        [UIView animateWithDuration:.5
+                         animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, -100 ,
+                                                                   self.view.frame.size.width, self.view.frame.size.height); } ];
+    }
     
     
 }
+
+-(void)setPriceFree{
+    
+    [self resetViews];
+    
+    self.priceTextField.text = @"Free";
+    
+}
+
 
 -(void)resetViews{
     
@@ -785,6 +1017,14 @@
             
         }
     }
+    
+    if([self.descriptionTextView isFirstResponder])
+       [self.descriptionTextView resignFirstResponder];
+    else if([self.titleTextField isFirstResponder])
+        [self.titleTextField resignFirstResponder];
+    else if([self.priceTextField isFirstResponder])
+        [self.priceTextField resignFirstResponder];
+        
     
     [UIView animateWithDuration:.5
                      animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x,  0,
@@ -807,20 +1047,4 @@
     
 }
 
--(void)tapEventOccured:(id)sender{
-    
-    [UIView animateWithDuration:.5
-                     animations:^{self.view.frame = CGRectMake(self.view.frame.origin.x, 0,
-                                                               self.view.frame.size.width, self.view.frame.size.height); } ];
-    
-    for (UIView *subView in self.view.subviews) {
-        
-        if ([subView isFirstResponder]) {
-            
-            [subView resignFirstResponder];
-            
-        }
-    }
-    
-}
 @end

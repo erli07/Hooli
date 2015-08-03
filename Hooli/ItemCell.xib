@@ -28,9 +28,9 @@
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Whc-ga-kdP">
-                                <rect key="frame" x="0.0" y="111" width="222" height="40"/>
+                                <rect key="frame" x="0.0" y="101" width="222" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="7Ab-qN-Mwu"/>
+                                    <constraint firstAttribute="height" constant="50" id="7Ab-qN-Mwu"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhV-C2-NlQ">
@@ -66,6 +66,12 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cbd-ac-JZV">
+                                <rect key="frame" x="17" y="106" width="126" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -87,12 +93,14 @@
                             <constraint firstItem="9LM-KR-Lnz" firstAttribute="baseline" secondItem="o2q-Kb-m4B" secondAttribute="baseline" id="HBr-nF-RYx"/>
                             <constraint firstItem="NhV-C2-NlQ" firstAttribute="centerY" secondItem="o2q-Kb-m4B" secondAttribute="centerY" id="KMZ-LN-xK2"/>
                             <constraint firstItem="9LM-KR-Lnz" firstAttribute="centerX" secondItem="Ca1-0G-18V" secondAttribute="centerX" id="RMb-VJ-Yj6"/>
+                            <constraint firstItem="Cbd-ac-JZV" firstAttribute="centerX" secondItem="8kW-kZ-ejL" secondAttribute="centerX" constant="4.5" id="VHK-Hv-Ou0"/>
                             <constraint firstItem="8kW-kZ-ejL" firstAttribute="top" secondItem="PjG-gE-VP0" secondAttribute="top" id="Vip-DT-Bb7"/>
                             <constraint firstItem="8kW-kZ-ejL" firstAttribute="top" secondItem="PjG-gE-VP0" secondAttribute="top" id="XHM-Gx-Ff9"/>
                             <constraint firstItem="R2A-1h-WvK" firstAttribute="centerY" secondItem="PRN-h2-yA7" secondAttribute="centerY" id="Xff-02-EAf"/>
                             <constraint firstItem="9LM-KR-Lnz" firstAttribute="top" secondItem="Ca1-0G-18V" secondAttribute="bottom" constant="52" id="a7q-AJ-v9K"/>
                             <constraint firstItem="R2A-1h-WvK" firstAttribute="leading" secondItem="Ca1-0G-18V" secondAttribute="trailing" constant="17" id="cn5-P5-4Up"/>
                             <constraint firstItem="Ca1-0G-18V" firstAttribute="centerX" secondItem="9LM-KR-Lnz" secondAttribute="centerX" id="d8f-cG-gmM"/>
+                            <constraint firstItem="9LM-KR-Lnz" firstAttribute="top" secondItem="Cbd-ac-JZV" secondAttribute="bottom" constant="1" id="fHX-LN-Ow0"/>
                             <constraint firstItem="Whc-ga-kdP" firstAttribute="bottom" secondItem="8kW-kZ-ejL" secondAttribute="bottom" id="ha6-N4-enN"/>
                             <constraint firstAttribute="trailing" secondItem="Whc-ga-kdP" secondAttribute="trailing" id="jMY-82-Ngs"/>
                             <constraint firstItem="8kW-kZ-ejL" firstAttribute="top" secondItem="Ca1-0G-18V" secondAttribute="top" id="kUX-cF-c2O"/>
@@ -100,8 +108,10 @@
                             <constraint firstAttribute="bottom" secondItem="8kW-kZ-ejL" secondAttribute="bottom" id="lE9-ht-mlg"/>
                             <constraint firstItem="PRN-h2-yA7" firstAttribute="leading" secondItem="Ca1-0G-18V" secondAttribute="trailing" constant="17" id="lL6-OX-3Gx"/>
                             <constraint firstItem="NhV-C2-NlQ" firstAttribute="leading" secondItem="9LM-KR-Lnz" secondAttribute="trailing" constant="34" id="nQn-zX-spS"/>
+                            <constraint firstItem="Cbd-ac-JZV" firstAttribute="trailing" secondItem="o2q-Kb-m4B" secondAttribute="trailing" id="nRU-Sb-svd"/>
                             <constraint firstItem="Whc-ga-kdP" firstAttribute="leading" secondItem="Ca1-0G-18V" secondAttribute="leading" id="nu7-Q2-0PX"/>
                             <constraint firstAttribute="trailing" secondItem="R2A-1h-WvK" secondAttribute="trailing" constant="8" id="pIi-nW-3VA"/>
+                            <constraint firstItem="Cbd-ac-JZV" firstAttribute="top" secondItem="Ca1-0G-18V" secondAttribute="bottom" constant="30" id="t35-KU-aTB"/>
                             <constraint firstAttribute="trailing" secondItem="Whc-ga-kdP" secondAttribute="trailing" id="w1w-Bt-7Os"/>
                             <constraint firstAttribute="bottom" secondItem="8kW-kZ-ejL" secondAttribute="bottom" id="xRe-Bb-tfb"/>
                             <constraint firstItem="Ca1-0G-18V" firstAttribute="leading" secondItem="8kW-kZ-ejL" secondAttribute="leading" id="zlp-cj-X7d"/>
@@ -141,6 +151,7 @@
                 <outlet property="productImageView" destination="8kW-kZ-ejL" id="qbl-n8-bTv"/>
                 <outlet property="shadowView" destination="Whc-ga-kdP" id="sj4-Oy-2cE"/>
                 <outlet property="soldImage" destination="Ca1-0G-18V" id="K6j-yY-ggw"/>
+                <outlet property="titleLabel" destination="Cbd-ac-JZV" id="l2e-tx-dTU"/>
             </connections>
             <point key="canvasLocation" x="171.5" y="319.5"/>
         </collectionViewCell>

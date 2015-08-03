@@ -97,6 +97,8 @@
         
         self.priceLabel.text = offerModel.offerPrice;
     
+        self.titleLabel.text = offerModel.offerName;
+    
     [[ActivityManager sharedInstance]setOfferLikesCount:self.likesLabel withOffer:offerModel];
     
     [self updateCellWithOfferSoldStatus:offerModel];

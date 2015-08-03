@@ -27,6 +27,6 @@
 @property (nonatomic, assign) BOOL showSearchBar;
 @property (nonatomic) NSString *eventLocationText;
 @property (nonatomic) PFGeoPoint *eventGeopoint;
-
+@property (weak, nonatomic) IBOutlet UITableView *infoTableView;
 @end
 

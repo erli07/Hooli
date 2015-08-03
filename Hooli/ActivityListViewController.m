@@ -20,7 +20,7 @@
 @property (nonatomic) NSArray *eventCategories;
 @property (nonatomic, strong) UIView *blankView;
 @property (nonatomic, strong) NSDate *lastRefresh;
-
+@property (nonatomic, strong) UIButton *addButton;
 @end
 
 @implementation ActivityListViewController
@@ -133,7 +133,30 @@
     noContentLabel.textAlignment = NSTextAlignmentCenter;
     [self.blankView addSubview:noContentLabel];
     
+    
+  //  [self addButtonToHomescreen];
     // Do any additional setup after loading the view.
+}
+
+
+-(void)addButtonToHomescreen{
+    
+    self.addButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width - 88, self.view.bounds.size.height - 150, 64, 64)];
+    self.addButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.addButton.layer.shadowOpacity = 0.5;
+    self.addButton.layer.shadowRadius = 2;
+    self.addButton.layer.shadowOffset = CGSizeMake(2.5f, 2.5f);
+    //    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168);
+    [self.addButton setBackgroundImage:[UIImage imageNamed:@"plus64"] forState:UIControlStateNormal];
+    [self.addButton addTarget:self action:@selector(postEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.addButton];
+    [self.addButton bringSubviewToFront:self.view];
+    
+    //    [self.addItemButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.bottom.equalTo(ws.view .mas_bottom).with.offset(80);
+    //        make.right.equalTo(ws.view .mas_right).with.offset(80);
+    //
+    //    }];
 }
 
 -(void)getdate {

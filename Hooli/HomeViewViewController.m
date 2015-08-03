@@ -199,7 +199,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self addSwipeGesture];
     
-    [self configureAddButton];
+    [self addButtonToHomescreen];
     
     
     // [self configureSearchBar];
@@ -210,6 +210,26 @@ static NSString * const reuseIdentifier = @"Cell";
     //
     //    [self.view addSubview:self.searchCategoryVC.view];
     
+}
+
+-(void)addButtonToHomescreen{
+    
+    self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width - 100, self.view.bounds.size.height - 150, 64, 64)];
+    self.addItemButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.addItemButton.layer.shadowOpacity = 0.5;
+    self.addItemButton.layer.shadowRadius = 2;
+    self.addItemButton.layer.shadowOffset = CGSizeMake(2.5f, 2.5f);
+    //    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168);
+    [self.addItemButton setBackgroundImage:[UIImage imageNamed:@"plus64"] forState:UIControlStateNormal];
+    [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.addItemButton];
+    [self.addItemButton bringSubviewToFront:self.collectionView];
+    
+    //    [self.addItemButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.bottom.equalTo(ws.view .mas_bottom).with.offset(80);
+    //        make.right.equalTo(ws.view .mas_right).with.offset(80);
+    //
+    //    }];
 }
 
 -(void)configureSearchBar{
@@ -335,36 +355,18 @@ static NSString * const reuseIdentifier = @"Cell";
     self.needsViewController.view.hidden = YES;
 }
 
--(void)configureAddButton{
-    
-    
-    self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, 64, 64)];
-    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168);
-    [self.addItemButton setBackgroundImage:[UIImage imageNamed:@"camera_128x128"] forState:UIControlStateNormal];
-    [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.addItemButton];
-    [self.addItemButton bringSubviewToFront:self.collectionView];
-    //    self.addItemButton  = [[DCPathButton alloc]initWithCenterImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                    hilightedImage:[UIImage imageNamed:@"camera_64x64"]];
-    //
-    //    [self.addItemButton setDcButtonCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168) ];
-    //    DCPathItemButton *itemButton_1 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
-    //
-    //    DCPathItemButton *itemButton_2 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                           highlightedImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                            backgroundImage:[UIImage imageNamed:@"camera_64x64"]
-    //                                                 backgroundHighlightedImage:[UIImage imageNamed:@"camera_64x64"]];
-    //
-    //    [self.addItemButton addPathItems:@[itemButton_1, itemButton_2]];
-    //
-    //    self.addItemButton.delegate = self;
-    //     [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.addItemButton];
-    [self.addItemButton bringSubviewToFront:self.collectionView];
-}
+//-(void)configureAddButton{
+//    
+//    
+//    self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2, 64, 64)];
+//    self.addItemButton.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 168);
+//    [self.addItemButton setBackgroundImage:[UIImage imageNamed:@"camera_128x128"] forState:UIControlStateNormal];
+//    [self.addItemButton addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:self.addItemButton];
+//    [self.addItemButton bringSubviewToFront:self.collectionView];
+//    [self.view addSubview:self.addItemButton];
+//    [self.addItemButton bringSubviewToFront:self.collectionView];
+//}
 
 #pragma register notification
 
@@ -599,9 +601,8 @@ static NSString * const reuseIdentifier = @"Cell";
         
         collectionView.origin.y = (visible)? 10 : 20;
         collectionView.size.height = (visible)? SCREEN_HEIGHT : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
-        self.addItemButton.alpha =(visible)?1:0;
-        
-        self.addItemButton.center = (visible)?CGPointMake(SCREEN_WIDTH/2, 452):CGPointMake(SCREEN_WIDTH/2,SCREEN_HEIGHT);
+//        self.addItemButton.alpha =(visible)?1:0;
+//        self.addItemButton.center = (visible)?CGPointMake(SCREEN_WIDTH/2, 452):CGPointMake(SCREEN_WIDTH/2,SCREEN_HEIGHT);
         self.collectionView.frame = collectionView;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         
@@ -665,6 +666,10 @@ static NSString * const reuseIdentifier = @"Cell";
     CreateItemViewController *postVC = [mainSb instantiateViewControllerWithIdentifier:@"CreateItemViewController"];
     
     postVC.hidesBottomBarWhenPushed = YES;
+    
+//    [self presentViewController:postVC animated:YES completion:^{
+//        
+//    }];
     
     [self.navigationController pushViewController:postVC animated:YES];
     

@@ -11,11 +11,13 @@
 #import  <Parse/Parse.h>
 #import "OfferModel.h"
 
-@interface CreateItemViewController : UIViewController
+@interface CreateItemViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *itemTitleField;
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *itemContetnTextView;
 @property (weak, nonatomic) IBOutlet UITextField *itemPriceField;
 @property (nonatomic) PFObject *offerObject;
+@property (weak, nonatomic) IBOutlet UITableView *postDetailTableView;
+
 
 - (IBAction)submitItem:(id)sender;
 
@@ -29,9 +31,9 @@
 - (IBAction)showCategories:(id)sender;
 - (IBAction)showDelivery:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UILabel *conditionLabel;
-@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
-@property (weak, nonatomic) IBOutlet UILabel *deliveryLabel;
+@property (nonatomic)  UILabel *conditionLabel;
+@property (nonatomic)  UILabel *categoryLabel;
+@property (nonatomic)  UILabel *deliveryLabel;
 
 - (IBAction)imageButton1Pressed:(id)sender;
 - (IBAction)imageButton2Pressed:(id)sender;

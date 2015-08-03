@@ -31,9 +31,10 @@ typedef enum{
 
 @end
 
-@interface CreateActivityViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate,HLActivityLocationDelegate, HLActivityCategoryDelegate>
+@interface CreateActivityViewController : UIViewController<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate, UITextViewDelegate,HLActivityLocationDelegate, HLActivityCategoryDelegate>
 
 
+@property (weak, nonatomic) IBOutlet UITableView *postDetailTableView;
 
 @property (weak, nonatomic) IBOutlet UITextField *eventTitle;
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *eventContent;
@@ -45,9 +46,6 @@ typedef enum{
 @property (weak, nonatomic) IBOutlet UIButton *selectCategoryButton;
 @property (weak, nonatomic) IBOutlet UIButton *locateInMapButton;
 @property (weak, nonatomic) IBOutlet UIButton *showCalenderButton;
-@property (weak, nonatomic) IBOutlet UILabel *eventCategoryLabel;
-@property (weak, nonatomic) IBOutlet UILabel *eventLocationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *eventDateLabel;
 
 @property (nonatomic, weak) id<HLCreateActivityDelegate> delegate;
 
