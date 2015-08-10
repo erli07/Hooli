@@ -115,6 +115,7 @@ extern NSString *const kHLCloudEventImagesClass;
 extern NSString *const kHLCloudCreditsClass;
 extern NSString *const kHLCloudEventClass;
 extern NSString *const kHLCloudEventMemberClass;
+extern NSString *const kHLCloudBlackListClass;
 
 extern NSString *const kHLActivityKeyOffer;
 extern NSString *const kHLActivityKeyUser;

@@ -95,7 +95,10 @@
         
         self.offerId = offerModel.offerId;
         
+        if([offerModel.offerPrice isEqualToString:@"Free"])
         self.priceLabel.text = offerModel.offerPrice;
+        else
+        self.priceLabel.text = [NSString stringWithFormat:@"$%@",offerModel.offerPrice];
     
         self.titleLabel.text = offerModel.offerName;
     

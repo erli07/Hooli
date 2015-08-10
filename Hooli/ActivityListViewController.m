@@ -108,8 +108,7 @@
 //                                       style:UIBarButtonItemStyleDone
 //                                       target:self
 //                                       action:@selector(postEvent)];
-    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
-                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(postEvent)];
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]initWithTitle:@"Post" style:UIBarButtonItemStyleDone target:self action:@selector(postEvent)];
     self.navigationItem.leftBarButtonItem = leftBarButton;
     
 //    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
@@ -134,14 +133,14 @@
     [self.blankView addSubview:noContentLabel];
     
     
-  //  [self addButtonToHomescreen];
+   /// [self addButtonToHomescreen];
     // Do any additional setup after loading the view.
 }
 
 
 -(void)addButtonToHomescreen{
     
-    self.addButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width - 88, self.view.bounds.size.height - 150, 64, 64)];
+    self.addButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 300, 56, 56)];
     self.addButton.layer.shadowColor = [UIColor blackColor].CGColor;
     self.addButton.layer.shadowOpacity = 0.5;
     self.addButton.layer.shadowRadius = 2;
@@ -410,7 +409,8 @@
         
         tableViewframe.origin.y = (visible)? 0 : 0;
         tableViewframe.size.height = (visible)? SCREEN_HEIGHT: [[UIScreen mainScreen]bounds].size.height - tableViewframe.origin.y;
-        
+        self.addButton.alpha =(visible)?1:0;
+        self.addButton.center = (visible)?CGPointMake(SCREEN_WIDTH - 100 + 28, SCREEN_HEIGHT - 150):CGPointMake(SCREEN_WIDTH - 100 + 28,SCREEN_HEIGHT);
         self.tableView.frame = tableViewframe;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         

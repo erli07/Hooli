@@ -29,11 +29,10 @@
 @property (nonatomic) NSString *itemCondition;
 @property (nonatomic) PFGeoPoint *itemGeoPoint;
 @property (nonatomic,strong) UIButton *addItemButton;
-
 @property (nonatomic) UITextField *titleTextField;
 @property (nonatomic) GCPlaceholderTextView *descriptionTextView;
 @property (nonatomic) UITextField *priceTextField;
-
+@property (nonatomic) BOOL isEditing;
 @end
 
 @implementation CreateItemViewController
@@ -74,6 +73,11 @@
     
     [_itemPriceField setKeyboardType:UIKeyboardTypeNumberPad];
     
+    _submitButton = [[UIButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
+    [_submitButton setTitle:@"Post" forState:UIControlStateNormal];
+    [_submitButton addTarget:self action:@selector(submitItem:) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view addSubview:_submitButton];
     [_submitButton setBackgroundColor:[HLTheme mainColor]];
     [_submitButton setTintColor:[UIColor whiteColor]];
     
@@ -94,14 +98,13 @@
 
 -(void)updateExistingItem{
     
-    if(_offerObject){
+    if(_offerObject ){
         
         self.descriptionTextView.text = [_offerObject objectForKey:kHLOfferModelKeyDescription];
         _conditionLabel.text = [_offerObject objectForKey:kHLOfferModelKeyCondition];
         _categoryLabel.text = [_offerObject objectForKey:kHLOfferModelKeyCategory];
         self.titleTextField.text = [_offerObject objectForKey:kHLOfferModelKeyOfferName] ;
-        self.priceTextField.text = [[_offerObject objectForKey:kHLOfferModelKeyPrice]substringFromIndex:1];
-        _itemGeoPoint = [_offerObject objectForKey:kHLOfferModelKeyGeoPoint];
+        self.priceTextField.text = [_offerObject objectForKey:kHLOfferModelKeyPrice];        _itemGeoPoint = [_offerObject objectForKey:kHLOfferModelKeyGeoPoint];
         
         if(_itemGeoPoint){
             
@@ -215,7 +218,7 @@
     return YES;
 }
 
-- (IBAction)submitItem:(id)sender {
+- (void)submitItem:(id)sender {
     
     if(![self checkFieldEmpty] || ![self checkImagesEmpty]){
         
@@ -713,7 +716,7 @@
                         
                         PFObject *offerObject = [PFObject objectWithoutDataWithClassName:kHLCloudOfferClass objectId:_offerObject.objectId];
                         [offerObject setObject:itemName forKey:kHLOfferModelKeyOfferName];
-                        [offerObject setObject:[NSString stringWithFormat:@"$%@", itemPrice]forKey:kHLOfferModelKeyPrice];
+                        [offerObject setObject:itemPrice forKey:kHLOfferModelKeyPrice];
                         [offerObject setObject:itemCategory forKey:kHLOfferModelKeyCategory];
                         [offerObject setObject:itemDescription forKey:kHLOfferModelKeyDescription];
                         [offerObject setObject:itemCondtion forKey:kHLOfferModelKeyCondition];

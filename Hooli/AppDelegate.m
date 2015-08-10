@@ -34,8 +34,8 @@
     
     [ParseCrashReporting enable];
     
-    [Parse setApplicationId:@"5VMmKO5sWDjh4wc1e5qdHXSt862tJddTuUAYgBkS" clientKey:@"kwa9WYNaBqh1XbquCmZBAsm9f5OlcCGRA8kIyVZn"];
-    [PFFacebookUtils initializeFacebook];
+    [Parse setApplicationId:@"MzVqMkVYVADWDerrAGGb0jHQzbKpxegpUYpU1bar" clientKey:@"MIL1kNd72PVLIeZldTEAuLVlWdiViZ8ckhjXPM5k"];
+   // [PFFacebookUtils initializeFacebook];
     
     [HLTheme customizeTheme];
     

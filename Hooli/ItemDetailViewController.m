@@ -28,6 +28,7 @@
 #import "UserAccountViewController.h"
 #import "BidHistoryViewController.h"
 #import "CreateItemViewController.h"
+#import <MessageUI/MessageUI.h>
 
 #define kScrollViewOffset 44
 #define kBottomButtonOffset 44
@@ -89,9 +90,13 @@
     
     // [self refreshOfferDetailsFromCloud];
 }
+-(void)viewDidDisappear:(BOOL)animated{
+
+}
 
 -(void)viewWillDisappear:(BOOL)animated{
     
+    [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
     // self.navigationController.navigationBar.hidden = NO;
 }
 
@@ -131,9 +136,9 @@
     
     MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
     mailVC.mailComposeDelegate = self;
-    [mailVC setSubject:[NSString stringWithFormat:@"Report item %@",self.offerObject.offerName]];
-    [mailVC setMessageBody:@"Hi there," isHTML:NO];
-    [mailVC setToRecipients:[NSArray arrayWithObject:@"erli.0715@gmail.com"]];
+    [mailVC setSubject:[NSString stringWithFormat:@"Report item %@ %@",self.offerObject.offerId,self.offerObject.offerName]];
+    [mailVC setMessageBody:[NSString stringWithFormat:@"Hi, this item : %@ %@ has inapropriate content. Please delete it as soon as possible.",self.offerObject.offerId,self.offerObject.offerName] isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"hoolihelp@gmail.com"]];
     
     if (mailVC)
         
@@ -142,6 +147,15 @@
         }];
     
 }
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error;
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
 
 
 -(void)getOfferDetailsFromCloud{
@@ -241,7 +255,7 @@
     }
 }
 
-- (IBAction)makeOffer:(id)sender {
+- (void)makeOffer:(id)sender {
     
     //---------------------------------------------------------------------------------------------------------------------------------------------
     //    PFUser *user1 = [PFUser currentUser];
@@ -292,28 +306,14 @@
 
 
 -(void)updateOfferDetailInfo:(OfferModel *)offerModel{
-    
-    
-    if(!self.isFirstPosted){
         
-            UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
                                                initWithTitle:@"Report"
                                                style:UIBarButtonItemStyleDone
                                                target:self
                                                action:@selector(reportItem)];
-            self.navigationItem.rightBarButtonItem = rightBarButton;
+    self.navigationItem.rightBarButtonItem = rightBarButton;
         
-        
-    }
-    else{
-        
-        self.makeOfferButton.hidden = YES;
-        self.showBidButton.hidden = YES;
-        self.likeButton.hidden = YES;
-        self.likeCountLabel.hidden = YES;
-    }
-
-    
     [[LocationManager sharedInstance]convertGeopointToAddressWithGeoPoint:offerModel.offerLocation block:^(NSString *address, NSError *error) {
         
         
@@ -345,8 +345,10 @@
     self.locationLabel.text = [NSString stringWithFormat:@"Location: %@", distanceText];
     self.categoryLabel.text = [NSString stringWithFormat:@"In %@",offerModel.offerCategory];
     self.offerDescription.text = offerModel.offerDescription;
-    [self.offerDescription sizeToFit];
+    if([offerModel.offerPrice isEqualToString:@"Free"])
     self.priceLabel.text = offerModel.offerPrice;
+    else
+    self.priceLabel.text = [NSString stringWithFormat:@"$%@",offerModel.offerPrice];
     
     if([offerModel.isOfferSold boolValue]){
         
@@ -404,13 +406,13 @@
             
             if(toggleIsOn){
                 
-                self.likeCountLabel.text = @"Liked";
+                [self.likeButton setTitle:@"Liked" forState:UIControlStateNormal];
                 self.likeButton.alpha = 1.0;
                 
             }
             else{
                 
-                self.likeCountLabel.text = @"Like";
+                [self.likeButton setTitle:@"Like" forState:UIControlStateNormal];
                 self.likeButton.alpha = 0.5;
 
                 
@@ -433,7 +435,7 @@
         
         self.commentVC = [[ItemCommentViewController alloc]initWithObject:object];
         
-        [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, SCREEN_WIDTH, self.commentVC.tableView.contentSize.height)];
+        [self.commentVC.view setFrame:CGRectMake(0, SCREEN_HEIGHT - 152, SCREEN_WIDTH, self.commentVC.tableView.contentSize.height)];
         
         [self.offerDetailView addSubview:self.commentVC.view];
         
@@ -474,7 +476,7 @@
     
     [self.offerDetailView setContentSize:CGSizeMake(SCREEN_WIDTH, self.offerDetailView.frame.size.height  + self.commentVC.tableView.contentSize.height + 100)];
     
-    [self.commentVC.view setFrame:CGRectMake(0, self.makeOfferButton.frame.origin.y + self.makeOfferButton.frame.size.height, SCREEN_WIDTH, self.commentVC.tableView.contentSize.height)];
+    [self.commentVC.view setFrame:CGRectMake(0, SCREEN_HEIGHT - 152, SCREEN_WIDTH, self.commentVC.tableView.contentSize.height)];
     
     
 }
@@ -486,7 +488,27 @@
     // self.navigationController.navigationBar.hidden = YES;
     self.title = @"Item Detail";
     
+    [self.scrollView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
+    
+    self.offerDescription = [[UITextView alloc]initWithFrame:CGRectMake(5, SCREEN_WIDTH, SCREEN_WIDTH-10, SCREEN_HEIGHT- SCREEN_WIDTH - 200)];
+    self.offerDescription.editable = NO;
+    self.makeOfferButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - (SCREEN_WIDTH - 140 *2)/3 - 140, SCREEN_HEIGHT - 190, 140, 30)];
+    self.showBidButton = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 140 *2)/3, SCREEN_HEIGHT - 190 , 140, 30)];
+    self.likeButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 100, SCREEN_WIDTH - 100, 64, 64)];
+    [self.likeButton setBackgroundImage:[UIImage imageNamed:@"heart-64"] forState:UIControlStateNormal];
+    [self.likeButton setTitle:@"Like" forState:UIControlStateNormal];
 
+    [self.makeOfferButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
+    [self.makeOfferButton setTitle:@"Make a Bid!" forState:UIControlStateNormal];
+    [self.showBidButton setBackgroundImage:[UIImage imageNamed:@"button-pressed"] forState:UIControlStateNormal];
+    [self.makeOfferButton addTarget:self action:@selector(makeOffer:) forControlEvents:UIControlEventTouchUpInside];
+    [self.showBidButton  addTarget:self action:@selector(showBidHistory:) forControlEvents:UIControlEventTouchUpInside];
+    [self.likeButton  addTarget:self action:@selector(likeButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.offerDetailView addSubview:self.likeButton];
+    [self.offerDetailView addSubview:self.offerDescription];
+    [self.offerDetailView addSubview:self.makeOfferButton];
+    [self.offerDetailView addSubview:self.showBidButton];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.topDetailBar.bounds;
@@ -498,25 +520,23 @@
     self.offerDetailView.bounces = YES;
     [self.offerDetailView setBackgroundColor:[UIColor whiteColor]];
    // [self.offerDetailView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+
+
     
-    UIImage* buttonImage = [UIImage imageNamed:@"heart-64"];
-    UIImage* buttonPressedImage = [UIImage imageNamed:@"heart-64"];
+//    [self.addToCartButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+//    [self.addToCartButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
+//    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
     
-    
-    [self.addToCartButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [self.addToCartButton setBackgroundImage:buttonPressedImage forState:UIControlStateHighlighted];
-    [self.addToCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.addToCartButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
-    
-    [self.likeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     
     [self.likeButton bringSubviewToFront:self.offerDetailView];
     [self.makeOfferButton bringSubviewToFront:self.offerDetailView];
     self.makeOfferButton.layer.cornerRadius = 10.0f;
     self.makeOfferButton.layer.masksToBounds = YES;
+    [self.showBidButton bringSubviewToFront:self.offerDetailView];
     self.showBidButton.layer.cornerRadius = 10.0f;
     self.showBidButton.layer.masksToBounds = YES;
- 
+   
     //self.likeButton.titleLabel.font = [UIFont fontWithName:[HLTheme boldFont] size:18.0f];
     //    [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //    [self.likeButton setTitleColor:[HLTheme mainColor] forState:UIControlStateHighlighted];
@@ -525,7 +545,10 @@
     self.offerDescription.font = [UIFont fontWithName:[HLTheme mainFont] size:15.0f];
     self.locationLabel.font =[UIFont fontWithName:[HLTheme boldFont] size:15.0f];
     self.categoryLabel.font =[UIFont fontWithName:[HLTheme mainFont] size:15.0f];
-    
+    [self.showBidButton.titleLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:15.0f]];
+    [self.makeOfferButton.titleLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:13.0f]];
+    [self.likeButton.titleLabel setFont:[UIFont fontWithName:[HLTheme mainFont] size:12.0f]];
+
     
     if(self.isFirstPosted){
         
@@ -592,16 +615,18 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
-    self.pageControl.currentPage = ceil(scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+    self.pageControl.currentPage = ceil(scrollView.contentOffset.x / SCREEN_WIDTH);
     
 }
 
-
 -(void)setOffersScrollViewWithImageArray:(NSArray *)imagesArray{
     
+    self.pageControl = [[SMPageControl alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 100)/2, SCREEN_WIDTH - 30, 100, 30)];
     [self.pageControl setPageIndicatorImage:[UIImage imageNamed:@"pageControl-dot"]];
     [self.pageControl setCurrentPageIndicatorImage:[UIImage imageNamed:@"pageControl-dot-selected"]];
     self.pageControl.numberOfPages = imagesArray.count;
+    [self.offerDetailView addSubview:self.pageControl];
+    [self.pageControl bringSubviewToFront:self.offerDetailView];
     
     for (UIView *subView in self.scrollView.subviews) {
         [subView removeFromSuperview];
@@ -610,7 +635,6 @@
     self.scrollView.delegate = self;
     
     CGFloat scrollContentWidth = 0;
-    
     CGFloat scrollHeight = self.scrollView.bounds.size.height; // -20;
     CGFloat padding = (self.scrollView.bounds.size.width - scrollHeight) / 2;
     
@@ -622,7 +646,7 @@
         
         preview.image = image;
         
-        scrollContentWidth += self.scrollView.bounds.size.width;
+        scrollContentWidth += SCREEN_WIDTH;
         
         [self.scrollView addSubview:preview];
     }
@@ -709,7 +733,7 @@
 
 
 
-- (IBAction)likeButtonPressed:(id)sender {
+- (void)likeButtonPressed:(id)sender {
     
     PFUser *user1 = [PFUser currentUser];
     
@@ -801,13 +825,13 @@
             
             if(!flag){
                 
-                self.likeCountLabel.text = @"Liked";
+                [self.likeButton setTitle:@"Liked" forState:UIControlStateNormal];
                 self.likeButton.alpha = 1.0;
 
             }
             else{
                 
-                self.likeCountLabel.text = @"Like";
+                [self.likeButton setTitle:@"Like" forState:UIControlStateNormal];
                 self.likeButton.alpha = 0.5;
 
                 
@@ -938,7 +962,7 @@
 }
 
 
-- (IBAction)showBidHistory:(id)sender {
+- (void)showBidHistory:(id)sender {
     
     [self performSegueWithIdentifier:@"showBidHisotory" sender:self];
     
@@ -999,14 +1023,6 @@
     
 }
 
-- (void)mailComposeController:(MFMailComposeViewController*)controller
-          didFinishWithResult:(MFMailComposeResult)result
-                        error:(NSError*)error;
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
 
 
 @end

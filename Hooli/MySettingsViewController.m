@@ -53,7 +53,7 @@
             
         }
         else if(indexPath.row == 1){
-            NSString *textToShare = @"Hooli, discover the fun of life!";
+            NSString *textToShare = @"Ezee! discover the fun of life!";
            // NSURL *myApp = [NSURL URLWithString:@"http://itunes.apple.com/app/id378458261"];
             
             NSArray *objectsToShare = @[textToShare];
@@ -87,7 +87,7 @@
             mailVC.mailComposeDelegate = self;
             [mailVC setSubject:@"My Subject"];
             [mailVC setMessageBody:@"Hello there. " isHTML:NO];
-            [mailVC setToRecipients:[NSArray arrayWithObject:@"erli.0715@gmail.com"]];
+            [mailVC setToRecipients:[NSArray arrayWithObject:@"hoolihelp@gmail.com"]];
             
             if (mailVC)
                 
@@ -99,8 +99,11 @@
         }
         else if(indexPath.row == 1){
             
-            AboutViewController *about = [[AboutViewController alloc]init];
-            [self.navigationController pushViewController:about animated:YES];
+            UIStoryboard *loginSB = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+            
+            UIViewController *tandc = [loginSB instantiateViewControllerWithIdentifier:@"TermsAndConditionVC"];
+            
+            [self.navigationController pushViewController:tandc animated:YES];
             
         }
         
@@ -150,8 +153,9 @@
         }
         else{
             
-            cell.textLabel.text = @"About";
+            cell.textLabel.text = @"Terms and Condition";
         }
+        
     }
     else if(indexPath.section == 2){
         
@@ -171,7 +175,7 @@
     if(section == 0)
         return 2;
     else if(section == 1)
-        return 1;
+        return 2;
     else
         return 1;
     

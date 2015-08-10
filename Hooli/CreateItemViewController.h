@@ -21,7 +21,7 @@
 
 - (IBAction)submitItem:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIButton *submitButton;
+@property (nonatomic)  UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *imageButton1;
 @property (weak, nonatomic) IBOutlet UIButton *imageButton2;
 @property (weak, nonatomic) IBOutlet UIButton *imageButton3;

@@ -66,12 +66,13 @@
     [super viewDidLoad];
     
     self.title = @"Detail";
-    
     // [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     _detailArray = @[[_activityDetail objectForKey:kHLEventKeyDescription], [_activityDetail objectForKey:kHLEventKeyDateText], [_activityDetail objectForKey:kHLEventKeyEventLocation], @"Discussion"];
     // _hostArray = [[NSMutableArray alloc]initWithObjects:@"Eric", nil];
     _iconsArray = @[[UIImage imageNamed:@"megaphone-48"],[UIImage imageNamed:@"calender"],[UIImage imageNamed:@"location-map"],[UIImage imageNamed:@"discussion"]];
+    
+    [self configureBottomButtons];
     
     _participantArray = [[NSMutableArray alloc]init];
     
@@ -103,8 +104,9 @@
     
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
-    
-    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheetOptions)];
+    UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithTitle:@"Report" style:UIBarButtonItemStyleDone target:self action:@selector(reportEvent)];;
+
+    //UIBarButtonItem *rightBarButton1 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheetOptions)];
     
     //    UIBarButtonItem *rightBarButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookMarkEvent)];
     
@@ -113,34 +115,16 @@
     // self.navigationItem.rightBarButtonItems = buttonsArray;
     
     self.navigationItem.rightBarButtonItem = rightBarButton1;
-    
-    [self configureBottomButtons];
-    
+        
 }
 
 
 -(void)configureBottomButtons{
     
-    _inviteButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 523, 145, 35)];
-    
-    [_inviteButton addTarget:self action:@selector(inviteFriends) forControlEvents:UIControlEventTouchUpInside];
-    
-    [_inviteButton setBackgroundColor:[HLTheme buttonColor]];
-    
-    [_inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
-    
-    // _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(165, 523, 145, 35)];
-    _joinButton = [[UIButton alloc]initWithFrame:CGRectMake(30, SCREEN_HEIGHT - 60, SCREEN_WIDTH - 60, 40)];
-    
     [_joinButton setBackgroundColor:[HLTheme buttonColor]];
     
     _joinButton.layer.cornerRadius = 10.0f;
     _joinButton.layer.masksToBounds = YES;
-    
-    _inviteButton.layer.cornerRadius = 10.0f;
-    _inviteButton.layer.masksToBounds = YES;
-    
-    // [self.view addSubview:_inviteButton];
     
     [self.view addSubview:_joinButton];
     
@@ -211,7 +195,7 @@
 -(void)quitEvent{
     
     
-    UIAlertView *quitAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"确定退出？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *quitAlert = [[UIAlertView alloc]initWithTitle:@"" message:@"Are you sure you want to quit？" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     
     quitAlert.tag = 2;
     
@@ -253,9 +237,9 @@
     
     MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
     mailVC.mailComposeDelegate = self;
-    [mailVC setSubject:[NSString stringWithFormat:@"Report event %@",[_activityDetail objectForKey:kHLEventKeyTitle]]];
-    [mailVC setMessageBody:@"Hi there," isHTML:NO];
-    [mailVC setToRecipients:[NSArray arrayWithObject:@"erli.0715@gmail.com"]];
+    [mailVC setSubject:[NSString stringWithFormat:@"Report event %@ %@",_activityDetail.objectId,[_activityDetail objectForKey:kHLEventKeyTitle]]];
+    [mailVC setMessageBody:[NSString stringWithFormat:@"Hi, this event : %@ %@ has inapropriate content. Please delete it as soon as possible.",_activityDetail.objectId,[_activityDetail objectForKey:kHLEventKeyTitle]] isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"hoolihelp@gmail.com"]];
     
     if (mailVC)
         

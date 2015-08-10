@@ -217,7 +217,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)addNoContentView{
     
-    self.noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200, 320, 44)];
+    self.noContentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT/2 - 44 - 64, SCREEN_WIDTH, 44)];
     self.noContentLabel.text = @"No offers at the moment";
     self.noContentLabel.textColor = [UIColor lightGrayColor];
     self.noContentLabel.font = [UIFont systemFontOfSize:17.0f];

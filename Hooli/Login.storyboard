@@ -49,13 +49,13 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="first." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgd-W3-ENj">
                                         <rect key="frame" x="224" y="238" width="44" height="44"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OyA-w5-0Rf">
                                         <rect key="frame" x="58" y="249" width="52" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p19-Du-CzN">
@@ -72,7 +72,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="or" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tvx-NV-ZvP">
                                         <rect key="frame" x="159" y="249" width="16" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Ariel white background.png" translatesAutoresizingMaskIntoConstraints="NO" id="LPQ-wg-VL7">
@@ -137,7 +137,7 @@
                                     <constraint firstAttribute="height" constant="30" id="aXb-1i-6bO"/>
                                     <constraint firstAttribute="width" constant="260" id="uMB-VI-bHz"/>
                                 </constraints>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                             </textField>
@@ -146,7 +146,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="chu-Dw-MuS"/>
                                 </constraints>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
                             </textField>
@@ -160,7 +160,6 @@
                                 </state>
                                 <connections>
                                     <action selector="loginWithEmail:" destination="URm-rM-mG0" eventType="touchUpInside" id="uiL-sG-oqP"/>
-                                    <action selector="submitUser:" destination="L79-ks-JZQ" eventType="touchUpInside" id="9GK-PQ-gxh"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ariel.png" translatesAutoresizingMaskIntoConstraints="NO" id="dG6-o0-cuP">
@@ -177,7 +176,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <state key="normal" title="Forget password?">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -219,79 +218,6 @@
             </objects>
             <point key="canvasLocation" x="958" y="508"/>
         </scene>
-        <!--Edit Profile View Controller-->
-        <scene sceneID="Hmy-Qx-lAL">
-            <objects>
-                <viewController storyboardIdentifier="editProfile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="L79-ks-JZQ" customClass="EditProfileViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="SRj-0G-HU1"/>
-                        <viewControllerLayoutGuide type="bottom" id="chX-a3-OOF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ga5-tN-Dmr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iO3-bj-UKr">
-                                <rect key="frame" x="57" y="258" width="197" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KiH-dQ-JmS">
-                                <rect key="frame" x="57" y="330" width="197" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-B6-T1V">
-                                <rect key="frame" x="57" y="227" width="86" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QvI-X4-e2D">
-                                <rect key="frame" x="57" y="301" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qIE-rn-E92">
-                                <rect key="frame" x="110" y="95" width="100" height="100"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RB2-JH-TC8">
-                                <rect key="frame" x="56" y="412" width="208" height="35"/>
-                                <state key="normal" title="Confirm" backgroundImage="button-pressed.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="submitUser:" destination="L79-ks-JZQ" eventType="touchUpInside" id="ATy-3w-C0N"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lCV-zC-qs0">
-                                <rect key="frame" x="110" y="194" width="94" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <state key="normal" title="Edit Photo">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="uploadPhoto:" destination="L79-ks-JZQ" eventType="touchUpInside" id="ffe-P7-Rt9"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="71Q-K6-Q0o"/>
-                    <connections>
-                        <outlet property="email" destination="QvI-X4-e2D" id="mqc-BA-9es"/>
-                        <outlet property="emailTextField" destination="KiH-dQ-JmS" id="Aon-TV-2EU"/>
-                        <outlet property="portraitImage" destination="qIE-rn-E92" id="lW4-fM-35B"/>
-                        <outlet property="submitButton" destination="RB2-JH-TC8" id="GCg-hD-jTd"/>
-                        <outlet property="userNameTextField" destination="iO3-bj-UKr" id="2qp-ZC-UGN"/>
-                        <outlet property="username" destination="Ov6-B6-T1V" id="F9V-lM-k7a"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Zz5-ac-IpJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2000.625" y="-70.774647887323937"/>
-        </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="HcS-Eh-Z8I">
             <objects>
@@ -304,25 +230,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mmr-Fb-UCy">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mmr-Fb-UCy">
                                 <rect key="frame" x="170" y="279" width="260" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Xsd-lt-Inp"/>
                                 </constraints>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="o26-sP-HfC" id="jTK-r9-iCp"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0kq-sc-dsw">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0kq-sc-dsw">
                                 <rect key="frame" x="171" y="230" width="259" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="AYY-F7-GcO"/>
                                     <constraint firstAttribute="height" constant="30" id="gwl-gz-R1X"/>
                                 </constraints>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
@@ -336,12 +262,12 @@
                                     <constraint firstAttribute="width" constant="100" id="QJ5-NN-ftt"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w1W-oC-r2R">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w1W-oC-r2R">
                                 <rect key="frame" x="170" y="328" width="260" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="OI5-8M-Tdg"/>
                                 </constraints>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                 <connections>
@@ -363,11 +289,15 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IaO-F9-Fbh">
                                 <rect key="frame" x="140" y="422" width="320" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="Nb8-wH-kcg"/>
-                                    <constraint firstAttribute="height" constant="30" id="ULB-gH-zhB"/>
+                                    <constraint firstAttribute="width" constant="320" id="Nb8-wH-kcg">
+                                        <variation key="widthClass=compact" constant="259"/>
+                                    </constraint>
+                                    <constraint firstAttribute="height" constant="30" id="ULB-gH-zhB">
+                                        <variation key="widthClass=compact" constant="34"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="Already have a account? Please login.">
+                                <state key="normal" title="Already have account? Please log in.">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -383,40 +313,147 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <state key="normal" title="Edit Photo">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="editPhoto:" destination="o26-sP-HfC" eventType="touchUpInside" id="Xdv-lh-Mzu"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6x-33-4iS">
+                                <rect key="frame" x="140" y="460" width="320" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="KsU-LP-1Sc"/>
+                                    <constraint firstAttribute="width" constant="320" id="Z0Y-nG-MP0">
+                                        <variation key="widthClass=compact" constant="111"/>
+                                    </constraint>
+                                    <constraint firstAttribute="height" constant="30" id="xAf-uz-lyu">
+                                        <variation key="widthClass=compact" constant="43"/>
+                                    </constraint>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Terms and Condition">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="KsU-LP-1Sc"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="KsU-LP-1Sc"/>
+                                        <exclude reference="Z0Y-nG-MP0"/>
+                                        <exclude reference="xAf-uz-lyu"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="f1B-AY-J8W" kind="show" id="o92-aT-T8r"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By using Ezee!, you agree to " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkv-GH-AhO">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="HGv-9C-EVR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="HGv-9C-EVR"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="HGv-9C-EVR"/>
+                                    </mask>
+                                </variation>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="i6x-33-4iS" firstAttribute="top" secondItem="zkv-GH-AhO" secondAttribute="bottom" constant="8" id="0mw-GH-pnl">
+                                <variation key="widthClass=compact" constant="10"/>
+                            </constraint>
                             <constraint firstItem="w1W-oC-r2R" firstAttribute="trailing" secondItem="E3z-Ur-9Fw" secondAttribute="trailing" id="6Hw-Ea-xwI"/>
                             <constraint firstItem="w1W-oC-r2R" firstAttribute="leading" secondItem="E3z-Ur-9Fw" secondAttribute="leading" id="7Tl-kk-fod"/>
                             <constraint firstItem="mmr-Fb-UCy" firstAttribute="trailing" secondItem="w1W-oC-r2R" secondAttribute="trailing" id="AFf-8o-0yr"/>
                             <constraint firstItem="E3z-Ur-9Fw" firstAttribute="top" secondItem="w1W-oC-r2R" secondAttribute="bottom" constant="20" id="B6A-yO-MjM"/>
                             <constraint firstItem="mmr-Fb-UCy" firstAttribute="centerX" secondItem="0kq-sc-dsw" secondAttribute="centerX" id="BDi-Pi-SGh"/>
                             <constraint firstItem="g5w-1P-bkY" firstAttribute="leading" secondItem="JkH-K6-psR" secondAttribute="leading" constant="265" id="DlO-y1-dee"/>
+                            <constraint firstItem="i6x-33-4iS" firstAttribute="top" secondItem="IaO-F9-Fbh" secondAttribute="bottom" constant="8" symbolic="YES" id="G7v-58-mvQ">
+                                <variation key="widthClass=compact" constant="-5"/>
+                            </constraint>
                             <constraint firstItem="mmr-Fb-UCy" firstAttribute="leading" secondItem="w1W-oC-r2R" secondAttribute="leading" id="GZW-gj-bqE"/>
                             <constraint firstItem="g5w-1P-bkY" firstAttribute="centerX" secondItem="0kq-sc-dsw" secondAttribute="centerX" id="Gg8-PH-4Ew"/>
                             <constraint firstItem="0kq-sc-dsw" firstAttribute="centerX" secondItem="QEr-Md-7TP" secondAttribute="centerX" id="Ji2-De-5NR"/>
+                            <constraint firstItem="zkv-GH-AhO" firstAttribute="trailing" secondItem="i6x-33-4iS" secondAttribute="trailing" id="K6T-z5-wbh"/>
+                            <constraint firstItem="zkv-GH-AhO" firstAttribute="top" secondItem="IaO-F9-Fbh" secondAttribute="bottom" constant="8" symbolic="YES" id="KFh-sR-KPb"/>
                             <constraint firstItem="0kq-sc-dsw" firstAttribute="top" secondItem="g5w-1P-bkY" secondAttribute="bottom" constant="9" id="LHW-6t-cEq"/>
-                            <constraint firstItem="lpo-mf-Ccq" firstAttribute="top" secondItem="IaO-F9-Fbh" secondAttribute="bottom" constant="148" id="UZD-0J-YLq"/>
+                            <constraint firstItem="lpo-mf-Ccq" firstAttribute="top" secondItem="IaO-F9-Fbh" secondAttribute="bottom" constant="148" id="UZD-0J-YLq">
+                                <variation key="widthClass=compact" constant="144"/>
+                            </constraint>
+                            <constraint firstItem="i6x-33-4iS" firstAttribute="top" secondItem="zkv-GH-AhO" secondAttribute="bottom" id="VFN-8o-wv2"/>
                             <constraint firstItem="IaO-F9-Fbh" firstAttribute="centerX" secondItem="E3z-Ur-9Fw" secondAttribute="centerX" id="Wtj-py-ITG"/>
                             <constraint firstItem="mmr-Fb-UCy" firstAttribute="trailing" secondItem="0kq-sc-dsw" secondAttribute="trailing" id="aaX-m6-Fc9"/>
                             <constraint firstItem="QEr-Md-7TP" firstAttribute="top" secondItem="K2y-75-nCg" secondAttribute="bottom" constant="19" id="eya-hj-K7S"/>
+                            <constraint firstItem="i6x-33-4iS" firstAttribute="top" secondItem="zkv-GH-AhO" secondAttribute="bottom" constant="8" symbolic="YES" id="g6n-qC-2cO">
+                                <variation key="widthClass=compact" constant="5"/>
+                            </constraint>
                             <constraint firstItem="g5w-1P-bkY" firstAttribute="top" secondItem="QEr-Md-7TP" secondAttribute="bottom" constant="8" symbolic="YES" id="gbC-J9-6Cx"/>
+                            <constraint firstItem="i6x-33-4iS" firstAttribute="leading" secondItem="IaO-F9-Fbh" secondAttribute="leading" id="gon-zi-Ks9">
+                                <variation key="widthClass=compact" constant="179"/>
+                            </constraint>
                             <constraint firstItem="0kq-sc-dsw" firstAttribute="centerX" secondItem="JkH-K6-psR" secondAttribute="centerX" id="he4-67-xRC"/>
                             <constraint firstItem="mmr-Fb-UCy" firstAttribute="top" secondItem="0kq-sc-dsw" secondAttribute="bottom" constant="19" id="hxL-l9-aGw"/>
+                            <constraint firstItem="zkv-GH-AhO" firstAttribute="leading" secondItem="i6x-33-4iS" secondAttribute="leading" id="jqP-ho-WK1"/>
+                            <constraint firstItem="zkv-GH-AhO" firstAttribute="leading" secondItem="IaO-F9-Fbh" secondAttribute="leading" id="o7I-79-SWr"/>
+                            <constraint firstItem="i6x-33-4iS" firstAttribute="top" secondItem="zkv-GH-AhO" secondAttribute="bottom" constant="5" id="pSx-0S-F3O"/>
                             <constraint firstItem="w1W-oC-r2R" firstAttribute="top" secondItem="mmr-Fb-UCy" secondAttribute="bottom" constant="19" id="qUw-Fa-MdY"/>
+                            <constraint firstItem="zkv-GH-AhO" firstAttribute="trailing" secondItem="IaO-F9-Fbh" secondAttribute="trailing" id="rAN-jo-vK1"/>
                             <constraint firstItem="IaO-F9-Fbh" firstAttribute="top" secondItem="E3z-Ur-9Fw" secondAttribute="bottom" constant="10" id="sh6-cV-haW"/>
+                            <constraint firstItem="lpo-mf-Ccq" firstAttribute="top" secondItem="i6x-33-4iS" secondAttribute="bottom" constant="64" id="yTs-WR-WYW">
+                                <variation key="widthClass=compact" constant="20"/>
+                            </constraint>
                         </constraints>
                         <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="zkv-GH-AhO"/>
+                            </mask>
                             <mask key="constraints">
                                 <exclude reference="eya-hj-K7S"/>
                                 <exclude reference="DlO-y1-dee"/>
+                                <exclude reference="K6T-z5-wbh"/>
+                                <exclude reference="KFh-sR-KPb"/>
+                                <exclude reference="jqP-ho-WK1"/>
+                                <exclude reference="o7I-79-SWr"/>
+                                <exclude reference="rAN-jo-vK1"/>
+                                <exclude reference="0mw-GH-pnl"/>
+                                <exclude reference="VFN-8o-wv2"/>
+                                <exclude reference="g6n-qC-2cO"/>
+                                <exclude reference="pSx-0S-F3O"/>
+                                <exclude reference="yTs-WR-WYW"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="zkv-GH-AhO"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="K6T-z5-wbh"/>
+                                <exclude reference="KFh-sR-KPb"/>
+                                <include reference="jqP-ho-WK1"/>
+                                <include reference="o7I-79-SWr"/>
+                                <include reference="rAN-jo-vK1"/>
+                                <exclude reference="0mw-GH-pnl"/>
+                                <exclude reference="G7v-58-mvQ"/>
+                                <include reference="VFN-8o-wv2"/>
+                                <exclude reference="g6n-qC-2cO"/>
+                                <exclude reference="gon-zi-Ks9"/>
+                                <exclude reference="pSx-0S-F3O"/>
+                                <include reference="yTs-WR-WYW"/>
                             </mask>
                         </variation>
                     </view>
@@ -432,7 +469,89 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Em1-oi-Eb1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="958.125" y="-166.90140845070422"/>
+            <point key="canvasLocation" x="957" y="-167"/>
+        </scene>
+        <!--Terms and Condition-->
+        <scene sceneID="PHz-EB-dKg">
+            <objects>
+                <viewController storyboardIdentifier="TermsAndConditionVC" title="Terms and Condition" useStoryboardIdentifierAsRestorationIdentifier="YES" id="f1B-AY-J8W" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JhX-x0-Lfg"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jam-da-LqL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FY2-nl-7gT">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5vc-T8-qm6">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">LICENSED APPLICATION END USER LICENSE AGREEMENT
+
+The Products transacted through the Service are licensed, not sold, to You for use only under the terms of this license, unless a Product is accompanied by a separate license agreement, in which case the terms of that separate license agreement will govern, subject to Your prior acceptance of that separate license agreement. The licensor (“Application Provider”) reserves all rights not expressly granted to You. The Product that is subject to this license is referred to in this license as the “Licensed Application.”
+
+a. Scope of License: This license granted to You for the Licensed Application by Application Provider is limited to a non-transferable license to use the Licensed Application on any iPhone or iPod touch that You own or control and as permitted by the Usage Rules set forth in Section 9.b. of the App Store Terms and Conditions (the “Usage Rules”). This license does not allow You to use the Licensed Application on any iPod touch or iPhone that You do not own or control, and You may not distribute or make the Licensed Application available over a network where it could be used by multiple devices at the same time. You may not rent, lease, lend, sell, redistribute or sublicense the Licensed Application. You may not copy (except as expressly permitted by this license and the Usage Rules), decompile, reverse engineer, disassemble, attempt to derive the source code of, modify, or create derivative works of the Licensed Application, any updates, or any part thereof (except as and only to the extent any foregoing restriction is prohibited by applicable law or to the extent as may be permitted by the licensing terms governing use of any open sourced components included with the Licensed Application). Any attempt to do so is a violation of the rights of the Application Provider and its licensors. If You breach this restriction, You may be subject to prosecution and damages. The terms of the license will govern any upgrades provided by Application Provider that replace and/or supplement the original Product, unless such upgrade is accompanied by a separate license in which case the terms of that license will govern.
+
+b. Consent to Use of Data: You agree that Application Provider may collect and use technical data and related information, including but not limited to technical information about Your device, system and application software, and peripherals, that is gathered periodically to facilitate the provision of software updates, product support and other services to You (if any) related to the Licensed Application. Application Provider may use this information, as long as it is in a form that does not personally identify You, to improve its products or to provide services or technologies to You.
+
+c. Termination. The license is effective until terminated by You or Application Provider. Your rights under this license will terminate automatically without notice from the Application Provider if You fail to comply with any term(s) of this license. Upon termination of the license, You shall cease all use of the Licensed Application, and destroy all copies, full or partial, of the Licensed Application.
+
+d. Services; Third Party Materials. The Licensed Application may enable access to Application Provider’s and third party services and web sites (collectively and individually, "Services"). Use of the Services may require Internet access and that You accept additional terms of service.
+
+You understand that by using any of the Services, You may encounter content that may be deemed offensive, indecent, or objectionable, which content may or may not be identified as having explicit language, and that the results of any search or entering of a particular URL may automatically and unintentionally generate links or references to objectionable material. Nevertheless, You agree to use the Services at Your sole risk and that the Application Provider shall not have any liability to You for content that may be found to be offensive, indecent, or objectionable.
+
+Certain Services may display, include or make available content, data, information, applications or materials from third parties (“Third Party Materials”) or provide links to certain third party web sites. By using the Services, You acknowledge and agree that the Application Provider is not responsible for examining or evaluating the content, accuracy, completeness, timeliness, validity, copyright compliance, legality, decency, quality or any other aspect of such Third Party Materials or web sites. The Application Provider does not warrant or endorse and does not assume and will not have any liability or responsibility to You or any other person for any third-party Services, Third Party Materials or web sites, or for any other materials, products, or services of third parties. Third Party Materials and links to other web sites are provided solely as a convenience to You. Financial information displayed by any Services is for general informational purposes only and is not intended to be relied upon as investment advice. Before executing any securities transaction based upon information obtained through the Services, You should consult with a financial professional. Location data provided by any Services is for basic navigational purposes only and is not intended to be relied upon in situations where precise location information is needed or where erroneous, inaccurate or incomplete location data may lead to death, personal injury, property or environmental damage. Neither the Application Provider, nor any of its content providers, guarantees the availability, accuracy, completeness, reliability, or timeliness of stock information or location data displayed by any Services.
+
+You agree that any Services contain proprietary content, information and material that is protected by applicable intellectual property and other laws, including but not limited to copyright, and that You will not use such proprietary content, information or materials in any way whatsoever except for permitted use of the Services. No portion of the Services may be reproduced in any form or by any means. You agree not to modify, rent, lease, loan, sell, distribute, or create derivative works based on the Services, in any manner, and You shall not exploit the Services in any unauthorized way whatsoever, including but not limited to, by trespass or burdening network capacity. You further agree not to use the Services in any manner to harass, abuse, stalk, threaten, defame or otherwise infringe or violate the rights of any other party, and that the Application Provider is not in any way responsible for any such use by You, nor for any harassing, threatening, defamatory, offensive or illegal messages or transmissions that You may receive as a result of using any of the Services.
+
+In addition, third party Services and Third Party Materials that may be accessed from, displayed on or linked to from the iPhone or iPod touch are not available in all languages or in all countries. The Application Provider makes no representation that such Services and Materials are appropriate or available for use in any particular location. To the extent You choose to access such Services or Materials, You do so at Your own initiative and are responsible for compliance with any applicable laws, including but not limited to applicable local laws. The Application Provider, and its licensors, reserve the right to change, suspend, remove, or disable access to any Services at any time without notice. In no event will the Application Provider be liable for the removal of or disabling of access to any such Services. The Application Provider may also impose limits on the use of or access to certain Services, in any case and without notice or liability.
+
+e. NO WARRANTY: YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT USE OF THE LICENSED APPLICATION IS AT YOUR SOLE RISK AND THAT THE ENTIRE RISK AS TO SATISFACTORY QUALITY, PERFORMANCE, ACCURACY AND EFFORT IS WITH YOU. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSED APPLICATION AND ANY SERVICES PERFORMED OR PROVIDED BY THE LICENSED APPLICATION ("SERVICES") ARE PROVIDED "AS IS" AND “AS AVAILABLE”, WITH ALL FAULTS AND WITHOUT WARRANTY OF ANY KIND, AND APPLICATION PROVIDER HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS WITH RESPECT TO THE LICENSED APPLICATION AND ANY SERVICES, EITHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES AND/OR CONDITIONS OF MERCHANTABILITY, OF SATISFACTORY QUALITY, OF FITNESS FOR A PARTICULAR PURPOSE, OF ACCURACY, OF QUIET ENJOYMENT, AND NON-INFRINGEMENT OF THIRD PARTY RIGHTS. APPLICATION PROVIDER DOES NOT WARRANT AGAINST INTERFERENCE WITH YOUR ENJOYMENT OF THE LICENSED APPLICATION, THAT THE FUNCTIONS CONTAINED IN, OR SERVICES PERFORMED OR PROVIDED BY, THE LICENSED APPLICATION WILL MEET YOUR REQUIREMENTS, THAT THE OPERATION OF THE LICENSED APPLICATION OR SERVICES WILL BE UNINTERRUPTED OR ERROR-FREE, OR THAT DEFECTS IN THE LICENSED APPLICATION OR SERVICES WILL BE CORRECTED. NO ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY APPLICATION PROVIDER OR ITS AUTHORIZED REPRESENTATIVE SHALL CREATE A WARRANTY. SHOULD THE LICENSED APPLICATION OR SERVICES PROVE DEFECTIVE, YOU ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF IMPLIED WARRANTIES OR LIMITATIONS ON APPLICABLE STATUTORY RIGHTS OF A CONSUMER, SO THE ABOVE EXCLUSION AND LIMITATIONS MAY NOT APPLY TO YOU.
+
+f. Limitation of Liability. TO THE EXTENT NOT PROHIBITED BY LAW, IN NO EVENT SHALL APPLICATION PROVIDER BE LIABLE FOR PERSONAL INJURY, OR ANY INCIDENTAL, SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES WHATSOEVER, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, LOSS OF DATA, BUSINESS INTERRUPTION OR ANY OTHER COMMERCIAL DAMAGES OR LOSSES, ARISING OUT OF OR RELATED TO YOUR USE OR INABILITY TO USE THE LICENSED APPLICATION, HOWEVER CAUSED, REGARDLESS OF THE THEORY OF LIABILITY (CONTRACT, TORT OR OTHERWISE) AND EVEN IF APPLICATION PROVIDER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. SOME JURISDICTIONS DO NOT ALLOW THE LIMITATION OF LIABILITY FOR PERSONAL INJURY, OR OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THIS LIMITATION MAY NOT APPLY TO YOU. In no event shall Application Provider’s total liability to you for all damages (other than as may be required by applicable law in cases involving personal injury) exceed the amount of fifty dollars ($50.00). The foregoing limitations will apply even if the above stated remedy fails of its essential purpose.
+
+g. You may not use or otherwise export or re-export the Licensed Application except as authorized by United States law and the laws of the jurisdiction in which the Licensed Application was obtained. In particular, but without limitation, the Licensed Application may not be exported or re-exported (a) into any U.S. embargoed countries or (b) to anyone on the U.S. Treasury Department's list of Specially Designated Nationals or the U.S. Department of Commerce Denied Person’s List or Entity List. By using the Licensed Application, you represent and warrant that you are not located in any such country or on any such list. You also agree that you will not use these products for any purposes prohibited by United States law, including, without limitation, the development, design, manufacture or production of nuclear, missiles, or chemical or biological weapons.
+
+h. The Licensed Application and related documentation are "Commercial Items", as that term is defined at 48 C.F.R. §2.101, consisting of "Commercial Computer Software" and "Commercial Computer Software Documentation", as such terms are used in 48 C.F.R. §12.212 or 48 C.F.R. §227.7202, as applicable. Consistent with 48 C.F.R. §12.212 or 48 C.F.R. §227.7202-1 through 227.7202-4, as applicable, the Commercial Computer Software and Commercial Computer Software Documentation are being licensed to U.S. Government end users (a) only as Commercial Items and (b) with only those rights as are granted to all other end users pursuant to the terms and conditions herein. Unpublished-rights reserved under the copyright laws of the United States.
+
+i. The laws of the State of California, excluding its conflicts of law rules, govern this license and your use of the Licensed Application. Your use of the Licensed Application may also be subject to other local, state, national, or international laws.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5vc-T8-qm6" secondAttribute="trailing" id="4N1-5H-QyC"/>
+                            <constraint firstItem="5vc-T8-qm6" firstAttribute="bottom" secondItem="Jam-da-LqL" secondAttribute="top" id="6OU-uP-MJ5"/>
+                            <constraint firstItem="5vc-T8-qm6" firstAttribute="top" secondItem="FY2-nl-7gT" secondAttribute="top" id="EuZ-Fw-EEb"/>
+                            <constraint firstItem="5vc-T8-qm6" firstAttribute="leading" secondItem="FY2-nl-7gT" secondAttribute="leading" id="bVN-AU-MtK"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="5vc-T8-qm6"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="4N1-5H-QyC"/>
+                                <exclude reference="6OU-uP-MJ5"/>
+                                <exclude reference="EuZ-Fw-EEb"/>
+                                <exclude reference="bVN-AU-MtK"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="5vc-T8-qm6"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="4N1-5H-QyC"/>
+                                <include reference="6OU-uP-MJ5"/>
+                                <include reference="EuZ-Fw-EEb"/>
+                                <include reference="bVN-AU-MtK"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w2o-6U-wpc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1713" y="-201"/>
         </scene>
     </scenes>
     <resources>
@@ -443,6 +562,6 @@
         <image name="default_profile.png" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OmG-DE-Jle"/>
+        <segue reference="nPp-pA-tJt"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -199,8 +199,9 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self addSwipeGesture];
     
-    [self addButtonToHomescreen];
-    
+    //[self addButtonToHomescreen];
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]initWithTitle:@"Post" style:UIBarButtonItemStyleDone target:self action:@selector(showCamera:)];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
     
     // [self configureSearchBar];
     
@@ -214,7 +215,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)addButtonToHomescreen{
     
-    self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width - 100, self.view.bounds.size.height - 150, 64, 64)];
+    self.addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width - 100, self.view.bounds.size.height - 150, 56, 56)];
     self.addItemButton.layer.shadowColor = [UIColor blackColor].CGColor;
     self.addItemButton.layer.shadowOpacity = 0.5;
     self.addItemButton.layer.shadowRadius = 2;
@@ -225,11 +226,6 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.view addSubview:self.addItemButton];
     [self.addItemButton bringSubviewToFront:self.collectionView];
     
-    //    [self.addItemButton mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.bottom.equalTo(ws.view .mas_bottom).with.offset(80);
-    //        make.right.equalTo(ws.view .mas_right).with.offset(80);
-    //
-    //    }];
 }
 
 -(void)configureSearchBar{
@@ -601,8 +597,8 @@ static NSString * const reuseIdentifier = @"Cell";
         
         collectionView.origin.y = (visible)? 10 : 20;
         collectionView.size.height = (visible)? SCREEN_HEIGHT : [[UIScreen mainScreen]bounds].size.height - collectionView.origin.y;
-//        self.addItemButton.alpha =(visible)?1:0;
-//        self.addItemButton.center = (visible)?CGPointMake(SCREEN_WIDTH/2, 452):CGPointMake(SCREEN_WIDTH/2,SCREEN_HEIGHT);
+        self.addItemButton.alpha =(visible)?1:0;
+        self.addItemButton.center = (visible)?CGPointMake(self.view.bounds.size.width - 100 + 28, self.view.bounds.size.height - 150):CGPointMake(self.view.bounds.size.width - 100 + 28,SCREEN_HEIGHT);
         self.collectionView.frame = collectionView;
         self.navigationController.navigationBar.frame = CGRectOffset(frame, 0, offsetY);
         

@@ -31,26 +31,26 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *offerDescription;
-@property (weak, nonatomic) IBOutlet UIButton *addToCartButton;
+@property (nonatomic) UITextView *offerDescription;
+@property (nonatomic) UIButton *addToCartButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet UIButton *likeButton;
+@property (nonatomic) UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIView *topDetailBar;
 @property (nonatomic, strong) ItemCommentViewController *commentVC;
-@property (weak, nonatomic) IBOutlet SMPageControl *pageControl;
+@property (nonatomic) SMPageControl *pageControl;
 @property (nonatomic, assign) BOOL isFirstPosted;
-@property (weak, nonatomic) IBOutlet UIButton *makeOfferButton;
+@property (nonatomic) UIButton *makeOfferButton;
 - (IBAction)makeOffer:(id)sender;
 - (IBAction)likeButtonPressed:(id)sender;
 - (IBAction)addToCart:(id)sender;
-@property (weak, nonatomic) IBOutlet UIButton *seeMapButton;
+@property (nonatomic) UIButton *seeMapButton;
 - (IBAction)seeMapButtonClicked:(id)sender;
 -(void)getOfferDetailsFromCloud;
 -(void)refreshOfferDetailsFromCloud;
 
-@property (weak, nonatomic) IBOutlet UIButton *showBidButton;
+@property (nonatomic) UIButton *showBidButton;
 - (IBAction)showBidHistory:(id)sender;
 
 

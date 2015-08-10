@@ -31,7 +31,7 @@
     self.loginButton.hidden = YES;
     
     UIGraphicsBeginImageContext(self.view.frame.size);
-    [[UIImage imageNamed:@"mountain"] drawInRect:self.view.bounds];
+    [[UIImage imageNamed:@"rsz_bkg"] drawInRect:self.view.bounds];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     self.view.backgroundColor = [UIColor colorWithPatternImage:image];

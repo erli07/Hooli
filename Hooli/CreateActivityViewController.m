@@ -22,7 +22,7 @@
 #import "messages.h"
 #import "ProgressHUD.h"
 #import "GCPlaceholderTextView.h"
-
+#import "AdminManager.h"
 @interface CreateActivityViewController ()<UIActionSheetDelegate,UIAlertViewDelegate, HSDatePickerViewControllerDelegate,UIGestureRecognizerDelegate>
 //@property (nonatomic) NSMutableArray *detailsArray;
 @property (nonatomic) NSArray *titlesArray;
@@ -75,6 +75,12 @@
     _eventAnnouncementField.placeholder = @"More details here（Optional）";
     
     _eventContent.placeholderColor = [HLTheme textColor];
+    
+    _submitButton = [[UIButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
+    [_submitButton setTitle:@"Post" forState:UIControlStateNormal];
+    [_submitButton addTarget:self action:@selector(submitActivity:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:_submitButton];
     
     [_inviteButton setBackgroundColor:[HLTheme secondColor]];
     
@@ -333,7 +339,7 @@
 }
 
 
-- (IBAction)submitActivity:(id)sender {
+- (void)submitActivity:(id)sender {
     
     if(![self checkIfFieldsFilled]){
         return;
@@ -348,6 +354,139 @@
     
 }
 
+-(void)submitObjectToCLoud{
+    
+    PFObject *eventImages = [PFObject objectWithClassName:kHLCloudEventImagesClass];
+    
+    for (int i = 0; i <[_imagesArray count]; i++) {
+        
+        if ([_imagesArray objectAtIndex:i]) {
+            
+            NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:i] WithCompression:0.1f];
+            PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
+            [eventImages setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
+        }
+        
+    }
+    
+    [eventImages saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if(succeeded){
+            
+            PFObject *eventObject;
+            
+            if(_eventObject){
+                
+                eventObject = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
+                
+            }
+            else{
+                
+                eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
+                
+            }
+            
+            [eventObject setObject:self.titleTextField.text forKey:kHLEventKeyTitle];
+            [eventObject setObject:self.descriptionTextView.text forKey:kHLEventKeyDescription];
+            // [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
+            [eventObject setObject:self.eventLocationLabel.text forKey:kHLEventKeyEventLocation];
+            [eventObject setObject:self.annoucementTextView.text forKey:kHLEventKeyAnnoucement];
+            [eventObject setObject:self.memberTextField.text forKey:kHLEventKeyMemberNumber];
+            [eventObject setObject:self.eventDateLabel.text forKey:kHLEventKeyDateText];
+            [eventObject setObject:self.eventCategoryLabel.text forKey:kHLEventKeyCategory];
+            
+            if(_eventDate){
+                
+                [eventObject setObject:_eventDate forKey:kHLEventKeyDate];
+                
+            }
+            
+            if(_eventGeopoint){
+                
+                [eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
+            }
+            
+            [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
+            [eventObject setObject:[PFObject objectWithoutDataWithClassName:
+                                    kHLCloudEventImagesClass objectId:eventImages.objectId] forKey:kHLEventKeyImages];
+            
+            NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:0]WithCompression:0.1f];
+            PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:imageData];
+            [eventObject setObject:thumbnailFile forKey:kHLEventKeyThumbnail];
+            
+            [eventObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                
+                if(succeeded){
+                    
+                    if(!_eventObject){
+                        
+                        PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
+                        [eventMember setObject:[PFUser currentUser] forKey:kHLEventMemberKeyMember];
+                        [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:eventObject.objectId] forKey:kHLEventMemberKeyEvent];
+                        [eventMember setObject:eventObject.objectId forKey:kHLEventMemberKeyEventId];
+                        [eventMember setObject:@"host" forKey:kHLEventMemberKeyMemberRole];
+                        
+                        PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                        [eventMemberACL setPublicReadAccess:YES];
+                        eventMember.ACL = eventMemberACL;
+                        
+                        [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            
+                            if(succeeded){
+                                
+                                // [self sendWelcomeMessage:eventObject];
+                                
+                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Post Success！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                
+                                [alert show];
+                                
+                                [self.delegate didCreateActivity:eventObject];
+                                
+                                [self.navigationController popViewControllerAnimated:YES];
+                                
+                            }
+                            
+                        }];
+                        
+                    }
+                    else{
+                        
+                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Update success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        
+                        [alert show];
+                        
+                        UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                        HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+                        
+                        [self presentViewController:vc animated:YES completion:^{
+                            
+                            [self.delegate didCreateActivity:_eventObject];
+                            
+                        }];
+                        
+                    }
+                    
+                }
+                else{
+                    
+                    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Post fail..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                    
+                }
+                
+                [self viewTapEventOccured:nil];
+                
+                
+                
+            }];
+            
+        }
+        
+    }];
+
+}
+
 
 #pragma mark delegate callbacks
 
@@ -357,136 +496,26 @@
         
         if(buttonIndex == 1){
             
-            [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+             [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
             
-            PFObject *eventImages = [PFObject objectWithClassName:kHLCloudEventImagesClass];
             
-            for (int i = 0; i <[_imagesArray count]; i++) {
+            [[AdminManager sharedInstance]checkIfOnBlackList:[PFUser currentUser] withBlock:^(BOOL flag, NSError *error) {
                 
-                if ([_imagesArray objectAtIndex:i]) {
+                if(flag){
                     
-                    NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:i] WithCompression:0.1f];
-                    PFFile *imageFile = [PFFile fileWithName:@"ImageFile.jpg" data:imageData];
-                    [eventImages setObject:imageFile forKey:[NSString stringWithFormat:@"imageFile%d",i]];
+                    UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"You are not allowed to post anything since you on the blacklist. Email to hoolitest@gmail.com to dispute. " delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                    
                 }
+                else{
                 
-            }
-            
-            [eventImages saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                
-                if(succeeded){
-                    
-                    PFObject *eventObject;
-                    
-                    if(_eventObject){
-                        
-                        eventObject = [PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:_eventObject.objectId];
-                        
-                    }
-                    else{
-                        
-                        eventObject = [[PFObject alloc]initWithClassName:kHLCloudEventClass];
-                        
-                    }
-                    
-                    [eventObject setObject:self.titleTextField.text forKey:kHLEventKeyTitle];
-                    [eventObject setObject:self.descriptionTextView.text forKey:kHLEventKeyDescription];
-                    // [eventObject setObject:[[LocationManager sharedInstance]getCurrentLocationGeoPoint] forKey:kHLEventKeyUserGeoPoint];
-                    [eventObject setObject:self.eventLocationLabel.text forKey:kHLEventKeyEventLocation];
-                    [eventObject setObject:self.annoucementTextView.text forKey:kHLEventKeyAnnoucement];
-                    [eventObject setObject:self.memberTextField.text forKey:kHLEventKeyMemberNumber];
-                    [eventObject setObject:self.eventDateLabel.text forKey:kHLEventKeyDateText];
-                    [eventObject setObject:self.eventCategoryLabel.text forKey:kHLEventKeyCategory];
+                    [self submitObjectToCLoud];
 
-                    if(_eventDate){
-                        
-                        [eventObject setObject:_eventDate forKey:kHLEventKeyDate];
-                        
-                    }
-                    
-                    if(_eventGeopoint){
-                        
-                        [eventObject setObject:_eventGeopoint forKey:kHLEventKeyEventGeoPoint];
-                    }
-                    
-                    [eventObject setObject:[PFUser currentUser] forKey:kHLEventKeyHost];
-                    [eventObject setObject:[PFObject objectWithoutDataWithClassName:
-                                            kHLCloudEventImagesClass objectId:eventImages.objectId] forKey:kHLEventKeyImages];
-                    
-                    NSData *imageData = [HLUtilities compressImage:[_imagesArray objectAtIndex:0]WithCompression:0.1f];
-                    PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:imageData];
-                    [eventObject setObject:thumbnailFile forKey:kHLEventKeyThumbnail];
-                    
-                    [eventObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        
-                        if(succeeded){
-                            
-                            if(!_eventObject){
-                                
-                                PFObject *eventMember = [PFObject objectWithClassName:kHLCloudEventMemberClass];
-                                [eventMember setObject:[PFUser currentUser] forKey:kHLEventMemberKeyMember];
-                                [eventMember setObject:[PFObject objectWithoutDataWithClassName:kHLCloudEventClass objectId:eventObject.objectId] forKey:kHLEventMemberKeyEvent];
-                                [eventMember setObject:eventObject.objectId forKey:kHLEventMemberKeyEventId];
-                                [eventMember setObject:@"host" forKey:kHLEventMemberKeyMemberRole];
-                                
-                                PFACL *eventMemberACL = [PFACL ACLWithUser:[PFUser currentUser]];
-                                [eventMemberACL setPublicReadAccess:YES];
-                                eventMember.ACL = eventMemberACL;
-                                
-                                [eventMember saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                    
-                                    if(succeeded){
-                                        
-                                        // [self sendWelcomeMessage:eventObject];
-                                        
-                                        UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Post Success！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                        
-                                        [alert show];
-                                        
-                                        [self.delegate didCreateActivity:eventObject];
-                                        
-                                        [self.navigationController popViewControllerAnimated:YES];
-                                        
-                                    }
-                                    
-                                }];
-                                
-                            }
-                            else{
-                                
-                                UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Update success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                
-                                [alert show];
-                                
-                                UIStoryboard *mainSb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                HomeViewViewController *vc = [mainSb instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-                                
-                                [self presentViewController:vc animated:YES completion:^{
-                                    
-                                    [self.delegate didCreateActivity:_eventObject];
-                                    
-                                }];
-                                
-                            }
-                            
-                        }
-                        else{
-                            
-                            UIAlertView *alert =  [[UIAlertView alloc]initWithTitle:@"" message:@"Post fail..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                            
-                            [alert show];
-                            
-                        }
-                        
-                        [self viewTapEventOccured:nil];
-                        
-                        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-                        
-                        
-                    }];
-                    
                 }
                 
+                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+
             }];
             
         }

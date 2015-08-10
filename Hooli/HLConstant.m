@@ -120,6 +120,7 @@ NSString *const kHLCloudEventImagesClass = @"EventImages";
 NSString *const kHLCloudCreditsClass = @"Credits";
 NSString *const kHLCloudEventClass = @"Event";
 NSString *const kHLCloudEventMemberClass = @"Event_Member";
+NSString *const kHLCloudBlackListClass = @"BlackList";
 
 //Activity Class
 

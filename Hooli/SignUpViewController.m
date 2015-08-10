@@ -36,7 +36,7 @@ const CGFloat duration = 0.3;
     [self.view addGestureRecognizer:tap];
     
     UIGraphicsBeginImageContext(self.view.frame.size);
-    [[UIImage imageNamed:@"mountain"] drawInRect:self.view.bounds];
+    [[UIImage imageNamed:@"rsz_bkg"] drawInRect:self.view.bounds];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

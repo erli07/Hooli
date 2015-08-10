@@ -17,8 +17,9 @@
 #import "messages.h"
 #import "ChatView.h"
 #import "MyActivitiesViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface UserAccountViewController ()
+@interface UserAccountViewController ()<MFMailComposeViewControllerDelegate>
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic) NSArray *userInfoArray;
 @property (nonatomic, assign) RelationshipType followStatus;
@@ -46,6 +47,14 @@
     
     [self updateProfileData];
     
+    self.title = @"Account";
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                       initWithTitle:@"Report"
+                                       style:UIBarButtonItemStyleDone
+                                       target:self
+                                       action:@selector(reportUser)];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
     
     // self.tableView.scrollEnabled = NO;
     
@@ -356,6 +365,32 @@
     
 }
 
+#pragma mark MFMail delegate
+
+-(void)reportUser{
+    
+    MFMailComposeViewController* mailVC = [[MFMailComposeViewController alloc] init];
+    mailVC.mailComposeDelegate = self;
+    [mailVC setSubject:[NSString stringWithFormat:@"Report user %@ %@",self.user.objectId,self.user.username]];
+    [mailVC setMessageBody:[NSString stringWithFormat:@"Hi, this user : %@, %@ generates inapropriate content. Please help to stop him asap.",self.user.objectId,self.user.username] isHTML:NO];
+    [mailVC setToRecipients:[NSArray arrayWithObject:@"hoolihelp@gmail.com"]];
+    
+    if (mailVC)
+        
+        [self presentViewController:mailVC animated:YES completion:^{
+            
+        }];
+    
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error;
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 
 
 @end

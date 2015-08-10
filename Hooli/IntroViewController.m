@@ -15,7 +15,7 @@
 //static NSString * const sampleDescription2 = @"海外生活多孤单，海圈圈最懂你";
 //static NSString * const sampleDescription3 = @"随心所欲，想po就po";
 //static NSString * const sampleDescription4 = @"心动了吗? \n Let’s get started!";
-static NSString * const sampleDescription1 = @"Welcome to Hooli!";
+static NSString * const sampleDescription1 = @"Welcome to Ezee!";
 static NSString * const sampleDescription2 = @"Find your favorite events nearby";
 static NSString * const sampleDescription3 = @"Sell your unused stuff";
 static NSString * const sampleDescription4 = @"Excited? Let’s get started!";

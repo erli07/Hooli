@@ -1,6 +1,6 @@
 curl -X POST \
-  -H "X-Parse-Application-Id: nLiRBbe4xwev8pUXbvD3x8Q2eQAuSg8NRQWsoo9y" \
-  -H "X-Parse-REST-API-Key: fmqLkM2781ozRmKF3Fod3QbwvpUD9n2EW1LwxSmB" \
+  -H "X-Parse-Application-Id: MzVqMkVYVADWDerrAGGb0jHQzbKpxegpUYpU1bar" \
+  -H "X-Parse-REST-API-Key: xtDZFGztY145S0cNSJ9SVs1pACCRZODb1IdATEj0" \
   -H "Content-Type: application/json" \
   -d '{
         "where": {

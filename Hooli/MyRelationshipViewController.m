@@ -41,7 +41,7 @@
     
     NSArray *itemArray = [NSArray arrayWithObjects: @"I'm following", @"My Fans", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    segmentedControl.frame = CGRectMake(35, 70, 250, 30);
+    segmentedControl.frame = CGRectMake((SCREEN_WIDTH-250)/2, 70, 250, 30);
     [segmentedControl addTarget:self action:@selector(MySegmentControlAction:) forControlEvents: UIControlEventValueChanged];
     segmentedControl.selectedSegmentIndex = 0;
     [self.view addSubview:segmentedControl];

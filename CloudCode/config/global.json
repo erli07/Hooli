@@ -1,11 +1,11 @@
 {
     "applications": {
-        "HooliDev": {
-            "applicationId": "nLiRBbe4xwev8pUXbvD3x8Q2eQAuSg8NRQWsoo9y", 
-            "masterKey": "jSkBPGjwIzw5Iyy8owTSFyUiuNsRQ1lHbjZbso8a"
+        "HooliProd": {
+            "applicationId": "MzVqMkVYVADWDerrAGGb0jHQzbKpxegpUYpU1bar", 
+            "masterKey": "ihwzcxedzWoNGVUNt9iURiQdANJTqDsIsfXSXuna"
         }, 
         "_default": {
-            "link": "HooliDev"
+            "link": "HooliProd"
         }
     }, 
     "global": {
